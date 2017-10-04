@@ -1,19 +1,17 @@
 package com.cenxui.tea.app.service.util;
 
+import lombok.Getter;
+
 public class Path {
+    // The @Getter methods are needed in order to access
+    // the variables from Velocity Templates
     public static class Web {
-        public static final String HOME = "/";
-        public static final String GET_LOGIN_PAGE = "";
-        public static final String DO_LOGIN = "";
-        public static final String DO_AUTH = "";
-        public static final String GET_SIGN_UP = "";
-        public static final String DO_SIGN_UP = "";
-        public static final String LOGIN = "";
-        public static final String LOGOUT = "";
-        public static final String DASHBOARD = "";
-        public static final String DELETE = "";
-        public static final String UPDATE = "";
-        public static final String NEW = "";
+        @Getter
+        public static final String INDEX = "/index/";
+        @Getter public static final String LOGIN = "/login/";
+        @Getter public static final String LOGOUT = "/logout/";
+        @Getter public static final String BOOKS = "/books/";
+        @Getter public static final String ONE_BOOK = "/books/:isbn/";
     }
 
 }
