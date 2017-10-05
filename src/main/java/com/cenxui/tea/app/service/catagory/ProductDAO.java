@@ -18,7 +18,7 @@ public final class ProductDAO {
                 new Product(
                         2,
                         "green tea" ,
-                        "standard tea from cenxui",
+                        "standard tea from cenxui banana",
                         "",
                         "",
                         new ArrayList<>(), Boolean.TRUE, 100, "cenxui")
