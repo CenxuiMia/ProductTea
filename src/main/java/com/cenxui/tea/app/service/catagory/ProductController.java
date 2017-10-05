@@ -9,7 +9,7 @@ import java.util.List;
 public class ProductController {
 
     public static Route fetchAllProducts = (Request request,  Response response) -> {
-       List<Product> products = ProductDAO.getProductDAO().getAllProducts();
+       Iterable<Product> products = ProductDAO.getProductDAO().getAllProducts();
        return products;
     };
 

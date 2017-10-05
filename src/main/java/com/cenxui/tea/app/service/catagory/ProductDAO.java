@@ -1,6 +1,7 @@
 package com.cenxui.tea.app.service.catagory;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public final class ProductDAO {
 
@@ -15,8 +16,21 @@ public final class ProductDAO {
         return productDAO;
     }
 
+    //for unit test
+    static ProductDAO getTestProductDAO(List<Product> products) {
+        return new ProductDAO(products);
+    }
+
+
+    //for unit test
+    ProductDAO(List<Product> products) {
+        this.products = products;
+    }
+
+
     public ProductDAO() {
         //TODO
+
         products = Collections.unmodifiableList(Arrays.asList(
                 Product.of(
                         1,
@@ -35,24 +49,21 @@ public final class ProductDAO {
     }
 
     public Product getProductByTag(String tag) {
-        //TODO
-        return null;
+        return products.stream().filter(product -> product.getTag().equals(tag)).findFirst().orElse(null);
     }
 
     public Product getProductById(Integer id) {
-        //TODO
-        return null;
+        return products.stream().filter(product -> product.getId().equals(id)).findFirst().orElse(null);
     }
 
 
-    public List<Product> getAllProducts() {
+    public Iterable<Product> getAllProducts() {
         return products;
     }
 
 
-    public List<Product> getProductsByPrice(Integer price) {
-        //TODO
-        return null;
+    public Iterable<Product> getProductsByPrice(Integer price) {
+        return products.stream().filter(product -> product.getPrice().equals(price)).collect(Collectors.toList());
     }
 
     public Product getProductByName(String name) {
