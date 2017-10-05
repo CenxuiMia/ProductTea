@@ -6,16 +6,25 @@ public final class ProductDAO {
 
     private final List<Product> products;
 
+    //cache all products
+    private static final ProductDAO productDAO = new ProductDAO();
+
+    //define if cached or not
+    public static ProductDAO getProductDAO() {
+        //TODO
+        return productDAO;
+    }
+
     public ProductDAO() {
         //TODO
         products = Collections.unmodifiableList(Arrays.asList(
-                new Product(
+                Product.of(
                         1,
                         "black tea" ,
                         "good tea from mia banana",
                         "",
                         "", new ArrayList<>(), Boolean.TRUE, 100, "mia"),
-                new Product(
+                Product.of(
                         2,
                         "green tea" ,
                         "standard tea from cenxui banana",
@@ -36,12 +45,12 @@ public final class ProductDAO {
     }
 
 
-    public Iterator<Product> getAllProducts() {
-        return products.iterator();
+    public List<Product> getAllProducts() {
+        return products;
     }
 
 
-    public Iterator<Product> getProductsByPrice(Integer price) {
+    public List<Product> getProductsByPrice(Integer price) {
         //TODO
         return null;
     }

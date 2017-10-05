@@ -10,7 +10,7 @@ public class Path {
         public static final String INDEX = "/index/";
         @Getter public static final String LOGIN = "/login/";
         @Getter public static final String LOGOUT = "/logout/";
-        @Getter public static final String BOOKS = "/books/";
+        @Getter public static final String PRODUCTS = "/products";
         @Getter public static final String ONE_BOOK = "/books/:isbn/";
     }
 
