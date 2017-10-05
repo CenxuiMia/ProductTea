@@ -4,8 +4,9 @@ import lombok.Value;
 
 import java.util.List;
 
-@Value
+@Value(staticConstructor = "of")
 public class Product {
+
     Integer id;
     String name;
     String details;
