@@ -13,13 +13,13 @@ public class LoginController {
     public static Object serveLoginPage (Request request, Response response) {
         Map<String, Object> model = new HashMap<>();
         return ViewUtil.render(request, model, Path.Web.LOGIN);
-
+        //TODO
     }
 
 
     public static Object handleLoginPost(Request request, Response response){
         Map<String, Object> model = new HashMap<>();
-        if (!UserController.authenticate(getQueryUsername(request), getQueryPassword(request))) {
+        if (!UserController.authenticateByUserName(getQueryUsername(request), getQueryPassword(request))) {
             model.put("authenticationFailed", true);
             return ViewUtil.render(request, model, Path.Web.LOGIN);
         }
