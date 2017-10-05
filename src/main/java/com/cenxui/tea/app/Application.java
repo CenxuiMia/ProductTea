@@ -8,7 +8,8 @@ import static spark.Spark.*;
 
 public class Application {
     public static void main(String[] args) {
-
+        int sum = 15;
+        System.out.printf("The total meal cost is %d dollars.", sum);
 
         //config
         port(9000);
