@@ -6,7 +6,7 @@ import java.util.List;
 
 @Value
 public class Product {
-
+    Integer id;
     String name;
     String details;
     String smallImage;
@@ -14,4 +14,5 @@ public class Product {
     List<String> images;
     Boolean status;
     Integer price;
+    String tag;
 }
