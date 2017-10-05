@@ -3,10 +3,7 @@ package com.cenxui.tea.app.service.catagory;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -52,7 +49,35 @@ public class ProductDAOTest {
 
     @Test
     public void getTestProductDAO() throws Exception {
-        assertEquals(productDAO, ProductDAO.getProductDAO());
+        //TODO
+//        assertEquals(productDAO, ProductDAO.getTestProductDAO(Collections.unmodifiableList(Arrays.asList(
+//                Product.of(
+//                        1,
+//                        "black tea" ,
+//                        "good tea from mia banana",
+//                        "",
+//                        "", new ArrayList<>(), Boolean.TRUE, 100, "mia"),
+//                Product.of(
+//                        2,
+//                        "green tea" ,
+//                        "standard tea from cenxui banana",
+//                        "",
+//                        "",
+//                        new ArrayList<>(), Boolean.TRUE, 100, "cenxui"),
+//                Product.of(
+//                        3,
+//                        "woolong tea" ,
+//                        "woolong tea from cenxui mia",
+//                        "",
+//                        "",
+//                        new ArrayList<>(), Boolean.TRUE, 200, "cenxui"),
+//                Product.of(
+//                        4,
+//                        "mountain green tea" ,
+//                        "mountain tea from cenxui mia",
+//                        "",
+//                        "",
+//                        new ArrayList<>(), Boolean.TRUE, 200, "mia")))));
     }
 
     @Test
@@ -70,24 +95,35 @@ public class ProductDAOTest {
 
     @Test
     public void getAllProducts() throws Exception {
-//        while (productDAO.getAllProducts().iterator().hasNext() &&
-//                ProductDAO.getProductDAO().getAllProducts().iterator().hasNext()) {
-//            if (!productDAO.getAllProducts().iterator().next().equals(ProductDAO.getProductDAO().getAllProducts().iterator().next())) {
-//                throw new Exception("Products not equal!");
-//            }
-//        }
+        List<Product> expectProducts = productDAO.getAllProducts();
+        List<Product> actualProducts = ProductDAO.getProductDAO().getAllProducts();
+        assertEquals(expectProducts, actualProducts);
     }
 
     @Test
     public void getProductsByPrice() throws Exception {
+        //TODO
+//        List<Product> expectProducts = productDAO.getAllProducts();
+//        List<Product> actualProducts = ProductDAO.getProductDAO().getAllProducts();
+//        for (Product product : expectProducts) {
+//            if (product.getPrice() != 200) {
+//                expectProducts.remove(product);
+//            }
+//        }
+//
+//        for (Product product : actualProducts) {
+//            if (product.getPrice() != 200) {
+//                actualProducts.remove(product);
+//            }
+//        }
+//        assertEquals(expectProducts, actualProducts);
     }
 
     @Test
     public void getProductByName() throws Exception {
-    }
-
-    @Test
-    public void getProductsByPrefix() throws Exception {
+        assertEquals(productDAO.getProductByName("woolong tea"), ProductDAO.getProductDAO().getProductByName("woolong tea"));
+        assertNotEquals(productDAO.getProductByName("woolong tea"), ProductDAO.getProductDAO().getProductByName("abc"));
+        assertEquals(null, ProductDAO.getProductDAO().getProductByName("abc"));
     }
 
 }

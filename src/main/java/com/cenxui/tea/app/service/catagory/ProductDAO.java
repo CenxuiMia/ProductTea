@@ -28,9 +28,8 @@ public final class ProductDAO {
     }
 
 
-    public ProductDAO() {
-        //TODO
-
+    private ProductDAO() {
+        //TODO please implement database here
         products = Collections.unmodifiableList(Arrays.asList(
                 Product.of(
                         1,
@@ -71,12 +70,12 @@ public final class ProductDAO {
     }
 
 
-    public Iterable<Product> getAllProducts() {
+    public List<Product> getAllProducts() {
         return products;
     }
 
 
-    public Iterable<Product> getProductsByPrice(Integer price) {
+    public List<Product> getProductsByPrice(Integer price) {
         return products.stream().filter(product -> product.getPrice().equals(price)).collect(Collectors.toList());
     }
 
