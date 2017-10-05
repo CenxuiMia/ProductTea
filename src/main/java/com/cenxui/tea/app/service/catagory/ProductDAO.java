@@ -44,7 +44,21 @@ public final class ProductDAO {
                         "standard tea from cenxui banana",
                         "",
                         "",
-                        new ArrayList<>(), Boolean.TRUE, 100, "cenxui")
+                        new ArrayList<>(), Boolean.TRUE, 100, "cenxui"),
+                Product.of(
+                        3,
+                        "woolong tea" ,
+                        "woolong tea from cenxui mia",
+                        "",
+                        "",
+                        new ArrayList<>(), Boolean.TRUE, 200, "cenxui"),
+                Product.of(
+                        4,
+                        "mountain green tea" ,
+                        "mountain tea from cenxui mia",
+                        "",
+                        "",
+                        new ArrayList<>(), Boolean.TRUE, 200, "mia")
         ));
     }
 
@@ -67,13 +81,7 @@ public final class ProductDAO {
     }
 
     public Product getProductByName(String name) {
-        //TODO
-        return null;
-    }
-
-    public Iterator<Product> getProductsByPrefix(String prefix) {
-        //TODO
-        return null;
+        return products.stream().filter(product -> product.getName().equals(name)).findFirst().orElse(null);
     }
 
 }
