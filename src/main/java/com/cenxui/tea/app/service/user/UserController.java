@@ -1,15 +1,19 @@
 package com.cenxui.tea.app.service.user;
 
+import com.cenxui.tea.app.service.core.ControllerImpl;
+import com.cenxui.tea.app.service.user.service.UserService;
+import com.cenxui.tea.app.service.user.service.UserServices;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class UserController {
+public class UserController extends ControllerImpl {
+    private static final UserService service = UserServices.getService();
 
     public static boolean authenticateByUserName(String userName, String password) {
         if (userName == null || userName.isEmpty()) return false;
         if (password == null || password.isEmpty()) return false;
 
         //use user name for query user
-        User user = UserDAO.getUserByUserName(userName);
+        User user = service.getUserByUserName(userName);
         if (user == null) {
             return false;
         }
@@ -21,7 +25,7 @@ public class UserController {
         if (mail == null || mail.isEmpty()) return false;
         if (password == null || password.isEmpty()) return false;
         //use mail for query user
-        User user = UserDAO.getUserByMail(mail);
+        User user = service.getUserByMail(mail);
         if (user == null) {
             return false;
         }
@@ -36,7 +40,7 @@ public class UserController {
             String newSalt = BCrypt.gensalt();
             String newHashedPassword = BCrypt.hashpw(newSalt, newPassword);
             // Update the user salt and password by user
-            UserDAO.setNewHashPasswordAndSaltByUser(userName, newSalt, newHashedPassword);
+            service.setNewHashPasswordAndSaltByUser(userName, newSalt, newHashedPassword);
         }
     }
 
@@ -45,7 +49,7 @@ public class UserController {
             String newSalt = BCrypt.gensalt();
             String newHashedPassword = BCrypt.hashpw(newSalt, newPassword);
             // Update the user salt and password by mail
-            UserDAO.setNewHashPasswordAndSaltByMail(mail, newSalt, newHashedPassword);
+            service.setNewHashPasswordAndSaltByMail(mail, newSalt, newHashedPassword);
         }
     }
 }
