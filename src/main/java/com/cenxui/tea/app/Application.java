@@ -1,6 +1,6 @@
 package com.cenxui.tea.app;
 
-import com.cenxui.tea.app.service.catagory.ProductCoreController;
+import com.cenxui.tea.app.service.catagory.ProductController;
 import com.cenxui.tea.app.service.util.Path;
 
 import static spark.Spark.*;
@@ -13,7 +13,7 @@ public class Application {
         //config
         port(9000);
 
-        get(Path.Web.PRODUCTS, ProductCoreController.fetchAllProducts);
+        get(Path.Web.PRODUCTS, ProductController.fetchAllProducts);
 
 //        get(Path.Web.HOME, (req, res) -> IndexController.serveHomePage(req, res), new HandlebarsTemplateEngine());
 

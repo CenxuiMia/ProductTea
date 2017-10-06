@@ -19,17 +19,18 @@ public class SignInController extends CoreController {
 
 
     public static Object handleLoginPost(Request request, Response response){
-        Map<String, Object> model = new HashMap<>();
-        if (!UserController.authenticateByUserName(getQueryUsername(request), getQueryPassword(request))) {
-            model.put("authenticationFailed", true);
-            return ViewUtil.render(request, model, Path.Web.LOGIN);
-        }
-        model.put("authenticationSucceeded", true);
-        request.session().attribute("currentUser", getQueryUsername(request));
+//        Map<String, Object> model = new HashMap<>();
+//        if (!UserController.authenticateByUserName(getQueryUsername(request), getQueryPassword(request))) {
+//            model.put("authenticationFailed", true);
+//            return ViewUtil.render(request, model, Path.Web.LOGIN);
+//        }
+//        model.put("authenticationSucceeded", true);
+//        request.session().attribute("currentUser", getQueryUsername(request));
 //        if (getQueryLoginRedirect(request) != null) {
 //            response.redirect(getQueryLoginRedirect(request));
 //        }
-        return ViewUtil.render(request, model, Path.Web.LOGIN);
+//        return ViewUtil.render(request, model, Path.Web.LOGIN);
+        return null;
     }
 
 
@@ -50,14 +51,5 @@ public class SignInController extends CoreController {
         }
     };
 
-    private static String getQueryUsername(Request request) {
-        //TODO
-        return "userName";
-    }
-
-    private static String getQueryPassword(Request request) {
-        //TODO
-        return "password";
-    }
 
 }
