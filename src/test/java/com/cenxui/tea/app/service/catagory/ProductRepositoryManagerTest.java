@@ -13,76 +13,84 @@ import static org.junit.Assert.*;
  * Created by huaying on 05/10/2017.
  */
 public class ProductRepositoryManagerTest {
-    ProductRepositoryManager productRepositoryManager;
+    private ProductRepositoryManager productRepositoryManager;
+
+    private Product p1 = Product.of(
+            1,
+            "black tea" ,
+            "good tea from mia banana",
+            "",
+            "", new ArrayList<>(), Boolean.TRUE, 100, "mia");
+
+    private Product p2 = Product.of(
+            2,
+            "green tea" ,
+            "standard tea from cenxui banana",
+            "",
+            "",
+            new ArrayList<>(), Boolean.TRUE, 100, "cenxui");
+
+    private Product p3 = Product.of(
+            3,
+            "woolong tea" ,
+            "woolong tea from cenxui mia",
+            "",
+            "",
+            new ArrayList<>(), Boolean.TRUE, 200, "cenxui");
+
+    private Product p4 = Product.of(
+            4,
+            "mountain green tea" ,
+            "mountain tea from cenxui mia",
+            "",
+            "",
+            new ArrayList<>(), Boolean.TRUE, 200, "mia");
+
+    private List<Product> products =  Collections.unmodifiableList(Arrays.asList(p1, p2, p3, p4));
 
     @Before
     public void setUp() throws Exception {
 
-        List<Product> products =  Collections.unmodifiableList(Arrays.asList(
-                Product.of(
-                        1,
-                        "black tea" ,
-                        "good tea from mia banana",
-                        "",
-                        "", new ArrayList<>(), Boolean.TRUE, 100, "mia"),
-                Product.of(
-                        2,
-                        "green tea" ,
-                        "standard tea from cenxui banana",
-                        "",
-                        "",
-                        new ArrayList<>(), Boolean.TRUE, 100, "cenxui"),
-                Product.of(
-                        3,
-                        "woolong tea" ,
-                        "woolong tea from cenxui mia",
-                        "",
-                        "",
-                        new ArrayList<>(), Boolean.TRUE, 200, "cenxui"),
-                Product.of(
-                        4,
-                        "mountain green tea" ,
-                        "mountain tea from cenxui mia",
-                        "",
-                        "",
-                        new ArrayList<>(), Boolean.TRUE, 200, "mia")
-        ));
-
-        ProductManagerUtil.mockProductList(ProductRepositoryManager.class, "products", products);
-
         productRepositoryManager = ProductRepositoryManager.getManager();
+
+        products =  Collections.unmodifiableList(Arrays.asList(p1, p2, p3, p4));
+
+        ProductManagerUtil.mockProductList(productRepositoryManager, "products", products);
     }
 
     @Test
-    public void getProductByTag() throws Exception {
-        assertEquals(productRepositoryManager.getProductsByTag("cenxui"), );
-        assertEquals(null, ProductRepositoryManager.getProductRepositoryManager().getProductByTag("tag"));
+    public void getProductsByTag() throws Exception {
+        List<Product> cenxuiTag = Arrays.asList(p2, p3);
+        assertEquals(productRepositoryManager.getProductsByTag("cenxui"), cenxuiTag);
+        assertEquals(Collections.emptyList(), ProductRepositoryManager.getManager().getProductsByTag("tag"));
     }
 
     @Test
     public void getProductById() throws Exception {
-        assertEquals(productRepositoryManager.getProductById(3), ProductRepositoryManager.getProductRepositoryManager().getProductById(3));
-        assertNotEquals(productRepositoryManager.getProductById(1), ProductRepositoryManager.getProductRepositoryManager().getProductById(3));
-        assertEquals(null, ProductRepositoryManager.getProductRepositoryManager().getProductById(100));
+        assertEquals(p3, productRepositoryManager.getProductById(3));
+        assertNotEquals(p3, productRepositoryManager.getProductById(1));
+        assertEquals(null, productRepositoryManager.getProductById(100));
     }
 
     @Test
     public void getAllProducts() throws Exception {
-        List<Product> expectProducts = productRepositoryManager.getAllProducts();
-        List<Product> actualProducts = ProductRepositoryManager.getProductRepositoryManager().getAllProducts();
-        assertEquals(expectProducts, actualProducts);
+        assertEquals(products,  productRepositoryManager.getAllProducts());
     }
 
     @Test
     public void getProductsByPrice() throws Exception {
-        //TODO
+        List<Product> price100 = Arrays.asList(p1, p2);
+        List<Product> price200 = Arrays.asList(p3, p4);
+        assertEquals(price100, productRepositoryManager.getProductsByPrice(100));
+        assertEquals(price200, productRepositoryManager.getProductsByPrice(200));
+        assertEquals(Collections.emptyList(), productRepositoryManager.getProductsByPrice(500));
     }
 
     @Test
-    public void getProductByName() throws Exception {
-        assertEquals(productRepositoryManager.getProductByName("woolong tea"), ProductRepositoryManager.getProductRepositoryManager().getProductByName("woolong tea"));
-        assertNotEquals(productRepositoryManager.getProductByName("woolong tea"), ProductRepositoryManager.getProductRepositoryManager().getProductByName("abc"));
-        assertEquals(null, ProductRepositoryManager.getProductRepositoryManager().getProductByName("abc"));
+    public void getProductsByName() throws Exception {
+        List<Product> woolongTeaName = Collections.singletonList(p3);
+        assertEquals(woolongTeaName, productRepositoryManager.getProductsByName("woolong tea"));
+        assertEquals(Collections.emptyList(), productRepositoryManager.getProductsByName("abc"));
     }
 
 }
