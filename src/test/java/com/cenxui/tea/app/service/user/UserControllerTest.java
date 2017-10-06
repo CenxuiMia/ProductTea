@@ -9,18 +9,18 @@ public class UserControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        ControllerServiceUtil.mockControllerService(UserController.class, "manager", new MockUserRepository());
+        ControllerServiceUtil.mockControllerService(UserCoreController.class, "manager", new MockUserRepository());
     }
 
 
     @Test
     public void authenticateByUserName() throws Exception {
-        System.out.println(UserController.authenticateByUserName("userName", "password"));
+        System.out.println(UserCoreController.authenticateByUserName("userName", "password"));
     }
 
     @Test
     public void authenticateByMail() throws Exception {
-        System.out.println(UserController.authenticateByMail("mail", "password"));
+        System.out.println(UserCoreController.authenticateByMail("mail", "password"));
     }
 
 }

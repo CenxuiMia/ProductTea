@@ -1,8 +1,8 @@
-package com.cenxui.tea.app.service.login;
+package com.cenxui.tea.app.service.customer;
 
-import com.cenxui.tea.app.service.core.ControllerImpl;
+import com.cenxui.tea.app.service.core.CoreController;
 import com.cenxui.tea.app.service.util.Path;
-import com.cenxui.tea.app.service.user.UserController;
+import com.cenxui.tea.app.service.user.UserCoreController;
 import com.cenxui.tea.app.service.util.ViewUtil;
 import spark.Request;
 import spark.Response;
@@ -10,7 +10,7 @@ import spark.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginController extends ControllerImpl {
+public class SignInCoreController extends CoreController {
     public static Object serveLoginPage (Request request, Response response) {
         Map<String, Object> model = new HashMap<>();
         return ViewUtil.render(request, model, Path.Web.LOGIN);
@@ -20,7 +20,7 @@ public class LoginController extends ControllerImpl {
 
     public static Object handleLoginPost(Request request, Response response){
         Map<String, Object> model = new HashMap<>();
-        if (!UserController.authenticateByUserName(getQueryUsername(request), getQueryPassword(request))) {
+        if (!UserCoreController.authenticateByUserName(getQueryUsername(request), getQueryPassword(request))) {
             model.put("authenticationFailed", true);
             return ViewUtil.render(request, model, Path.Web.LOGIN);
         }
