@@ -1,34 +1,22 @@
-package com.cenxui.tea.app.service.catagory;
+package com.cenxui.tea.app.service.catagory.repository;
+
+import com.cenxui.tea.app.service.catagory.Product;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public final class ProductDAO {
+public final class ProductRepositoryManager implements ProductRepository {
 
     private final List<Product> products;
 
     //cache all products
-    private static final ProductDAO productDAO = new ProductDAO();
+    private static final ProductRepositoryManager manager = new ProductRepositoryManager();
 
-    //define if cached or not
-    public static ProductDAO getProductDAO() {
-        //TODO
-        return productDAO;
+    public static ProductRepositoryManager getManager() {
+        return manager;
     }
 
-    //for unit test
-    static ProductDAO getTestProductDAO(List<Product> products) {
-        return new ProductDAO(products);
-    }
-
-
-    //for unit test
-    ProductDAO(List<Product> products) {
-        this.products = products;
-    }
-
-
-    private ProductDAO() {
+    private ProductRepositoryManager() {
         //TODO please implement database here
         products = Collections.unmodifiableList(Arrays.asList(
                 Product.of(
@@ -61,24 +49,27 @@ public final class ProductDAO {
         ));
     }
 
-    public Product getProductByTag(String tag) {
-        return products.stream().filter(product -> product.getTag().equals(tag)).findFirst().orElse(null);
+    @Override
+    public List<Product> getProductsByTag(String tag) {
+        return products.stream().filter(product -> product.getTag().equals(tag)).collect(Collectors.toList());
     }
 
+    @Override
     public Product getProductById(Integer id) {
         return products.stream().filter(product -> product.getId().equals(id)).findFirst().orElse(null);
     }
 
-
+    @Override
     public List<Product> getAllProducts() {
         return products;
     }
 
-
+    @Override
     public List<Product> getProductsByPrice(Integer price) {
         return products.stream().filter(product -> product.getPrice().equals(price)).collect(Collectors.toList());
     }
 
+    @Override
     public Product getProductByName(String name) {
         return products.stream().filter(product -> product.getName().equals(name)).findFirst().orElse(null);
     }

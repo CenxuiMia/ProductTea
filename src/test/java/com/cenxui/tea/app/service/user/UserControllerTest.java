@@ -1,17 +1,15 @@
 package com.cenxui.tea.app.service.user;
 
-import com.cenxui.tea.app.service.user.service.MockUserService;
+import com.cenxui.tea.app.service.user.repository.MockUserRepository;
 import com.cenxui.tea.app.util.ControllerServiceUtil;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class UserControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        ControllerServiceUtil.mockControllerService(UserController.class, "service", new MockUserService());
+        ControllerServiceUtil.mockControllerService(UserController.class, "manager", new MockUserRepository());
     }
 
 

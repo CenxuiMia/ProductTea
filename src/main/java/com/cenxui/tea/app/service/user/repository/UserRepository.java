@@ -1,9 +1,9 @@
-package com.cenxui.tea.app.service.user.service;
+package com.cenxui.tea.app.service.user.repository;
 
-import com.cenxui.tea.app.service.core.Service;
+import com.cenxui.tea.app.service.core.Repository;
 import com.cenxui.tea.app.service.user.User;
 
-public interface UserService extends Service {
+public interface UserRepository extends Repository {
 
     User getUserByUserName(String userName) ;
 
