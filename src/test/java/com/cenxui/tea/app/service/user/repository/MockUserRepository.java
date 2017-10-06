@@ -1,10 +1,10 @@
-package com.cenxui.tea.app.service.user.service;
+package com.cenxui.tea.app.service.user.repository;
 
 import com.cenxui.tea.app.service.user.User;
 
 import java.util.ArrayList;
 
-public class MockUserService implements UserService {
+public class MockUserRepository implements UserRepository {
     @Override
     public User getUserByUserName(String userName) {
         //password is password

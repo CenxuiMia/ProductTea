@@ -1,13 +1,13 @@
-package com.cenxui.tea.app.service.user.service;
+package com.cenxui.tea.app.service.user.repository;
 
 import com.cenxui.tea.app.service.user.User;
 
-public final class UserServices implements UserService {
+public final class UserRepositoryManager implements UserRepository {
 
-    private static final UserService service = new UserServices();
+    private static final UserRepository manager = new UserRepositoryManager();
 
-    public static UserService getService() {
-        return service;
+    public static UserRepository getManager() {
+        return manager;
     }
 
     @Override
