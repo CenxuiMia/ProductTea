@@ -15,13 +15,13 @@ public class Application {
 
         get(Path.Web.PRODUCTS, ProductCoreController.fetchAllProducts);
 
-//        get(Path.Web.HOME, (req, res) -> IndexCoreController.serveHomePage(req, res), new HandlebarsTemplateEngine());
+//        get(Path.Web.HOME, (req, res) -> IndexController.serveHomePage(req, res), new HandlebarsTemplateEngine());
 
         //handle auth routes
 
-//        get(Path.Web.GET_LOGIN_PAGE, (req, res) -> SignInCoreController.serveLoginPage(req, res), new HandlebarsTemplateEngine());
+//        get(Path.Web.GET_LOGIN_PAGE, (req, res) -> SignInController.serveLoginPage(req, res), new HandlebarsTemplateEngine());
 //
-//        post(Path.Web.DO_LOGIN, (req, res) -> { return SignInCoreController.handleLogin(req, res);});
+//        post(Path.Web.DO_LOGIN, (req, res) -> { return SignInController.handleLogin(req, res);});
 //
 //        post(Path.Web.DO_AUTH, (req, res) -> { return AuthController.handleAuth(req, res); });
 //

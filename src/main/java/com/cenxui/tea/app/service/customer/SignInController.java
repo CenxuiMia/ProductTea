@@ -10,7 +10,7 @@ import spark.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignInCoreController extends CoreController {
+public class SignInController extends CoreController {
     public static Object serveLoginPage (Request request, Response response) {
         Map<String, Object> model = new HashMap<>();
         return ViewUtil.render(request, model, Path.Web.LOGIN);

@@ -5,7 +5,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class IndexCoreController extends CoreController {
+public class IndexController extends CoreController {
 
     public static ModelAndView serveHomePage(Request request, Response response) {
         response.body("index");

@@ -7,7 +7,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-public class SignUpCoreController extends CoreController {
+public class SignUpController extends CoreController {
     private static final UserRepository manager = UserRepositoryManager.getManager();
 
     public static Route singIn = (Request request, Response response) -> {
