@@ -70,8 +70,8 @@ public final class ProductRepositoryManager implements ProductRepository {
     }
 
     @Override
-    public Product getProductByName(String name) {
-        return products.stream().filter(product -> product.getName().equals(name)).findFirst().orElse(null);
+    public List<Product> getProductsByName(String name) {
+        return products.stream().filter(product -> product.getName().equals(name)).collect(Collectors.toList());
     }
 
 }
