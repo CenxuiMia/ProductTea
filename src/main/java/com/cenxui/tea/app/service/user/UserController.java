@@ -7,7 +7,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
-public class UserCoreController extends CoreController {
+public class UserController extends CoreController {
     private static final UserRepository manager = UserRepositoryManager.getManager();
 
     public static boolean authenticateByUserName(String userName, String password) {
