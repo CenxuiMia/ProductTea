@@ -1,8 +1,7 @@
 package com.cenxui.tea.app;
 
-import com.cenxui.tea.app.service.catagory.ProductController;
+import com.cenxui.tea.app.service.catagory.ProductCoreController;
 import com.cenxui.tea.app.service.util.Path;
-import com.cenxui.tea.app.service.index.IndexController;
 
 import static spark.Spark.*;
 
@@ -14,15 +13,15 @@ public class Application {
         //config
         port(9000);
 
-        get(Path.Web.PRODUCTS, ProductController.fetchAllProducts);
+        get(Path.Web.PRODUCTS, ProductCoreController.fetchAllProducts);
 
 //        get(Path.Web.HOME, (req, res) -> IndexController.serveHomePage(req, res), new HandlebarsTemplateEngine());
 
         //handle auth routes
 
-//        get(Path.Web.GET_LOGIN_PAGE, (req, res) -> LoginController.serveLoginPage(req, res), new HandlebarsTemplateEngine());
+//        get(Path.Web.GET_LOGIN_PAGE, (req, res) -> SignInController.serveLoginPage(req, res), new HandlebarsTemplateEngine());
 //
-//        post(Path.Web.DO_LOGIN, (req, res) -> { return LoginController.handleLogin(req, res);});
+//        post(Path.Web.DO_LOGIN, (req, res) -> { return SignInController.handleLogin(req, res);});
 //
 //        post(Path.Web.DO_AUTH, (req, res) -> { return AuthController.handleAuth(req, res); });
 //

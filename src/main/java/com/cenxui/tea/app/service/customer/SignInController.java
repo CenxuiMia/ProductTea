@@ -1,6 +1,6 @@
-package com.cenxui.tea.app.service.login;
+package com.cenxui.tea.app.service.customer;
 
-import com.cenxui.tea.app.service.core.ControllerImpl;
+import com.cenxui.tea.app.service.core.CoreController;
 import com.cenxui.tea.app.service.util.Path;
 import com.cenxui.tea.app.service.user.UserController;
 import com.cenxui.tea.app.service.util.ViewUtil;
@@ -10,7 +10,7 @@ import spark.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginController extends ControllerImpl {
+public class SignInController extends CoreController {
     public static Object serveLoginPage (Request request, Response response) {
         Map<String, Object> model = new HashMap<>();
         return ViewUtil.render(request, model, Path.Web.LOGIN);

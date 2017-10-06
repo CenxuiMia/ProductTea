@@ -1,11 +1,13 @@
 package com.cenxui.tea.app.service.user;
 
-import com.cenxui.tea.app.service.core.ControllerImpl;
+import com.cenxui.tea.app.service.core.CoreController;
 import com.cenxui.tea.app.service.user.repository.UserRepository;
 import com.cenxui.tea.app.service.user.repository.UserRepositoryManager;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class UserController extends ControllerImpl {
+import java.util.List;
+
+public class UserController extends CoreController {
     private static final UserRepository manager = UserRepositoryManager.getManager();
 
     public static boolean authenticateByUserName(String userName, String password) {
@@ -52,4 +54,19 @@ public class UserController extends ControllerImpl {
             manager.setNewHashPasswordAndSaltByMail(mail, newSalt, newHashedPassword);
         }
     }
-}
+
+    public List<User> getUsers() {
+        //TODO
+        return null;
+    }
+
+    public static boolean addUser() {
+        //TODO
+        return false;
+    }
+
+    public static boolean removeUser() {
+        //TODO
+        return false;
+    }
+ }

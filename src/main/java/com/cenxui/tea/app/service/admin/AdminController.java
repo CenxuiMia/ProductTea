@@ -1,7 +1,6 @@
 package com.cenxui.tea.app.service.admin;
 
-import com.cenxui.tea.app.service.core.Controller;
-import com.cenxui.tea.app.service.core.ControllerImpl;
+import com.cenxui.tea.app.service.core.CoreController;
 
-public class AdminController extends ControllerImpl {
+public class AdminController extends CoreController {
 }
