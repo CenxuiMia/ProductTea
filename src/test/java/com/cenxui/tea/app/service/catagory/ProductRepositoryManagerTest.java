@@ -50,11 +50,8 @@ public class ProductRepositoryManagerTest {
 
     @Before
     public void setUp() throws Exception {
-
         productRepositoryManager = ProductRepositoryManager.getManager();
-
         products =  Collections.unmodifiableList(Arrays.asList(p1, p2, p3, p4));
-
         ProductManagerUtil.mockProductList(productRepositoryManager, "products", products);
     }
 
