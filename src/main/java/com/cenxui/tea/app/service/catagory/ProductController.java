@@ -6,10 +6,12 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.List;
+
 public class ProductController extends ControllerImpl {
 
     public static Route fetchAllProducts = (Request request,  Response response) -> {
-       Iterable<Product> products = ProductRepositoryManager.getManager().getAllProducts();
+       List<Product> products = ProductRepositoryManager.getManager().getAllProducts();
        return products;
     };
 
