@@ -19,7 +19,7 @@ public class Application {
 
         //handle auth routes
 
-//        get(Path.Web.GET_LOGIN_PAGE, (req, res) -> SignInController.serveLoginPage(req, res), new HandlebarsTemplateEngine());
+//        get(Path.Web.GET_LOGIN_PAGE, (req, res) -> SignInController.serveSignInPage(req, res), new HandlebarsTemplateEngine());
 //
 //        post(Path.Web.DO_LOGIN, (req, res) -> { return SignInController.handleLogin(req, res);});
 //
@@ -29,7 +29,7 @@ public class Application {
 //
 //        post(Path.Web.DO_SIGN_UP, (req, res) -> { return AuthController.handleSignUp(req, res);});
 //
-//        get(Path.Web.LOGOUT, (req, res) -> { return AuthController.handleSignOut(req, res); });
+//        get(Path.Web.SIGNOUT, (req, res) -> { return AuthController.handleSignOut(req, res); });
 
 //
 //        //handle CRUD routes

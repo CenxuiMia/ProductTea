@@ -9,7 +9,6 @@ import java.lang.reflect.Modifier;
 public class ControllerManagerUtil {
     public static void mockControllerManager(Class<? extends Controller> controller, String managerFieldName, Repository mockRepository)
             throws Exception {
-
         Field field = controller.getDeclaredField(managerFieldName);
 
         field.setAccessible(true);
