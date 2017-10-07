@@ -8,8 +8,8 @@ public class Path {
     public static class Web {
         @Getter
         public static final String INDEX = "/index/";
-        @Getter public static final String LOGIN = "/login/";
-        @Getter public static final String LOGOUT = "/logout/";
+        @Getter public static final String SIGNIN = "/signin/";
+        @Getter public static final String SIGNOUT = "/signout/";
         @Getter public static final String PRODUCTS = "/products";
         @Getter public static final String ONE_BOOK = "/books/:isbn/";
     }
