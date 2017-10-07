@@ -5,6 +5,10 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
+/**
+ * Used as a API for all user table management.
+ */
+
 public class UserController extends CoreController {
     private static final UserRepository manager = UserRepositoryManager.getManager();
 
@@ -51,5 +55,14 @@ public class UserController extends CoreController {
         return false;
     }
 
+    public static boolean activeUserByMail(String mail) {
+        //TODO mia
+        return false;
+    }
+
+    public static boolean deactiveUserByMail(String mail) {
+        //TODO mia
+        return false;
+    }
 
  }

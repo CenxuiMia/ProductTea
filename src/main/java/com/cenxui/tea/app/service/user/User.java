@@ -11,7 +11,7 @@ public class User {
     String mail; //primary
     String salt;
     String hashedPassword;
-    List<String> addresses;
+    String addresse;
     String phone;
     String cellphone;
     String token; //token
