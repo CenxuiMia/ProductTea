@@ -14,6 +14,5 @@ public class User {
     List<String> addresses;
     String phone;
     String cellphone;
-
-
+    String token; //token
 }

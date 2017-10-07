@@ -7,8 +7,8 @@ import spark.Route;
 
 public class SignUpController extends CoreController {
 
-    public static Route singUp = (Request request, Response response) -> {
-
+    public static Route signUp = (Request request, Response response) -> {
+        //TODO
         return "success";
     };
 
