@@ -1,14 +1,14 @@
 package com.cenxui.tea.app.util;
 
-import com.cenxui.tea.app.service.catagory.Product;
-import com.cenxui.tea.app.service.catagory.repository.ProductRepositoryManager;
+import com.cenxui.tea.app.repositories.catagory.Product;
+import com.cenxui.tea.app.repositories.catagory.ProductRepositoryImpl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
 public class ProductManagerUtil {
-    public static void mockProductList(ProductRepositoryManager manager,
+    public static void mockProductList(ProductRepositoryImpl manager,
                                        String productListName, List<Product> mockProducts)
     throws Exception {
         Field field = manager.getClass().getDeclaredField(productListName);

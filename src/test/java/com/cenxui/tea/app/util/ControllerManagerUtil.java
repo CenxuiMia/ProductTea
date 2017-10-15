@@ -1,7 +1,7 @@
 package com.cenxui.tea.app.util;
 
-import com.cenxui.tea.app.service.core.Controller;
-import com.cenxui.tea.app.service.core.Repository;
+import com.cenxui.tea.app.services.Controller;
+import com.cenxui.tea.app.repositories.Repository;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
