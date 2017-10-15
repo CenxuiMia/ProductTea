@@ -1,7 +1,7 @@
 package com.cenxui.tea.app;
 
-import com.cenxui.tea.app.service.catagory.ProductController;
-import com.cenxui.tea.app.service.util.Path;
+import com.cenxui.tea.app.services.catagory.ProductController;
+import com.cenxui.tea.app.services.util.Path;
 
 import static spark.Spark.*;
 
