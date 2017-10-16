@@ -7,8 +7,6 @@ import static spark.Spark.*;
 
 public class Application {
     public static void main(String[] args) {
-        int sum = 15;
-        System.out.printf("The total meal cost is %d dollars.", sum);
 
         //config
         port(9000);
@@ -19,9 +17,9 @@ public class Application {
 
         //handle auth routes
 
-//        get(Path.Web.GET_LOGIN_PAGE, (req, res) -> SignInController.serveSignInPage(req, res), new HandlebarsTemplateEngine());
+//        get(Path.Web.GET_LOGIN_PAGE, (req, res) -> AdminSignInController.serveSignInPage(req, res), new HandlebarsTemplateEngine());
 //
-//        post(Path.Web.DO_LOGIN, (req, res) -> { return SignInController.handleLogin(req, res);});
+//        post(Path.Web.DO_LOGIN, (req, res) -> { return AdminSignInController.handleLogin(req, res);});
 //
 //        post(Path.Web.DO_AUTH, (req, res) -> { return AuthController.handleAuth(req, res); });
 //
