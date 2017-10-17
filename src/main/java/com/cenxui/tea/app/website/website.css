@@ -1,0 +1,25 @@
+body {
+    /*Background color for entire page*/
+    background-color: #FEFDFB;
+    font-family: monospace, Meiryo, "微軟正黑體", "Microsoft JhengHei";
+}
+
+.topdiv {
+    /*Styling the top "header" for my page*/
+    padding: 10px;
+    text-align: center;
+}
+
+.tabdiv {
+    background: WhiteSmoke;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-color: LightGrey;
+    border-width: 1px;
+    padding: 5px;
+    text-align: center;
+}
+
+.infodiv {
+    padding: 5px;
+}
