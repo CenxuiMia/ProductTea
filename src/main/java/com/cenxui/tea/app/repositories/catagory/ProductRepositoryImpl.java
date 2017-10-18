@@ -18,43 +18,38 @@ public final class ProductRepositoryImpl implements ProductRepository {
         //TODO please implement database here
         products = Collections.unmodifiableList(Arrays.asList(
                 Product.of(
-                        1,
                         "black tea" ,
+                        1,
                         "good tea from mia banana",
                         "",
-                        "", new ArrayList<>(), Boolean.TRUE, 100, "mia"),
+                        "", new ArrayList<>(), Boolean.TRUE, 100.0, "mia"),
                 Product.of(
-                        2,
                         "green tea" ,
+                        1,
                         "standard tea from cenxui banana",
                         "",
                         "",
-                        new ArrayList<>(), Boolean.TRUE, 100, "cenxui"),
+                        new ArrayList<>(), Boolean.TRUE, 100.0, "cenxui"),
                 Product.of(
-                        3,
-                        "woolong tea" ,
+                        "woolong tea",
+                        1,
                         "woolong tea from cenxui mia",
                         "",
                         "",
-                        new ArrayList<>(), Boolean.TRUE, 200, "cenxui"),
+                        new ArrayList<>(), Boolean.TRUE, 200.0, "cenxui"),
                 Product.of(
-                        4,
                         "mountain green tea" ,
+                        1,
                         "mountain tea from cenxui mia",
                         "",
                         "",
-                        new ArrayList<>(), Boolean.TRUE, 200, "mia")
+                        new ArrayList<>(), Boolean.TRUE, 200.0, "mia")
         ));
     }
 
     @Override
     public List<Product> getProductsByTag(String tag) {
         return products.stream().filter(product -> product.getTag().equals(tag)).collect(Collectors.toList());
-    }
-
-    @Override
-    public Product getProductById(Integer id) {
-        return products.stream().filter(product -> product.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override
@@ -70,6 +65,14 @@ public final class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<Product> getProductsByName(String name) {
         return products.stream().filter(product -> product.getName().equals(name)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Product getProductByNameVersion(String name, String version) {
+        return products.stream()
+                .filter(product -> product.getName().equals(name) && product.getVersion().equals(version))
+                .findAny()
+                .get();
     }
 
 }

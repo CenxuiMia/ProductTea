@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface ProductRepository extends Repository {
 
-    Product getProductById(Integer id);
-
     List<Product> getAllProducts();
 
     List<Product> getProductsByTag(String tag);
@@ -15,4 +13,6 @@ public interface ProductRepository extends Repository {
     List<Product> getProductsByPrice(Integer price);
 
     List<Product> getProductsByName(String name);
+
+    Product getProductByNameVersion(String name, String version);
 }

@@ -3,6 +3,7 @@ package com.cenxui.tea.lambda.handlers.catagory;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.cenxui.tea.app.services.catagory.ProductController;
 
 
 /**
