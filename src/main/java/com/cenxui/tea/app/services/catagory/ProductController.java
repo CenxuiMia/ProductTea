@@ -12,9 +12,13 @@ import java.util.List;
 public class ProductController extends CoreController {
 
     public static Route fetchAllProducts = (Request request,  Response response) -> {
-       List<Product> products = ProductRepositoryImpl.getManager().getAllProducts();
-       return products;
+        return getAllProducts();
     };
+
+    public static List<Product> getAllProducts() {
+        List<Product> products = ProductRepositoryImpl.getManager().getAllProducts();
+        return products;
+    }
 
     //TODO
 
