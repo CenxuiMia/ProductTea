@@ -1,7 +1,8 @@
-package com.cenxui.tea.dynamodb.Util;
+package com.cenxui.tea.dynamodb.util;
 
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.cenxui.tea.app.repositories.catagory.Product;
+import com.cenxui.tea.app.repositories.user.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,5 +22,10 @@ public class AttributeValueUtil {
         map.put(Product.TAG, new AttributeValue().withS(product.getTag()));
 
         return map;
+    }
+
+    public static Map<String, AttributeValue> getUserAttributeMap(User user) {
+        //TODO MIA
+        throw new UnsupportedOperationException("not yet");
     }
 }

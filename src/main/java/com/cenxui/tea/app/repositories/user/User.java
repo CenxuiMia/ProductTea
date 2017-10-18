@@ -7,19 +7,16 @@ import java.util.Map;
 
 @Value(staticConstructor = "of")
 public class User {
+    //TODO MIA add public static final string for the fields name
+
     Boolean isActive;
     String userName;
     String mail; //primary
     String salt;
     String hashedPassword;
-    String addresse;
+    String addresses;
     String phone;
     String cellphone;
     String token; //token
 
-    public Map<String, Object> toMap() {
-        //TODO to add vale to map
-
-        throw new UnsupportedOperationException("not yet");
-    }
 }
