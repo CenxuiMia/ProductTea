@@ -1,7 +1,7 @@
 package com.cenxui.tea.app.util;
 
-import com.cenxui.tea.app.repositories.catagory.Product;
-import com.cenxui.tea.app.repositories.catagory.ProductRepositoryImpl;
+import com.cenxui.tea.app.integration.repositories.catagory.Product;
+import com.cenxui.tea.app.integration.repositories.catagory.ProductRepositoryImpl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

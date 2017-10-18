@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.repositories.user;
+package com.cenxui.tea.app.integration.repositories.user;
 
 public final class UserRepositoryImpl implements UserRepository {
 

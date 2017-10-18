@@ -1,9 +1,6 @@
-package com.cenxui.tea.app.repositories.user;
+package com.cenxui.tea.app.integration.repositories.user;
 
 import lombok.Value;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Value(staticConstructor = "of")
 public class User {

@@ -1,6 +1,6 @@
-package com.cenxui.tea.app.repositories.user;
+package com.cenxui.tea.app.integration.repositories.user;
 
-import com.cenxui.tea.app.repositories.Repository;
+import com.cenxui.tea.app.integration.repositories.Repository;
 
 public interface UserRepository extends Repository {
 

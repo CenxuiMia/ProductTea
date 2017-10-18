@@ -1,10 +1,8 @@
-package com.cenxui.tea.app.repositories.catagory;
+package com.cenxui.tea.app.integration.repositories.catagory;
 
 import lombok.Value;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Value(staticConstructor = "of")
 public class Product {

@@ -1,6 +1,6 @@
-package com.cenxui.tea.app.repositories.catagory;
+package com.cenxui.tea.app.integration.repositories.catagory;
 
-import com.cenxui.tea.app.repositories.Repository;
+import com.cenxui.tea.app.integration.repositories.Repository;
 
 import java.util.List;
 

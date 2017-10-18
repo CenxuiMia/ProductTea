@@ -1,7 +1,7 @@
 package com.cenxui.tea.app.services.catagory;
 
-import com.cenxui.tea.app.repositories.catagory.Product;
-import com.cenxui.tea.app.repositories.catagory.ProductRepositoryImpl;
+import com.cenxui.tea.app.integration.repositories.catagory.Product;
+import com.cenxui.tea.app.integration.repositories.catagory.ProductRepositoryImpl;
 import com.cenxui.tea.app.services.CoreController;
 import spark.Request;
 import spark.Response;
