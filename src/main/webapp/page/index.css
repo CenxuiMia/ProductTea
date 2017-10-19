@@ -1,25 +1,38 @@
 body {
-    /*Background color for entire page*/
     background-color: #FEFDFB;
     font-family: monospace, Meiryo, "微軟正黑體", "Microsoft JhengHei";
 }
 
-.topdiv {
-    /*Styling the top "header" for my page*/
-    padding: 10px;
+.top {
+    background-color: #8F8576;
+    color: #FEFDFB;
+    padding: 15px;
     text-align: center;
 }
 
-.tabdiv {
-    background: WhiteSmoke;
+.tab {
+    color: #8F8576;
     border-top-style: solid;
     border-bottom-style: solid;
-    border-color: LightGrey;
+    border-color: #8F8576;
     border-width: 1px;
     padding: 5px;
     text-align: center;
 }
 
-.infodiv {
-    padding: 5px;
+.tabtable {
+    width: 80%;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.info {
+    padding: 25px;
+}
+
+.product {
+    padding: 40px;
+    text-align: center;
+    font-size: 1.1em;
 }
