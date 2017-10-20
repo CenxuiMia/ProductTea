@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.repositories.catagory;
+package com.cenxui.tea.app.integration.repositories.catagory;
 
 import java.util.*;
 import java.util.stream.Collectors;

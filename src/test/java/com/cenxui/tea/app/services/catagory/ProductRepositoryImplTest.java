@@ -1,15 +1,5 @@
 package com.cenxui.tea.app.services.catagory;
 
-import com.cenxui.tea.app.repositories.catagory.Product;
-import com.cenxui.tea.app.repositories.catagory.ProductRepositoryImpl;
-import com.cenxui.tea.app.util.ProductManagerUtil;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.*;
-
-import static org.junit.Assert.*;
-
 /**
  * Created by huaying on 05/10/2017.
  */

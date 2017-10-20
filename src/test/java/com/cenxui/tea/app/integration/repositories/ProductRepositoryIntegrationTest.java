@@ -1,13 +1,15 @@
-package com.cenxui.tea.app.repositories;
+package com.cenxui.tea.app.integration.repositories;
 
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.local.main.ServerRunner;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.cenxui.tea.app.repositories.catagory.Product;
-import com.cenxui.tea.dynamodb.util.AttributeValueUtil;
+import com.cenxui.tea.app.integration.repositories.catagory.Product;
+import com.cenxui.tea.app.integration.repositories.util.DynamoDBLocalUtil;
+import com.cenxui.tea.dynamodb.util.ItemUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,25 +22,19 @@ import java.util.*;
 public class ProductRepositoryIntegrationTest {
 
     private DynamoDBProxyServer server;
-    private AmazonDynamoDB dynamodb;
+    private AmazonDynamoDB amazonDynamoDB;
+    private Table table;
     private String tableName = "TeaProduct";
 
     @Before
     public void setUp() throws Exception {
 
-        // Create an in-memory and in-process instance of DynamoDB Local that runs over HTTP
-        final String[] localArgs = { "-inMemory" };
+        server = DynamoDBLocalUtil.runDynamoDBInMemory();
 
-        server = ServerRunner.createServerFromCommandLineArgs(localArgs);
-        server.start();
-
-        dynamodb = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
-                // we can use any region here
-                new AwsClientBuilder.EndpointConfiguration("http://localhost:8000", "us-west-2"))
-                .build();
+        amazonDynamoDB = DynamoDBLocalUtil.getDynamoDBClient();
 
         // use the DynamoDB API over HTTP
-        listTables(dynamodb.listTables(), "DynamoDB Local over HTTP");
+        listTables(amazonDynamoDB.listTables(), "DynamoDB Local over HTTP");
 
         createTable();
 
@@ -56,11 +52,10 @@ public class ProductRepositoryIntegrationTest {
         KeySchemaElement sortKey = new KeySchemaElement(Product.VERSION, KeyType.RANGE);
 
 
-
         Collection<KeySchemaElement> keySchemaElements =
                 Arrays.asList(primaryKey, sortKey);
 
-        ProvisionedThroughput provisionedThroughput = new ProvisionedThroughput(1l,1l);
+        ProvisionedThroughput provisionedThroughput = new ProvisionedThroughput(1l, 1l);
 
         CreateTableRequest createTableRequest = new CreateTableRequest()
                 .withTableName(tableName)
@@ -68,26 +63,40 @@ public class ProductRepositoryIntegrationTest {
                 .withKeySchema(keySchemaElements)
                 .withProvisionedThroughput(provisionedThroughput);
 
+        DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
 
-        CreateTableResult createTableResult = dynamodb.createTable(createTableRequest);
-        System.out.println(createTableResult);
+        table = dynamoDB.createTable(createTableRequest);
     }
 
     @Test
-    public void putItems() {
+    public void testDataLifeCycle() {
+        putItems();
+
+        listAllItem();
+
+        deleteItem();
+
+        listAllItem();
+
+        updateItem();
+
+        listAllItem();
+    }
+
+    private void putItems() {
 
         List<String> images = Arrays.asList("a", "b", "c");
 
         List<Product> products = Collections.unmodifiableList(Arrays.asList(
                 Product.of(
-                        "black tea" ,
+                        "black tea",
                         1,
                         "good tea from mia banana",
                         "sm",
                         "bm",
                         images, Boolean.TRUE, 100.0, "mia"),
                 Product.of(
-                        "green tea" ,
+                        "green tea",
                         1,
                         "standard tea from cenxui banana",
                         "sm",
@@ -101,7 +110,7 @@ public class ProductRepositoryIntegrationTest {
                         "bm",
                         images, Boolean.TRUE, 200.0, "cenxui"),
                 Product.of(
-                        "mountain green tea" ,
+                        "mountain green tea",
                         1,
                         "mountain tea from cenxui mia",
                         "sm",
@@ -110,25 +119,52 @@ public class ProductRepositoryIntegrationTest {
         ));
 
         for (Product product : products) {
-            dynamodb.putItem(tableName, AttributeValueUtil.getProductAttributeMap(product));
+
+            table.putItem(ItemUtil.getProductItem(product), "attribute_not_exists(thingId)",
+                    new HashMap<>(),
+                    new HashMap<>());
         }
+    }
 
+    private void deleteItem() {
+        table.deleteItem(Product.NAME, "black tea", Product.VERSION, 1);
+        System.out.println("---------------delete item black tea version 1------------------");
+    }
 
+    private void listAllItem() {
         ScanRequest scanRequest = new ScanRequest().withTableName(tableName);
 
-        ScanResult scanResult = dynamodb.scan(scanRequest);
+        ScanResult scanResult = amazonDynamoDB.scan(scanRequest);
 
         for (Map item : scanResult.getItems()) {
             System.out.println(item);
         }
+    }
 
+    public void updateItem() {
+        Map<String, String> expressionAttributeNames = new HashMap<String, String>();
+        expressionAttributeNames.put("#P", Product.PRICE);
 
+        Map<String, Object> expressionAttributeValues = new HashMap<String, Object>();
+        expressionAttributeValues.put(":val1",
+                50); //Price
+
+        UpdateItemOutcome outcome = table.updateItem(
+                Product.NAME,          // key attribute name
+                "green tea",           // key attribute value
+                Product.VERSION,
+                1,
+                "set #P = #P - :val1", // UpdateExpression
+                expressionAttributeNames,
+                expressionAttributeValues);
+
+        System.out.println("update outcome : " + outcome);
     }
 
 
     private void listTables(ListTablesResult result, String method) {
         System.out.println("found " + Integer.toString(result.getTableNames().size()) + " tables with " + method);
-        for(String table : result.getTableNames()) {
+        for (String table : result.getTableNames()) {
             System.out.println(table);
         }
     }
@@ -137,7 +173,7 @@ public class ProductRepositoryIntegrationTest {
     @After
     public void shutDown() throws Exception {
         // Stop the DynamoDB Local endpoint
-        if(server != null) {
+        if (server != null) {
             server.stop();
         }
     }
