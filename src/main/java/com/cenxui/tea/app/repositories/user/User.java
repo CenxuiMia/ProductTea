@@ -2,9 +2,6 @@ package com.cenxui.tea.app.repositories.user;
 
 import lombok.Value;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Value(staticConstructor = "of")
 public class User {
     public static final String IS_ACTIVE = "isActive";
