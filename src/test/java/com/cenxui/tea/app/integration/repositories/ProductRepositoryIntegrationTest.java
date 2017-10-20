@@ -8,6 +8,7 @@ import com.amazonaws.services.dynamodbv2.local.main.ServerRunner;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.tea.app.integration.repositories.catagory.Product;
+import com.cenxui.tea.app.integration.repositories.util.DynamoDBLocalUtil;
 import com.cenxui.tea.dynamodb.util.ItemUtil;
 import org.junit.After;
 import org.junit.Before;
@@ -28,17 +29,9 @@ public class ProductRepositoryIntegrationTest {
     @Before
     public void setUp() throws Exception {
 
+        server = DynamoDBLocalUtil.runDynamoDBInMemory();
 
-        // Create an in-memory and in-process instance of DynamoDB Local that runs over HTTP
-        final String[] localArgs = { "-inMemory" };
-
-        server = ServerRunner.createServerFromCommandLineArgs(localArgs);
-        server.start();
-
-        amazonDynamoDB = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
-                // we can use any region here
-                new AwsClientBuilder.EndpointConfiguration("http://localhost:8000", "us-west-2"))
-                .build();
+        amazonDynamoDB = DynamoDBLocalUtil.getDynamoDBClient();
 
         // use the DynamoDB API over HTTP
         listTables(amazonDynamoDB.listTables(), "DynamoDB Local over HTTP");
@@ -62,7 +55,7 @@ public class ProductRepositoryIntegrationTest {
         Collection<KeySchemaElement> keySchemaElements =
                 Arrays.asList(primaryKey, sortKey);
 
-        ProvisionedThroughput provisionedThroughput = new ProvisionedThroughput(1l,1l);
+        ProvisionedThroughput provisionedThroughput = new ProvisionedThroughput(1l, 1l);
 
         CreateTableRequest createTableRequest = new CreateTableRequest()
                 .withTableName(tableName)
@@ -96,14 +89,14 @@ public class ProductRepositoryIntegrationTest {
 
         List<Product> products = Collections.unmodifiableList(Arrays.asList(
                 Product.of(
-                        "black tea" ,
+                        "black tea",
                         1,
                         "good tea from mia banana",
                         "sm",
                         "bm",
                         images, Boolean.TRUE, 100.0, "mia"),
                 Product.of(
-                        "green tea" ,
+                        "green tea",
                         1,
                         "standard tea from cenxui banana",
                         "sm",
@@ -117,7 +110,7 @@ public class ProductRepositoryIntegrationTest {
                         "bm",
                         images, Boolean.TRUE, 200.0, "cenxui"),
                 Product.of(
-                        "mountain green tea" ,
+                        "mountain green tea",
                         1,
                         "mountain tea from cenxui mia",
                         "sm",
@@ -126,7 +119,10 @@ public class ProductRepositoryIntegrationTest {
         ));
 
         for (Product product : products) {
-            table.putItem(ItemUtil.getProductItem(product));
+
+            table.putItem(ItemUtil.getProductItem(product), "attribute_not_exists(thingId)",
+                    new HashMap<>(),
+                    new HashMap<>());
         }
     }
 
@@ -153,7 +149,7 @@ public class ProductRepositoryIntegrationTest {
         expressionAttributeValues.put(":val1",
                 50); //Price
 
-        UpdateItemOutcome outcome =  table.updateItem(
+        UpdateItemOutcome outcome = table.updateItem(
                 Product.NAME,          // key attribute name
                 "green tea",           // key attribute value
                 Product.VERSION,
@@ -168,7 +164,7 @@ public class ProductRepositoryIntegrationTest {
 
     private void listTables(ListTablesResult result, String method) {
         System.out.println("found " + Integer.toString(result.getTableNames().size()) + " tables with " + method);
-        for(String table : result.getTableNames()) {
+        for (String table : result.getTableNames()) {
             System.out.println(table);
         }
     }
@@ -177,7 +173,7 @@ public class ProductRepositoryIntegrationTest {
     @After
     public void shutDown() throws Exception {
         // Stop the DynamoDB Local endpoint
-        if(server != null) {
+        if (server != null) {
             server.stop();
         }
     }
