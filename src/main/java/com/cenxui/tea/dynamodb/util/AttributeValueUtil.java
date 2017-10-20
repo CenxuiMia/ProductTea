@@ -25,7 +25,18 @@ public class AttributeValueUtil {
     }
 
     public static Map<String, AttributeValue> getUserAttributeMap(User user) {
-        //TODO MIA
-        throw new UnsupportedOperationException("not yet");
+        Map<String, AttributeValue> map = new HashMap<>();
+
+        map.put(User.IS_ACTIVE, new AttributeValue().withBOOL(user.getIsActive()));
+        map.put(User.USER_NAME, new AttributeValue().withS(user.getUserName()));
+        map.put(User.MAIL, new AttributeValue().withS(user.getMail()));
+        map.put(User.SALT, new AttributeValue().withS(user.getSalt()));
+        map.put(User.HASHED_PASSWORD, new AttributeValue().withS(user.getHashedPassword()));
+        map.put(User.ADDRESSES, new AttributeValue().withS(user.getAddresses()));
+        map.put(User.PHONE, new AttributeValue().withS(user.getPhone()));
+        map.put(User.CELLPHONE, new AttributeValue().withS(user.getCellphone()));
+        map.put(User.TOKEN, new AttributeValue().withS(user.getToken()));
+
+        return map;
     }
 }
