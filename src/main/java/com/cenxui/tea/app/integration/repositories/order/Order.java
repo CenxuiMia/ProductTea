@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Value
 public class Order {
-    Integer id;
+    String id; //timestamp and email
     List<Map<Product, Integer>> products;
     String purchaser;
     String phoneNumber;
