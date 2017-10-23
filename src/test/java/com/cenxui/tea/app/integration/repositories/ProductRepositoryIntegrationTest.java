@@ -1,10 +1,9 @@
 package com.cenxui.tea.app.integration.repositories;
 
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.*;
-import com.amazonaws.services.dynamodbv2.local.main.ServerRunner;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.tea.app.integration.repositories.catagory.Product;
@@ -120,9 +119,7 @@ public class ProductRepositoryIntegrationTest {
 
         for (Product product : products) {
 
-            table.putItem(ItemUtil.getProductItem(product), "attribute_not_exists(thingId)",
-                    new HashMap<>(),
-                    new HashMap<>());
+            table.putItem(ItemUtil.getProductItem(product));
         }
     }
 

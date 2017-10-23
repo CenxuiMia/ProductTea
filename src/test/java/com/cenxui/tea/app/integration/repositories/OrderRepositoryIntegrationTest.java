@@ -19,6 +19,10 @@ import java.util.Collection;
 @RunWith(JUnit4.class)
 public class OrderRepositoryIntegrationTest {
 
+    static {
+        System.setProperty("java.library.path", "sqlite4java.jar");
+    }
+
     private DynamoDBProxyServer server;
     private AmazonDynamoDB amazonDynamoDB;
     private Table table;

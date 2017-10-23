@@ -9,7 +9,10 @@ import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 public class DynamoDBLocalUtil {
     public static DynamoDBProxyServer runDynamoDBInMemory() {
         // Create an in-memory and in-process instance of DynamoDB Local that runs over HTTP
-        final String[] localArgs = { "-inMemory" };
+        final String[] localArgs = {
+                "-inMemory",
+                "-port",
+                "8000"};
 
         DynamoDBProxyServer server = null;
         try {
