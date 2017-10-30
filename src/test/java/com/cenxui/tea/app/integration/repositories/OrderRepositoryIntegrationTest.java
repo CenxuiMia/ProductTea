@@ -28,16 +28,26 @@ public class OrderRepositoryIntegrationTest {
 
     @Before
     public void setUp() {
-        server = DynamoDBLocalUtil.runDynamoDBInMemory();
-        amazonDynamoDB = DynamoDBLocalUtil.getDynamoDBClient();
+        server = DynamoDBLocalUtil.getDynamoDBProxyServerInMemory();
+        amazonDynamoDB = DynamoDBLocalUtil.getAmazonDynamoDB();
 
     }
 
     @Test
     public void dataLifeCycle() {
         createTable();
-        putData();
-        listAllItem();
+        for (int i = 0 ; i <5; i++) {
+            putItems();
+            listAllItem();
+            System.out.println("--------------------------Items----------------------------");
+            try {
+                Thread.sleep(2000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        queryItems();
+
     }
 
     private void createTable() {
@@ -69,7 +79,16 @@ public class OrderRepositoryIntegrationTest {
         table = dynamoDB.createTable(createTableRequest);
     }
 
-    private void putData() {
+    private void queryItems() {
+        table.query(Order.MAIL, "abc@gmail.com").forEach(System.out::println);
+        System.out.println("------------------------abc@gmail.com-------------------------");
+        table.query(Order.MAIL, "mia@gmail.com").forEach(System.out::println);
+        System.out.println("------------------------mia@gmail.com-------------------------");
+        table.query(Order.MAIL, "123@gmail.com").forEach(System.out::println);
+        System.out.println("------------------------123@gmail.com-------------------------");
+    }
+
+    private void putItems() {
         HashMap<Product, Integer> map = new HashMap<>();
         List<Map<Product, Integer>> products =
                 Arrays.asList(map);
@@ -87,7 +106,7 @@ public class OrderRepositoryIntegrationTest {
 
                 ),
                 Order.of(
-                        "abc@gmail.com",
+                        "mia@gmail.com",
                          products,
                         "purchaser",
                         "7654321",
@@ -122,6 +141,10 @@ public class OrderRepositoryIntegrationTest {
                 System.out.println("Record already exists in Dynamo DB Table");
             }
         }
+
+
+
+
     }
 
     private void listAllItem() {

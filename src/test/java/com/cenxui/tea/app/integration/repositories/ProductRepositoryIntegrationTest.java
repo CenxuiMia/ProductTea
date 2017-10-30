@@ -28,9 +28,9 @@ public class ProductRepositoryIntegrationTest {
     @Before
     public void setUp() throws Exception {
 
-        server = DynamoDBLocalUtil.runDynamoDBInMemory();
+        server = DynamoDBLocalUtil.getDynamoDBProxyServerInMemory();
 
-        amazonDynamoDB = DynamoDBLocalUtil.getDynamoDBClient();
+        amazonDynamoDB = DynamoDBLocalUtil.getAmazonDynamoDB();
 
         // use the DynamoDB API over HTTP
         listTables(amazonDynamoDB.listTables(), "DynamoDB Local over HTTP");
