@@ -1,14 +1,17 @@
-package com.cenxui.tea.app.integration.repositories.user;
+package com.cenxui.tea.app.dynampdb.repositories.user;
 
-public final class UserRepositoryImpl implements UserRepository {
+import com.cenxui.tea.app.repositories.user.User;
+import com.cenxui.tea.app.repositories.user.UserRepository;
 
-    private static final UserRepository manager = new UserRepositoryImpl();
+public final class DynamoDBUserRepository implements UserRepository {
+
+    private static final UserRepository manager = new DynamoDBUserRepository();
 
     public static UserRepository getManager() {
         return manager;
     }
 
-    private UserRepositoryImpl() {}
+    private DynamoDBUserRepository() {}
 
     @Override
     public User getUserByMail(String mail) {

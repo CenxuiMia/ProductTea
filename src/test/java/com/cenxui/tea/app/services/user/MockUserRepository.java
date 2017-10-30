@@ -1,7 +1,7 @@
 package com.cenxui.tea.app.services.user;
 
-import com.cenxui.tea.app.integration.repositories.user.User;
-import com.cenxui.tea.app.integration.repositories.user.UserRepository;
+import com.cenxui.tea.app.repositories.user.User;
+import com.cenxui.tea.app.repositories.user.UserRepository;
 
 public class MockUserRepository implements UserRepository {
 

@@ -1,7 +1,6 @@
-package com.cenxui.tea.app.integration.repositories.order;
+package com.cenxui.tea.app.repositories.order;
 
-import com.cenxui.tea.app.integration.repositories.Repository;
-import com.sun.tools.corba.se.idl.constExpr.Or;
+import com.cenxui.tea.app.repositories.Repository;
 
 import java.util.List;
 

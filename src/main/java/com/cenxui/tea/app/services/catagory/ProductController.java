@@ -1,7 +1,7 @@
 package com.cenxui.tea.app.services.catagory;
 
-import com.cenxui.tea.app.integration.repositories.catagory.Product;
-import com.cenxui.tea.app.integration.repositories.catagory.ProductRepositoryImpl;
+import com.cenxui.tea.app.dynampdb.repositories.product.DynamoDBProductRepository;
+import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.services.CoreController;
 import spark.Request;
 import spark.Response;
@@ -16,7 +16,7 @@ public class ProductController extends CoreController {
     };
 
     public static List<Product> getAllProducts() {
-        List<Product> products = ProductRepositoryImpl.getManager().getAllProducts();
+        List<Product> products = DynamoDBProductRepository.getManager().getAllProducts();
         return products;
     }
 

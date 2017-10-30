@@ -6,7 +6,7 @@ import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.cenxui.tea.app.integration.repositories.catagory.Product;
+import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.integration.repositories.util.DynamoDBLocalUtil;
 import com.cenxui.tea.dynamodb.util.ItemUtil;
 import org.junit.After;

@@ -1,20 +1,23 @@
-package com.cenxui.tea.app.integration.repositories.catagory;
+package com.cenxui.tea.app.dynampdb.repositories.product;
+
+import com.cenxui.tea.app.repositories.product.Product;
+import com.cenxui.tea.app.repositories.product.ProductRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public final class ProductRepositoryImpl implements ProductRepository {
+public final class DynamoDBProductRepository implements ProductRepository {
 
     private final List<Product> products;
 
     //cache all products
-    private static final ProductRepositoryImpl manager = new ProductRepositoryImpl();
+    private static final DynamoDBProductRepository manager = new DynamoDBProductRepository();
 
-    public static ProductRepositoryImpl getManager() {
+    public static DynamoDBProductRepository getManager() {
         return manager;
     }
 
-    private ProductRepositoryImpl() {
+    private DynamoDBProductRepository() {
         //TODO please implement database here
         products = Collections.unmodifiableList(Arrays.asList(
                 Product.of(

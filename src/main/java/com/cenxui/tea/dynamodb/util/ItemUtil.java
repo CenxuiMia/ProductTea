@@ -1,13 +1,12 @@
 package com.cenxui.tea.dynamodb.util;
 
 import com.amazonaws.services.dynamodbv2.document.Item;
-import com.cenxui.tea.app.integration.repositories.catagory.Product;
-import com.cenxui.tea.app.integration.repositories.order.Order;
+import com.cenxui.tea.app.repositories.product.Product;
+import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.dynamodb.util.exception.DuplicateProductException;
 import lombok.NonNull;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,12 +38,14 @@ public class ItemUtil {
 
 
         Item item = new Item()
-                .withPrimaryKey(Order.TIME, order.getTime(), Order.MAIL, order.getMail())
+                .withPrimaryKey(Order.MAIL, order.getMail(), Order.TIME, order.getTime())
                 .withStringSet(Order.PRODUCTS, productSet)
                 .withString(Order.PURCHASER, order.getPurchaser())
                 .withString(Order.PHONE, order.getPhone())
                 .withString(Order.ADDRESS, order.getAddress())
-                .withString(Order.COMMENTS, order.getComments());
+                .withString(Order.COMMENTS, order.getComments())
+                .withBoolean(Order.IS_PAID, order.getIsPaid())
+                .withBoolean(Order.IS_ACTIVE, order.getIsActive());
 
         return item;
     }

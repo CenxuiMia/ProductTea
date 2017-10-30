@@ -1,8 +1,8 @@
 package com.cenxui.tea.dynamodb.util;
 
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.cenxui.tea.app.integration.repositories.catagory.Product;
-import com.cenxui.tea.app.integration.repositories.user.User;
+import com.cenxui.tea.app.repositories.product.Product;
+import com.cenxui.tea.app.repositories.user.User;
 
 import java.util.HashMap;
 import java.util.Map;

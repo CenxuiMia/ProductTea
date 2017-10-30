@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.integration.repositories.catagory;
+package com.cenxui.tea.app.repositories.product;
 
 import lombok.Value;
 
