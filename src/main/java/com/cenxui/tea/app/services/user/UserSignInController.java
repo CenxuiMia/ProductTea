@@ -1,13 +1,13 @@
 package com.cenxui.tea.app.services.user;
 
-import com.cenxui.tea.app.integration.repositories.user.User;
-import com.cenxui.tea.app.integration.repositories.user.UserRepository;
-import com.cenxui.tea.app.integration.repositories.user.UserRepositoryImpl;
+import com.cenxui.tea.app.repositories.user.User;
+import com.cenxui.tea.app.repositories.user.UserRepository;
+import com.cenxui.tea.app.aws.dynampdb.repositories.user.DynamoDBUserRepository;
 import com.cenxui.tea.app.services.CoreController;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class UserSignInController extends CoreController {
-    public static final UserRepository manager = UserRepositoryImpl.getManager();
+    public static final UserRepository manager = DynamoDBUserRepository.getManager();
 
     public static boolean authenticateByMail(String mail, String password) {
         if (mail == null || mail.isEmpty()) return false;
