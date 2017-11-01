@@ -1,4 +1,4 @@
-package com.cenxui.tea.dynamodb.util.exception;
+package com.cenxui.tea.aws.dynamodb.util.exception;
 
 public class DuplicateProductException extends Exception {
 }

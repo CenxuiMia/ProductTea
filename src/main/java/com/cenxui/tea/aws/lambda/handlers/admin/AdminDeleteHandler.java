@@ -1,4 +1,4 @@
-package com.cenxui.tea.lambda.handlers.admin;
+package com.cenxui.tea.aws.lambda.handlers.admin;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;

@@ -1,4 +1,4 @@
-package com.cenxui.tea.lambda.handlers.catagory;
+package com.cenxui.tea.aws.lambda.handlers.catagory;
 
 
 import com.amazonaws.services.lambda.runtime.Context;

@@ -1,4 +1,4 @@
-package com.cenxui.tea.dynamodb.util;
+package com.cenxui.tea.aws.dynamodb.util;
 
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.cenxui.tea.app.repositories.product.Product;

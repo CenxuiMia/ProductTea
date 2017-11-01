@@ -1,4 +1,4 @@
-package com.cenxui.tea.lambda;
+package com.cenxui.tea.aws.lambda;
 
 /**
  * This package is used for AWS lambda function

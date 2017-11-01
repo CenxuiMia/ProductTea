@@ -1,9 +1,9 @@
-package com.cenxui.tea.dynamodb.util;
+package com.cenxui.tea.aws.dynamodb.util;
 
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.dynamodb.util.exception.DuplicateProductException;
+import com.cenxui.tea.aws.dynamodb.util.exception.DuplicateProductException;
 import lombok.NonNull;
 
 import java.util.HashSet;
