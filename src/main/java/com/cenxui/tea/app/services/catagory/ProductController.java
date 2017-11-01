@@ -1,6 +1,6 @@
 package com.cenxui.tea.app.services.catagory;
 
-import com.cenxui.tea.app.dynampdb.repositories.product.DynamoDBProductRepository;
+import com.cenxui.tea.app.aws.dynampdb.repositories.product.DynamoDBProductRepository;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.services.CoreController;
 import spark.Request;

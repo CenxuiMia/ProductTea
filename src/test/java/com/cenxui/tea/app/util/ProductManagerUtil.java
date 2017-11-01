@@ -1,6 +1,6 @@
 package com.cenxui.tea.app.util;
 
-import com.cenxui.tea.app.dynampdb.repositories.product.DynamoDBProductRepository;
+import com.cenxui.tea.app.aws.dynampdb.repositories.product.DynamoDBProductRepository;
 import com.cenxui.tea.app.repositories.product.Product;
 
 import java.lang.reflect.Field;

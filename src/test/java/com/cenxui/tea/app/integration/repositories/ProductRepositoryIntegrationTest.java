@@ -8,7 +8,7 @@ import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.integration.repositories.util.DynamoDBLocalUtil;
-import com.cenxui.tea.aws.dynamodb.util.ItemUtil;
+import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

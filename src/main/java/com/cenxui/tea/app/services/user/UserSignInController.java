@@ -2,7 +2,7 @@ package com.cenxui.tea.app.services.user;
 
 import com.cenxui.tea.app.repositories.user.User;
 import com.cenxui.tea.app.repositories.user.UserRepository;
-import com.cenxui.tea.app.dynampdb.repositories.user.DynamoDBUserRepository;
+import com.cenxui.tea.app.aws.dynampdb.repositories.user.DynamoDBUserRepository;
 import com.cenxui.tea.app.services.CoreController;
 import org.mindrot.jbcrypt.BCrypt;
 
