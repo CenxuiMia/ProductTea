@@ -15,6 +15,7 @@ dependencies {
     compile group: 'org.mindrot', name: 'jbcrypt', version:'0.3m'
 
     compile (
+            'com.amazonaws.serverless:aws-serverless-java-container-spark:0.7',
             'com.amazonaws:aws-lambda-java-core:1.1.0',
             'com.amazonaws:aws-lambda-java-events:1.1.0'
     )

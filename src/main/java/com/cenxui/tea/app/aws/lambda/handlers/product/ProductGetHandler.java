@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.aws.lambda.handlers.catagory;
+package com.cenxui.tea.app.aws.lambda.handlers.product;
 
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -11,7 +11,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 public class ProductGetHandler implements RequestHandler<Object, Object> {
     @Override
     public Object handleRequest(Object input, Context context) {
-
-        return null;
+        //TODO
+        return "ProductGetHandler";
     }
 }
