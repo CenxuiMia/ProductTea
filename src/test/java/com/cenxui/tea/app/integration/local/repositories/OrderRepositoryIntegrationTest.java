@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.integration.repositories;
+package com.cenxui.tea.app.integration.local.repositories;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.document.*;
@@ -7,7 +7,7 @@ import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.integration.repositories.util.DynamoDBLocalUtil;
+import com.cenxui.tea.app.integration.local.repositories.util.DynamoDBLocalUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
 import org.junit.After;

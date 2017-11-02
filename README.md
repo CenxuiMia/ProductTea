@@ -8,8 +8,22 @@ prequest
 
 deploy to aws 
 
-gradle build -x test 
+＊＊you need to set the region and credential before deploy 
+ 
+** you can change the tamplate name and its details to the name you want to deploy
 
-aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket <YOUR_BUCKET_NAME>
+table
+aws cloudformation deploy --template-file tea-product-table.yaml --stack-name teaProductTable
+aws cloudformation deploy --template-file tea-order-table.yaml --stack-name teaOrderTable
 
-aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file /Users/cenxui/git/tea/output-sam.yaml --stack-name <YOUR_STACK_NAME>
+
+
+lambda
+
+-gradle build -x test 
+
+** you can change the sam.yaml details about lambda evironment valuable
+
+-aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket <YOUR_BUCKET_NAME>
+
+-aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file /Users/cenxui/git/tea/output-sam.yaml --stack-name <YOUR_STACK_NAME>

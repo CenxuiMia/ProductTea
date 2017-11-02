@@ -9,6 +9,11 @@ Resources:
       Runtime: java8
       CodeUri: build/distributions/tea-1.0-SNAPSHOT.zip
       MemorySize: 512
+      Environment:
+        Variables:
+          OrderTableURL: 1234567
+          ProductTableURL : 7658301
+          Region: ap-northeast-1
       Policies: AWSLambdaBasicExecutionRole
       Timeout: 20
       Events:
