@@ -8,9 +8,9 @@ public interface OrderRepository extends Repository {
 
     List<Order> listAllOrders();
 
-    List<Order> listOrderByTimeStamp(String timeStamp);
+    List<Order> listOrderByTMail(String mail);
 
-    Order getOrderById(String id);
+    Order getOrdersByMailAndTime(String mail, String time);
 
     void addOrder(Order order);
 

@@ -1,16 +1,17 @@
-package com.cenxui.tea.app.integration.local.repositories;
+package com.cenxui.tea.app.aws.dynamodb.repositories;
 
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.document.*;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.ItemCollection;
+import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
-import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.cenxui.tea.app.repositories.product.Product;
-import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.integration.local.repositories.util.DynamoDBLocalUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
-import org.junit.After;
+import com.cenxui.tea.app.repositories.order.Order;
+import com.cenxui.tea.app.repositories.product.Product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,21 +22,20 @@ import java.util.*;
 @RunWith(JUnit4.class)
 public class OrderRepositoryIntegrationTest {
 
-    private DynamoDBProxyServer server;
-    private AmazonDynamoDB amazonDynamoDB;
     private Table table;
-    private String tableName = "TeaOrder";
+    private final String tableName = "teaOrder";
 
     @Before
     public void setUp() {
-        server = DynamoDBLocalUtil.getDynamoDBProxyServerInMemory();
-        amazonDynamoDB = DynamoDBLocalUtil.getAmazonDynamoDB();
-
+        AmazonDynamoDB amazonDynamoDB = AmazonDynamoDBClientBuilder
+                .standard()
+                .withRegion(Regions.AP_NORTHEAST_1).build(); // in product state do not input any credential
+        DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
+        table = dynamoDB.getTable(tableName);
     }
 
     @Test
     public void dataLifeCycle() {
-        createTable();
         for (int i = 0 ; i <5; i++) {
             putItems();
             listAllItem();
@@ -48,35 +48,6 @@ public class OrderRepositoryIntegrationTest {
         }
         queryItems();
 
-    }
-
-    private void createTable() {
-
-        AttributeDefinition mail = new AttributeDefinition(Order.MAIL, "S");
-        AttributeDefinition time = new AttributeDefinition(Order.TIME, "S");
-
-
-        Collection<AttributeDefinition> attributeDefinitions =
-                Arrays.asList(mail, time);
-
-        KeySchemaElement primaryKey = new KeySchemaElement(Order.MAIL, KeyType.HASH);
-        KeySchemaElement sortKey = new KeySchemaElement(Order.TIME, KeyType.RANGE);
-
-
-        Collection<KeySchemaElement> keySchemaElements =
-                Arrays.asList(primaryKey, sortKey);
-
-        ProvisionedThroughput provisionedThroughput = new ProvisionedThroughput(1l, 1l);
-
-        CreateTableRequest createTableRequest = new CreateTableRequest()
-                .withTableName(tableName)
-                .withAttributeDefinitions(attributeDefinitions)
-                .withKeySchema(keySchemaElements)
-                .withProvisionedThroughput(provisionedThroughput);
-
-        DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
-
-        table = dynamoDB.createTable(createTableRequest);
     }
 
     private void queryItems() {
@@ -102,30 +73,40 @@ public class OrderRepositoryIntegrationTest {
                         "taipei",
                         "acvb"
                         ,true,
-                        true
+                        false
 
                 ),
                 Order.of(
                         "mia@gmail.com",
-                         products,
+                        products,
                         "purchaser",
                         "7654321",
                         "taipei",
                         "acvb"
-                        ,true,
+                        ,false,
                         true
                 ),
                 Order.of(
                         "123@gmail.com",
-                         products,
+                        products,
                         "purchaser",
                         "1234567",
                         "taipei",
                         "acvb"
+                        ,false,
+                        false
+                )
+                ,
+                Order.of(
+                        "john@gmail.com",
+                        products,
+                        "purchaser",
+                        "1234567",
+                        "kkkk",
+                        "acvb"
                         ,true,
                         true
                 )
-
         );
 
         for (Order order : orders) {
@@ -152,12 +133,5 @@ public class OrderRepositoryIntegrationTest {
         collection.forEach(System.out::println);
     }
 
-
-    @After
-    public void shutDown() throws Exception {
-        if (server != null) {
-            server.stop();
-        }
-    }
-
 }
+
