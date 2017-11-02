@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.integration.repositories;
+package com.cenxui.tea.app.aws.dynamodb.local.repositories;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
@@ -6,15 +6,19 @@ import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
+import com.cenxui.tea.app.aws.dynamodb.item.ItemProduct;
+import com.cenxui.tea.app.aws.dynamodb.local.repositories.util.DynamoDBLocalUtil;
+import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.product.Product;
-import com.cenxui.tea.app.integration.repositories.util.DynamoDBLocalUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.io.IOException;
 import java.util.*;
 
 @RunWith(JUnit4.class)
@@ -23,7 +27,7 @@ public class ProductRepositoryIntegrationTest {
     private DynamoDBProxyServer server;
     private AmazonDynamoDB amazonDynamoDB;
     private Table table;
-    private String tableName = "TeaProduct";
+    private String tableName = DynamoDBConfig.PRODUCT_TABLE;
 
     @Before
     public void setUp() throws Exception {
@@ -71,15 +75,46 @@ public class ProductRepositoryIntegrationTest {
     public void testDataLifeCycle() {
         putItems();
 
-        listAllItem();
+        final List<Product> products = new ArrayList<>();
 
-        deleteItem();
+        table.scan().forEach(
+                (s) -> {
+                   ObjectMapper objectMapper = new ObjectMapper();
+                    try {
+                        Product product = objectMapper.readValue(s.toJSON(), ItemProduct.class).getItem();
+                        products.add(product);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
 
-        listAllItem();
+        products.stream().forEach(System.out::println);
 
-        updateItem();
 
-        listAllItem();
+
+//        ScanRequest scanRequest = new ScanRequest()
+//                .withTableName(tableName);
+//
+//        ScanResult result = amazonDynamoDB.scan(scanRequest);
+//        for (Map<String, AttributeValue> item : result.getItems()){
+//
+//        }
+//
+//
+//        System.out.println("====================print products========================");
+//
+//        products.stream().forEach(System.out::println);
+
+//        listAllItem();
+//
+//        deleteItem();
+//
+//        listAllItem();
+//
+//        updateItem();
+//
+//        listAllItem();
     }
 
     private void putItems() {
@@ -89,28 +124,28 @@ public class ProductRepositoryIntegrationTest {
         List<Product> products = Collections.unmodifiableList(Arrays.asList(
                 Product.of(
                         "black tea",
-                        1,
+                        "1",
                         "good tea from mia banana",
                         "sm",
                         "bm",
                         images, Boolean.TRUE, 100.0, "mia"),
                 Product.of(
                         "green tea",
-                        1,
+                        "1",
                         "standard tea from cenxui banana",
                         "sm",
                         "bm",
                         images, Boolean.TRUE, 100.0, "cenxui"),
                 Product.of(
                         "woolong tea",
-                        1,
+                        "1",
                         "woolong tea from cenxui mia",
                         "sm",
                         "bm",
                         images, Boolean.TRUE, 200.0, "cenxui"),
                 Product.of(
                         "mountain green tea",
-                        1,
+                        "1",
                         "mountain tea from cenxui mia",
                         "sm",
                         "bm",

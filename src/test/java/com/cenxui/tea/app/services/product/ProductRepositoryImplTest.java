@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.services.catagory;
+package com.cenxui.tea.app.services.product;
 
 /**
  * Created by huaying on 05/10/2017.

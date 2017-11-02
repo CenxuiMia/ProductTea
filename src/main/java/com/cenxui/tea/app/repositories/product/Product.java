@@ -18,7 +18,7 @@ public class Product {
 
 
     String name;
-    Integer version;
+    String version;
     String details;
     String smallImage;
     String bigImage;
