@@ -1,14 +1,14 @@
 package com.cenxui.tea.app.util;
 
-import com.cenxui.tea.app.integration.repositories.catagory.Product;
-import com.cenxui.tea.app.integration.repositories.catagory.ProductRepositoryImpl;
+import com.cenxui.tea.app.aws.dynampdb.repositories.product.DynamoDBProductRepository;
+import com.cenxui.tea.app.repositories.product.Product;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
 public class ProductManagerUtil {
-    public static void mockProductList(ProductRepositoryImpl manager,
+    public static void mockProductList(DynamoDBProductRepository manager,
                                        String productListName, List<Product> mockProducts)
     throws Exception {
         Field field = manager.getClass().getDeclaredField(productListName);

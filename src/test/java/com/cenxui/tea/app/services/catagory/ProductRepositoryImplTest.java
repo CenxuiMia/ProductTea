@@ -4,7 +4,7 @@ package com.cenxui.tea.app.services.catagory;
  * Created by huaying on 05/10/2017.
  */
 public class ProductRepositoryImplTest {
-//    private ProductRepositoryImpl productRepositoryImpl;
+//    private DynamoDBProductRepository productRepositoryImpl;
 //
 //    private Product p1 = Product.of(
 //            1,
@@ -41,7 +41,7 @@ public class ProductRepositoryImplTest {
 //
 //    @Before
 //    public void setUp() throws Exception {
-//        productRepositoryImpl = ProductRepositoryImpl.getManager();
+//        productRepositoryImpl = DynamoDBProductRepository.getManager();
 //        products =  Collections.unmodifiableList(Arrays.asList(p1, p2, p3, p4));
 //        ProductManagerUtil.mockProductList(productRepositoryImpl, "products", products);
 //    }
@@ -50,7 +50,7 @@ public class ProductRepositoryImplTest {
 //    public void getProductsByTag() throws Exception {
 //        List<Product> cenxuiTag = Arrays.asList(p2, p3);
 //        assertEquals(productRepositoryImpl.getProductsByTag("cenxui"), cenxuiTag);
-//        assertEquals(Collections.emptyList(), ProductRepositoryImpl.getManager().getProductsByTag("tag"));
+//        assertEquals(Collections.emptyList(), DynamoDBProductRepository.getManager().getProductsByTag("tag"));
 //    }
 //
 //    @Test

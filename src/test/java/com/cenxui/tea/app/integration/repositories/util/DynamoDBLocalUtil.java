@@ -7,23 +7,28 @@ import com.amazonaws.services.dynamodbv2.local.main.ServerRunner;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 
 public class DynamoDBLocalUtil {
-    public static DynamoDBProxyServer runDynamoDBInMemory() {
+    private static DynamoDBProxyServer server;
+    public static DynamoDBProxyServer getDynamoDBProxyServerInMemory() {
         // Create an in-memory and in-process instance of DynamoDB Local that runs over HTTP
-        final String[] localArgs = { "-inMemory" };
+        final String[] localArgs = {
+                "-inMemory",
+                "-port",
+                "8000"};
 
-        DynamoDBProxyServer server = null;
-        try {
-            server = ServerRunner.createServerFromCommandLineArgs(localArgs);
-            server.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("cannot set up server");
+        if (server == null) {
+            try {
+                server = ServerRunner.createServerFromCommandLineArgs(localArgs);
+                server.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("cannot set up server");
+            }
         }
 
         return server;
     }
 
-    public static AmazonDynamoDB getDynamoDBClient() {
+    public static AmazonDynamoDB getAmazonDynamoDB() {
         AmazonDynamoDB amazonDynamoDB = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
                 // we can use any region here
                 new AwsClientBuilder.EndpointConfiguration("http://localhost:8000", "us-west-2"))

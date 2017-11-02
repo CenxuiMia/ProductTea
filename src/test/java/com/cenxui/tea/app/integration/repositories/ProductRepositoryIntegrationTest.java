@@ -1,15 +1,14 @@
 package com.cenxui.tea.app.integration.repositories;
 
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.*;
-import com.amazonaws.services.dynamodbv2.local.main.ServerRunner;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.cenxui.tea.app.integration.repositories.catagory.Product;
+import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.integration.repositories.util.DynamoDBLocalUtil;
-import com.cenxui.tea.dynamodb.util.ItemUtil;
+import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,9 +28,9 @@ public class ProductRepositoryIntegrationTest {
     @Before
     public void setUp() throws Exception {
 
-        server = DynamoDBLocalUtil.runDynamoDBInMemory();
+        server = DynamoDBLocalUtil.getDynamoDBProxyServerInMemory();
 
-        amazonDynamoDB = DynamoDBLocalUtil.getDynamoDBClient();
+        amazonDynamoDB = DynamoDBLocalUtil.getAmazonDynamoDB();
 
         // use the DynamoDB API over HTTP
         listTables(amazonDynamoDB.listTables(), "DynamoDB Local over HTTP");
@@ -120,9 +119,7 @@ public class ProductRepositoryIntegrationTest {
 
         for (Product product : products) {
 
-            table.putItem(ItemUtil.getProductItem(product), "attribute_not_exists(thingId)",
-                    new HashMap<>(),
-                    new HashMap<>());
+            table.putItem(ItemUtil.getProductItem(product));
         }
     }
 
