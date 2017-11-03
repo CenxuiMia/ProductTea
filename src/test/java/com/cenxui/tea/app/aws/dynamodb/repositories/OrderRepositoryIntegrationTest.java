@@ -4,14 +4,15 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Index;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.model.*;
+import com.cenxui.tea.app.aws.dynamodb.local.repositories.util.TestData;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
 import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.repositories.product.Product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,19 +37,44 @@ public class OrderRepositoryIntegrationTest {
 
     @Test
     public void dataLifeCycle() {
-        for (int i = 0 ; i <5; i++) {
-            putItems();
-            listAllItem();
-            System.out.println("--------------------------Items----------------------------");
-            try {
-                Thread.sleep(2000L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        for (int i = 0 ; i <3; i++) {
+//            putItems();
+//            listAllItem();
+//            System.out.println("--------------------------Items----------------------------");
+//            try {
+//                Thread.sleep(2000L);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
         queryItems();
 
+        queryIndex();
     }
+
+    private void queryIndex() {
+        System.out.println("==========================queryOrderIndex====================");
+        Index orderIndex = table.getIndex("orderIndex");
+
+        String date1 = "2017-11-03";
+        System.out.println("=========================" + date1 + "=========================");
+        orderIndex.query(Order.PAID_DATE, date1).forEach(System.out::println);
+        String date2 = "2017-11-01";
+        System.out.println("=========================" + date2 + "=========================");
+        orderIndex.query(Order.PAID_DATE, date2).forEach(System.out::println);
+        String date3 = "2017-11-02";
+        System.out.println("=========================" + date3 + "=========================");
+        orderIndex.query(Order.PAID_DATE, date3).forEach(System.out::println);
+        String date4 = "2017-11-06";
+        System.out.println("=========================" + date4 + "=========================");
+        orderIndex.query(Order.PAID_DATE, date4).forEach(System.out::println);
+
+        System.out.println("=========================2017-11-03 15:34:58=========================");
+
+    }
+
+
 
     private void queryItems() {
         table.query(Order.MAIL, "abc@gmail.com").forEach(System.out::println);
@@ -61,55 +87,8 @@ public class OrderRepositoryIntegrationTest {
 
     private void putItems() {
 
-        List<String> products =
-                Arrays.asList("green tea = 10",
-                        "black tea = 11",
-                        "lol tea = 10"
-                );
-        List<Order> orders = Arrays.asList(
-                Order.of(
-                        "abc@gmail.com",
-                        products,
-                        "purchaser",
-                        "1234567",
-                        "taipei",
-                        "acvb"
-                        ,true,
-                        false
 
-                ),
-                Order.of(
-                        "mia@gmail.com",
-                        products,
-                        "purchaser",
-                        "7654321",
-                        "taipei",
-                        "acvb"
-                        ,false,
-                        true
-                ),
-                Order.of(
-                        "123@gmail.com",
-                        products,
-                        "purchaser",
-                        "1234567",
-                        "taipei",
-                        "acvb"
-                        ,false,
-                        false
-                )
-                ,
-                Order.of(
-                        "john@gmail.com",
-                        products,
-                        "purchaser",
-                        "1234567",
-                        "kkkk",
-                        "acvb"
-                        ,true,
-                        true
-                )
-        );
+        List<Order> orders = TestData.getOrders();
 
         for (Order order : orders) {
 

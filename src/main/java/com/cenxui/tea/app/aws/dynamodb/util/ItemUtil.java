@@ -22,7 +22,7 @@ public class ItemUtil {
                 .withDouble(Product.PRICE, product.getPrice())
                 .withString(Product.TAG, product.getTag());
 
-        if ( product.getStatus() == true) {
+        if (product.getStatus() == true) {
             item.withBoolean(Product.STATUS, true);
         }
 
@@ -47,11 +47,8 @@ public class ItemUtil {
                 .withString(Order.PHONE, order.getPhone())
                 .withString(Order.ADDRESS, order.getAddress())
                 .withString(Order.COMMENTS, order.getComments())
-                .withString(Order.DATE, order.getDate());
-
-        if (order.getIsPaid() == true) {
-            item.withBoolean(Order.IS_PAID, true);
-        }
+                .withString(Order.PAID_DATE, order.getPaidDate())
+                .withString(Order.SHIP_DATE, order.getShipDate());
 
         if (order.getIsActive() == true) {
             item.withBoolean(Order.IS_ACTIVE, true);

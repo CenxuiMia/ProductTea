@@ -40,8 +40,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order getOrdersByMailAndTime(String mail, String time) {
-
-        return null;
+        throw new UnsupportedOperationException("not yet");
+        //todo
     }
 
     @Override

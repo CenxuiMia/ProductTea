@@ -24,10 +24,9 @@ public class Order {
     public static final String ADDRESS = "address";
     public static final String PRODUCTS = "products";
     public static final String COMMENTS = "comments";
-    public static final String IS_PAID = "isPaid";
+    public static final String PAID_DATE = "paidDate";
+    public static final String SHIP_DATE = "shipDate";
     public static final String IS_ACTIVE = "isActive";
-    public static final String DATE = "date";
-
 
     String mail; // default user email
     String time;
@@ -36,10 +35,10 @@ public class Order {
     String phone;
     String address;
     String comments;
-    Boolean isPaid;
+    String paidDate;
+    String shipDate;
     Boolean isActive;
 
-    String date;
 
     public static Order of(String mail,
                            List<String> products,
@@ -47,12 +46,13 @@ public class Order {
                            String phone,
                            String address,
                            String comments,
-                           Boolean isPaid,
+                           String paidDate,
+                           String shipDate,
                            Boolean isActive) {
         final LocalDateTime timeStamp =  LocalDateTime.now();
         String time = timeStamp.toString().substring(0,19);
         String date = timeStamp.toLocalDate().toString();
-        return new Order(mail, time, products, purchaser, phone, address, comments, isPaid, isActive, date);
+        return new Order(mail, time, products, purchaser, phone, address, comments, paidDate, shipDate, isActive);
     }
 
 }

@@ -6,19 +6,15 @@ import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.tea.app.aws.dynamodb.item.ItemOrder;
-import com.cenxui.tea.app.aws.dynamodb.item.ItemProduct;
+import com.cenxui.tea.app.aws.dynamodb.local.repositories.util.TestData;
 import com.cenxui.tea.app.aws.dynamodb.local.repositories.util.DynamoDBLocalUtil;
-import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -122,56 +118,8 @@ public class OrderRepositoryIntegrationTest {
     }
 
     private void putItems() {
-        List<String> products =
-                Arrays.asList("green tea = 10",
-                        "black tea = 11",
-                        "lol tea = 10"
-                );
 
-        List<Order> orders = Arrays.asList(
-                Order.of(
-                        "abc@gmail.com",
-                        products,
-                        "purchaser",
-                        "123",
-                        "taipei",
-                        "acvb"
-                        ,true,
-                        true
-
-                ),
-                Order.of(
-                        "mia@gmail.com",
-                         products,
-                        "purchaser",
-                        "321",
-                        "taipei",
-                        "acvb"
-                        ,true,
-                        true
-                ),
-                Order.of(
-                        "123@gmail.com",
-                         products,
-                        "purchaser",
-                        "123",
-                        "taipei",
-                        "acvb"
-                        ,true,
-                        true
-                )
-                ,  Order.of(
-                        "cp9@gmail.com",
-                        products,
-                        "purchaser",
-                        "467",
-                        "taipei",
-                        "acvb"
-                        ,true,
-                        true
-                )
-
-        );
+        List<Order> orders = TestData.getOrders();
 
         for (Order order : orders) {
 

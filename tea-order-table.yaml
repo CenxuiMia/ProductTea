@@ -11,6 +11,9 @@ Resources:
         -
           AttributeName: "time"
           AttributeType: "S"
+        -
+          AttributeName: "paidDate"
+          AttributeType: "S"
 
       KeySchema:
         -
@@ -23,3 +26,16 @@ Resources:
         ReadCapacityUnits: "1"
         WriteCapacityUnits: "1"
       TableName: "teaOrder"
+
+      GlobalSecondaryIndexes:
+        -
+          IndexName: "orderIndex"
+          KeySchema:
+            -
+              AttributeName: "paidDate"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+          ProvisionedThroughput:
+            ReadCapacityUnits: "1"
+            WriteCapacityUnits: "1"
