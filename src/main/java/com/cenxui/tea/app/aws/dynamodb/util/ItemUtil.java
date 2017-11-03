@@ -31,12 +31,12 @@ public class ItemUtil {
 
     public static Item getOrderItem(@NonNull Order order) throws DuplicateProductException {
         Set<String> productSet = new HashSet<>();
-        for (Map<Product, Integer> product : order.getProducts()) {
+        for (String product : order.getProducts()) {
             if (productSet.contains(product)){
                 throw new DuplicateProductException();
             }
 
-            productSet.add(product.toString());
+            productSet.add(product);
         }
 
 
@@ -46,7 +46,8 @@ public class ItemUtil {
                 .withString(Order.PURCHASER, order.getPurchaser())
                 .withString(Order.PHONE, order.getPhone())
                 .withString(Order.ADDRESS, order.getAddress())
-                .withString(Order.COMMENTS, order.getComments());
+                .withString(Order.COMMENTS, order.getComments())
+                .withString(Order.DATE, order.getDate());
 
         if (order.getIsPaid() == true) {
             item.withBoolean(Order.IS_PAID, true);

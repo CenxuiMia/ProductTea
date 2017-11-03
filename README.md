@@ -1,3 +1,11 @@
+**cors
+**lambda pollicy
+**order 
+-use global secondary index 
+**cognito
+**web
+
+
 prequest 
 
 1. download dynamodb local 

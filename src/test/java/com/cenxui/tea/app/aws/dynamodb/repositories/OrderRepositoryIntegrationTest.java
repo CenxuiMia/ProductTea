@@ -60,10 +60,12 @@ public class OrderRepositoryIntegrationTest {
     }
 
     private void putItems() {
-        HashMap<Product, Integer> map = new HashMap<>();
-        List<Map<Product, Integer>> products =
-                Arrays.asList(map);
 
+        List<String> products =
+                Arrays.asList("green tea = 10",
+                        "black tea = 11",
+                        "lol tea = 10"
+                );
         List<Order> orders = Arrays.asList(
                 Order.of(
                         "abc@gmail.com",

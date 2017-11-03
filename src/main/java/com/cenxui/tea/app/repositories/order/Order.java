@@ -7,7 +7,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-@Value(staticConstructor = "of")
+
+/**
+ *  todo
+ *  order need to make sure the sum
+ *  the order isPaid
+ *  the order isActive
+ *  the order time
+ */
+@Value
 public class Order {
     public static final String TIME = "time";
     public static final String MAIL ="mail";
@@ -18,13 +26,12 @@ public class Order {
     public static final String COMMENTS = "comments";
     public static final String IS_PAID = "isPaid";
     public static final String IS_ACTIVE = "isActive";
+    public static final String DATE = "date";
 
-    private final LocalDateTime timeStamp =  LocalDateTime.now();
-
-    private final String time = timeStamp.toString().substring(0,19);
 
     String mail; // default user email
-    List<Map<Product, Integer>> products;
+    String time;
+    List<String> products;
     String purchaser;
     String phone;
     String address;
@@ -32,14 +39,20 @@ public class Order {
     Boolean isPaid;
     Boolean isActive;
 
-    //TODO please make sure order primary key and its attribute
+    String date;
 
-    /**
-     * the id is concat with mail and time
-     * @return id
-     */
-    public String getId() {
-        return mail.concat(time);
+    public static Order of(String mail,
+                           List<String> products,
+                           String purchaser,
+                           String phone,
+                           String address,
+                           String comments,
+                           Boolean isPaid,
+                           Boolean isActive) {
+        final LocalDateTime timeStamp =  LocalDateTime.now();
+        String time = timeStamp.toString().substring(0,19);
+        String date = timeStamp.toLocalDate().toString();
+        return new Order(mail, time, products, purchaser, phone, address, comments, isPaid, isActive, date);
     }
 
 }
