@@ -19,9 +19,12 @@ public class ItemUtil {
                 .withString(Product.IMAGES, product.getSmallImage())
                 .withString(Product.BIG_IMAGE, product.getBigImage())
                 .with(Product.IMAGES, product.getImages())
-                .withBoolean(Product.STATUS, product.getStatus())
                 .withDouble(Product.PRICE, product.getPrice())
                 .withString(Product.TAG, product.getTag());
+
+        if ( product.getStatus() == true) {
+            item.withBoolean(Product.STATUS, true);
+        }
 
         return item;
     }
@@ -43,9 +46,15 @@ public class ItemUtil {
                 .withString(Order.PURCHASER, order.getPurchaser())
                 .withString(Order.PHONE, order.getPhone())
                 .withString(Order.ADDRESS, order.getAddress())
-                .withString(Order.COMMENTS, order.getComments())
-                .withBoolean(Order.IS_PAID, order.getIsPaid())
-                .withBoolean(Order.IS_ACTIVE, order.getIsActive());
+                .withString(Order.COMMENTS, order.getComments());
+
+        if (order.getIsPaid() == true) {
+            item.withBoolean(Order.IS_PAID, true);
+        }
+
+        if (order.getIsActive() == true) {
+            item.withBoolean(Order.IS_ACTIVE, true);
+        }
 
         return item;
     }

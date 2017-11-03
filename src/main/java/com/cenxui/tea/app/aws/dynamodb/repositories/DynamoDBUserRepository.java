@@ -1,17 +1,9 @@
-package com.cenxui.tea.app.aws.dynampdb.repositories.user;
+package com.cenxui.tea.app.aws.dynamodb.repositories;
 
 import com.cenxui.tea.app.repositories.user.User;
 import com.cenxui.tea.app.repositories.user.UserRepository;
 
-public final class DynamoDBUserRepository implements UserRepository {
-
-    private static final UserRepository manager = new DynamoDBUserRepository();
-
-    public static UserRepository getManager() {
-        return manager;
-    }
-
-    private DynamoDBUserRepository() {}
+final class DynamoDBUserRepository implements UserRepository {
 
     @Override
     public User getUserByMail(String mail) {

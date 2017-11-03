@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  teaOrder:
+    Type: "AWS::DynamoDB::Table"
+
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: "mail"
+          AttributeType: "S"
+        -
+          AttributeName: "time"
+          AttributeType: "S"
+
+      KeySchema:
+        -
+          AttributeName: "mail"
+          KeyType: "HASH"
+        -
+          AttributeName: "time"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "1"
+        WriteCapacityUnits: "1"
+      TableName: "teaOrder"
