@@ -3,8 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>訂單系統</title>
+    <link rel="stylesheet" type="text/css" href="order.css"/>
 </head>
 <body>
-<p>Hi</p>
+<div id="content">
+
+    <h1 id="center">訂單輸入系統</h1>
+
+
+    <form id="signin_form" name="signin_form" class="signin_form" action="/oauth" method="post">
+        <input type="hidden" name="client_id" value="arn:aws:iam::015428540659:user/route53" />
+        <input type="hidden" id="forceMobileApp" name="forceMobileApp" value="" />
+        <input type="hidden" id="forceMobileLayout" name="forceMobileLayout" value="" />
+        <input type="hidden" id="isIAMUser" name="isIAMUser" value="1" />
+        <input type="hidden" name="Action" value="login" />
+        <input type="hidden" name="RemainingExpiryPeriod" value="" />
+
+
+        <div id="accountFields">
+            <fieldset>
+                <div class="textinput" id="input_buyer">
+                    <label for="buyer">購買人</label>
+                    <input id="buyer" name="buyer" autocapitalize="off" autocorrect="off" value=""></input>
+                </div>
+                <div class="textinput" id="input_mail">
+                    <label for="mail">電子郵件</label>
+                    <input id="mail" name="mail" autocapitalize="off" autocorrect="off" value=""></input>
+                </div>
+                <div class="textinput" id="input_phone">
+                    <label for="phone">聯絡電話</label>
+                    <input id="phone" name="phone" autocapitalize="off" autocorrect="off" value=""></input>
+                </div>
+                <div class="textinput" id="input_receiver">
+                    <label for="receiver">收件人</label>
+                    <input id="receiver" name="receiver" autocapitalize="off" autocorrect="off" value=""></input>
+                </div>
+                <div class="textinput" id="input_address">
+                    <label for="address">收件地址</label>
+                    <input id="address" name="address" autocapitalize="off" autocorrect="off" value=""></input>
+                </div>
+                <div class="textinput" id="input_purchases">
+                    <label for="purchases">購買商品</label>
+                    <input id="purchases" name="purchases" autocapitalize="off" autocorrect="off" value=""></input>
+                </div>
+                <div class="textinput" id="input_money">
+                    <label for="money">消費金額</label>
+                    <input id="money" name="money" autocapitalize="off" autocorrect="off" value=""></input>
+                </div>
+                <div class="textinput" id="input_comment">
+                    <label for="comment">備註事項</label>
+                    <input id="comment" name="comment" autocapitalize="off" autocorrect="off" value=""></input>
+                </div>
+            </fieldset>
+
+            <div class="buttoninput" id="input_signin_button">
+                <a id="signin_button" class="css3button" href="#" alt="Continue" value="Continue">確認送出</a>
+            </div>
+        </div>
+
+    </form>
+</div>
 </body>
 </html>
