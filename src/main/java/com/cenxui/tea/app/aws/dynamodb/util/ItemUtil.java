@@ -22,7 +22,7 @@ public class ItemUtil {
                 .withDouble(Product.PRICE, product.getPrice())
                 .withString(Product.TAG, product.getTag());
 
-        if ( product.getStatus() == true) {
+        if (product.getStatus() == true) {
             item.withBoolean(Product.STATUS, true);
         }
 
@@ -31,12 +31,12 @@ public class ItemUtil {
 
     public static Item getOrderItem(@NonNull Order order) throws DuplicateProductException {
         Set<String> productSet = new HashSet<>();
-        for (Map<Product, Integer> product : order.getProducts()) {
+        for (String product : order.getProducts()) {
             if (productSet.contains(product)){
                 throw new DuplicateProductException();
             }
 
-            productSet.add(product.toString());
+            productSet.add(product);
         }
 
 
@@ -46,11 +46,9 @@ public class ItemUtil {
                 .withString(Order.PURCHASER, order.getPurchaser())
                 .withString(Order.PHONE, order.getPhone())
                 .withString(Order.ADDRESS, order.getAddress())
-                .withString(Order.COMMENTS, order.getComments());
-
-        if (order.getIsPaid() == true) {
-            item.withBoolean(Order.IS_PAID, true);
-        }
+                .withString(Order.COMMENTS, order.getComments())
+                .withString(Order.PAID_DATE, order.getPaidDate())
+                .withString(Order.SHIP_DATE, order.getShipDate());
 
         if (order.getIsActive() == true) {
             item.withBoolean(Order.IS_ACTIVE, true);

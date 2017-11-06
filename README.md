@@ -1,9 +1,23 @@
+**cors
+**lambda pollicy
+**order 
+-use global secondary index 
+**cognito
+**web
+
+
 prequest 
 
 1. download dynamodb local 
  http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html#DynamoDBLocal.DownloadingAndRunning
 2. add dynamodblocal.jar to project test library
 
+swagger.yaml
+accout region
+
+sam.yaml
+
+resource name
 
 
 deploy to aws 
