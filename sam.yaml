@@ -1,7 +1,15 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Description: tea API written with spark with the aws-serverless-java-container library
 Resources:
+  TeaGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      DefinitionUri: swagger.yaml
+      StageName: Prod
+      Variables:
+        LambdaFunctionName: !Ref TeaFunction
+
   TeaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -20,12 +28,13 @@ Resources:
         GetResource:
           Type: Api
           Properties:
+            RestApiId: !Ref TeaGatewayApi
             Path: /{proxy+}
             Method: any
 
 Outputs:
   TeaApi:
     Description: URL for application
-    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/index'
+    Value: !Sub 'https://${TeaGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/index'
     Export:
       Name: TeaApi
