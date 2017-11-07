@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>皇飲</title>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font: 400 15px/1.8 "Lato", sans-serif;
+            color: #777;
+        }
+
+        .bgimg-1, .bgimg-2, .bgimg-3 {
+            position: relative;
+            opacity: 0.65;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        }
+
+        .bgimg-1 {
+            background-image: url("https://farm5.staticflickr.com/4459/37675712692_795b99cd04_z.jpg");
+            min-height: 100%;
+        }
+
+        .bgimg-2 {
+            background-image: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg");
+            min-height: 400px;
+        }
+
+        .bgimg-3 {
+            background-image: url("https://farm5.staticflickr.com/4446/37450412750_af07f40e8e_z.jpg");
+            min-height: 400px;
+        }
+
+        .caption {
+            position: absolute;
+            left: 0;
+            top: 40%;
+            width: 100%;
+            text-align: center;
+            color: #000;
+        }
+
+        .caption span.border {
+            background-color: #111;
+            color: #fff;
+            padding: 18px;
+            font-size: 25px;
+            letter-spacing: 10px;
+        }
+
+        h3 {
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font: 20px "Lato", sans-serif;
+            color: #111;
+        }
+
+        /* Turn off parallax scrolling for tablets and phones */
+        @media only screen and (max-device-width: 1024px) {
+            .bgimg-1, .bgimg-2, .bgimg-3 {
+                background-attachment: scroll;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="bgimg-1">
+    <div class="caption">
+        <span class="border" style="background-color:transparent;font-size:36px;color: #f7f7f7;">
+            <b>皇飲</b><p style="font-size: 25px">生活，來點品味。</p>
+        </span>
+    </div>
+</div>
+
+<div style="color: #777;background-color:white;padding:50px 80px;text-align: justify;">
+    <h3 style="text-align:center;">靜心 飲茶</h3>
+    <p>在急促而繁忙的生活中，有多久沒停下來休息了？用一杯茶的時間，找回深處寧靜的自己</p>
+</div>
+
+<div class="bgimg-2">
+    <div class="caption">
+        <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">精緻茶品<br>SHOP HERE</span>
+    </div>
+</div>
+
+<div style="position:relative;">
+    <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+        <p>來自台灣高山，純淨土壤與好水質孕育出回甘濃郁的 好 茶 。自古台灣高山茶芳名遠播，廣受日本天皇、中國朝廷、歐美名流人士喜愛。</p>
+    </div>
+</div>
+
+<div class="bgimg-3">
+    <div class="caption">
+        <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">好茶 好安心</span>
+    </div>
+</div>
+
+<div style="position:relative;">
+    <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+        <p>極致品味，每一口都是好茶</p>
+    </div>
+</div>
+
+<div class="bgimg-1">
+    <div class="caption">
+        <span class="border">在皇飲，只買得到好茶</span>
+    </div>
+</div>
+
+</body>
+</html>
