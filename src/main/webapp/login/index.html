@@ -51,9 +51,6 @@
 	AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
 	// Operations when the web page is loaded.
 	function onLoad() {
-		document.getElementById("statusNotAuth").style.display = 'block';
-		document.getElementById("statusAuth").style.display = 'none';
-		document.getElementById("instructions").style.display = 'none';
 		// Initiatlize CognitoAuth object
 		var auth = initCognitoSDK();
 		document.getElementById("signInButton").addEventListener("click", function() {
@@ -65,10 +62,7 @@
 
   // Operations when signed in.
   function showSignedIn(session) {
-		document.getElementById("statusNotAuth").style.display = 'none';
-		document.getElementById("statusAuth").style.display = 'block';
-		document.getElementById("signInButton").innerHTML = "Sign Out";
-		document.getElementById("loader").style.display = "block";
+		//todo
 	}
 
   // Perform user operations.
@@ -113,7 +107,6 @@
 			},
 			onFailure: function(err) {
 				console.log("Error!" + err);
-				document.getElementById("statusAuth").innerHTML = "<h5>Token Expired or Invalid! Signing Out...</h5>"
 				auth.signOut();
 			}
 		};
