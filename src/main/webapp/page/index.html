@@ -1,179 +1,254 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>皇飲｜台灣好茶</title>
-    <link rel="stylesheet" type="text/css" href="index.css"/>
-    <script src="index.js"></script>
+    <title>皇飲</title>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="aws-cognito-sdk.js"></script>
+    <script src="amazon-cognito-auth.min.js"></script>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font: 400 15px/1.8 "Lato", sans-serif;
+            color: #777;
+        }
+
+        h3 {
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font: 20px "Lato", sans-serif;
+            color: #111;
+        }
+
+        .bgimg-1, .bgimg-2, .bgimg-3 {
+            position: relative;
+            opacity: 0.65;
+            background: no-repeat fixed center;
+            background-size: cover;
+
+        }
+
+        .bgimg-1 {
+            background-image: url("https://farm5.staticflickr.com/4459/37675712692_795b99cd04_z.jpg");
+            min-height: 100%;
+        }
+
+        .bgimg-2 {
+            background-image: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg");
+            min-height: 500px;
+        }
+
+        .bgimg-3 {
+            background-image: url("https://farm5.staticflickr.com/4446/37450412750_af07f40e8e_z.jpg");
+            min-height: 500px;
+        }
+
+        .login {
+            float: right;
+            border: solid #fff 1px;
+            padding: 5px;
+            margin: 16px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .login a:link, a:visited {
+            padding: 10px;
+            text-decoration: none;
+            background-color: transparent;
+            color: #ffffff;
+        }
+
+        .login a:hover {
+            padding: 10px;
+            text-decoration: none;
+            background-color: #ffffff;
+            opacity: 0.5;
+            color: #282E34;
+        }
+
+        .login a:active {
+            padding: 5px;
+            text-decoration: none;
+            background-color: #ffffff;
+            opacity: 0.5;
+            color: #111111;
+        }
+
+        .caption {
+            position: absolute;
+            left: 0;
+            top: 40%;
+            width: 100%;
+            text-align: center;
+            color: #000;
+        }
+
+        .caption span.border {
+            background-color: #111;
+            color: #fff;
+            font-size: 25px;
+            letter-spacing: 10px;
+        }
+
+        .footer-title {
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font: 20px "Lato", sans-serif;
+            color: beige;
+        }
+
+        .footer-text {
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        /* Turn off parallax scrolling for tablets and phones */
+        @media only screen and (max-device-width: 1024px) {
+            .bgimg-1, .bgimg-2, .bgimg-3 {
+                background-attachment: scroll;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body onload="onLoad()">
 
-<div id="fb-root"></div>
+<div class="bgimg-1">
+    <div class="login" id="signInButton"><a href="javascript:void(0)"title="Sign in">Sign In / Sign Up</a></div>
+    <div class="caption">
+        <span class="border" style="background-color:transparent;font-size:36px;color: #f7f7f7;">
+            <b>皇飲</b><span style="font-size: 25px;"><br>生活，來點品味。</span>
+        </span>
+    </div>
+</div>
+
+<div style="color: #777;background-color:white;padding:50px 80px;text-align: justify;">
+    <h3 style="text-align:center;">靜心 飲茶</h3>
+    <p>在急促而繁忙的生活中，有多久沒停下來休息了？用一杯茶的時間，找回深處寧靜的自己</p>
+</div>
+
+<div class="bgimg-2">
+    <div class="caption">
+        <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">精緻茶品<br>SHOP HERE</span>
+    </div>
+</div>
+
+<div style="position:relative;">
+    <div style="color:#ddd;background-color:#282E34;padding:50px 80px;text-align: justify;">
+        <p>來自台灣高山，純淨土壤與好水質孕育出回甘濃郁的 好 茶 。自古台灣高山茶芳名遠播，廣受日本天皇、中國朝廷、歐美名流人士喜愛。</p>
+    </div>
+</div>
+
+<div class="bgimg-3">
+    <div class="caption">
+        <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">
+            好茶 好安心<br>極致品味，每一口都是好茶
+        </span>
+    </div>
+</div>
+
+<div style="position: relative;">
+    <div style="color:#ddd;background-color:#282E34;padding:100px 80px;text-align: justify;">
+        <div style="float: left;">
+            <h3 class="footer-title">CONTACT US</h3>
+            <ul>support@hwangying.com</ul>
+            <ul>0900-000000</ul>
+            <ul>客服時間：9:00-18:00 MON.-FRI.</ul>
+        </div>
+        <div style="float: right">
+            <h3 class="footer-title">CONTACT US</h3>
+            <ul>support@hwangying.com</ul>
+            <ul>0900-000000</ul>
+            <ul>客服時間：9:00-18:00 MON.-FRI.</ul>
+        </div>
+    </div>
+</div>
+
 <script>
-    // This is called with the results from from FB.getLoginStatus().
-    function statusChangeCallback(response) {
-        console.log('statusChangeCallback');
-        console.log(response);
-        // The response object is returned with a status field that lets the
-        // app know the current login status of the person.
-        // Full docs on the response object can be found in the documentation
-        // for FB.getLoginStatus().
-        if (response.status === 'connected') {
-            // Logged into your app and Facebook.
-            testAPI();
+    AWS.config.update({
+        region: region,
+        credentials: new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: ''
+        })
+    });
+
+    AWSCognito.config.region = region;
+
+
+    AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: identityPool
+    });
+
+    AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
+    // Operations when the web page is loaded.
+    function onLoad() {
+        // Initiatlize CognitoAuth object
+        var auth = initCognitoSDK();
+        document.getElementById("signInButton").addEventListener("click", function() {
+            userButton(auth);
+        });
+        var curUrl = window.location.href;
+        auth.parseCognitoWebResponse(curUrl);
+    }
+
+    // Operations when signed in.
+    function showSignedIn(session) {
+        document.getElementById("signInButton").innerHTML = "Sign Out";
+    }
+
+    // Perform user operations.
+    function userButton(auth) {
+        var state = document.getElementById('signInButton').innerHTML;
+        var statestr = state.toString();
+        if (statestr.includes("Sign Out")) {
+            document.getElementById("signInButton").innerHTML = "Sign In";
+            auth.signOut();
+            showSignedOut();
         } else {
-            // The person is not logged into your app or we are unable to tell.
-            document.getElementById('status').innerHTML = 'Please log ' +
-                'into this app.';
+            auth.getSession();
         }
     }
 
-    // This function is called when someone finishes with the Login
-    // Button.  See the onlogin handler attached to it in the sample
-    // code below.
-    function checkLoginState() {
-        FB.getLoginStatus(function(response) {
-            statusChangeCallback(response);
-        });
-    }
-
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '366026823843708',
-            cookie     : true,
-            xfbml      : true,
-            version    : 'v2.10'
-        });
-
-        FB.AppEvents.logPageView();
-
-        FB.getLoginStatus(function(response) {
-            statusChangeCallback(response);
-        });
-
-    };
-
-    (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.10&appId=366026823843708';
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-    // Here we run a very simple test of the Graph API after login is
-    // successful.  See statusChangeCallback() for when this call is made.
-    function testAPI() {
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function(response) {
-            console.log('Successful login for: ' + response.name);
-            document.getElementById('status').innerHTML =
-                'Thanks for logging in, ' + response.name + '!';
-        });
+    // Initialize a cognito auth object.
+    function initCognitoSDK() {
+        let auth = new AWSCognito.CognitoIdentityServiceProvider.CognitoAuth(authData);
+        auth.userhandler = {
+            onSuccess: function(result) {
+                console.log("Cognito Sign in successful!");
+                showSignedIn(result);
+                let id_token = auth.signInUserSession.idToken.jwtToken;
+                let cognitoParams = {
+                    IdentityPoolId: identityPool,
+                    Logins: {}
+                };
+                cognitoParams.Logins["cognito-idp."+region+".amazonaws.com/"+poolId] = id_token;
+                AWS.config.credentials = new AWS.CognitoIdentityCredentials(cognitoParams);
+                AWS.config.getCredentials(function(){
+                    let req = new XMLHttpRequest();
+                    let creds = {
+                        "sessionId":AWS.config.credentials.accessKeyId,
+                        "sessionKey":AWS.config.credentials.secretAccessKey,
+                        "sessionToken":AWS.config.credentials.sessionToken
+                    }
+                    let credsEncoded = encodeURIComponent(JSON.stringify(creds));
+                });
+            },
+            onFailure: function(err) {
+                console.log("Error!" + err);
+                document.getElementById("statusAuth").innerHTML = "<h5>Token Expired or Invalid! Signing Out...</h5>"
+                auth.signOut();
+            }
+        };
+        // The default response_type is "token", uncomment the next line will make it be "code".
+        // auth.useCodeGrantFlow();
+        return auth;
     }
 </script>
 
-<div
-        class="fb-like"
-        data-share="true"
-        data-width="450"
-        data-show-faces="false">
-</div>
-
-<div class="top">
-    <h1>皇飲</h1>
-    <h3>生活，來點品味。來自台灣，世界最好喝的茶</h3>
-</div>
-
-<div class="tab">
-    <table class="tabtable">
-        <tr>
-            <td><button>關於我們</button></td>
-            <td>全部商品</td>
-            <td>聯絡我們</td>
-        </tr>
-    </table>
-</div>
-
-<div>
-    <p style="text-align: center">
-        <img src="https://farm5.staticflickr.com/4459/37675712692_13c060dc8b_h.jpg" width="70%" alt="tea-header">
-    </p>
-</div>
-
-<div class="info">
-    <h3>青茶</h3>
-    <p>
-        青茶分為生茶與熟茶：生茶是不發酵或發酵程度較低，使用輕焙火所製成的茶。大多高山茶為生茶。沖泡出來的茶湯顏色偏翠綠、黃，清香之氣味飽足。半熟茶是部分發酵、使用中陪火所製成的茶。一般此類的茶稱為烏龍茶。茶湯色澤金黃。滋味甘醇。</p>
-    <table class="product">
-        <tr>
-            <td><img src="https://farm5.staticflickr.com/4512/37675711002_ac2d020047_c.jpg" width="60%" alt="翠玉清茶">
-                <p>翠玉清茶</p>
-            </td>
-            <td><img src="https://farm5.staticflickr.com/4512/37675711002_ac2d020047_c.jpg" width="60%" alt="手工烏龍茶">
-                <p>手工烏龍茶</p>
-            </td>
-            <td><img src="https://farm5.staticflickr.com/4512/37675711002_ac2d020047_c.jpg" width="60%" alt="阿里山烏龍茶">
-                <p>阿里山烏龍茶</p>
-            </td>
-        </tr>
-        <tr>
-            <td><img src="https://farm5.staticflickr.com/4512/37675711002_ac2d020047_c.jpg" width="60%" alt="凍頂烏龍茶">
-                <p>凍頂烏龍茶</p>
-            </td>
-            <td><img src="https://farm5.staticflickr.com/4512/37675711002_ac2d020047_c.jpg" width="60%" alt="翠峰青茶">
-                <p>翠峰青茶</p>
-            </td>
-            <td><img src="https://farm5.staticflickr.com/4512/37675711002_ac2d020047_c.jpg" width="60%" alt="大禹嶺青茶">
-                <p>大禹嶺青茶</p>
-            </td>
-        </tr>
-    </table>
-</div>
-
-<div class="info">
-    <h3>紅茶</h3>
-    <p>紅茶即是完全發酵的「熟茶」。沖泡出來的茶湯色澤深且偏紅，味道「厚」且喉韻佳。紅茶比較適合體質虛的人服用。</p>
-    <table class="product">
-        <tr>
-            <td><img src="https://farm5.staticflickr.com/4512/37675711002_ac2d020047_c.jpg" width="60%" alt="紅玉紅茶">
-                <p>紅玉紅茶</p>
-            </td>
-            <td><img src="https://farm5.staticflickr.com/4512/37675711002_ac2d020047_c.jpg" width="60%" alt="日月潭紅茶">
-                <p>日月潭紅茶</p>
-            </td>
-            <td><img src="https://farm5.staticflickr.com/4512/37675711002_ac2d020047_c.jpg" width="60%" alt="金萱紅茶">
-                <p>金萱紅茶</p>
-            </td>
-        </tr>
-    </table>
-</div>
-
-<div class="info">
-    <h3>手工茶皂</h3>
-    <p>純手工製作以茶葉入皂，讓您在茶葉與濃郁茶湯的香氣下洗去塵土。</p>
-    <table class="product">
-        <tr>
-            <td><img src="https://farm5.staticflickr.com/4469/37738652056_bb8a02910c_z.jpg" width="60%" alt="青茶手工洗面皂">
-                <p>青茶手工洗面皂</p>
-            </td>
-            <td><img src="https://farm5.staticflickr.com/4469/37738652056_bb8a02910c_z.jpg" width="60%" alt="紅茶手工沐浴皂">
-                <p>紅茶手工沐浴皂</p>
-            </td>
-            <td><img src="https://farm5.staticflickr.com/4469/37738652056_bb8a02910c_z.jpg" width="60%" alt="紅茶手工洗髮餅">
-                <p>紅茶手工洗髮餅</p>
-            </td>
-        </tr>
-    </table>
-</div>
-
-<div>
-    <h3>付款方式</h3>
-</div>
-
-<div>
-    <h3>聯絡我們</h3>
-</div>
 </body>
 </html>

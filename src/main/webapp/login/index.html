@@ -17,11 +17,38 @@
 </head>
 
 <body  onload="onLoad()">
+    <nav>
+        <div class="nav-wrapper blue-grey darken-2"> 
+			<a href="https://aws.amazon.com/cognito/" target="_blank" class="hoverable"><img src="https://d2597oqac71veb.cloudfront.net/201406190823/images/cognito-icon.png" alt="Amazon Cognito" title="Amazon Cognito" style="width:75px;height:75px;"></a>
+			<a href="https://quicksight.aws/" target="_blank" class="hoverable"><img src="https://dpeefs3k5hlj8.cloudfront.net/images/quick_sight_default.f52ebfb7e602e4af4b460cbcd1b9d104.7.svg" alt="Amazon QuickSight" title="Amazon QuickSight" style="width:75px;height:75px;"></a>
+        </div>
+    </nav>
 	<br/>
 	<br/>
 	<br/>
     <div class="container">
-
+		<div class="row">
+			<div class="col s12 m12 center-align">
+				<h5 id="statusNotAuth" title="Status">
+					Use Cognito User Pools credentials to access QuickSight
+				</h5>
+				<h5 id="statusAuth" title="Status">
+					You have Signed-In! Redirecting...
+				</h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12 center">
+				<div class="loader center" id="loader"></div>
+				<div id="instructions">
+					<ul>
+						<li>If you are not redirected, access the following temporary link:</li>
+						<div id="consoleLink" class="center-align"></div>
+					</ul> 
+				</div>
+			</div>
+		</div>
+		<p></p>
 		<div class="row">
 			<div class="col s12 m12">
 				<div id="startButtons" class="center-align">
@@ -34,6 +61,8 @@
 
     </div>
 	<script>
+	let thisUrlEncoded = encodeURIComponent("https://"+window.location.hostname);
+	let quicksightUrlEncoded = encodeURIComponent("https://quicksight.aws.amazon.com/");
 	AWS.config.update({
 		region: region,
 		credentials: new AWS.CognitoIdentityCredentials({
@@ -51,6 +80,9 @@
 	AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
 	// Operations when the web page is loaded.
 	function onLoad() {
+		document.getElementById("statusNotAuth").style.display = 'block';
+		document.getElementById("statusAuth").style.display = 'none';
+		document.getElementById("instructions").style.display = 'none';
 		// Initiatlize CognitoAuth object
 		var auth = initCognitoSDK();
 		document.getElementById("signInButton").addEventListener("click", function() {
@@ -62,7 +94,10 @@
 
   // Operations when signed in.
   function showSignedIn(session) {
-		//todo
+		document.getElementById("statusNotAuth").style.display = 'none';
+		document.getElementById("statusAuth").style.display = 'block';
+		document.getElementById("signInButton").innerHTML = "Sign Out";
+		document.getElementById("loader").style.display = "block";
 	}
 
   // Perform user operations.
@@ -100,13 +135,12 @@
 						"sessionToken":AWS.config.credentials.sessionToken
 					}
 					let credsEncoded = encodeURIComponent(JSON.stringify(creds));
-					
-				});
 
-				//implement here
+				});
 			},
 			onFailure: function(err) {
 				console.log("Error!" + err);
+				document.getElementById("statusAuth").innerHTML = "<h5>Token Expired or Invalid! Signing Out...</h5>"
 				auth.signOut();
 			}
 		};
