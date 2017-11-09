@@ -10,15 +10,7 @@
 
     <h1 id="center">訂單輸入系統</h1>
 
-
-    <form id="signin_form" name="signin_form" class="signin_form" action="/oauth" method="post">
-        <input type="hidden" name="client_id" value="arn:aws:iam::015428540659:user/route53" />
-        <input type="hidden" id="forceMobileApp" name="forceMobileApp" value="" />
-        <input type="hidden" id="forceMobileLayout" name="forceMobileLayout" value="" />
-        <input type="hidden" id="isIAMUser" name="isIAMUser" value="1" />
-        <input type="hidden" name="Action" value="login" />
-        <input type="hidden" name="RemainingExpiryPeriod" value="" />
-
+    <form id="order_form" name="order_form" class="order_form" action="/oauth" method="post">
 
         <div id="accountFields">
             <fieldset>
@@ -28,11 +20,11 @@
                 </div>
                 <div class="textinput" id="input_mail">
                     <label for="mail">電子郵件</label>
-                    <input id="mail" name="mail" autocapitalize="off" autocorrect="off" value=""></input>
+                    <input id="mail" name="mail" type="email" autocapitalize="off" autocorrect="off" value=""></input>
                 </div>
                 <div class="textinput" id="input_phone">
                     <label for="phone">聯絡電話</label>
-                    <input id="phone" name="phone" autocapitalize="off" autocorrect="off" value=""></input>
+                    <input id="phone" name="phone" type="tel" autocapitalize="off" autocorrect="off" value=""></input>
                 </div>
                 <div class="textinput" id="input_receiver">
                     <label for="receiver">收件人</label>
@@ -56,8 +48,8 @@
                 </div>
             </fieldset>
 
-            <div class="buttoninput" id="input_signin_button">
-                <a id="signin_button" class="css3button" href="#" alt="Continue" value="Continue">確認送出</a>
+            <div class="buttoninput" id="input_submit_button">
+                <a id="submit_button" class="css3button" href="#" alt="Continue" value="Continue">確認送出</a>
             </div>
         </div>
 
