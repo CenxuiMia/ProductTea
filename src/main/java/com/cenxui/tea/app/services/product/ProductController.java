@@ -11,14 +11,10 @@ import java.util.List;
 
 public class ProductController extends CoreController {
 
-    public static Route fetchAllProducts = (Request request,  Response response) -> {
-        return getAllProducts();
+    public static Route getAllProducts = (Request request,  Response response) -> {
+        return DynamoDBRepositoryService.getProductRepository().getAllProducts();
     };
 
-    public static List<Product> getAllProducts() {
-        List<Product> products = DynamoDBRepositoryService.getProductRepository().getAllProducts();
-        return products;
-    }
 
     //TODO
 

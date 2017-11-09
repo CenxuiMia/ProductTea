@@ -26,6 +26,7 @@ public class LambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxyRe
             defineRoutes();
             initialized = true;
         }
+
         return handler.proxy(awsProxyRequest, context);
     }
 
