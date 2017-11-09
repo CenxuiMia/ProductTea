@@ -19,11 +19,11 @@ import java.util.Collections;
 import java.util.List;
 
 class DynamoDBOrderRepository implements OrderRepository {
-    private AmazonDynamoDB amazonDynamoDB = DynamoDBManager.getAmazonDynamoDBClient();
+
     private Table orderTable = DynamoDBManager.getDynamoDB().getTable(DynamoDBConfig.ORDER_TABLE);
 
     @Override
-    public List<Order> listAllOrders() {
+    public List<Order> getAllOrders() {
 
         ItemCollection collection = orderTable.scan();
 
@@ -32,7 +32,7 @@ class DynamoDBOrderRepository implements OrderRepository {
 
 
     @Override
-    public List<Order> listOrderByTMail(String mail) {
+    public List<Order> getOrderByTMail(String mail) {
         ItemCollection collection = orderTable.query(Order.MAIL, mail);
 
         return getOrders(collection);
@@ -42,30 +42,6 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Order getOrdersByMailAndTime(String mail, String time) {
         throw new UnsupportedOperationException("not yet");
         //todo
-    }
-
-    @Override
-    public void addOrder(Order order) {
-        try {
-            PutItemSpec putItemSpec = new PutItemSpec()
-                    .withItem(ItemUtil.getOrderItem(order))
-                    .withConditionExpression("attribute_not_exists("+ Order.MAIL + ")");
-            orderTable.putItem(putItemSpec);
-        } catch (DuplicateProductException e) {
-            e.printStackTrace();
-        } catch (ConditionalCheckFailedException e) {
-            System.out.println("Record already exists in Dynamo DB Table");
-        }
-    }
-
-    @Override
-    public void removeOrder() {
-
-    }
-
-    @Override
-    public void updateOrder() {
-
     }
 
     private List<Order> getOrders(ItemCollection collection) {
@@ -84,6 +60,35 @@ class DynamoDBOrderRepository implements OrderRepository {
         );
 
         return Collections.unmodifiableList(orders);
+    }
+
+
+    @Override
+    public boolean addOrder(Order order) {
+        try {
+            PutItemSpec putItemSpec = new PutItemSpec()
+                    .withItem(ItemUtil.getOrderItem(order))
+                    .withConditionExpression("attribute_not_exists("+ Order.MAIL + ")");
+            orderTable.putItem(putItemSpec);
+            return true;
+        } catch (DuplicateProductException e) {
+            System.out.println("Product record can not be duplicated ");
+        } catch (ConditionalCheckFailedException e) {
+            System.out.println("Record already exists in Dynamo DB Table");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeOrder() {
+        //todo
+        throw new UnsupportedOperationException("not yet");
+    }
+
+    @Override
+    public boolean updateOrder() {
+        //todo
+        throw new UnsupportedOperationException("not yet");
     }
 
 }

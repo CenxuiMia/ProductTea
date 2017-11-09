@@ -14,7 +14,7 @@ public final class Application {
     }
 
     public static void defineResources() {
-        get(Path.Web.PRODUCT, ProductController.fetchAllProducts);
+        get(Path.Web.PRODUCT, ProductController.getAllProducts);
         get(Path.Web.INDEX, (req, rep) -> {
             return "Hello World";
         });

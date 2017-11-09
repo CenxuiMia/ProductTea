@@ -6,16 +6,16 @@ import java.util.List;
 
 public interface OrderRepository extends Repository {
 
-    List<Order> listAllOrders();
+    List<Order> getAllOrders();
 
-    List<Order> listOrderByTMail(String mail);
+    List<Order> getOrderByTMail(String mail);
 
     Order getOrdersByMailAndTime(String mail, String time);
 
-    void addOrder(Order order);
+    boolean addOrder(Order order);
 
-    void removeOrder();
+    boolean removeOrder();
 
-    void updateOrder();
+    boolean updateOrder();
 
 }
