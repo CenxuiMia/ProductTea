@@ -37,6 +37,7 @@ h3 {
 
 .login {
     float: right;
+    position: fixed;
     border: solid #fff 1px;
     padding: 5px;
     margin: 16px;
