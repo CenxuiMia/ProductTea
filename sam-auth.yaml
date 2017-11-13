@@ -21,7 +21,7 @@ Resources:
       Environment:
         Variables:
           Region: ap-northeast-1
-      Policies: AWSLambdaBasicExecutionRole #modify it
+      Policies: AWSLambdaBasicExecutionRole # todo modify it
       Timeout: 20
       Events:
         GetResource:

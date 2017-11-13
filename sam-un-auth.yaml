@@ -23,7 +23,7 @@ Resources:
           OrderTableURL: 1234567
           ProductTableURL : 7658301
           Region: ap-northeast-1
-      Policies: AWSLambdaBasicExecutionRole # modify it
+      Policies: AWSLambdaBasicExecutionRole # todo modify it
       Timeout: 20
       Events:
         GetResource:
