@@ -24,10 +24,19 @@ public final class Application {
      */
 
     private static void definceBasicResources() {
-        after((request, response) -> {
+        before(((request, response) -> {
             /**
-             * todo modify to https://tw.hwang,com
+             * todo modify to https://tw.hwangying,com
              */
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Request-Method", "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT");
+            response.header("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token");
+
+            // Note: this may or may not be necessary in your particular application
+            response.type("application/json");
+        }));
+        after((request, response) -> {
+
             response.header("Access-Control-Allow-Origin", "*");
                 }
         );

@@ -236,7 +236,6 @@
                         "sessionKey":AWS.config.credentials.secretAccessKey,
                         "sessionToken":AWS.config.credentials.sessionToken
                     }
-                    let credsEncoded = encodeURIComponent(JSON.stringify(creds));
 
                     $.ajax({
                         type : 'GET',
@@ -245,7 +244,6 @@
                             Authorization : id_token
                         },
                         success : function(response) {
-                            console.log("Federated Sign In Token: "+ response.SigninToken);
                             console.log("user message: " + response)
 
                         },
@@ -253,9 +251,6 @@
                             console.log("token error ");
                         }
                     });
-
-
-
                 });
             },
             onFailure: function(err) {
