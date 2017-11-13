@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>皇飲</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
     <script src="auth.js"></script>
     <script src="aws-cognito-sdk.js"></script>
@@ -236,6 +237,25 @@
                         "sessionToken":AWS.config.credentials.sessionToken
                     }
                     let credsEncoded = encodeURIComponent(JSON.stringify(creds));
+
+                    $.ajax({
+                        type : 'GET',
+                        url : endpoint,
+                        headers : {
+                            Authorization : id_token
+                        },
+                        success : function(response) {
+                            console.log("Federated Sign In Token: "+ response.SigninToken);
+                            console.log("user message: " + response)
+
+                        },
+                        error : function(xhr, status, error) {
+                            console.log("token error ");
+                        }
+                    });
+
+
+
                 });
             },
             onFailure: function(err) {

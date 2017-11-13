@@ -2,8 +2,8 @@
 swagger: "2.0"
 info:
   version: "2017-11-04T03:29:08Z"
-  title: "Tea"
-basePath: "/Prod"
+  title: "TeaUnAuth"
+basePath: "/unauth"
 schemes:
 - "https"
 paths:

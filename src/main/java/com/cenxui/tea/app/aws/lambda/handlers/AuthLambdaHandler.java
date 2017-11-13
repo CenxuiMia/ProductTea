@@ -1,17 +1,20 @@
 package com.cenxui.tea.app.aws.lambda.handlers;
 
 import com.amazonaws.serverless.exceptions.ContainerInitializationException;
-import com.amazonaws.serverless.proxy.internal.model.AwsProxyRequest;
-import com.amazonaws.serverless.proxy.internal.model.AwsProxyResponse;
+import com.amazonaws.serverless.proxy.internal.jaxrs.AwsProxySecurityContext;
+import com.amazonaws.serverless.proxy.internal.model.*;
 import com.amazonaws.serverless.proxy.spark.SparkLambdaContainerHandler;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.cenxui.tea.app.Application;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * todo maybe not need this class
- */
-abstract class LambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxyResponse> {
+import java.util.Map;
+
+public class AuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxyResponse> {
     private SparkLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> handler;
+
+    public static final String MAIL = "censmail";
 
     private boolean initialized = false;
 
@@ -29,8 +32,23 @@ abstract class LambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxy
             initialized = true;
         }
 
+        Map<String, String> headers = awsProxyRequest.getHeaders();
+        try {
+
+           headers.put(MAIL, awsProxyRequest.getRequestContext().getAuthorizer().getClaims().getEmail());
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            headers.put(MAIL, "ERROR");
+        }
+
+
+
         return handler.proxy(awsProxyRequest, context);
     }
 
-    abstract void defineRoutes();
+    private void defineRoutes() {
+        Application.defineAuthResources();
+    };
+
 }
