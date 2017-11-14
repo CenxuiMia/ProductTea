@@ -1,0 +1,148 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font: 400 15px/1.8 "Lato", sans-serif;
+    color: #777;
+}
+
+h3 {
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font: 20px "Lato", sans-serif;
+    color: #111;
+}
+
+footer{
+    display: block;
+}
+
+.bgimg-1, .bgimg-2, .bgimg-3 {
+    position: relative;
+    opacity: 0.65;
+    background: no-repeat fixed center;
+    background-size: cover;
+
+}
+
+.bgimg-1 {
+    background-image: url("https://farm5.staticflickr.com/4459/37675712692_795b99cd04_z.jpg");
+    min-height: 100%;
+}
+
+.bgimg-2 {
+    background-image: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg");
+    min-height: 500px;
+}
+
+.bgimg-3 {
+    background-image: url("https://farm5.staticflickr.com/4446/37450412750_af07f40e8e_z.jpg");
+    min-height: 500px;
+}
+
+.login {
+    float: right;
+    border: solid #fff 1px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-right: 10px;
+    margin-top: 5px;
+    text-align: center;
+    display: block;
+}
+
+.login a:link, a:visited {
+    text-decoration: none;
+    background-color: transparent;
+    color: #ffffff;
+    padding: 10px;
+}
+
+.login a:hover {
+    background-color: #777777;
+}
+
+.caption {
+    position: absolute;
+    left: 0;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+    color: #000;
+}
+
+.caption span.border {
+    background-color: #111;
+    color: #fff;
+    font-size: 25px;
+    letter-spacing: 10px;
+}
+
+.footer-title {
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font: 20px "Lato", sans-serif;
+    color: beige;
+}
+
+.footer-text {
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.footer-copyright {
+    clear: both;
+    letter-spacing: 2px;
+    text-align: center;
+    font-size: 12px;
+    padding: 15px;
+}
+
+/* Page content */
+.content {
+    padding-top: 50px;
+    padding-bottom: 60px;
+    min-height: 100%;
+    position: relative;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%
+}
+
+/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+    padding-top: 60px;
+}
+
+#navbar {
+    overflow: auto;
+    position: fixed;
+    background-color: #444444;
+    width: 100%;
+    height: 50px;
+}
+
+/* Navbar links */
+#tab a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+}
+
+#tab a:hover {
+    background-color: #777777;
+}
+
+/* Turn off parallax scrolling for tablets and phones */
+/*@media only screen and (max-device-width: 1024px) {*/
+    /*.bgimg-1, .bgimg-2, .bgimg-3 {*/
+        /*background-attachment: scroll;*/
+    /*}*/
+/*}*/
