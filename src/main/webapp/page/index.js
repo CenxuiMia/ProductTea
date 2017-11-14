@@ -1,7 +1,22 @@
 /**
  * Created by huaying on 09/11/2017.
  */
+const navbar = document.getElementById("navbar");
 
+// Get the offset position of the navbar
+const sticky = navbar.offsetTop;
+
+// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function myFunction() {
+    if (window.pageYOffset >= sticky) {
+        navbar.classList.add("sticky")
+    } else {
+        navbar.classList.remove("sticky");
+    }
+}
+//--------------------------------------
+
+//-------------- aws part --------------
 AWS.config.update({
     region: region,
     credentials: new AWS.CognitoIdentityCredentials({
@@ -17,6 +32,7 @@ AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
 });
 
 AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
+
 // Operations when the web page is loaded.
 function onLoad() {
     // Initiatlize CognitoAuth object
@@ -67,7 +83,20 @@ function initCognitoSDK() {
                     "sessionKey":AWS.config.credentials.secretAccessKey,
                     "sessionToken":AWS.config.credentials.sessionToken
                 }
-                let credsEncoded = encodeURIComponent(JSON.stringify(creds));
+                $.ajax({
+                    type : 'GET',
+                    url : endpoint,
+                    headers : {
+                        Authorization : id_token
+                    },
+                    success : function(response) {
+                        console.log("user message: " + response)
+
+                    },
+                    error : function(xhr, status, error) {
+                        console.log("token error ");
+                    }
+                });
             });
         },
         onFailure: function(err) {
@@ -80,3 +109,4 @@ function initCognitoSDK() {
     // auth.useCodeGrantFlow();
     return auth;
 }
+//--------------------------------------

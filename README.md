@@ -19,6 +19,11 @@ sam.yaml
 
 resource name
 
+app
+
+** dynamodb configuration
+true if it is cloud version
+
 
 deploy to aws 
 
@@ -34,10 +39,18 @@ aws cloudformation deploy --template-file tea-order-table.yaml --stack-name teaO
 
 lambda
 
--gradle build -x test 
+gradle build -x test 
 
-** you can change the sam.yaml details about lambda evironment valuable
+** auth app
 
--aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket <YOUR_BUCKET_NAME>
+aws cloudformation package --template-file sam-auth.yaml --output-template-file output-sam-auth.yaml --s3-bucket tea-lambda
 
--aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file /Users/cenxui/git/tea/output-sam.yaml --stack-name <YOUR_STACK_NAME>
+aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file output-sam-auth.yaml --stack-name tea-auth
+
+** unauth app
+
+aws cloudformation package --template-file sam-un-auth.yaml --output-template-file output-sam-un-auth.yaml --s3-bucket tea-lambda
+
+aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file output-sam-un-auth.yaml --stack-name tea-un-auth
+
+

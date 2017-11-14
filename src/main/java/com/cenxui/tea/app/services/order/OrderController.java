@@ -11,10 +11,6 @@ import java.util.Map;
 
 public class OrderController extends CoreController {
 
-    public static Route getAllProducts = (Request request, Response response) -> {
-        return DynamoDBRepositoryService.getOrderRepository().getAllOrders();
-    };
-
     public static Route getOrderByTMail = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = map.get(Order.MAIL);

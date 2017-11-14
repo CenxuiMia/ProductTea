@@ -14,6 +14,7 @@ public class DynamoDBConfig {
      */
     public static final String URL = "http://localhost:8000";
     public static final String REGION = "ap-northeast-1";
+
     public static final String USER_TABLE = "teaUser";
     public static final String ORDER_TABLE = "teaOrder";
     public static final String PRODUCT_TABLE = "teaProduct";
