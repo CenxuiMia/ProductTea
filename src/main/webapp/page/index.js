@@ -1,6 +1,12 @@
 /**
  * Created by huaying on 09/11/2017.
  */
+
+let signIn = "登入/註冊"
+
+let signOut = "登出"
+
+
 const navbar = document.getElementById("navbar");
 
 // Get the offset position of the navbar
@@ -46,15 +52,19 @@ function onLoad() {
 
 // Operations when signed in.
 function showSignedIn(session) {
-    document.getElementById("signInButton").innerHTML = "Sign Out";
+    let e = document.getElementById("signInButton");
+    e.innerHTML = signOut;
+    e.className = "login";
 }
 
 // Perform user operations.
 function userButton(auth) {
     var state = document.getElementById('signInButton').innerHTML;
     var statestr = state.toString();
-    if (statestr.includes("Sign Out")) {
-        document.getElementById("signInButton").innerHTML = "Sign In";
+    if (statestr.includes(signOut)) {
+        let e = document.getElementById("signInButton");
+        e.innerHTML = signIn;
+        e.className = "login";
         auth.signOut();
         showSignedOut();
     } else {
@@ -101,7 +111,6 @@ function initCognitoSDK() {
         },
         onFailure: function(err) {
             console.log("Error!" + err);
-            document.getElementById("statusAuth").innerHTML = "<h5>Token Expired or Invalid! Signing Out...</h5>"
             auth.signOut();
         }
     };
