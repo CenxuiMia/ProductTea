@@ -83,7 +83,20 @@ function initCognitoSDK() {
                     "sessionKey":AWS.config.credentials.secretAccessKey,
                     "sessionToken":AWS.config.credentials.sessionToken
                 }
-                let credsEncoded = encodeURIComponent(JSON.stringify(creds));
+                $.ajax({
+                    type : 'GET',
+                    url : endpoint,
+                    headers : {
+                        Authorization : id_token
+                    },
+                    success : function(response) {
+                        console.log("user message: " + response)
+
+                    },
+                    error : function(xhr, status, error) {
+                        console.log("token error ");
+                    }
+                });
             });
         },
         onFailure: function(err) {
