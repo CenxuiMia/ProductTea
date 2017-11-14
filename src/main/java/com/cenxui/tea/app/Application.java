@@ -29,12 +29,7 @@ public final class Application {
              * todo modify to https://tw.hwangying,com
              */
             response.header("Access-Control-Allow-Origin", "*");
-            response.header("Access-Control-Request-Method", "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT");
-            response.header("Access-Control-Allow-Headers",
-                    "Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token");
 
-            // Note: this may or may not be necessary in your particular application
-            response.type("application/json");
         }));
 
     }
