@@ -1,6 +1,7 @@
 /**
  * Created by huaying on 09/11/2017.
  */
+//------- sticky navigation bar --------
 const navbar = document.getElementById("navbar");
 
 // Get the offset position of the navbar
