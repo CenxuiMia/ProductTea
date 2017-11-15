@@ -1,11 +1,13 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
-import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.JsonMapProductException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.ProductMapJsonException;
 import com.cenxui.tea.app.aws.dynamodb.item.ItemProduct;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -14,7 +16,16 @@ import java.util.stream.Collectors;
 
 final class DynamoDBProductRepository implements ProductRepository {
 
+    /**
+     * cache in list
+     */
+
     private final List<Product> products;
+
+    /**
+     * cach in Json
+     */
+    private final String productsJson;
 
     //cache all products
     DynamoDBProductRepository() {
@@ -24,18 +35,26 @@ final class DynamoDBProductRepository implements ProductRepository {
         final List<Product> products = new ArrayList<>();
 
         table.scan().forEach(
+
                 (s) -> {
                     ObjectMapper mapper = new ObjectMapper();
                     try {
                         Product product = mapper.readValue(s.toJSON(), ItemProduct.class).getItem();
                         products.add(product);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                       throw new JsonMapProductException();
                     }
                 }
         );
 
         this.products = Collections.unmodifiableList(products);
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            this.productsJson = mapper.writeValueAsString(products);
+        } catch (JsonProcessingException e) {
+            throw new ProductMapJsonException();
+        }
     }
 
     @Override
@@ -66,4 +85,8 @@ final class DynamoDBProductRepository implements ProductRepository {
                 .get();
     }
 
+    @Override
+    public String getAllProductsJSON() {
+        return productsJson;
+    }
 }

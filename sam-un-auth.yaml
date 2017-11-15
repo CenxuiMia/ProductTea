@@ -23,7 +23,9 @@ Resources:
           OrderTableURL: 1234567
           ProductTableURL : 7658301
           Region: ap-northeast-1
-      Policies: AWSLambdaBasicExecutionRole # todo modify it
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonDynamoDBReadOnlyAccess # todo modify it
       Timeout: 20
       Events:
         GetResource:

@@ -40,6 +40,7 @@ footer{
 }
 
 .login {
+    min-width: 100px;
     float: right;
     border: solid #fff 1px;
     padding-top: 5px;
@@ -51,15 +52,22 @@ footer{
     z-index: 1;
 }
 
-.login a:link, a:visited {
+.login a {
     text-decoration: none;
     background-color: transparent;
-    color: #ffffff;
+    color: white;
     padding: 10px;
 }
 
 .login a:hover {
     background-color: #777777;
+}
+
+.login a:active {
+    text-decoration: none;
+    background-color: transparent;
+    color: white;
+    padding: 10px;
 }
 
 .introduce {

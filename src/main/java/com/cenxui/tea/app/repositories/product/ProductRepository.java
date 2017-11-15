@@ -15,4 +15,6 @@ public interface ProductRepository extends Repository {
     List<Product> getProductsByName(String name);
 
     Product getProductByNameVersion(String name, String version);
+
+    String getAllProductsJSON();
 }
