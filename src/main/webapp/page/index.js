@@ -1,6 +1,12 @@
 /**
  * Created by huaying on 09/11/2017.
  */
+
+let signIn = "登入/註冊"
+
+let signOut = "登出"
+
+
 const navbar = document.getElementById("navbar");
 
 // Get the offset position of the navbar
@@ -45,16 +51,20 @@ function onLoad() {
 }
 
 // Operations when signed in.
-function showSignedIn(session) {
-    document.getElementById("signInButton").innerHTML = "Sign Out";
+function showSignedIn() {
+    let e = document.getElementById("signInButton");
+    e.innerHTML = signOut;
+    e.className = "login";
 }
 
 // Perform user operations.
 function userButton(auth) {
     var state = document.getElementById('signInButton').innerHTML;
     var statestr = state.toString();
-    if (statestr.includes("Sign Out")) {
-        document.getElementById("signInButton").innerHTML = "Sign In";
+    if (statestr.includes(signOut)) {
+        let e = document.getElementById("signInButton");
+        e.innerHTML = signIn;
+        e.className = "login";
         auth.signOut();
         showSignedOut();
     } else {
@@ -69,39 +79,29 @@ function initCognitoSDK() {
         onSuccess: function(result) {
             console.log("Cognito Sign in successful!");
             showSignedIn(result);
-            let id_token = auth.signInUserSession.idToken.jwtToken;
+            id_token = auth.signInUserSession.idToken.jwtToken;
             let cognitoParams = {
                 IdentityPoolId: identityPool,
                 Logins: {}
             };
             cognitoParams.Logins["cognito-idp."+region+".amazonaws.com/"+poolId] = id_token;
-            AWS.config.credentials = new AWS.CognitoIdentityCredentials(cognitoParams);
-            AWS.config.getCredentials(function(){
-                let req = new XMLHttpRequest();
-                let creds = {
-                    "sessionId":AWS.config.credentials.accessKeyId,
-                    "sessionKey":AWS.config.credentials.secretAccessKey,
-                    "sessionToken":AWS.config.credentials.sessionToken
-                }
-                $.ajax({
-                    type : 'GET',
-                    url : endpoint,
-                    headers : {
-                        Authorization : id_token
-                    },
-                    success : function(response) {
-                        console.log("user message: " + response)
+            $.ajax({
+                type : 'GET',
+                url : userEndpoint,
+                headers : {
+                    Authorization : id_token
+                },
+                success : function(response) {
+                    console.log("user message: " + response)
 
-                    },
-                    error : function(xhr, status, error) {
-                        console.log("token error ");
-                    }
-                });
+                },
+                error : function(xhr, status, error) {
+                    console.log("token error ");
+                }
             });
         },
         onFailure: function(err) {
             console.log("Error!" + err);
-            document.getElementById("statusAuth").innerHTML = "<h5>Token Expired or Invalid! Signing Out...</h5>"
             auth.signOut();
         }
     };

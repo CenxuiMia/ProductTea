@@ -4,56 +4,100 @@
     <meta charset="UTF-8">
     <title>訂單系統</title>
     <link rel="stylesheet" type="text/css" href="order.css"/>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"/>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="aws-cognito-sdk.js"></script>
+    <script src="amazon-cognito-auth.min.js"></script>
+    <script src="../index.js"/>
+
 </head>
-<body>
+<body onload="onLoad()">
 <div id="content">
 
     <h1 id="center">訂單輸入系統</h1>
 
-    <form id="order_form" name="order_form" class="order_form" action="/oauth" method="post">
+    <form id="order_form" name="order_form" class="order_form">
 
         <div id="accountFields">
             <fieldset>
-                <div class="textinput" id="input_buyer">
-                    <label for="buyer">購買人</label>
-                    <input id="buyer" name="buyer" autocapitalize="off" autocorrect="off" value=""></input>
+                <div class="textinput" id="inputBuyer">
+                    <label for="purchaser">購買人</label>
+                    <input id="purchaser" name="buyer" type="text" autocapitalize="off" autocorrect="off" value=""></input>
                 </div>
-                <div class="textinput" id="input_mail">
+                <div class="textinput" id="inputMail">
                     <label for="mail">電子郵件</label>
                     <input id="mail" name="mail" type="email" autocapitalize="off" autocorrect="off" value=""></input>
                 </div>
-                <div class="textinput" id="input_phone">
+                <div class="textinput" id="inputPhone">
                     <label for="phone">聯絡電話</label>
                     <input id="phone" name="phone" type="tel" autocapitalize="off" autocorrect="off" value=""></input>
                 </div>
-                <div class="textinput" id="input_receiver">
+                <div class="textinput" id="inputReceiver">
                     <label for="receiver">收件人</label>
                     <input id="receiver" name="receiver" autocapitalize="off" autocorrect="off" value=""></input>
                 </div>
-                <div class="textinput" id="input_address">
+                <div class="textinput" id="inputAddress">
                     <label for="address">收件地址</label>
                     <input id="address" name="address" autocapitalize="off" autocorrect="off" value=""></input>
                 </div>
-                <div class="textinput" id="input_purchases">
-                    <label for="purchases">購買商品</label>
-                    <input id="purchases" name="purchases" autocapitalize="off" autocorrect="off" value=""></input>
+                <div class="textinput" id="inputPurchases">
+                    <label for="products">購買商品</label>
+                    <input id="products" name="products" autocapitalize="off" autocorrect="off" value=""></input>
                 </div>
-                <div class="textinput" id="input_money">
+                <div class="textinput" id="inputMoney">
                     <label for="money">消費金額</label>
                     <input id="money" name="money" autocapitalize="off" autocorrect="off" value=""></input>
                 </div>
-                <div class="textinput" id="input_comment">
+                <div class="textinput" id="inputComment">
                     <label for="comment">備註事項</label>
                     <input id="comment" name="comment" autocapitalize="off" autocorrect="off" value=""></input>
                 </div>
             </fieldset>
 
             <div class="buttoninput" id="input_submit_button">
-                <a id="submit_button" class="css3button" href="#" alt="Continue" value="Continue">確認送出</a>
+                <a id="submit_button" class="css3button" href="#" alt="Continue" value="Continue" onclick="addOrder()">確認送出</a>
             </div>
         </div>
 
     </form>
 </div>
+<script>
+
+    function addOrder() {
+        let order = {};
+        order.purchaser = document.getElementById("purchaser").value;
+        order.mail = document.getElementById("mail").value;
+        order.phone = document.getElementById("phone").value;
+        order.receiver = document.getElementById("receiver").value;
+        order.address = document.getElementById("address").value;
+        order.products = [];
+        order.products[0] = document.getElementById("products").value;
+        order.money = document.getElementById("money").value;
+        order.comment = document.getElementById("comment").value;
+        console.info(JSON.stringify(order));
+
+//        let orderEndpoint = "http://localhost:9000/order"; //todo modify it
+
+        $.ajax({
+            type : 'PUT',
+            url : orderEndpoint,
+            headers : {
+                Authorization : id_token
+            },
+            data: JSON.stringify(order),
+            success : function(response) {
+                console.log("message: " + response)
+
+            },
+            error : function(xhr, status, error) {
+                console.log( "error: " + error);
+            }
+        });
+
+    }
+</script>
+
+
 </body>
 </html>

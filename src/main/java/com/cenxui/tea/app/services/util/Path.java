@@ -7,9 +7,8 @@ public class Path {
     // the variables from Velocity Templates
     public static class Web {
         @Getter public static final String INDEX = "/index";
-        @Getter public static final String SIGNIN = "/signin/";
         @Getter public static final String PRODUCT = "/product";
-        @Getter public static final String ORDER = "/order/";
+        @Getter public static final String ORDER = "/order";
         @Getter public static final String TEST= "/test";
     }
 
