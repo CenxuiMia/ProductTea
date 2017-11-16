@@ -15,8 +15,29 @@ public final class Application {
 
         //config
         port(9000);
-        defineUnAuthResources();
-        defineAuthResources();
+        definceBasicResources();
+        AuthResources();
+        UnAuthResources();
+        options("/*",
+                (request, response) -> {
+
+                    String accessControlRequestHeaders = request
+                            .headers("Access-Control-Request-Headers");
+                    if (accessControlRequestHeaders != null) {
+                        response.header("Access-Control-Allow-Headers",
+                                accessControlRequestHeaders);
+                    }
+
+                    String accessControlRequestMethod = request
+                            .headers("Access-Control-Request-Method");
+                    if (accessControlRequestMethod != null) {
+                        response.header("Access-Control-Allow-Methods",
+                                accessControlRequestMethod);
+                    }
+
+                    return "OK";
+                });
+
     }
 
     /**
@@ -29,30 +50,18 @@ public final class Application {
              * todo modify to https://tw.hwangying,com
              */
             response.header("Access-Control-Allow-Origin", "*");
-
         }));
-
     }
 
-    /**
-     * add unauth route here
-     */
 
-    public static void defineUnAuthResources() {
+    private static void UnAuthResources() {
         get(Path.Web.PRODUCT, ProductController.getAllProducts);
         get(Path.Web.INDEX, (req, rep) -> {
             return "Hello World";
         });
-
-        definceBasicResources();
     }
 
-    /**
-     * add auth route here
-     */
-
-    public static void defineAuthResources() {
-
+    private static void AuthResources() {
         get("/users/:name", ((request, response) -> {
 
             String name = request.params(":name");
@@ -73,9 +82,27 @@ public final class Application {
             return "user : " + userdata.get(AuthLambdaHandler.MAIL) ;
         }));
 
+        put(Path.Web.ORDER, ((OrderController.addOrder)));
 
+    }
+
+
+    /**
+     * add unauth route here
+     */
+
+    public static void defineUnAuthResources() {
+        UnAuthResources();
         definceBasicResources();
+    }
 
+    /**
+     * add auth route here
+     */
+
+    public static void defineAuthResources() {
+        AuthResources();
+        definceBasicResources();
     }
 
 }

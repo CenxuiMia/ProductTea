@@ -44,13 +44,21 @@ public class ItemUtil {
                 .withPrimaryKey(Order.MAIL, order.getMail(), Order.TIME, order.getTime())
                 .withStringSet(Order.PRODUCTS, productSet)
                 .withString(Order.PURCHASER, order.getPurchaser())
+                .withNumber(Order.MONEY, order.getMoney())
+                .withString(Order.RECEIVER, order.getReceiver())
                 .withString(Order.PHONE, order.getPhone())
                 .withString(Order.ADDRESS, order.getAddress())
-                .withString(Order.COMMENTS, order.getComments())
-                .withString(Order.PAID_DATE, order.getPaidDate())
-                .withString(Order.SHIP_DATE, order.getShipDate());
+                .withString(Order.COMMENT, order.getComment());
 
-        if (order.getIsActive() == true) {
+            if (order.getPaidDate() != null) {
+                item.withString(Order.PAID_DATE, order.getPaidDate());
+            }
+
+            if (order.getShipDate() != null) {
+                item.withString(Order.SHIP_DATE, order.getShipDate());
+            }
+
+        if (order.getIsActive() != Boolean.FALSE) {
             item.withBoolean(Order.IS_ACTIVE, true);
         }
 
