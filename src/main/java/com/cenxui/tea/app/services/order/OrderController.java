@@ -32,18 +32,26 @@ public class OrderController extends CoreController {
     public static Route addOrder = (Request request, Response response) -> {
         String body = request.body();
 
-        String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
+//        String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
 
         //todo modify order
 
         ObjectMapper mapper = new ObjectMapper();
         Order order = mapper.readValue(body, Order.class);
 
+        System.out.println(order);
+
         try {
             DynamoDBRepositoryService.getOrderRepository().addOrder(order);
         }catch (Throwable e) {
-            e.printStackTrace();
-            return "data repository error : " + e.getMessage();
+
+            StringBuilder trace = new StringBuilder();
+
+            for (StackTraceElement element : e.getStackTrace()) {
+                trace.append(element.toString());
+            }
+
+            return "data repository error : " + trace.toString();
         }
 
         return "success";
