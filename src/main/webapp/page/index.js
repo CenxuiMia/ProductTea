@@ -6,6 +6,22 @@ let signIn = "登入/註冊"
 
 let signOut = "登出"
 
+
+const navbar = document.getElementById("navbar");
+
+// Get the offset position of the navbar
+const sticky = navbar.offsetTop;
+
+// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function myFunction() {
+    if (window.pageYOffset >= sticky) {
+        navbar.classList.add("sticky")
+    } else {
+        navbar.classList.remove("sticky");
+    }
+}
+//--------------------------------------
+
 //-------------- aws part --------------
 AWS.config.update({
     region: region,
@@ -35,7 +51,7 @@ function onLoad() {
 }
 
 // Operations when signed in.
-function showSignedIn(session) {
+function showSignedIn() {
     let e = document.getElementById("signInButton");
     e.innerHTML = signOut;
     e.className = "login";
@@ -64,33 +80,32 @@ function initCognitoSDK() {
             console.log("Cognito Sign in successful!");
             showSignedIn(result);
             let id_token = auth.signInUserSession.idToken.jwtToken;
+
+            var cookieName = cookieToken;
+            var cookieValue = id_token;
+            var myDate = new Date();
+            myDate.setMonth(myDate.getMonth() + 12);
+            document.cookie = cookieName +"=" + cookieValue + ";expires=" + myDate
+                + ";domain=.hwangying.com;path=/";
+
             let cognitoParams = {
                 IdentityPoolId: identityPool,
                 Logins: {}
             };
             cognitoParams.Logins["cognito-idp."+region+".amazonaws.com/"+poolId] = id_token;
-            AWS.config.credentials = new AWS.CognitoIdentityCredentials(cognitoParams);
-            AWS.config.getCredentials(function(){
-                let req = new XMLHttpRequest();
-                let creds = {
-                    "sessionId":AWS.config.credentials.accessKeyId,
-                    "sessionKey":AWS.config.credentials.secretAccessKey,
-                    "sessionToken":AWS.config.credentials.sessionToken
-                }
-                $.ajax({
-                    type : 'GET',
-                    url : endpoint,
-                    headers : {
-                        Authorization : id_token
-                    },
-                    success : function(response) {
-                        console.log("user message: " + response)
+            $.ajax({
+                type : 'GET',
+                url : userEndpoint,
+                headers : {
+                    Authorization : id_token
+                },
+                success : function(response) {
+                    console.log("user message: " + response)
 
-                    },
-                    error : function(xhr, status, error) {
-                        console.log("token error ");
-                    }
-                });
+                },
+                error : function(xhr, status, error) {
+                    console.log("token error ");
+                }
             });
         },
         onFailure: function(err) {
@@ -98,6 +113,9 @@ function initCognitoSDK() {
             auth.signOut();
         }
     };
+
+
+
     // The default response_type is "token", uncomment the next line will make it be "code".
     // auth.useCodeGrantFlow();
     return auth;
