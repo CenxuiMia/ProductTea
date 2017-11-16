@@ -5,6 +5,9 @@ let clientId = '4ho3iodosfju9a96odrv3gavvb'; //Cognito User Pool App
 let appDomain = 'cens.auth.ap-northeast-1.amazoncognito.com';
 let userEndpoint = "https://2w1vis3iw8.execute-api.ap-northeast-1.amazonaws.com/Auth/user"; //API Endpoint URL
 let orderEndpoint = "https://2w1vis3iw8.execute-api.ap-northeast-1.amazonaws.com/Auth/order";
+let productEndpoint = "https://2vhhlhju8c.execute-api.ap-northeast-1.amazonaws.com/UnAuth/product";
+
+let cookieToken = "id_token";
 
 let authData = {
     ClientId : clientId, 
@@ -14,5 +17,4 @@ let authData = {
     RedirectUriSignOut : 'https://tw.hwangying.com' //CloudFront Distribution URL
 };
 
-var id_token;
 

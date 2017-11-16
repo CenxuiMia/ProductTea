@@ -79,7 +79,15 @@ function initCognitoSDK() {
         onSuccess: function(result) {
             console.log("Cognito Sign in successful!");
             showSignedIn(result);
-            id_token = auth.signInUserSession.idToken.jwtToken;
+            let id_token = auth.signInUserSession.idToken.jwtToken;
+
+            var cookieName = cookieToken;
+            var cookieValue = id_token;
+            var myDate = new Date();
+            myDate.setMonth(myDate.getMonth() + 12);
+            document.cookie = cookieName +"=" + cookieValue + ";expires=" + myDate
+                + ";domain=.hwangying.com;path=/";
+
             let cognitoParams = {
                 IdentityPoolId: identityPool,
                 Logins: {}
@@ -105,6 +113,9 @@ function initCognitoSDK() {
             auth.signOut();
         }
     };
+
+
+
     // The default response_type is "token", uncomment the next line will make it be "code".
     // auth.useCodeGrantFlow();
     return auth;

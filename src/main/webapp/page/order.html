@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <title>訂單系統</title>
     <link rel="stylesheet" type="text/css" href="order.css"/>
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"/>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
     <script src="auth.js"></script>
     <script src="aws-cognito-sdk.js"></script>
     <script src="amazon-cognito-auth.min.js"></script>
-    <script src="../index.js"/>
 
 </head>
 <body onload="onLoad()">
@@ -23,35 +22,35 @@
             <fieldset>
                 <div class="textinput" id="inputBuyer">
                     <label for="purchaser">購買人</label>
-                    <input id="purchaser" name="buyer" type="text" autocapitalize="off" autocorrect="off" value=""></input>
+                    <input id="purchaser" name="buyer" type="text" autocapitalize="off" autocorrect="off" value="cenxui"></input>
                 </div>
                 <div class="textinput" id="inputMail">
                     <label for="mail">電子郵件</label>
-                    <input id="mail" name="mail" type="email" autocapitalize="off" autocorrect="off" value=""></input>
+                    <input id="mail" name="mail" type="email" autocapitalize="off" autocorrect="off" value="cenxuilin@gmail.com"></input>
                 </div>
                 <div class="textinput" id="inputPhone">
                     <label for="phone">聯絡電話</label>
-                    <input id="phone" name="phone" type="tel" autocapitalize="off" autocorrect="off" value=""></input>
+                    <input id="phone" name="phone" type="tel" autocapitalize="off" autocorrect="off" value="0928554033"></input>
                 </div>
                 <div class="textinput" id="inputReceiver">
                     <label for="receiver">收件人</label>
-                    <input id="receiver" name="receiver" autocapitalize="off" autocorrect="off" value=""></input>
+                    <input id="receiver" name="receiver" autocapitalize="off" autocorrect="off" value="mai"></input>
                 </div>
                 <div class="textinput" id="inputAddress">
                     <label for="address">收件地址</label>
-                    <input id="address" name="address" autocapitalize="off" autocorrect="off" value=""></input>
+                    <input id="address" name="address" autocapitalize="off" autocorrect="off" value="no"></input>
                 </div>
                 <div class="textinput" id="inputPurchases">
                     <label for="products">購買商品</label>
-                    <input id="products" name="products" autocapitalize="off" autocorrect="off" value=""></input>
+                    <input id="products" name="products" autocapitalize="off" autocorrect="off" value="green tea"></input>
                 </div>
                 <div class="textinput" id="inputMoney">
                     <label for="money">消費金額</label>
-                    <input id="money" name="money" autocapitalize="off" autocorrect="off" value=""></input>
+                    <input id="money" name="money" autocapitalize="off" autocorrect="off" value="1000"></input>
                 </div>
                 <div class="textinput" id="inputComment">
                     <label for="comment">備註事項</label>
-                    <input id="comment" name="comment" autocapitalize="off" autocorrect="off" value=""></input>
+                    <input id="comment" name="comment" autocapitalize="off" autocorrect="off" value="none"></input>
                 </div>
             </fieldset>
 
@@ -63,6 +62,29 @@
     </form>
 </div>
 <script>
+    var id_token;
+
+    function onLoad() {
+        id_token = getCookie(cookieToken);
+        console.info("id_token : " + id_token);
+
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
 
     function addOrder() {
         let order = {};
@@ -75,9 +97,8 @@
         order.products[0] = document.getElementById("products").value;
         order.money = document.getElementById("money").value;
         order.comment = document.getElementById("comment").value;
-        console.info(JSON.stringify(order));
-
-//        let orderEndpoint = "http://localhost:9000/order"; //todo modify it
+//        console.info(JSON.stringify(order));
+        console.info("token : " + id_token);
 
         $.ajax({
             type : 'PUT',
@@ -96,6 +117,7 @@
         });
 
     }
+
 </script>
 
 

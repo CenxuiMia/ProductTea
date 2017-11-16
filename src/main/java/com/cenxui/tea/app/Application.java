@@ -18,24 +18,6 @@ public final class Application {
         definceBasicResources();
         AuthResources();
         UnAuthResources();
-    }
-
-    /**
-     * add same route here
-     */
-
-    private static void definceBasicResources() {
-        before(((request, response) -> {
-            /**
-             * todo modify to https://tw.hwangying,com
-             */
-            response.header("Access-Control-Allow-Origin", "*");
-        }));
-
-        /**
-         * remove it after test
-         */
-
         options("/*",
                 (request, response) -> {
 
@@ -56,6 +38,19 @@ public final class Application {
                     return "OK";
                 });
 
+    }
+
+    /**
+     * add same route here
+     */
+
+    private static void definceBasicResources() {
+        before(((request, response) -> {
+            /**
+             * todo modify to https://tw.hwangying,com
+             */
+            response.header("Access-Control-Allow-Origin", "*");
+        }));
     }
 
 
