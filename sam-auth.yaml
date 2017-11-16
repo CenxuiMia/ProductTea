@@ -21,7 +21,9 @@ Resources:
       Environment:
         Variables:
           Region: ap-northeast-1
-      Policies: AWSLambdaBasicExecutionRole # todo modify it
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonDynamoDBFullAccess # todo modify it
       Timeout: 20
       Events:
         GetResource:

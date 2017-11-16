@@ -33,18 +33,19 @@ public class AuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsPro
         }
 
         Map<String, String> headers = awsProxyRequest.getHeaders();
-        try {
 
-           headers.put(MAIL, awsProxyRequest.getRequestContext().getAuthorizer().getClaims().getEmail());
+        AwsProxyResponse response = null;
+
+        try {
+            headers.put(MAIL, awsProxyRequest.getRequestContext().getAuthorizer().getClaims().getEmail());
+
+            response = handler.proxy(awsProxyRequest, context);
 
         }catch (Exception e) {
-            e.printStackTrace();
-            headers.put(MAIL, "ERROR");
+            context.getLogger().log(e.getMessage());
         }
 
-
-
-        return handler.proxy(awsProxyRequest, context);
+        return response;
     }
 
     private void defineRoutes() {

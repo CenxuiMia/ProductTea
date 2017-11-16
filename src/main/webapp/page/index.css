@@ -40,6 +40,7 @@ footer{
 }
 
 .login {
+    min-width: 100px;
     float: right;
     border: solid #fff 1px;
     padding-top: 5px;
@@ -51,15 +52,22 @@ footer{
     z-index: 1;
 }
 
-.login a:link, a:visited {
+.login a {
     text-decoration: none;
     background-color: transparent;
-    color: #ffffff;
+    color: white;
     padding: 10px;
 }
 
 .login a:hover {
     background-color: #777777;
+}
+
+.login a:active {
+    text-decoration: none;
+    background-color: transparent;
+    color: white;
+    padding: 10px;
 }
 
 .introduce {
@@ -101,26 +109,6 @@ footer{
     text-align: center;
     font-size: 12px;
     padding: 15px;
-}
-
-/* Page content */
-.content {
-    padding-top: 50px;
-    padding-bottom: 60px;
-    min-height: 100%;
-    position: relative;
-}
-
-/* The sticky class is added to the navbar with JS when it reaches its scroll position */
-.sticky {
-    position: fixed;
-    top: 0;
-    width: 100%
-}
-
-/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-.sticky + .content {
-    padding-top: 60px;
 }
 
 #navbar {
