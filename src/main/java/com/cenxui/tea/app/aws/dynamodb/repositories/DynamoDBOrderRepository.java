@@ -110,7 +110,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         try {
              order = objectMapper.readValue(itemJson, Order.class);
         } catch (IOException e) {
-            throw new OrderJsonMapException(e.getMessage(), itemJson);
+            throw new OrderJsonMapException(itemJson);
         }
         return order;
     }
@@ -131,7 +131,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         try {
             order = objectMapper.readValue(itemJson, Order.class);
         } catch (IOException e) {
-            throw new OrderJsonMapException(e.getMessage(), itemJson);
+            throw new OrderJsonMapException(itemJson);
         }
         return order;
     }

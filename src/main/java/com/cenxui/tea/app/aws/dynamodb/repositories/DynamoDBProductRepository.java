@@ -38,11 +38,12 @@ final class DynamoDBProductRepository implements ProductRepository {
 
                 (s) -> {
                     ObjectMapper mapper = new ObjectMapper();
+                    String productJson = s.toJSON();
                     try {
-                        Product product = mapper.readValue(s.toJSON(), ItemProduct.class).getItem();
+                        Product product = mapper.readValue(productJson, ItemProduct.class).getItem();
                         products.add(product);
                     } catch (IOException e) {
-                       throw new ProductJsonMapException();
+                       throw new ProductJsonMapException(productJson);
                     }
                 }
         );
@@ -53,7 +54,7 @@ final class DynamoDBProductRepository implements ProductRepository {
             ObjectMapper mapper = new ObjectMapper();
             this.productsJson = mapper.writeValueAsString(products);
         } catch (JsonProcessingException e) {
-            throw new ProductMapJsonException();
+            throw new ProductMapJsonException(products);
         }
     }
 

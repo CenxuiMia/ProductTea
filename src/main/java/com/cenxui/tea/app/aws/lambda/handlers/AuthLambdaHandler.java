@@ -1,13 +1,12 @@
 package com.cenxui.tea.app.aws.lambda.handlers;
 
 import com.amazonaws.serverless.exceptions.ContainerInitializationException;
-import com.amazonaws.serverless.proxy.internal.jaxrs.AwsProxySecurityContext;
 import com.amazonaws.serverless.proxy.internal.model.*;
 import com.amazonaws.serverless.proxy.spark.SparkLambdaContainerHandler;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.cenxui.tea.app.Application;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.cenxui.tea.app.aws.lambda.AWSLambdaLogger;
 
 import java.util.Map;
 
@@ -42,7 +41,7 @@ public class AuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsPro
             response = handler.proxy(awsProxyRequest, context);
 
         }catch (Exception e) {
-            context.getLogger().log(e.getMessage());
+            AWSLambdaLogger.log(context, e);
         }
 
         return response;

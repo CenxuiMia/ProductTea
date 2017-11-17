@@ -7,6 +7,7 @@ import com.amazonaws.serverless.proxy.spark.SparkLambdaContainerHandler;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.cenxui.tea.app.Application;
+import com.cenxui.tea.app.aws.lambda.AWSLambdaLogger;
 
 public class UnAuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxyResponse> {
     private SparkLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> handler;
@@ -32,7 +33,7 @@ public class UnAuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsP
         try {
             response = handler.proxy(awsProxyRequest, context);
         }catch (Exception e) {
-            context.getLogger().log(e.getMessage());
+            AWSLambdaLogger.log(context, e);
         }
 
         return response;
