@@ -109,6 +109,10 @@ body, html {
     margin: 2% 4.5% 2% 4.5%;
 }
 
+.prod-wrapper a:hover {
+    opacity: 0.8;
+}
+
 .info {
     position: absolute;
     width: 100%;
@@ -116,6 +120,11 @@ body, html {
     bottom: 0;
     color: white;
     text-align: center;
+}
+
+.info b {
+    font-size: 1.12em;
+    letter-spacing: 2px;
 }
 
 @media (max-width: 1200px) {
