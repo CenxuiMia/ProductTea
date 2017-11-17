@@ -7,16 +7,22 @@ body, html {
 .header {
     padding: 30px;
     text-align: center;
-    color: #f7f7f7;
-    opacity: 0.65;
+    color: white;
+    opacity: 0.8;
     background: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg") no-repeat center;
     background-size: cover;
     min-height: 200px;
 }
 
-.header h2 { font-size: 32px; }
+.header h2 {
+    font-size: 36px;
+    opacity: 1;
+}
 
-.header p { font-size: 20px; }
+.header p {
+    font-size: 20px;
+    opacity: 1;
+}
 
 #navbar {
     overflow: hidden;
