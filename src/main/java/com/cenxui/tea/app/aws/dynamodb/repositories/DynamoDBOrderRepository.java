@@ -1,5 +1,6 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
+import com.amazonaws.services.dynamodbv2.document.Index;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
@@ -24,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * todo need to add condition isActive
+ * todo scan should have some limit
  */
 
 class DynamoDBOrderRepository implements OrderRepository {
@@ -33,10 +34,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public List<Order> getAllOrders() {
-
         ItemCollection collection = orderTable.scan();
-
-        return getOrders(collection);
+        return mapToOrders(collection);
     }
 
 
@@ -44,8 +43,33 @@ class DynamoDBOrderRepository implements OrderRepository {
     public List<Order> getOrderByTMail(String mail) {
         ItemCollection collection = orderTable.query(Order.MAIL, mail);
 
-        return getOrders(collection);
+        return mapToOrders(collection);
     }
+
+    @Override
+    public List<Order> getAllProcessingOrders() {
+        Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PROCESSING_INDEX);
+        ItemCollection collection = index.scan();
+
+        return mapToOrders(collection);
+    }
+
+    @Override
+    public List<Order> getAllShippedOrders() {
+        Index index = orderTable.getIndex(DynamoDBConfig.ORDER_SHIPPED_INDEX);
+        ItemCollection collection = index.scan();
+
+        return mapToOrders(collection);
+    }
+
+    @Override
+    public List<Order> getAllPaidOrders() {
+        Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PAID_INDEX);
+        ItemCollection collection = index.scan();
+
+        return mapToOrders(collection);
+    }
+
 
     @Override
     public Order getOrdersByMailAndTime(String mail, String time) {
@@ -53,17 +77,18 @@ class DynamoDBOrderRepository implements OrderRepository {
         //todo
     }
 
-    private List<Order> getOrders(ItemCollection collection) {
+    private List<Order> mapToOrders(ItemCollection collection) {
         List<Order> orders = new ArrayList<>();
 
         collection.forEach(
                 (s) -> {
                     ObjectMapper mapper = new ObjectMapper();
+                    String orderJson = s.toString();
                     try {
-                        Order order = mapper.readValue(s.toString(), ItemOrder.class).getItem();
+                        Order order = mapper.readValue(orderJson, ItemOrder.class).getItem();
                         orders.add(order);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        throw new OrderJsonMapException(orderJson);
                     }
                 }
         );
@@ -118,6 +143,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Order deActiveOrder(String mail, String time) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
+                .withConditionExpression("attribute_not_exists(" + Order.PAID_DATE + ")")
                 .withUpdateExpression("remove " + Order.IS_ACTIVE)
                 .withReturnValues(ReturnValue.ALL_NEW);
 
@@ -140,6 +166,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
                 .withUpdateExpression("set " + Order.PAID_DATE + "=:pa,"+ Order.PROCESS_DATE+ "=:pr")
+                .withConditionExpression("attribute_exists(" + Order.IS_ACTIVE +")")
                 .withValueMap(new ValueMap().withString(":pa" , date).withString(":pr", date))
                 .withReturnValues(ReturnValue.ALL_NEW);
 

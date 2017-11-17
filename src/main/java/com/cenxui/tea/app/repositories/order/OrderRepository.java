@@ -10,6 +10,12 @@ public interface OrderRepository extends Repository {
 
     List<Order> getOrderByTMail(String mail);
 
+    List<Order> getAllProcessingOrders();
+
+    List<Order> getAllShippedOrders();
+
+    List<Order> getAllPaidOrders();
+
     Order getOrdersByMailAndTime(String mail, String time);
 
     boolean addOrder(Order order);

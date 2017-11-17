@@ -32,8 +32,8 @@ public class Order {
 
     public static final String COMMENT = "comment";
     public static final String PAID_DATE = "paidDate";
-    public static final String SHIP_DATE = "shipDate";
-    public static final String PROCESS_DATE = "processDate";
+    public static final String SHIP_DATE = "shippedDate";
+    public static final String PROCESS_DATE = "processingDate";
     public static final String IS_ACTIVE = "isActive";
 
     String mail; // default user email
@@ -48,8 +48,8 @@ public class Order {
     String comment;
 
     String paidDate;
-    String processDate;
-    String shipDate;
+    String processingDate;
+    String shippedDate;
     Boolean isActive;
 
 

@@ -54,12 +54,12 @@ public class ItemUtil {
             item.withString(Order.PAID_DATE, order.getPaidDate());
         }
 
-        if (order.getShipDate() != null) {
-            item.withString(Order.SHIP_DATE, order.getShipDate());
+        if (order.getShippedDate() != null) {
+            item.withString(Order.SHIP_DATE, order.getShippedDate());
         }
 
-        if (order.getProcessDate() != null) {
-            item.withString(Order.PROCESS_DATE, order.getProcessDate());
+        if (order.getProcessingDate() != null) {
+            item.withString(Order.PROCESS_DATE, order.getProcessingDate());
         }
 
         if (order.getIsActive() != Boolean.FALSE) {

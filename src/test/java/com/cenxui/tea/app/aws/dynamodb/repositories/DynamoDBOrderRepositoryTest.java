@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class DynamoDBOrderRepositoryTest {
+
     @Test
     public void getAllOrders() throws Exception {
     }
@@ -27,7 +28,11 @@ public class DynamoDBOrderRepositoryTest {
     }
 
     @Test
-    public void updateOrder() throws Exception {
+    public void activeOrder() {
+        Order order = DynamoDBRepositoryService.
+                getOrderRepository().
+                activeOrder("cenxuilin@gmail.com", "2017-11-16T10:53:48");
+        System.out.println(order);
     }
 
     @Test
@@ -47,10 +52,27 @@ public class DynamoDBOrderRepositoryTest {
     }
 
     @Test
+    public void dePayOrder() throws Exception {
+        Order order = DynamoDBRepositoryService.
+                getOrderRepository().
+                dePayOrder("cenxuilin@gmail.com", "2017-11-16T10:53:48");
+        System.out.println(order);
+    }
+
+
+    @Test
     public void shipOrder() throws Exception {
         Order order = DynamoDBRepositoryService.
                 getOrderRepository().
                 shipOrder("cenxuilin@gmail.com", "2017-11-16T10:53:48");
+        System.out.println(order);
+    }
+
+    @Test
+    public void deShipOrder() {
+        Order order = DynamoDBRepositoryService.
+                getOrderRepository().
+                deShipOrder("cenxuilin@gmail.com", "2017-11-16T10:53:48");
         System.out.println(order);
     }
 
