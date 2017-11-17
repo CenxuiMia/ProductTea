@@ -32,14 +32,24 @@ public class OrderController extends CoreController {
     public static Route addOrder = (Request request, Response response) -> {
         String body = request.body();
 
-//        String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
+        String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
 
-        //todo modify order
 
         ObjectMapper mapper = new ObjectMapper();
-        Order order = mapper.readValue(body, Order.class);
+        Order clientOrder = mapper.readValue(body, Order.class);
 
-        System.out.println(order);
+        Order order = Order.of(
+                mail,
+                clientOrder.getProducts(),      //todo modify products
+                clientOrder.getPurchaser(),
+                clientOrder.getMoney(),         //todo modify order money
+                clientOrder.getReceiver(),
+                clientOrder.getPhone(),
+                clientOrder.getAddress(),
+                clientOrder.getComment(),
+                null,
+                null,
+                Boolean.TRUE);
 
         try {
             DynamoDBRepositoryService.getOrderRepository().addOrder(order);
@@ -61,8 +71,11 @@ public class OrderController extends CoreController {
         throw new UnsupportedOperationException("not yet");
     };
 
-    public static Route removeUser = (Request request, Response response) -> {
+    public static Route payOrder =  (Request request, Response response) -> {
+        throw new UnsupportedOperationException("not yet");
+    };
 
+    public static Route shipOrder =  (Request request, Response response) -> {
         throw new UnsupportedOperationException("not yet");
     };
 }

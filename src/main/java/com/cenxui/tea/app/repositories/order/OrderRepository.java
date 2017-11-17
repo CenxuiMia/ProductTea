@@ -18,4 +18,10 @@ public interface OrderRepository extends Repository {
 
     boolean updateOrder();
 
+    Order deActiveOrder(String mail, String time);
+
+    Order payOrder(String mail, String time);
+
+    Order shipOrder(String mail, String time);
+
 }

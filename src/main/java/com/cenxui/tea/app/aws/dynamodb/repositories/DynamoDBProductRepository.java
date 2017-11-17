@@ -1,8 +1,8 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.JsonMapProductException;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.ProductMapJsonException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.map.ProductJsonMapException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.map.ProductMapJsonException;
 import com.cenxui.tea.app.aws.dynamodb.item.ItemProduct;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.product.Product;
@@ -42,7 +42,7 @@ final class DynamoDBProductRepository implements ProductRepository {
                         Product product = mapper.readValue(s.toJSON(), ItemProduct.class).getItem();
                         products.add(product);
                     } catch (IOException e) {
-                       throw new JsonMapProductException();
+                       throw new ProductJsonMapException();
                     }
                 }
         );

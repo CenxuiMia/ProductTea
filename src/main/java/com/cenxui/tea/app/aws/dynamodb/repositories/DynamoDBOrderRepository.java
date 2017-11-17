@@ -3,8 +3,13 @@ package com.cenxui.tea.app.aws.dynamodb.repositories;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
+import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
+import com.amazonaws.services.dynamodbv2.model.ReturnValue;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.map.OrderJsonMapException;
 import com.cenxui.tea.app.aws.dynamodb.item.ItemOrder;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
@@ -72,9 +77,9 @@ class DynamoDBOrderRepository implements OrderRepository {
             orderTable.putItem(putItemSpec);
             return true;
         } catch (DuplicateProductException e) {
-            System.out.println("Product record can not be duplicated ");
+            System.out.println("Product record can not be duplicated "); //todo modify to runtime exception
         } catch (ConditionalCheckFailedException e) {
-            System.out.println("Record already exists in Dynamo DB Table");
+            System.out.println("Record already exists in Dynamo DB Table"); //todo modify to runtime exception
         }
         return false;
     }
@@ -89,6 +94,51 @@ class DynamoDBOrderRepository implements OrderRepository {
     public boolean updateOrder() {
         //todo
         throw new UnsupportedOperationException("not yet");
+    }
+
+    @Override
+    public Order deActiveOrder(String mail, String time) {
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec()
+                .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
+                .withUpdateExpression("remove " + Order.IS_ACTIVE)
+                .withReturnValues(ReturnValue.ALL_NEW);
+
+        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+        String itemJson = outcome.getItem().toJSON();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Order order = null;
+        try {
+             order = objectMapper.readValue(itemJson, Order.class);
+        } catch (IOException e) {
+            throw new OrderJsonMapException(e.getMessage(), itemJson);
+        }
+        return order;
+    }
+
+    @Override
+    public Order payOrder(String mail, String time) {
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec()
+                .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
+                .withUpdateExpression("add " + Order.PAID_DATE)
+
+                //todo add paid date
+                .withReturnValues(ReturnValue.ALL_NEW);
+
+        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+        String itemJson = outcome.getItem().toJSON();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Order order = null;
+        try {
+            order = objectMapper.readValue(itemJson, Order.class);
+        } catch (IOException e) {
+            throw new OrderJsonMapException(e.getMessage(), itemJson);
+        }
+        return order;
+    }
+
+    @Override
+    public Order shipOrder(String mail, String time) {
+        return null;
     }
 
 }
