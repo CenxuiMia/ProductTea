@@ -88,6 +88,51 @@ body, html {
 
 .content {
     padding: 16px;
+    z-index: -1;
+}
+
+.prod-list {
+    display: table;
+    margin: 2%;
+}
+
+.prod-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 40%;
+    margin: 2% 4.5% 2% 4.5%;
+}
+
+.info {
+    position: absolute;
+    width: 100%;
+    padding: 10px;
+    bottom: 0;
+    color: white;
+    text-align: center;
+}
+
+@media (max-width: 1200px) {
+    .info {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .info {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 800px) {
+    .prod-wrapper {
+        width: 90%;
+        margin: 2% 5% 2% 5%;
+    }
+
+    .info {
+        font-size: 15px;
+    }
 }
 
 .footer-copyright {
