@@ -14,6 +14,13 @@ Resources:
         -
           AttributeName: "paidDate"
           AttributeType: "S"
+        -
+          AttributeName: "processingDate"
+          AttributeType: "S"
+        -
+          AttributeName: "shippedDate"
+          AttributeType: "S"
+
 
       KeySchema:
         -
@@ -29,11 +36,33 @@ Resources:
 
       GlobalSecondaryIndexes:
         -
-          IndexName: "orderIndex"
+          IndexName: "paidIndex"
           KeySchema:
-            -
-              AttributeName: "paidDate"
-              KeyType: "HASH"
+          -
+            AttributeName: "paidDate"
+            KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+          ProvisionedThroughput:
+            ReadCapacityUnits: "1"
+            WriteCapacityUnits: "1"
+        -
+          IndexName: "processingIndex"
+          KeySchema:
+          -
+            AttributeName: "processingDate"
+            KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+          ProvisionedThroughput:
+            ReadCapacityUnits: "1"
+            WriteCapacityUnits: "1"
+        -
+          IndexName: "shippedIndex"
+          KeySchema:
+          -
+            AttributeName: "shippedDate"
+            KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"
           ProvisionedThroughput:

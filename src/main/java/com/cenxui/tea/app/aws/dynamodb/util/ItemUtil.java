@@ -50,13 +50,17 @@ public class ItemUtil {
                 .withString(Order.ADDRESS, order.getAddress())
                 .withString(Order.COMMENT, order.getComment());
 
-            if (order.getPaidDate() != null) {
-                item.withString(Order.PAID_DATE, order.getPaidDate());
-            }
+        if (order.getPaidDate() != null) {
+            item.withString(Order.PAID_DATE, order.getPaidDate());
+        }
 
-            if (order.getShipDate() != null) {
-                item.withString(Order.SHIP_DATE, order.getShipDate());
-            }
+        if (order.getShippedDate() != null) {
+            item.withString(Order.SHIP_DATE, order.getShippedDate());
+        }
+
+        if (order.getProcessingDate() != null) {
+            item.withString(Order.PROCESS_DATE, order.getProcessingDate());
+        }
 
         if (order.getIsActive() != Boolean.FALSE) {
             item.withBoolean(Order.IS_ACTIVE, true);
