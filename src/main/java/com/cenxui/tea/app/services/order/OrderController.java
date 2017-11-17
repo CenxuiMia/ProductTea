@@ -34,16 +34,35 @@ public class OrderController extends CoreController {
 
         String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
 
-        //todo modify order
 
         ObjectMapper mapper = new ObjectMapper();
-        Order order = mapper.readValue(body, Order.class);
+        Order clientOrder = mapper.readValue(body, Order.class);
+
+        Order order = Order.of(
+                mail,
+                clientOrder.getProducts(),      //todo modify products
+                clientOrder.getPurchaser(),
+                clientOrder.getMoney(),         //todo modify order money
+                clientOrder.getReceiver(),
+                clientOrder.getPhone(),
+                clientOrder.getAddress(),
+                clientOrder.getComment(),
+                null,
+                null,
+                null,
+                Boolean.TRUE);
 
         try {
             DynamoDBRepositoryService.getOrderRepository().addOrder(order);
         }catch (Throwable e) {
-            e.printStackTrace();
-            return "data repository error : " + e.getMessage();
+
+            StringBuilder trace = new StringBuilder();
+
+            for (StackTraceElement element : e.getStackTrace()) {
+                trace.append(element.toString());
+            }
+
+            return "data repository error : " + trace.toString();
         }
 
         return "success";
@@ -53,8 +72,11 @@ public class OrderController extends CoreController {
         throw new UnsupportedOperationException("not yet");
     };
 
-    public static Route removeUser = (Request request, Response response) -> {
+    public static Route payOrder =  (Request request, Response response) -> {
+        throw new UnsupportedOperationException("not yet");
+    };
 
+    public static Route shipOrder =  (Request request, Response response) -> {
         throw new UnsupportedOperationException("not yet");
     };
 }

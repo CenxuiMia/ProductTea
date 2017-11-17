@@ -66,8 +66,6 @@
 
     function onLoad() {
         id_token = getCookie(cookieToken);
-        console.info("id_token : " + id_token);
-
     }
 
     function getCookie(cname) {
@@ -97,8 +95,6 @@
         order.products[0] = document.getElementById("products").value;
         order.money = document.getElementById("money").value;
         order.comment = document.getElementById("comment").value;
-//        console.info(JSON.stringify(order));
-        console.info("token : " + id_token);
 
         $.ajax({
             type : 'PUT',
@@ -119,7 +115,6 @@
     }
 
 </script>
-
 
 </body>
 </html>

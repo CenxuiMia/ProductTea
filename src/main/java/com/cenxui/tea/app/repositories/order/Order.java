@@ -11,6 +11,8 @@ import java.util.Map;
 
 
 /**
+ * **note if you modify fields please checkout the ItemUtil to make sure if there is something that should be add to.
+ *
  *  todo
  *  order need to make sure the sum
  *  the order isPaid
@@ -30,8 +32,8 @@ public class Order {
 
     public static final String COMMENT = "comment";
     public static final String PAID_DATE = "paidDate";
-
-    public static final String SHIP_DATE = "shipDate";
+    public static final String SHIP_DATE = "shippedDate";
+    public static final String PROCESS_DATE = "processingDate";
     public static final String IS_ACTIVE = "isActive";
 
     String mail; // default user email
@@ -46,7 +48,8 @@ public class Order {
     String comment;
 
     String paidDate;
-    String shipDate;
+    String processingDate;
+    String shippedDate;
     Boolean isActive;
 
 
@@ -59,10 +62,14 @@ public class Order {
                            String address,
                            String comment,
                            String paidDate,
+                           String processDate,
                            String shipDate,
                            Boolean isActive) {
 
-        return new Order(mail, products, purchaser, money, receiver, phone, address, comment, paidDate, shipDate, isActive);
+        return new Order(
+                mail, products, purchaser, money, receiver, phone,
+                address, comment, paidDate, processDate, shipDate,
+                isActive);
     }
 
 
