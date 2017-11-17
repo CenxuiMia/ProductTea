@@ -23,7 +23,7 @@ final class DynamoDBProductRepository implements ProductRepository {
     private final List<Product> products;
 
     /**
-     * cach in Json
+     * cache in Json
      */
     private final String productsJson;
 
@@ -69,7 +69,7 @@ final class DynamoDBProductRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> getProductsByPrice(Integer price) {
+    public List<Product> getProductsByPrice(Float price) {
         return products.stream().filter(product -> product.getPrice().equals(price)).collect(Collectors.toList());
     }
 

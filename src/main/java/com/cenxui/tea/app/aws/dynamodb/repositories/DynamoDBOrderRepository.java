@@ -30,7 +30,7 @@ import java.util.List;
 
 class DynamoDBOrderRepository implements OrderRepository {
 
-    private Table orderTable = DynamoDBManager.getDynamoDB().getTable(DynamoDBConfig.ORDER_TABLE);
+    private final Table orderTable = DynamoDBManager.getDynamoDB().getTable(DynamoDBConfig.ORDER_TABLE);
 
     @Override
     public List<Order> getAllOrders() {
@@ -130,7 +130,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String itemJson = outcome.getItem().toJSON();
         ObjectMapper objectMapper = new ObjectMapper();
-        Order order = null;
+        Order order;
         try {
             order = objectMapper.readValue(itemJson, Order.class);
         } catch (IOException e) {
@@ -150,7 +150,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String itemJson = outcome.getItem().toJSON();
         ObjectMapper objectMapper = new ObjectMapper();
-        Order order = null;
+        Order order;
         try {
              order = objectMapper.readValue(itemJson, Order.class);
         } catch (IOException e) {

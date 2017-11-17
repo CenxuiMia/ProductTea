@@ -7,13 +7,12 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.cenxui.tea.app.Application;
 import com.cenxui.tea.app.aws.lambda.log.AWSLambdaLogger;
+import com.cenxui.tea.app.services.Header;
 
 import java.util.Map;
 
 public class AuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxyResponse> {
     private SparkLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> handler;
-
-    public static final String MAIL = "censmail";
 
     private boolean initialized = false;
 
@@ -36,7 +35,7 @@ public class AuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsPro
         AwsProxyResponse response = null;
 
         try {
-            headers.put(MAIL, awsProxyRequest.getRequestContext().getAuthorizer().getClaims().getEmail());
+            headers.put(Header.MAIL, awsProxyRequest.getRequestContext().getAuthorizer().getClaims().getEmail());
 
             response = handler.proxy(awsProxyRequest, context);
 

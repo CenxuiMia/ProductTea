@@ -10,7 +10,7 @@ public interface ProductRepository extends Repository {
 
     List<Product> getProductsByTag(String tag);
 
-    List<Product> getProductsByPrice(Integer price);
+    List<Product> getProductsByPrice(Float price);
 
     List<Product> getProductsByName(String name);
 

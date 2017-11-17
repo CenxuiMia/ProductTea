@@ -62,13 +62,13 @@ public class Order {
                            String address,
                            String comment,
                            String paidDate,
-                           String processDate,
-                           String shipDate,
+                           String processingDate,
+                           String shippedDate,
                            Boolean isActive) {
 
         return new Order(
                 mail, products, purchaser, money, receiver, phone,
-                address, comment, paidDate, processDate, shipDate,
+                address, comment, paidDate, processingDate, shippedDate,
                 isActive);
     }
 

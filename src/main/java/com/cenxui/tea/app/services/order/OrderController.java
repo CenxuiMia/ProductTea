@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class OrderController extends CoreController {
 
-    public static Route getOrderByTMail = (Request request, Response response) -> {
+    public static final Route getOrderByTMail = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = map.get(Order.MAIL);
         return DynamoDBRepositoryService.getOrderRepository().getOrderByTMail(mail);
     };
 
-    public static Route getOrdersByMailAndTime = (Request request, Response response) -> {
+    public static final Route getOrdersByMailAndTime = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = map.get(Order.MAIL);
         String time = map.get(Order.TIME);
@@ -29,7 +29,7 @@ public class OrderController extends CoreController {
         return DynamoDBRepositoryService.getOrderRepository().getOrdersByMailAndTime(mail, time);
     };
 
-    public static Route addOrder = (Request request, Response response) -> {
+    public static final Route addOrder = (Request request, Response response) -> {
         String body = request.body();
 
         String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
@@ -68,11 +68,11 @@ public class OrderController extends CoreController {
         return "success";
     };
 
-    public static Route removeOrder = (Request request, Response response) -> {
+    public static final Route removeOrder = (Request request, Response response) -> {
         throw new UnsupportedOperationException("not yet");
     };
 
-    public static Route payOrder =  (Request request, Response response) -> {
+    public static final Route payOrder =  (Request request, Response response) -> {
         throw new UnsupportedOperationException("not yet");
     };
 

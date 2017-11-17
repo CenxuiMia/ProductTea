@@ -37,13 +37,13 @@ final class DynamoDBUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean deactiveUserByMail(String mail) {
+    public boolean deActiveUserByMail(String mail) {
         //TODO
         throw new UnsupportedOperationException("not yet");
     }
 
     @Override
-    public boolean updateUserDatail(String mail, String cellphone, String phone, String address) {
+    public boolean updateUserDetail(String mail, String cellphone, String phone, String address) {
         //TODO
         throw new UnsupportedOperationException("not yet");
     }
