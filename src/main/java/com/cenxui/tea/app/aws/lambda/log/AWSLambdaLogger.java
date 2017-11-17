@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.aws.lambda;
+package com.cenxui.tea.app.aws.lambda.log;
 
 import com.amazonaws.services.lambda.runtime.Context;
 

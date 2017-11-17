@@ -49,6 +49,7 @@ public class OrderController extends CoreController {
                 clientOrder.getComment(),
                 null,
                 null,
+                null,
                 Boolean.TRUE);
 
         try {

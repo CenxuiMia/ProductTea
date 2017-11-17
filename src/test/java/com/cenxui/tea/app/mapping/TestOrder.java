@@ -9,7 +9,6 @@ import org.junit.runners.JUnit4;
 public class TestOrder {
     @Test
     public void testOrder() {
-        System.out.println(Order.of(null,null,null,null,null,null,null,null,null,null,null));
     }
 
 }

@@ -14,14 +14,18 @@ public interface OrderRepository extends Repository {
 
     boolean addOrder(Order order);
 
-    boolean removeOrder();
+    boolean removeOrder(String mail, String time);
 
-    boolean updateOrder();
+    Order activeOrder(String mail, String time);
 
     Order deActiveOrder(String mail, String time);
 
     Order payOrder(String mail, String time);
 
+    Order dePayOrder(String mail, String time);
+
     Order shipOrder(String mail, String time);
+
+    Order deShipOrder(String mail, String time);
 
 }

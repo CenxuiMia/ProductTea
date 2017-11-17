@@ -40,10 +40,18 @@ public class DynamoDBOrderRepositoryTest {
 
     @Test
     public void payOrder() throws Exception {
+        Order order = DynamoDBRepositoryService.
+                getOrderRepository().
+                payOrder("cenxuilin@gmail.com", "2017-11-16T10:53:48");
+        System.out.println(order);
     }
 
     @Test
     public void shipOrder() throws Exception {
+        Order order = DynamoDBRepositoryService.
+                getOrderRepository().
+                shipOrder("cenxuilin@gmail.com", "2017-11-16T10:53:48");
+        System.out.println(order);
     }
 
 }

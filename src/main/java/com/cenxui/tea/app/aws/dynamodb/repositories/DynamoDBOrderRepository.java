@@ -1,6 +1,5 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
@@ -19,9 +18,14 @@ import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+/**
+ * todo need to add condition isActive
+ */
 
 class DynamoDBOrderRepository implements OrderRepository {
 
@@ -85,15 +89,29 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     @Override
-    public boolean removeOrder() {
+    public boolean removeOrder(String mail, String time) {
         //todo
         throw new UnsupportedOperationException("not yet");
     }
 
     @Override
-    public boolean updateOrder() {
-        //todo
-        throw new UnsupportedOperationException("not yet");
+    public Order activeOrder(String mail, String time) {
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec()
+                .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
+                .withUpdateExpression("set " + Order.IS_ACTIVE + "=:ia")
+                .withValueMap(new ValueMap().withBoolean( ":ia", true))
+                .withReturnValues(ReturnValue.ALL_NEW);
+
+        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+        String itemJson = outcome.getItem().toJSON();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Order order = null;
+        try {
+            order = objectMapper.readValue(itemJson, Order.class);
+        } catch (IOException e) {
+            throw new OrderJsonMapException(itemJson);
+        }
+        return order;
     }
 
     @Override
@@ -117,17 +135,38 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order payOrder(String mail, String time) {
+        String date = LocalDate.now().toString();
+
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
-                .withUpdateExpression("add " + Order.PAID_DATE)
-
-                //todo add paid date
+                .withUpdateExpression("set " + Order.PAID_DATE + "=:pa,"+ Order.PROCESS_DATE+ "=:pr")
+                .withValueMap(new ValueMap().withString(":pa" , date).withString(":pr", date))
                 .withReturnValues(ReturnValue.ALL_NEW);
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String itemJson = outcome.getItem().toJSON();
         ObjectMapper objectMapper = new ObjectMapper();
-        Order order = null;
+        Order order;
+        try {
+            order = objectMapper.readValue(itemJson, Order.class);
+        } catch (IOException e) {
+            throw new OrderJsonMapException(itemJson);
+        }
+        return order;
+    }
+
+    @Override
+    public Order dePayOrder(String mail, String time) {
+
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec()
+                .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
+                .withUpdateExpression("remove " + Order.PAID_DATE+ "," + Order.PROCESS_DATE)
+                .withReturnValues(ReturnValue.ALL_NEW);
+
+        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+        String itemJson = outcome.getItem().toJSON();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Order order;
         try {
             order = objectMapper.readValue(itemJson, Order.class);
         } catch (IOException e) {
@@ -138,7 +177,44 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order shipOrder(String mail, String time) {
-        return null;
+        String date = LocalDate.now().toString();
+
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec()
+                .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
+                .withUpdateExpression("set " + Order.SHIP_DATE+ "=:sh" + " remove " + Order.PROCESS_DATE)
+                .withValueMap(new ValueMap().withString(":sh", date))
+                .withReturnValues(ReturnValue.ALL_NEW);
+
+        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+        String itemJson = outcome.getItem().toJSON();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Order order;
+        try {
+            order = objectMapper.readValue(itemJson, Order.class);
+        } catch (IOException e) {
+            throw new OrderJsonMapException(itemJson);
+        }
+        return order;
+    }
+
+    @Override
+    public Order deShipOrder(String mail, String time) {
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec()
+                .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
+                .withUpdateExpression("set " + Order.PROCESS_DATE+ "=" + Order.PAID_DATE +
+                        " remove " + Order.SHIP_DATE)
+                .withReturnValues(ReturnValue.ALL_NEW);
+
+        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+        String itemJson = outcome.getItem().toJSON();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Order order;
+        try {
+            order = objectMapper.readValue(itemJson, Order.class);
+        } catch (IOException e) {
+            throw new OrderJsonMapException(itemJson);
+        }
+        return order;
     }
 
 }

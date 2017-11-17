@@ -6,7 +6,7 @@ import com.amazonaws.serverless.proxy.spark.SparkLambdaContainerHandler;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.cenxui.tea.app.Application;
-import com.cenxui.tea.app.aws.lambda.AWSLambdaLogger;
+import com.cenxui.tea.app.aws.lambda.log.AWSLambdaLogger;
 
 import java.util.Map;
 
