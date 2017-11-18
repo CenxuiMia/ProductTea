@@ -20,4 +20,18 @@ public class TestMapping {
             e.printStackTrace();
         }
     }
+
+
+    @Test
+    public void testOrderMapping() {
+        String body = "{\"address\":\"aaa\",\"receiver\":\"mia\",\"money\":1000,\"mail\":\"21@gmail.com\",\"phone\":\"0928554033\",\"purchaser\":\"cexui\",\"time\":\"2017-11-18T15:23:38\",\"isActive\":true,\"products\":[\"{\"product\":\"grean tea\",\"count\":2}\",\"{\"product\":\"black tea\",\"count\":5}\"]}";
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            System.out.println(mapper.readValue(body, Order.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

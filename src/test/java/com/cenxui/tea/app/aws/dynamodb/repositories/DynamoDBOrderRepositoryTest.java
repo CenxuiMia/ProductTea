@@ -1,7 +1,12 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
 import com.cenxui.tea.app.repositories.order.Order;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +14,8 @@ public class DynamoDBOrderRepositoryTest {
 
     @Test
     public void getAllOrders() throws Exception {
+
+        System.out.println(DynamoDBRepositoryService.getOrderRepository().getAllOrders());
     }
 
     @Test
@@ -21,6 +28,35 @@ public class DynamoDBOrderRepositoryTest {
 
     @Test
     public void addOrder() throws Exception {
+        for (int i = 0; i< 5; i++) {
+            List<String> products = new ArrayList<>();
+            products.add("grean tea: 2");
+            products.add("black tea: 5)");
+
+            Order clientOrder = Order.of(
+                    null,
+                    products,
+                    "cexui",
+                        1000f,
+                    "mia",
+                    "0928554033",
+                    "aaa",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+
+            String orderJson = clientOrder.toJson();
+            System.out.println(orderJson);
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            Order order = mapper.readValue(orderJson, Order.class);
+
+            DynamoDBRepositoryService.getOrderRepository().addOrder(i + "1@gmail.com", order);
+        }
+
     }
 
     @Test
