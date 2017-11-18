@@ -3,7 +3,7 @@ package com.cenxui.tea.app.aws.lambda.log;
 import com.amazonaws.services.lambda.runtime.Context;
 
 public class AWSLambdaLogger {
-    public static void log(Context context, Exception e) {
+    public static void log(Context context, Throwable e) {
         StringBuilder builder = new StringBuilder();
 
         builder.append(e.getMessage());

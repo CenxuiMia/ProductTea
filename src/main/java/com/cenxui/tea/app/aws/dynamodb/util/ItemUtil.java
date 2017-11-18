@@ -4,11 +4,11 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
+import com.cenxui.tea.app.util.JsonUtil;
 import lombok.NonNull;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ItemUtil {
     public static Item getProductItem(@NonNull Product product) {
@@ -30,25 +30,19 @@ public class ItemUtil {
     }
 
     public static Item getOrderItem(@NonNull Order order) throws DuplicateProductException {
-        Set<String> productSet = new HashSet<>();
-        for (String product : order.getProducts()) {
-            if (productSet.contains(product)){
-                throw new DuplicateProductException();
-            }
-
-            productSet.add(product);
-        }
-
 
         Item item = new Item()
                 .withPrimaryKey(Order.MAIL, order.getMail(), Order.TIME, order.getTime())
-                .withStringSet(Order.PRODUCTS, productSet)
+                .withList(Order.PRODUCTS, order.getProducts())
                 .withString(Order.PURCHASER, order.getPurchaser())
                 .withNumber(Order.MONEY, order.getMoney())
                 .withString(Order.RECEIVER, order.getReceiver())
                 .withString(Order.PHONE, order.getPhone())
-                .withString(Order.ADDRESS, order.getAddress())
-                .withString(Order.COMMENT, order.getComment());
+                .withString(Order.ADDRESS, order.getAddress());
+
+        if (order.getComment() != null) {
+            item.withString(Order.COMMENT, order.getComment());
+        }
 
         if (order.getPaidDate() != null) {
             item.withString(Order.PAID_DATE, order.getPaidDate());

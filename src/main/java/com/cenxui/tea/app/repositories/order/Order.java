@@ -1,6 +1,10 @@
 package com.cenxui.tea.app.repositories.order;
 
+import com.cenxui.tea.app.aws.dynamodb.exceptions.map.OrderMapJsonException;
 import com.cenxui.tea.app.repositories.product.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.Setter;
 import lombok.Value;
@@ -52,7 +56,6 @@ public class Order {
     String shippedDate;
     Boolean isActive;
 
-
     public static Order of(String mail,
                            List<String> products,
                            String purchaser,
@@ -62,15 +65,32 @@ public class Order {
                            String address,
                            String comment,
                            String paidDate,
-                           String processDate,
-                           String shipDate,
+                           String processingDate,
+                           String shippedDate,
                            Boolean isActive) {
 
         return new Order(
                 mail, products, purchaser, money, receiver, phone,
-                address, comment, paidDate, processDate, shipDate,
+                address, comment, paidDate, processingDate, shippedDate,
                 isActive);
     }
 
+    private boolean isEmpty(String s) {
+        if (s == null || s.isEmpty()) return true;
+        return false;
+    }
 
+    @Override
+    public String toString() {
+        return toJson();
+    }
+
+    public String toJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            throw new OrderMapJsonException(this);
+        }
+    }
 }

@@ -36,12 +36,12 @@ public class MockUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean deactiveUserByMail(String mail) {
+    public boolean deActiveUserByMail(String mail) {
         return false;
     }
 
     @Override
-    public boolean updateUserDatail(String mail, String cellphone, String phone, String address) {
+    public boolean updateUserDetail(String mail, String cellphone, String phone, String address) {
         return false;
     }
 

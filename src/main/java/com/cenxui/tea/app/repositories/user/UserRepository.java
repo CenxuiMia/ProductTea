@@ -14,9 +14,9 @@ public interface UserRepository extends Repository {
 
     boolean activeUserByMail(String mail);
 
-    boolean deactiveUserByMail(String mail);
+    boolean deActiveUserByMail(String mail);
 
-    boolean updateUserDatail(String mail, String cellphone, String phone, String address);
+    boolean updateUserDetail(String mail, String cellphone, String phone, String address);
 
     boolean setUserToken(String token);
 
