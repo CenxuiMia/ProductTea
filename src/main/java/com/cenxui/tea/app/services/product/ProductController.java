@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ProductController extends CoreController {
 
-    public static Route getAllProducts = (Request request,  Response response) -> {
+    public static final Route getAllProducts = (Request request,  Response response) -> {
         String head = "{\"products\" : " ;
         String products = DynamoDBRepositoryService.getProductRepository().getAllProductsJSON();
         String tail = "}";

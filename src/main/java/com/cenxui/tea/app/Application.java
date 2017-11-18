@@ -1,6 +1,7 @@
 package com.cenxui.tea.app;
 
 import com.cenxui.tea.app.aws.lambda.handlers.AuthLambdaHandler;
+import com.cenxui.tea.app.services.Header;
 import com.cenxui.tea.app.services.order.OrderController;
 import com.cenxui.tea.app.services.product.ProductController;
 import com.cenxui.tea.app.services.util.Path;
@@ -79,7 +80,7 @@ public final class Application {
                 userdata.put(header, request.headers(header));
             }
 
-            return "user : " + userdata.get(AuthLambdaHandler.MAIL) ;
+            return "user : " + userdata.get(Header.MAIL) ;
         }));
 
         put(Path.Web.ORDER, ((OrderController.addOrder)));
