@@ -5,21 +5,17 @@ import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.cenxui.tea.app.aws.dynamodb.item.ItemOrder;
 import com.cenxui.tea.app.aws.dynamodb.local.repositories.util.TestData;
 import com.cenxui.tea.app.aws.dynamodb.local.repositories.util.DynamoDBLocalUtil;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.io.IOException;
 import java.util.*;
 
 @RunWith(JUnit4.class)
@@ -138,23 +134,7 @@ public class OrderRepositoryIntegrationTest {
     }
 
     private void listAllItem() {
-        List<Order> orders = new ArrayList<>();
-        table.scan().forEach(
-                (s) -> {
-                    ObjectMapper mapper = new ObjectMapper();
-                    mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
-                    try {
-                        Order order = mapper.readValue(s.toJSON(), ItemOrder.class).getItem();
-                        orders.add(order);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
-
-        System.out.println("=========================orders==============================");
-        orders.stream().forEach(System.out::println);
     }
 
 

@@ -28,40 +28,42 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public List<Order> getAllOrders() {
-        ItemCollection collection = orderTable.scan();
-        return mapToOrders(collection);
+        ItemCollection<ScanOutcome> collection = orderTable.scan();
+        return mapScanOutComeToOrders(collection);
     }
 
 
     @Override
     public List<Order> getOrderByTMail(String mail) {
-        ItemCollection collection = orderTable.query(Order.MAIL, mail);
+        ItemCollection<QueryOutcome> collection = orderTable.query(Order.MAIL, mail);
 
-        return mapToOrders(collection);
+        return mapQueryOutComeToOrders(collection);
     }
+
+
 
     @Override
     public List<Order> getAllProcessingOrders() {
         Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PROCESSING_INDEX);
-        ItemCollection collection = index.scan();
+        ItemCollection<ScanOutcome> collection = index.scan();
 
-        return mapToOrders(collection);
+        return mapScanOutComeToOrders(collection);
     }
 
     @Override
     public List<Order> getAllShippedOrders() {
         Index index = orderTable.getIndex(DynamoDBConfig.ORDER_SHIPPED_INDEX);
-        ItemCollection collection = index.scan();
+        ItemCollection<ScanOutcome> collection = index.scan();
 
-        return mapToOrders(collection);
+        return mapScanOutComeToOrders(collection);
     }
 
     @Override
     public List<Order> getAllPaidOrders() {
         Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PAID_INDEX);
-        ItemCollection collection = index.scan();
+        ItemCollection<ScanOutcome> collection = index.scan();
 
-        return mapToOrders(collection);
+        return mapScanOutComeToOrders(collection);
     }
 
 
@@ -71,7 +73,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         //todo
     }
 
-    private List<Order> mapToOrders(ItemCollection<Item> collection) {
+    private List<Order> mapScanOutComeToOrders(ItemCollection<ScanOutcome> collection) {
         List<Order> orders = new ArrayList<>();
 
         collection.forEach(
@@ -83,6 +85,20 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         return Collections.unmodifiableList(orders);
     }
+
+    private List<Order> mapQueryOutComeToOrders(ItemCollection<QueryOutcome> collection) {
+        List<Order> orders = new ArrayList<>();
+
+        collection.forEach(
+                (s) -> {
+                    Order order = JsonUtil.mapToOrder(s.toJSON());
+                    orders.add(order);
+                }
+        );
+
+        return Collections.unmodifiableList(orders);
+    }
+
 
 
     @Override
