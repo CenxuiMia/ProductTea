@@ -1,0 +1,79 @@
+HOST: https://tea.cens-platform.com
+Accept: application/json
+---------------------------------------------------------
+
+User getUserByMail(String mail) ;
+http: GET
+path: /user?mail=___
+parameter: null
+return: JSON String
+
+-------------
+
+boolean addUser(User user);
+http: PUT
+path: /user
+parameter: String mail,
+           String salt,
+           String newHashPassword
+return: JSON String
+
+-------------
+
+boolean deleteUserByMail(String mail);
+http: DELETE
+path: /user
+parameter: String mail
+return: JSON String
+
+-------------
+
+boolean activeUserByMail(String mail);
+http: POST
+path: /user
+body: action:String active
+parameter: String mail
+return: JSON String
+
+-------------
+
+boolean deActiveUserByMail(String mail);
+http: POST
+path: /user
+body: action:String deActive
+parameter: String mail
+return: JSON String
+
+-------------
+
+boolean updateUserDetail(String mail, String cellphone, String phone, String address);
+http: POST
+path: /user
+body: action:String updateDetail
+parameter: String mail,
+           String cellphone,
+           String phone,
+           String address
+return: JSON String
+
+-------------
+
+boolean setUserToken(String token);
+http: POST
+path: /user
+body: action:String updateToken
+parameter: String token
+return: JSON String
+
+-------------
+
+void setNewHashPasswordAndSaltByMail(String mail, String salt, String newHashPassword);
+http: POST
+path: /user
+body: action:String updatePasswordAndSalt
+parameter: String mail,
+           String salt,
+           String newHashPassword
+return: JSON String
+
+-------------
