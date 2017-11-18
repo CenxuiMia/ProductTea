@@ -1,0 +1,78 @@
+HOST: https://cens-platform.com
+Accept: application/json
+---------------------------------------------------------
+
+List<Order> getAllOrders();
+http: GET
+path: /orders?filter=all
+parameter: null
+return: JSON String
+
+-------------
+List<Order> getOrderByTMail(String mail);
+http: GET
+path: /orders?mail=___
+parameter: String mail
+return: JSON String
+
+-------------
+
+List<Order> getAllProcessingOrders();
+http: GET
+path: /orders?filter=processing
+parameter: null
+return: JSON String
+
+-------------
+
+List<Order> getAllShippedOrders();
+http: GET
+path: /orders?filter=shipped
+parameter: null
+return: JSON String
+
+-------------
+
+List<Order> getAllPaidOrders();
+http: GET
+path: /orders?filter=paid
+parameter: null
+return: JSON String
+
+-------------
+
+Order getOrdersByMailAndTime(String mail, String time);
+http: GET
+path: /orders?mail=___&time=___
+parameter: String mail, String time
+return: JSON String
+
+-------------
+
+boolean addOrder(Order order);
+http: POST
+path: /orders
+parameter: List<String> products,
+           String purchaser,
+           Float money,
+           String receiver,
+           String phone,
+           String address,
+           String comment
+return: JSON String
+
+-------------
+
+boolean removeOrder(String mail, String time);
+
+Order activeOrder(String mail, String time);
+
+Order deActiveOrder(String mail, String time);
+
+Order payOrder(String mail, String time);
+
+Order dePayOrder(String mail, String time);
+
+Order shipOrder(String mail, String time);
+
+Order deShipOrder(String mail, String time);
