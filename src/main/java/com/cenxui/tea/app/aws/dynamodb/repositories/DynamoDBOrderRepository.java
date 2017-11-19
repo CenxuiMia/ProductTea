@@ -4,14 +4,15 @@ import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
-import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
-import com.amazonaws.services.dynamodbv2.model.ReturnValue;
+import com.amazonaws.services.dynamodbv2.model.*;
+import com.cenxui.tea.app.repositories.order.OrderKey;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.order.OrderProductFormatException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
+import com.cenxui.tea.app.repositories.order.OrderResult;
 import com.cenxui.tea.app.util.JsonUtil;
 
 import java.time.LocalDate;
@@ -23,48 +24,44 @@ import java.util.List;
  * todo scan should have some limit
  */
 
-class DynamoDBOrderRepository implements OrderRepository {
+class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
     private final Table orderTable = DynamoDBManager.getDynamoDB().getTable(DynamoDBConfig.ORDER_TABLE);
 
     @Override
-    public List<Order> getAllOrders() {
-        ItemCollection<ScanOutcome> collection = orderTable.scan();
-        return mapScanOutComeToOrders(collection);
+    public OrderResult getAllOrders() {
+        ItemCollection collection = orderTable.scan();
+        List<Order> orders = mapToOrders(collection);
+        //todo
+        return OrderResult.of(orders, OrderKey.of("", ""));
     }
 
 
     @Override
-    public List<Order> getOrderByTMail(String mail) {
-        ItemCollection<QueryOutcome> collection = orderTable.query(Order.MAIL, mail);
-
-        return mapQueryOutComeToOrders(collection);
-    }
-
-
-
-    @Override
-    public List<Order> getAllProcessingOrders() {
+    public OrderResult getAllProcessingOrders() {
         Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PROCESSING_INDEX);
-        ItemCollection<ScanOutcome> collection = index.scan();
-
-        return mapScanOutComeToOrders(collection);
+        ItemCollection collection = index.scan();
+        List<Order> orders = mapToOrders(collection);
+        //todo
+        return OrderResult.of(orders, OrderKey.of("", ""));
     }
 
     @Override
-    public List<Order> getAllShippedOrders() {
+    public OrderResult getAllShippedOrders() {
         Index index = orderTable.getIndex(DynamoDBConfig.ORDER_SHIPPED_INDEX);
-        ItemCollection<ScanOutcome> collection = index.scan();
-
-        return mapScanOutComeToOrders(collection);
+        ItemCollection collection = index.scan();
+        List<Order> orders = mapToOrders(collection);
+        //todo
+        return OrderResult.of(orders, OrderKey.of("", ""));
     }
 
     @Override
-    public List<Order> getAllPaidOrders() {
+    public OrderResult getAllPaidOrders() {
         Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PAID_INDEX);
-        ItemCollection<ScanOutcome> collection = index.scan();
+        ItemCollection collection = index.scan();
+        List<Order> orders = mapToOrders(collection);
 
-        return mapScanOutComeToOrders(collection);
+        return OrderResult.of(orders, OrderKey.of("", ""));
     }
 
 
@@ -74,7 +71,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         //todo
     }
 
-    private List<Order> mapScanOutComeToOrders(ItemCollection<ScanOutcome> collection) {
+    private List<Order> mapToOrders(ItemCollection<Item> collection) {
         List<Order> orders = new ArrayList<>();
 
         collection.forEach(

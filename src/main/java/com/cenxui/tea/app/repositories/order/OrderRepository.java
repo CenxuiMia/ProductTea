@@ -4,17 +4,15 @@ import com.cenxui.tea.app.repositories.Repository;
 
 import java.util.List;
 
-public interface OrderRepository extends Repository {
+public interface OrderRepository<Key> extends Repository {
 
-    List<Order> getAllOrders();
+    OrderResult getAllOrders();
 
-    List<Order> getOrderByTMail(String mail);
+    OrderResult getAllProcessingOrders();
 
-    List<Order> getAllProcessingOrders();
+    OrderResult getAllShippedOrders();
 
-    List<Order> getAllShippedOrders();
-
-    List<Order> getAllPaidOrders();
+    OrderResult getAllPaidOrders();
 
     Order getOrdersByMailAndTime(String mail, String time);
 

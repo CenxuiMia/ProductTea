@@ -1,5 +1,6 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
+import com.cenxui.tea.app.repositories.order.OrderKey;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
 import com.cenxui.tea.app.repositories.user.UserRepository;
@@ -11,7 +12,7 @@ public class DynamoDBRepositoryService {
 
     private static final DynamoDBUserRepository userRepository = new DynamoDBUserRepository();
 
-    public static OrderRepository getOrderRepository() {
+    public static OrderRepository<OrderKey> getOrderRepository() {
         return  orderRepository;
     }
 
