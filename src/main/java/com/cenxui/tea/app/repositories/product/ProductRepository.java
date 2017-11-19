@@ -17,4 +17,6 @@ public interface ProductRepository extends Repository {
     Product getProductByNameVersion(String name, String version);
 
     String getAllProductsJSON();
+
+    Float getProductPrice(String name, String version);
 }

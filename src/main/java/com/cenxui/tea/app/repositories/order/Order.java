@@ -1,17 +1,12 @@
 package com.cenxui.tea.app.repositories.order;
 
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.OrderMapJsonException;
-import com.cenxui.tea.app.repositories.product.Product;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.order.OrderMapJsonException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
-import lombok.Setter;
 import lombok.Value;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 
 /**

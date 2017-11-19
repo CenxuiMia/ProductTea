@@ -4,13 +4,15 @@ import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
-import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
-import com.amazonaws.services.dynamodbv2.model.ReturnValue;
+import com.amazonaws.services.dynamodbv2.model.*;
+import com.cenxui.tea.app.repositories.order.OrderKey;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.order.OrderProductFormatException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
+import com.cenxui.tea.app.repositories.order.OrderResult;
 import com.cenxui.tea.app.util.JsonUtil;
 
 import java.time.LocalDate;
@@ -22,46 +24,44 @@ import java.util.List;
  * todo scan should have some limit
  */
 
-class DynamoDBOrderRepository implements OrderRepository {
+class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
     private final Table orderTable = DynamoDBManager.getDynamoDB().getTable(DynamoDBConfig.ORDER_TABLE);
 
     @Override
-    public List<Order> getAllOrders() {
+    public OrderResult getAllOrders() {
         ItemCollection collection = orderTable.scan();
-        return mapToOrders(collection);
+        List<Order> orders = mapToOrders(collection);
+        //todo
+        return OrderResult.of(orders, OrderKey.of("", ""));
     }
 
 
     @Override
-    public List<Order> getOrderByTMail(String mail) {
-        ItemCollection collection = orderTable.query(Order.MAIL, mail);
-
-        return mapToOrders(collection);
-    }
-
-    @Override
-    public List<Order> getAllProcessingOrders() {
+    public OrderResult getAllProcessingOrders() {
         Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PROCESSING_INDEX);
         ItemCollection collection = index.scan();
-
-        return mapToOrders(collection);
+        List<Order> orders = mapToOrders(collection);
+        //todo
+        return OrderResult.of(orders, OrderKey.of("", ""));
     }
 
     @Override
-    public List<Order> getAllShippedOrders() {
+    public OrderResult getAllShippedOrders() {
         Index index = orderTable.getIndex(DynamoDBConfig.ORDER_SHIPPED_INDEX);
         ItemCollection collection = index.scan();
-
-        return mapToOrders(collection);
+        List<Order> orders = mapToOrders(collection);
+        //todo
+        return OrderResult.of(orders, OrderKey.of("", ""));
     }
 
     @Override
-    public List<Order> getAllPaidOrders() {
+    public OrderResult getAllPaidOrders() {
         Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PAID_INDEX);
         ItemCollection collection = index.scan();
+        List<Order> orders = mapToOrders(collection);
 
-        return mapToOrders(collection);
+        return OrderResult.of(orders, OrderKey.of("", ""));
     }
 
 
@@ -84,15 +84,44 @@ class DynamoDBOrderRepository implements OrderRepository {
         return Collections.unmodifiableList(orders);
     }
 
+    private List<Order> mapQueryOutComeToOrders(ItemCollection<QueryOutcome> collection) {
+        List<Order> orders = new ArrayList<>();
+
+        collection.forEach(
+                (s) -> {
+                    Order order = JsonUtil.mapToOrder(s.toJSON());
+                    orders.add(order);
+                }
+        );
+
+        return Collections.unmodifiableList(orders);
+    }
+
+
 
     @Override
-    public boolean addOrder(String mail, Order clientOrder) {
+    public Order addOrder(String mail, Order clientOrder) {
+        Float money = 0F;
+
+        List<String> products = clientOrder.getProducts();
+
+        for (String product: products) {
+            String[] s = product.split(";");
+
+            if (s.length != 3) throw new OrderProductFormatException(product);
+
+            Float price = DynamoDBRepositoryService.getProductRepository().getProductPrice(s[0].trim(), s[1].trim());
+
+            money = money + price * Float.valueOf(s[2].trim());
+        }
+
+
 
         Order order = Order.of(
                 mail,
                 clientOrder.getProducts(),      //todo modify products
                 clientOrder.getPurchaser(),
-                clientOrder.getMoney(),         //todo modify order money
+                money,         //todo modify order money
                 clientOrder.getReceiver(),
                 clientOrder.getPhone(),
                 clientOrder.getAddress(),
@@ -106,13 +135,12 @@ class DynamoDBOrderRepository implements OrderRepository {
                     .withItem(ItemUtil.getOrderItem(order))
                     .withConditionExpression("attribute_not_exists("+ Order.MAIL + ")");
             orderTable.putItem(putItemSpec);
-            return true;
         } catch (DuplicateProductException e) {
             System.out.println("Product record can not be duplicated "); //todo modify to runtime exception
         } catch (ConditionalCheckFailedException e) {
             System.out.println("Record already exists in Dynamo DB Table"); //todo modify to runtime exception
         }
-        return false;
+        return order;
     }
 
     @Override

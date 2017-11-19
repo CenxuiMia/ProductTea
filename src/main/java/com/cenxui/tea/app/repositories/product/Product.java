@@ -24,7 +24,7 @@ public class Product {
     String bigImage;
     List<String> images;
     Boolean status;
-    Double price;
+    Float price;
     String tag;
 
 }
