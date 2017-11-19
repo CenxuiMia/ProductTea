@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.order.OrderJsonMapException;
 import com.cenxui.tea.app.repositories.order.OrderKey;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.order.OrderProductFormatException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
@@ -112,13 +113,11 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
             money = money + price * Float.valueOf(s[2].trim());
         }
 
-
-
         Order order = Order.of(
                 mail,
-                clientOrder.getProducts(),      //todo modify products
+                clientOrder.getProducts(),
                 clientOrder.getPurchaser(),
-                money,         //todo modify order money
+                money,
                 clientOrder.getReceiver(),
                 clientOrder.getPhone(),
                 clientOrder.getAddress(),
@@ -158,7 +157,7 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
 
-        return  JsonUtil.mapToOrder(orderJson);
+        return getOrder(orderJson);
     }
 
     @Override
@@ -174,7 +173,7 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
 
-        return JsonUtil.mapToOrder(orderJson);
+        return getOrder(orderJson);
     }
 
     @Override
@@ -193,7 +192,7 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
 
-        return JsonUtil.mapToOrder(orderJson);
+        return getOrder(orderJson);
     }
 
     @Override
@@ -208,7 +207,7 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
 
-        return JsonUtil.mapToOrder(orderJson);
+        return getOrder(orderJson);
     }
 
     @Override
@@ -227,7 +226,7 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
 
-        return JsonUtil.mapToOrder(orderJson);
+        return getOrder(orderJson);
     }
 
     @Override
@@ -241,9 +240,9 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
-        Order order = JsonUtil.mapToOrder(orderJson);
 
-        return order;
+
+        return getOrder(orderJson);
     }
 
     private OrderKey getLastKey(ItemCollection<ScanOutcome> collection) {
@@ -259,8 +258,7 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
         collection.forEach(
                 (s) -> {
-                    Order order = JsonUtil.mapToOrder(s.toJSON());
-                    orders.add(order);
+                    orders.add(getOrder(s.toJSON()));
                 }
         );
 
@@ -286,6 +284,18 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
         List<Order> orders = mapToOrders(collection);
         OrderKey orderKey = getLastKey(collection);
         return OrderResult.of(orders, orderKey);
+    }
+
+    private Order getOrder(String orderJson) {
+        Order order;
+
+        try {
+            order = JsonUtil.mapToOrder(orderJson);
+        }catch (Exception e) {
+            throw new OrderJsonMapException(orderJson);
+        }
+
+        return  order;
     }
 
 }
