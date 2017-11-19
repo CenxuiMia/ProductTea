@@ -29,6 +29,36 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
     private final Table orderTable = DynamoDBManager.getDynamoDB().getTable(DynamoDBConfig.ORDER_TABLE);
 
     @Override
+    public OrderResult getAllOrder(Integer limit, String mail, String time) {
+        throw new UnsupportedOperationException("not yet");
+        //todo
+    }
+
+    @Override
+    public OrderResult getAllProcessingOrders(Integer limit, String mail, String time) {
+        throw new UnsupportedOperationException("not yet");
+        //todo
+    }
+
+    @Override
+    public OrderResult getAllShippedOrders(Integer limit, String mail, String time) {
+        throw new UnsupportedOperationException("not yet");
+        //todo
+    }
+
+    @Override
+    public OrderResult getAllPaidOrders(Integer limit, String mail, String time) {
+        throw new UnsupportedOperationException("not yet");
+        //todo
+    }
+
+    @Override
+    public OrderResult getOrderByMail(String mail) {
+        throw new UnsupportedOperationException("not yet");
+        //todo
+    }
+
+    @Override
     public OrderResult getAllOrders() {
         ItemCollection collection = orderTable.scan();
         List<Order> orders = mapToOrders(collection);
@@ -60,7 +90,7 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
         Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PAID_INDEX);
         ItemCollection collection = index.scan();
         List<Order> orders = mapToOrders(collection);
-
+        //todo
         return OrderResult.of(orders, OrderKey.of("", ""));
     }
 
