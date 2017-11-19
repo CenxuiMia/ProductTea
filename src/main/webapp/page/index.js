@@ -25,6 +25,7 @@ AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
 
 // Operations when the web page is loaded.
 function onLoad() {
+    console.info("onLoad");
     // Initiatlize CognitoAuth object
     var auth = initCognitoSDK();
     document.getElementById("signInButton").addEventListener("click", function() {
@@ -36,6 +37,7 @@ function onLoad() {
 
 // Operations when signed in.
 function showSignedIn() {
+    console.info("show signed in")
     let e = document.getElementById("signInButton");
     e.innerHTML = signOut;
     e.className = "login";
@@ -58,7 +60,7 @@ function userButton(auth) {
 
 // Initialize a cognito auth object.
 function initCognitoSDK() {
-    let auth = new AWSCognito.CognitoIdentityServiceProvider.CognitoAuth(authData);
+    let auth = new AWSCognito.CognitoIdentityServiceProvider.CognitoAuth(indexAuthData);
     auth.userhandler = {
         onSuccess: function(result) {
             console.log("Cognito Sign in successful!");
