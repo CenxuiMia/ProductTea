@@ -23,10 +23,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/**
- * todo scan should have some limit
- */
-
 class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
     private final Table orderTable = DynamoDBManager.getDynamoDB().getTable(DynamoDBConfig.ORDER_TABLE);
