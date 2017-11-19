@@ -14,8 +14,14 @@ public class DynamoDBOrderRepositoryTest {
 
     @Test
     public void getAllOrders() throws Exception {
+        DynamoDBRepositoryService.getOrderRepository().getAllOrders().forEach(
+                System.out::println
+        );
+    }
 
-        System.out.println(DynamoDBRepositoryService.getOrderRepository().getAllOrders());
+    @Test
+    public void testMoney() {
+        System.out.println(2*234 +5*124);
     }
 
     @Test
@@ -30,14 +36,14 @@ public class DynamoDBOrderRepositoryTest {
     public void addOrder() throws Exception {
         for (int i = 0; i< 5; i++) {
             List<String> products = new ArrayList<>();
-            products.add("grean tea: 2");
-            products.add("black tea: 5)");
+            products.add("green tea;1;2");
+            products.add("black tea;1;5");
 
             Order clientOrder = Order.of(
                     null,
                     products,
                     "cexui",
-                        1000f,
+                    null,
                     "mia",
                     "0928554033",
                     "aaa",
@@ -48,13 +54,12 @@ public class DynamoDBOrderRepositoryTest {
                     null);
 
             String orderJson = clientOrder.toJson();
-            System.out.println(orderJson);
 
             ObjectMapper mapper = new ObjectMapper();
 
             Order order = mapper.readValue(orderJson, Order.class);
 
-            DynamoDBRepositoryService.getOrderRepository().addOrder(i + "1@gmail.com", order);
+            DynamoDBRepositoryService.getOrderRepository().addOrder("cenxui" + i + "@gmail.com", order);
         }
 
     }

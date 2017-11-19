@@ -5,7 +5,6 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.cenxui.tea.app.aws.dynamodb.item.ItemProduct;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.product.Product;
@@ -42,60 +41,60 @@ public class ProductRepositoryIntegrationTest {
     }
 
     private void queryItems() {
-        List<Product> products = new ArrayList<>();
-        table.scan().forEach(
-                (s) -> {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    try {
-                        Product product = objectMapper.readValue(s.toJSON(), ItemProduct.class).getItem();
-                        products.add(product);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
-
-        products.stream().forEach(System.out::println);
+//        List<Product> products = new ArrayList<>();
+//        table.scan().forEach(
+//                (s) -> {
+//                    ObjectMapper objectMapper = new ObjectMapper();
+//                    try {
+//                        Product product = objectMapper.readValue(s.toJSON(), ItemProduct.class).getItem();
+//                        products.add(product);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//        );
+//
+//        products.stream().forEach(System.out::println);
     }
 
     private void putItems() {
 
-        List<String> images = Arrays.asList("a", "b", "c");
-
-        List<Product> products = Collections.unmodifiableList(Arrays.asList(
-                Product.of(
-                        "black tea",
-                        "1",
-                        "good tea from mia banana",
-                        "sm",
-                        "bm",
-                        images, Boolean.TRUE, 100.0, "mia"),
-                Product.of(
-                        "green tea",
-                        "1",
-                        "standard tea from cenxui banana",
-                        "sm",
-                        "bm",
-                        images, Boolean.TRUE, 100.0, "cenxui"),
-                Product.of(
-                        "woolong tea",
-                        "1",
-                        "woolong tea from cenxui mia",
-                        "sm",
-                        "bm",
-                        images, Boolean.TRUE, 200.0, "cenxui"),
-                Product.of(
-                        "mountain green tea",
-                        "1",
-                        "mountain tea from cenxui mia",
-                        "sm",
-                        "bm",
-                        images, Boolean.TRUE, 200.0, "mia")
-        ));
-
-        for (Product product : products) {
-
-            table.putItem(ItemUtil.getProductItem(product));
-        }
+//        List<String> images = Arrays.asList("a", "b", "c");
+//
+//        List<Product> products = Collections.unmodifiableList(Arrays.asList(
+//                Product.of(
+//                        "black tea",
+//                        "1",
+//                        "good tea from mia banana",
+//                        "sm",
+//                        "bm",
+//                        images, Boolean.TRUE, 100.0, "mia"),
+//                Product.of(
+//                        "green tea",
+//                        "1",
+//                        "standard tea from cenxui banana",
+//                        "sm",
+//                        "bm",
+//                        images, Boolean.TRUE, 100.0, "cenxui"),
+//                Product.of(
+//                        "woolong tea",
+//                        "1",
+//                        "woolong tea from cenxui mia",
+//                        "sm",
+//                        "bm",
+//                        images, Boolean.TRUE, 200.0, "cenxui"),
+//                Product.of(
+//                        "mountain green tea",
+//                        "1",
+//                        "mountain tea from cenxui mia",
+//                        "sm",
+//                        "bm",
+////                        images, Boolean.TRUE, 200.0, "mia")
+//        ));
+//
+//        for (Product product : products) {
+//
+//            table.putItem(ItemUtil.getProductItem(product));
+//        }
     }
 }

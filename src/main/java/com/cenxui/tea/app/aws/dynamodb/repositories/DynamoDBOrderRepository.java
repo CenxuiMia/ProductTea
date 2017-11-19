@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.order.OrderProductFormatException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
 import com.cenxui.tea.app.config.DynamoDBConfig;
@@ -102,13 +103,28 @@ class DynamoDBOrderRepository implements OrderRepository {
 
 
     @Override
-    public boolean addOrder(String mail, Order clientOrder) {
+    public Order addOrder(String mail, Order clientOrder) {
+        Float money = 0F;
+
+        List<String> products = clientOrder.getProducts();
+
+        for (String product: products) {
+            String[] s = product.split(";");
+
+            if (s.length != 3) throw new OrderProductFormatException(product);
+
+            Float price = DynamoDBRepositoryService.getProductRepository().getProductPrice(s[0].trim(), s[1].trim());
+
+            money = money + price * Float.valueOf(s[2].trim());
+        }
+
+
 
         Order order = Order.of(
                 mail,
                 clientOrder.getProducts(),      //todo modify products
                 clientOrder.getPurchaser(),
-                clientOrder.getMoney(),         //todo modify order money
+                money,         //todo modify order money
                 clientOrder.getReceiver(),
                 clientOrder.getPhone(),
                 clientOrder.getAddress(),
@@ -122,13 +138,12 @@ class DynamoDBOrderRepository implements OrderRepository {
                     .withItem(ItemUtil.getOrderItem(order))
                     .withConditionExpression("attribute_not_exists("+ Order.MAIL + ")");
             orderTable.putItem(putItemSpec);
-            return true;
         } catch (DuplicateProductException e) {
             System.out.println("Product record can not be duplicated "); //todo modify to runtime exception
         } catch (ConditionalCheckFailedException e) {
             System.out.println("Record already exists in Dynamo DB Table"); //todo modify to runtime exception
         }
-        return false;
+        return order;
     }
 
     @Override

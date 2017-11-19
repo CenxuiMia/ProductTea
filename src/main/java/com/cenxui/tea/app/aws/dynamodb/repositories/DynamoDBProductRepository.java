@@ -19,6 +19,8 @@ final class DynamoDBProductRepository implements ProductRepository {
 
     private final List<Product> products;
 
+    private Map<String, Map<String, Product>> productMap;
+
     /**
      * cache in Json
      */
@@ -36,6 +38,27 @@ final class DynamoDBProductRepository implements ProductRepository {
         this.products = Collections.unmodifiableList(products);
 
         this.productsJson = JsonUtil.mapProductsToJson(products);
+
+
+
+        Map<String, Map<String, Product>> productMap = new HashMap<>();
+
+        products.forEach(
+                (s)-> {
+                    String name = s.getName();
+
+                    String version = s.getVersion();
+
+                    if (productMap.containsKey(name) == false) {
+                        productMap.put(name, new HashMap<>());
+                    }
+
+                    productMap.get(name).put(version, s);
+
+                }
+        );
+
+        this.productMap = Collections.unmodifiableMap(productMap);
 
     }
 
@@ -80,5 +103,10 @@ final class DynamoDBProductRepository implements ProductRepository {
     @Override
     public String getAllProductsJSON() {
         return productsJson;
+    }
+
+    @Override
+    public Float getProductPrice(String name, String version) {
+        return productMap.get(name).get(version).getPrice();
     }
 }

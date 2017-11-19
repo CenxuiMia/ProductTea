@@ -18,7 +18,7 @@ public interface OrderRepository extends Repository {
 
     Order getOrdersByMailAndTime(String mail, String time);
 
-    boolean addOrder(String mail, Order clientOrder);
+    Order addOrder(String mail, Order clientOrder);
 
     boolean removeOrder(String mail, String time);
 
