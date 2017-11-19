@@ -8,11 +8,21 @@ public interface OrderRepository<Key> extends Repository {
 
     OrderResult getAllOrders();
 
+    OrderResult getAllOrder(Integer limit, String mail, String time);
+
     OrderResult getAllProcessingOrders();
+
+    OrderResult getAllProcessingOrders(Integer limit, String mail, String time);
 
     OrderResult getAllShippedOrders();
 
+    OrderResult getAllShippedOrders(Integer limit, String mail, String time);
+
     OrderResult getAllPaidOrders();
+
+    OrderResult getAllPaidOrders(Integer limit, String mail, String time);
+
+    OrderResult getOrderByMail(String mail);
 
     Order getOrdersByMailAndTime(String mail, String time);
 
