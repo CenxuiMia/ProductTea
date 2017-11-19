@@ -2,6 +2,7 @@ package com.cenxui.tea.app.aws.dynamodb.repositories;
 
 import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * todo scan should have some limit
@@ -30,26 +32,29 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
     @Override
     public OrderResult getAllOrder(Integer limit, String mail, String time) {
-        throw new UnsupportedOperationException("not yet");
-        //todo
+        ScanSpec scanSpec = new ScanSpec()
+                .withMaxResultSize(limit)
+                .withExclusiveStartKey(Order.MAIL, mail, Order.TIME, time);
+
+        ItemCollection collection = orderTable.scan(scanSpec);
+        List<Order> orders = mapToOrders(collection);
+        OrderKey orderKey = getLastKey(collection);
+        return OrderResult.of(orders, orderKey);
     }
 
     @Override
     public OrderResult getAllProcessingOrders(Integer limit, String mail, String time) {
-        throw new UnsupportedOperationException("not yet");
-        //todo
+        return scanIndex(limit, mail, time, DynamoDBConfig.ORDER_PROCESSING_INDEX);
     }
 
     @Override
     public OrderResult getAllShippedOrders(Integer limit, String mail, String time) {
-        throw new UnsupportedOperationException("not yet");
-        //todo
+        return scanIndex(limit, mail, time, DynamoDBConfig.ORDER_SHIPPED_INDEX);
     }
 
     @Override
     public OrderResult getAllPaidOrders(Integer limit, String mail, String time) {
-        throw new UnsupportedOperationException("not yet");
-        //todo
+        return scanIndex(limit, mail, time, DynamoDBConfig.ORDER_PAID_INDEX);
     }
 
     @Override
@@ -62,36 +67,25 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
     public OrderResult getAllOrders() {
         ItemCollection collection = orderTable.scan();
         List<Order> orders = mapToOrders(collection);
-        //todo
-        return OrderResult.of(orders, OrderKey.of("", ""));
-    }
+        OrderKey orderKey = getLastKey(collection);
 
+        return OrderResult.of(orders, orderKey);
+    }
 
     @Override
     public OrderResult getAllProcessingOrders() {
-        Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PROCESSING_INDEX);
-        ItemCollection collection = index.scan();
-        List<Order> orders = mapToOrders(collection);
-        //todo
-        return OrderResult.of(orders, OrderKey.of("", ""));
+        return scanIndex(DynamoDBConfig.ORDER_PROCESSING_INDEX);
     }
+
 
     @Override
     public OrderResult getAllShippedOrders() {
-        Index index = orderTable.getIndex(DynamoDBConfig.ORDER_SHIPPED_INDEX);
-        ItemCollection collection = index.scan();
-        List<Order> orders = mapToOrders(collection);
-        //todo
-        return OrderResult.of(orders, OrderKey.of("", ""));
+        return scanIndex(DynamoDBConfig.ORDER_SHIPPED_INDEX);
     }
 
     @Override
     public OrderResult getAllPaidOrders() {
-        Index index = orderTable.getIndex(DynamoDBConfig.ORDER_PAID_INDEX);
-        ItemCollection collection = index.scan();
-        List<Order> orders = mapToOrders(collection);
-        //todo
-        return OrderResult.of(orders, OrderKey.of("", ""));
+        return scanIndex(DynamoDBConfig.ORDER_PAID_INDEX);
     }
 
 
@@ -100,33 +94,6 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
         throw new UnsupportedOperationException("not yet");
         //todo
     }
-
-    private List<Order> mapToOrders(ItemCollection<Item> collection) {
-        List<Order> orders = new ArrayList<>();
-
-        collection.forEach(
-                (s) -> {
-                    Order order = JsonUtil.mapToOrder(s.toJSON());
-                    orders.add(order);
-                }
-        );
-
-        return Collections.unmodifiableList(orders);
-    }
-
-    private List<Order> mapQueryOutComeToOrders(ItemCollection<QueryOutcome> collection) {
-        List<Order> orders = new ArrayList<>();
-
-        collection.forEach(
-                (s) -> {
-                    Order order = JsonUtil.mapToOrder(s.toJSON());
-                    orders.add(order);
-                }
-        );
-
-        return Collections.unmodifiableList(orders);
-    }
-
 
 
     @Override
@@ -190,9 +157,8 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
-        Order order = JsonUtil.mapToOrder(orderJson);
 
-        return order;
+        return  JsonUtil.mapToOrder(orderJson);
     }
 
     @Override
@@ -207,9 +173,8 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
-        Order order = JsonUtil.mapToOrder(orderJson);
 
-        return order;
+        return JsonUtil.mapToOrder(orderJson);
     }
 
     @Override
@@ -227,9 +192,8 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
-        Order order = JsonUtil.mapToOrder(orderJson);
 
-        return order;
+        return JsonUtil.mapToOrder(orderJson);
     }
 
     @Override
@@ -243,9 +207,8 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
-        Order order = JsonUtil.mapToOrder(orderJson);
 
-        return order;
+        return JsonUtil.mapToOrder(orderJson);
     }
 
     @Override
@@ -263,9 +226,8 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
         String orderJson = outcome.getItem().toJSON();
-        Order order = JsonUtil.mapToOrder(orderJson);
 
-        return order;
+        return JsonUtil.mapToOrder(orderJson);
     }
 
     @Override
@@ -282,6 +244,48 @@ class DynamoDBOrderRepository implements OrderRepository<OrderKey> {
         Order order = JsonUtil.mapToOrder(orderJson);
 
         return order;
+    }
+
+    private OrderKey getLastKey(ItemCollection<ScanOutcome> collection) {
+        ScanOutcome scanOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
+
+        return OrderKey.of(
+                lastKeyEvaluated.get(Order.MAIL).getS(), lastKeyEvaluated.get(Order.TIME).getS());
+    }
+
+    private List<Order> mapToOrders(ItemCollection<Item> collection) {
+        List<Order> orders = new ArrayList<>();
+
+        collection.forEach(
+                (s) -> {
+                    Order order = JsonUtil.mapToOrder(s.toJSON());
+                    orders.add(order);
+                }
+        );
+
+        return Collections.unmodifiableList(orders);
+    }
+
+    private OrderResult scanIndex(String indexName) {
+        Index index = orderTable.getIndex(indexName);
+        ItemCollection collection = index.scan();
+        List<Order> orders = mapToOrders(collection);
+        OrderKey orderKey = getLastKey(collection);
+
+        return OrderResult.of(orders, orderKey);
+    }
+
+
+    private OrderResult scanIndex(Integer limit, String mail, String time, String indexName) {
+        Index index = orderTable.getIndex(indexName);
+        ScanSpec scanSpec = new ScanSpec()
+                .withMaxResultSize(limit)
+                .withExclusiveStartKey(Order.MAIL, mail, Order.TIME, time);
+        ItemCollection collection = index.scan(scanSpec);
+        List<Order> orders = mapToOrders(collection);
+        OrderKey orderKey = getLastKey(collection);
+        return OrderResult.of(orders, orderKey);
     }
 
 }
