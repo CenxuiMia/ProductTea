@@ -22,6 +22,8 @@ public class DynamoDBConfig {
     public static final String ORDER_PROCESSING_INDEX = "processingIndex";
     public static final String ORDER_SHIPPED_INDEX = "shippedIndex";
     public static final String ORDER_PAID_INDEX = "paidIndex";
+    public static final String ORDER_PURCHASER_INDEX = "purchaserIndex"; //todo add it
+
 
 
 
