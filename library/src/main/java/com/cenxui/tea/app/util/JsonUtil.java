@@ -45,14 +45,14 @@ public class JsonUtil {
         return product;
     }
 
-    public static String mapProductsToJson(List<Product> products) {
+    public static String mapToJson(Object object) {
         ObjectMapper mapper = new ObjectMapper();
-        String productsJson;
+        String objectJson;
         try {
-            productsJson = mapper.writeValueAsString(products);
+            objectJson = mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new ObjectToJsonException(products);
+            throw new ObjectToJsonException(object);
         }
-        return productsJson;
+        return objectJson;
     }
 }
