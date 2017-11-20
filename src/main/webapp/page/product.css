@@ -124,16 +124,45 @@ body, html {
     /*background-color: #f2f2f2; !*for testing*!*/
 }
 
+#price {
+    font-size: 22px;
+    font-weight: 400;
+    color: olivedrab;
+}
+
 select {
-    /*margin-top: 50px;*/
     width: 80px;
-    height: 30px;
+    height: 35px;
     border-style: dotted;
-    outline-color: #cccccc;
+    font-size: 14px;
+    outline: none;
+}
+
+select:hover {
+    background-color: olivedrab;
+    color: #f2f2f2;
+}
+
+.addToCart {
+    margin-left: 5px;
+    width: 150px;
+    height: 35px;
+    font-size: 15px;
+    background-color: #f7f7f7;
+    border: dotted #cccccc 1px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.addToCart:hover {
+    background-color: olivedrab;
+    color: #f2f2f2;
 }
 
 .border {
     border-bottom: solid #cccccc 2px ;
+    width: 50%;
+    margin-left: 25%;
 }
 
 @media (max-width: 1200px) {
