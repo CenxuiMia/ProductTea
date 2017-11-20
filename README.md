@@ -39,6 +39,8 @@ aws cloudformation deploy --template-file tea-order-table.yaml --stack-name tea-
 
 lambda
 
+go to the application folder
+
 gradle build -x test 
 
 Template with related source name
