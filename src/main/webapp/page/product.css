@@ -95,16 +95,97 @@ body, html {
 .info {
     margin: 2%;
     padding-bottom: 2%;
-    border-bottom: solid #cccccc 2px ;
+    letter-spacing: 2px;
+    /*background-color: lavenderblush; !*for testing*!*/
 }
 
-.info img {
-    width: 45%;
-    padding: 1%;
+.info-content {
+    margin: 2%;
+    display: inline-block;
+    vertical-align: top;
+    /*background-color: #f2f2f2; !*for testing*!*/
+}
+
+.info-content img {
+    margin-right: 3%;
+    margin-left: 3%;
+    width: 80%;
+}
+
+.info-content th  {
+    width: 90px;
+    color: #777777;
+    font-weight: normal;
+    /*background-color: #f2f2f2; !*for testing*!*/
+}
+
+.info-content td {
+    width: 200px;
+    /*background-color: #f2f2f2; !*for testing*!*/
+}
+
+#price {
+    font-size: 22px;
+    font-weight: 400;
+    color: olivedrab;
+}
+
+select {
+    width: 80px;
+    height: 35px;
+    border-style: dotted;
+    font-size: 14px;
+    outline: none;
+}
+
+select:hover {
+    background-color: olivedrab;
+    color: #f2f2f2;
+}
+
+.addToCart {
+    margin-left: 5px;
+    width: 150px;
+    height: 35px;
+    font-size: 15px;
+    background-color: #f7f7f7;
+    border: dotted #cccccc 1px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.addToCart:hover {
+    background-color: olivedrab;
+    color: #f2f2f2;
+}
+
+.border {
+    border-bottom: solid #cccccc 2px ;
+    width: 50%;
+    margin-left: 25%;
 }
 
 @media (max-width: 1200px) {
+    .info-content {
+        margin: 2% 0 2% 0;
+        letter-spacing: 1px;
+    }
+    .info-content img {
+        margin-right: 0.5%;
+        margin-left: 3%;
+        width: 75%;
+    }
+}
 
+@media (max-width: 1000px) {
+    .info-content {
+        margin: 2% 0 2% 0;
+    }
+    .info-content img {
+        margin-right: 0;
+        margin-left: 3%;
+        width: 73%;
+    }
 }
 
 .footer-copyright {
