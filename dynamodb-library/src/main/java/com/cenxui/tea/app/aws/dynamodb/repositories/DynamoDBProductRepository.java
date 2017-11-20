@@ -2,7 +2,6 @@ package com.cenxui.tea.app.aws.dynamodb.repositories;
 
 import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
-import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductJsonMapException;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
@@ -39,8 +38,14 @@ final class DynamoDBProductRepository implements ProductRepository {
 
     @Override
     public List<Product> getProductsByName(String name) {
-        //todo
-        throw new UnsupportedOperationException("not yet");
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Product.NAME, name);
+
+        ItemCollection collection = productTable.query(spec);
+
+        List<Product> products = mapToProducts(collection);
+
+        return products; //todo throw exception
     }
 
     @Override
@@ -59,7 +64,7 @@ final class DynamoDBProductRepository implements ProductRepository {
 
         List<Product> products = mapToProducts(collection);
 
-        Product product = products.get(0);
+        Product product = products.get(0); // todo throw exception;
 
         return product.getPrice();
     }

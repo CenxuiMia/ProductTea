@@ -4,6 +4,7 @@ import com.cenxui.tea.app.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
 import com.cenxui.tea.app.services.CoreController;
+import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -28,15 +29,21 @@ public class ProductController extends CoreController {
                     DynamoDBConfig.PRODUCT_TABLE
             );
 
-    public static final Route getAllProducts = (Request request,  Response response) -> {
-//        String head = "{\"products\" : " ;
-//        String products = productRepository.getAllProductsJSON();
-//        String tail = "}";
-//
-//        StringBuilder json = new StringBuilder();
-//        json.append(head).append(products).append(tail);
+    private static String productJson;
 
-        return "not yet";
+    public static final Route getAllProducts = (Request request,  Response response) -> {
+        if (productJson == null) {
+            String head = "{\"products\" : " ;
+            String products = JsonUtil.mapToJson(productRepository.getAllProducts());
+            String tail = "}";
+
+            productJson = new StringBuilder().append(head).append(products).append(tail).toString();
+        }
+
+
+
+
+        return productJson;
     };
 
 
