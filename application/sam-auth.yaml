@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: tea API written with spark with the aws-serverless-java-container library
+
+Resources:
+  TeaAuthGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      DefinitionUri: tea-auth-swagger.yaml
+      StageName: Auth
+      Variables:
+        LambdaFunctionName: !Ref TeaAuthFunction
+
+  TeaAuthFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.cenxui.tea.app.aws.lambda.handlers.AuthLambdaHandler::handleRequest
+      Runtime: java8
+      CodeUri: build/distributions/application-1.0-SNAPSHOT.zip
+      MemorySize: 512
+      Environment:
+        Variables:
+          Region: ap-northeast-1
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonDynamoDBFullAccess # todo modify it
+      Timeout: 20
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TeaAuthGatewayApi
+            Path: /{proxy+}
+            Method: any
+
+Outputs:
+
+  TeaAuthApi:
+      Description: URL for application
+      Value: !Sub 'https://${TeaAuthGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Auth/index'
+      Export:
+        Name: TeaAuthApi
