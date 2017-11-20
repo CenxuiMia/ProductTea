@@ -1,0 +1,43 @@
+HOST: https://tea.cens-platform.com
+Accept: application/json
+---------------------------------------------------------
+
+List<Product> getAllProducts(); / String getAllProductsJSON();
+http: GET
+path: /products?filter=all
+parameter: null
+return: JSON String
+
+-------------
+
+List<Product> getProductsByTag(String tag);
+http: GET
+path: /products?tag=___
+parameter: null
+return: JSON String
+
+-------------
+
+List<Product> getProductsByPrice(Float price);
+http: GET
+path: /products?price=___
+parameter: null
+return: JSON String
+
+-------------
+
+List<Product> getProductsByName(String name);
+http: GET
+path: /products?name=___
+parameter: null
+return: JSON String
+
+-------------
+
+Product getProductByNameVersion(String name, String version);
+http: GET
+path: /products?name=___&version=___
+parameter: null
+return: JSON String
+
+-------------

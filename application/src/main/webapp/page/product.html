@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>皇飲</title>
+
+    <link rel="stylesheet" type="text/css" href="product.css">
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="aws-cognito-sdk.js"></script>
+    <script src="amazon-cognito-auth.min.js"></script>
+    <script src="product.js"></script>
+</head>
+
+<body onload="onLoad()">
+
+<div id="navbar">
+    <div id="tab">
+        <a href="#home">首頁</a>
+        <a href="#news">最新消息</a>
+        <a href="javascript:void(0)" class="active">產品</a>
+        <a href="#contact">聯絡我們</a>
+    </div>
+
+    <span class="login" id="signInButton"><a href="javascript:void(0)"title="Sign in">登入/註冊</a></span>
+</div>
+
+<div class="banner">
+    <h2>皇飲</h2>
+    <p>生活，來點品味。</p>
+</div>
+
+<div class="content">
+    <div class="info">
+        <div class="info-content" id="info-img">
+            <img src="https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg" alt="產品照" >
+        </div>
+
+        <div class="info-content">
+            <h2 id="name">翠玉綠茶</h2>
+            <p id="intro">清新耐泡，低發酵保留原始茶香，給你一整天好心情</p>
+            <table style="text-align: left">
+                <tr>
+                    <th>產地</th>
+                    <td id="origin">梨山</td>
+                </tr>
+                <tr>
+                    <th>季節</th>
+                    <td id="season">春季</td>
+                </tr>
+                <tr>
+                    <th>烘焙程度</th>
+                    <td id="bake">☉☉</td>
+                </tr>
+                <tr>
+                    <th>發酵程度</th>
+                    <td id="ferment">☉</td>
+                </tr>
+                <tr>
+                    <th>重量</th>
+                    <td id="weight">100g</td>
+                </tr>
+            </table>
+            <p id="price">NT.123</p>
+            <div>
+                <select>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <span><button class="addToCart">加入購物車</button></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="border"></div>
+
+</div>
+
+<footer class="footer-copyright">
+    <p>Copyright © 2017 HWANGYING All rights reserved.</p>
+</footer>
+
+<script>
+    let navbar = document.getElementById("navbar");
+    var sticky = navbar.offsetTop;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+HOST: https://cens-platform.com
+Accept: application/json
+---------------------------------------------------------
+
+List<Order> getAllOrders();
+http: GET
+path: /orders?filter=all
+parameter: null
+return: JSON String
+
+-------------
+
+List<Order> getOrderByTMail(String mail);
+http: GET
+path: /orders?mail=___
+parameter: String mail
+return: JSON String
+
+-------------
+
+List<Order> getAllProcessingOrders();
+http: GET
+path: /orders?filter=processing
+parameter: null
+return: JSON String
+
+-------------
+
+List<Order> getAllShippedOrders();
+http: GET
+path: /orders?filter=shipped
+parameter: null
+return: JSON String
+
+-------------
+
+List<Order> getAllPaidOrders();
+http: GET
+path: /orders?filter=paid
+parameter: null
+return: JSON String
+
+-------------
+
+Order getOrdersByMailAndTime(String mail, String time);
+http: GET
+path: /orders?mail=___&time=___
+parameter: String mail, String time
+return: JSON String
+
+-------------
+
+boolean addOrder(Order order);
+http: PUT
+path: /orders
+parameter: List<String> products,
+           String purchaser,
+           Float money,
+           String receiver,
+           String phone,
+           String address,
+           String comment
+return: JSON String
+
+-------------
+
+boolean removeOrder(String mail, String time);
+http: DELETE
+path: /orders
+parameter: String mail,
+           String time
+return: JSON String
+
+-------------
+
+Order activeOrder(String mail, String time);
+http: POST
+path: /orders
+body: action:String active
+parameter: String mail,
+           String time
+return: JSON String
+
+-------------
+
+
+Order deActiveOrder(String mail, String time);
+http: POST
+path: /orders
+body: action:String deActive
+parameter: String mail,
+           String time
+return: JSON String
+
+-------------
+
+Order payOrder(String mail, String time);
+http: POST
+path: /orders
+body: action:String payOrder
+parameter: String mail,
+           String time
+return: JSON String
+
+-------------
+
+Order dePayOrder(String mail, String time);
+http: POST
+path: /orders
+body: action:String dePayOrder
+parameter: String mail,
+           String time
+return: JSON String
+
+-------------
+
+Order shipOrder(String mail, String time);
+http: POST
+path: /orders
+body: action:String shipOrder
+parameter: String mail,
+           String time
+return: JSON String
+
+-------------
+
+Order deShipOrder(String mail, String time);
+http: POST
+path: /orders
+body: action:String deShipOrder
+parameter: String mail,
+           String time
+return: JSON String
+
+-------------

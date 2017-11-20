@@ -9,12 +9,22 @@ let productEndpoint = "https://2vhhlhju8c.execute-api.ap-northeast-1.amazonaws.c
 
 let cookieToken = "id_token";
 
-let authData = {
-    ClientId : clientId, 
+let tokenScopesArray = ['openid'];
+
+let indexAuthData = {
+    ClientId : clientId,
     AppWebDomain : appDomain,
-    TokenScopesArray : ['openid'],
+    TokenScopesArray : tokenScopesArray,
     RedirectUriSignIn : 'https://tw.hwangying.com', //CloudFront Distribution URL
     RedirectUriSignOut : 'https://tw.hwangying.com' //CloudFront Distribution URL
-};
+}
+
+let productsAuthData = {
+    ClientId : clientId,
+    AppWebDomain : appDomain,
+    TokenScopesArray : tokenScopesArray,
+    RedirectUriSignIn : 'https://tw.hwangying.com/products.html', //CloudFront Distribution URL
+    RedirectUriSignOut : 'https://tw.hwangying.com/products.html' //CloudFront Distribution URL
+}
 
 
