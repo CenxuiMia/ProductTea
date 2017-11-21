@@ -18,21 +18,28 @@ AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
 AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
 
 function setUp(authData) {
-    if (getToken() !== "") {
-        console.info("token" + getToken());
-        showSignedIn();
-    }else {
-        showSignedOut();
-    }
 
     var auth = initCognitoSDK(authData);
+
+    var user = auth.getCurrentUser();
+
     document.getElementById("signInButton").addEventListener("click", function() {
         userButton(auth);
     });
 
+    if (user != null) {
+        console.info("user get Session");
+        showSignedIn();
+        auth.getSession();
+
+    }else {
+        showSignedOut();
+    }
+
     var curUrl = window.location.href;
     auth.parseCognitoWebResponse(curUrl);
 
+    return auth;
 }
 
 // Operations when signed in.
@@ -61,9 +68,6 @@ function userButton(auth) {
 function showSignedOut() {
     console.info("show signOut")
     document.getElementById("signInButton").innerHTML = signIn;
-    document.cookie = cookieToken + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=.hwangying.com;path=/";
-
-    console.info("sign out Token :" + getToken())
 }
 
 // Initialize a cognito auth object.
@@ -74,12 +78,6 @@ function initCognitoSDK(authData) {
             console.log("Cognito Sign in successful!");
             showSignedIn(result);
             let id_token = auth.signInUserSession.idToken.jwtToken;
-
-            var d = new Date();
-            d.setTime(d.getTime() + (60 * 60 * 1000));
-            var expires = "expires="+d.toUTCString();
-            document.cookie = cookieToken +"=" + id_token + ";expires=" + expires
-                + ";domain=.hwangying.com;path=/";
 
             let cognitoParams = {
                 IdentityPoolId: identityPool,
@@ -113,17 +111,3 @@ function initCognitoSDK(authData) {
     return auth;
 }
 
-function getToken() {
-    var name = cookieToken + "=";
-    var ca = document.cookie.split(';');
-    for(var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
