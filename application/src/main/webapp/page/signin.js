@@ -68,9 +68,6 @@ function userButton(auth) {
 function showSignedOut() {
     console.info("show signOut")
     document.getElementById("signInButton").innerHTML = signIn;
-    // document.cookie = cookieToken + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=.hwangying.com;path=/";
-    //
-    // console.info("sign out Token :" + getToken())
 }
 
 // Initialize a cognito auth object.
