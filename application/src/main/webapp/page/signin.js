@@ -1,6 +1,6 @@
-let signIn = "登入/註冊"
+let signIn = "登入/註冊";
 
-let signOut = "登出"
+let signOut = "登出";
 
 AWS.config.update({
     region: region,
@@ -44,10 +44,8 @@ function setUp(authData) {
 
 // Operations when signed in.
 function showSignedIn() {
-    console.info("show signed in")
-    let e = document.getElementById("signInButton");
-    e.innerHTML = signOut;
-    e.className = "login";
+    console.info("show signed in");
+    document.getElementById("signInButton").innerHTML = signOut;
 }
 
 // Perform user operations.
@@ -55,9 +53,7 @@ function userButton(auth) {
     var state = document.getElementById('signInButton').innerHTML;
     var statestr = state.toString();
     if (statestr.includes(signOut)) {
-        let e = document.getElementById("signInButton");
-        e.innerHTML = signIn;
-        e.className = "login";
+        document.getElementById("signInButton").innerHTML = signIn;
         auth.signOut();
         showSignedOut();
     } else {
@@ -66,7 +62,7 @@ function userButton(auth) {
 }
 
 function showSignedOut() {
-    console.info("show signOut")
+    console.info("show signOut");
     document.getElementById("signInButton").innerHTML = signIn;
 }
 
