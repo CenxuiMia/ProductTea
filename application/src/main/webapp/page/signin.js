@@ -30,9 +30,7 @@ function setUp(authData) {
     if (user != null) {
         console.info("user get Session");
         showSignedIn();
-        
         auth.getSession();
-        console.info("token : " + auth.signInUserSession.idToken.jwtToken);
 
     }else {
         showSignedOut();
