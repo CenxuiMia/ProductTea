@@ -1,7 +1,4 @@
 body, html {
-    height: 100%;
-    margin: 0;
-    font: 400 15px/1.8 "Lato", sans-serif;
     color: #777;
 }
 
@@ -88,60 +85,6 @@ footer{
     color: #fff;
     font-size: 25px;
     letter-spacing: 10px;
-}
-
-.footer-title {
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    font: 20px "Lato", sans-serif;
-    color: beige;
-}
-
-.footer-text {
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #fff;
-}
-
-.footer-copyright {
-    clear: both;
-    letter-spacing: 2px;
-    text-align: center;
-    font-size: 12px;
-    padding: 15px;
-}
-
-#navbar {
-    overflow: auto;
-    position: fixed;
-    background-color: #444444;
-    width: 100%;
-    height: 50px;
-    z-index: 1;
-}
-
-/* Navbar links */
-#tab a {
-    float: left;
-    display: block;
-    color: darkgray;
-    text-align: center;
-    padding: 14px;
-    text-decoration: none;
-}
-
-#tab a:hover {
-    background-color: #777777;
-    color: #f2f2f2;
-}
-
-#tab a.active {
-    color: white;
-    text-shadow: #f2f2f2;
-}
-
-#tab a.active:hover {
-    background-color: transparent;
 }
 
 /* Turn off parallax scrolling for tablets and phones */
