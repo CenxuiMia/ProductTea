@@ -9,16 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 
 public class JsonUtil {
-    public static String mapToJson(Order order) {
-        ObjectMapper mapper = new ObjectMapper();
-        String orderJson;
-        try {
-            orderJson = mapper.writeValueAsString(order);
-        } catch (JsonProcessingException e) {
-            throw new ObjectToJsonException(order);
-        }
-        return orderJson;
-    }
 
     public static String mapOrderResultToJson(OrderResult orderResult) {
         ObjectMapper mapper = new ObjectMapper();
