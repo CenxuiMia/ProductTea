@@ -18,7 +18,7 @@
 
 <div id="navbar">
     <div id="tab">
-        <a href="#home">首頁</a>
+        <a href="https://tw.hwangying.com">首頁</a>
         <a href="#news">最新消息</a>
         <a href="javascript:void(0)" class="active">產品</a>
         <a href="#contact">聯絡我們</a>
@@ -65,24 +65,31 @@
             </table>
             <p id="price">NT.123</p>
             <div>
-                <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
+                <label>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </label>
                 <span><button class="addToCart">加入購物車</button></span>
             </div>
         </div>
     </div>
 
     <div class="border"></div>
+    <div class="border2"></div>
+
+    <div id="photos">
+        <img src="https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg" alt="產品照">
+    </div>
 
 </div>
 
@@ -91,8 +98,10 @@
 </footer>
 
 <script>
-    let navbar = document.getElementById("navbar");
-    var sticky = navbar.offsetTop;
+    let photo = document.createElement("img");
+    photo.src = "https://farm5.staticflickr.com/4519/37762617154_7d6f095f03_z.jpg";
+    let parent = document.getElementById("photos");
+    parent.appendChild(photo);
 </script>
 
 </body>
