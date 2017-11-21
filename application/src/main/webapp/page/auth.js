@@ -15,16 +15,25 @@ let indexAuthData = {
     ClientId : clientId,
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
-    RedirectUriSignIn : 'https://tw.hwangying.com', //CloudFront Distribution URL
-    RedirectUriSignOut : 'https://tw.hwangying.com' //CloudFront Distribution URL
-}
+    RedirectUriSignIn : 'https://tw.hwangying.com',
+    RedirectUriSignOut : 'https://tw.hwangying.com'
+};
 
 let productsAuthData = {
     ClientId : clientId,
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
-    RedirectUriSignIn : 'https://tw.hwangying.com/products.html', //CloudFront Distribution URL
-    RedirectUriSignOut : 'https://tw.hwangying.com/products.html' //CloudFront Distribution URL
-}
+    RedirectUriSignIn : 'https://tw.hwangying.com/products.html',
+    RedirectUriSignOut : 'https://tw.hwangying.com/products.html'
+};
+
+let productAuthData = {
+    ClientId : clientId,
+    AppWebDomain : appDomain,
+    TokenScopesArray : tokenScopesArray,
+    RedirectUriSignIn : 'https://tw.hwangying.com/product.html',
+    RedirectUriSignOut : 'https://tw.hwangying.com/product.html'
+};
+
 
 
