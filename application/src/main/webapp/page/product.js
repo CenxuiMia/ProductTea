@@ -58,7 +58,7 @@ function userButton(auth) {
 
 // Initialize a cognito auth object.
 function initCognitoSDK() {
-    let auth = new AWSCognito.CognitoIdentityServiceProvider.CognitoAuth(authData);
+    let auth = new AWSCognito.CognitoIdentityServiceProvider.CognitoAuth(authData); //TODO redirect path
     auth.userhandler = {
         onSuccess: function(result) {
             console.log("Cognito Sign in successful!");
