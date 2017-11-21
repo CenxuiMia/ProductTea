@@ -50,9 +50,7 @@ function showSignedIn() {
 
 // Perform user operations.
 function userButton(auth) {
-    var state = document.getElementById('signInButton').innerHTML;
-    var statestr = state.toString();
-    if (statestr.includes(signOut)) {
+    if (isSignIn()) {
         document.getElementById("signInButton").innerHTML = signIn;
         auth.signOut();
         showSignedOut();
@@ -106,4 +104,12 @@ function initCognitoSDK(authData) {
     // auth.useCodeGrantFlow();
     return auth;
 }
+
+function isSignIn() {
+    var state = document.getElementById('signInButton').innerHTML;
+    var statestr = state.toString();
+    return statestr.includes(signOut)
+}
+
+
 
