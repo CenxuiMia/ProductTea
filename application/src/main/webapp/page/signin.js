@@ -22,7 +22,7 @@ let onSignOut;
 
 function setUp(authData, doSignIn, doSignOut) {
     onSignOut = doSignOut;
-    onSignIn = doSignIn
+    onSignIn = doSignIn;
 
     let auth = initCognitoSDK(authData);
 
