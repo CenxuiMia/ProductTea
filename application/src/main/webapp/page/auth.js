@@ -7,8 +7,6 @@ let userEndpoint = "https://2w1vis3iw8.execute-api.ap-northeast-1.amazonaws.com/
 let orderEndpoint = "http://localhost:9000/order";
 let productEndpoint = "https://2vhhlhju8c.execute-api.ap-northeast-1.amazonaws.com/UnAuth/product";
 
-let cookieToken = "id_token";
-
 let tokenScopesArray = ['openid'];
 
 let indexAuthData = {
@@ -33,6 +31,14 @@ let productAuthData = {
     TokenScopesArray : tokenScopesArray,
     RedirectUriSignIn : 'https://tw.hwangying.com/product.html',
     RedirectUriSignOut : 'https://tw.hwangying.com/product.html'
+};
+
+let userAuthData = {
+    ClientId : clientId,
+    AppWebDomain : appDomain,
+    TokenScopesArray : tokenScopesArray,
+    RedirectUriSignIn : 'https://tw.hwangying.com/user.html',
+    RedirectUriSignOut : 'https://tw.hwangying.com'
 };
 
 
