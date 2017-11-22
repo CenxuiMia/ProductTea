@@ -6,6 +6,13 @@
 function onLoad() {
 
     // Initiatlize CognitoAuth object
-    var auth = setUp(indexAuthData);
+    setUp(indexAuthData,
+    function () {
+        console.info("index on signIn");
+    },
+    function () {
+        console.info("index on signOut");
+    }
+    );
 }
 

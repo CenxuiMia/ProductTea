@@ -1,5 +1,4 @@
 let signIn = "登入/註冊";
-
 let signOut = "登出";
 
 AWS.config.update({
@@ -17,21 +16,24 @@ AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
 
 AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
 
-function setUp(authData) {
 
-    var auth = initCognitoSDK(authData);
+let onSignIn;
+let onSignOut;
 
-    var user = auth.getCurrentUser();
+function setUp(authData, doSignIn, doSignOut) {
+    onSignOut = doSignOut;
+    onSignIn = doSignIn
+
+    let auth = initCognitoSDK(authData);
 
     document.getElementById("signInButton").addEventListener("click", function() {
         userButton(auth);
     });
 
-    if (user != null) {
+    if (auth.getCurrentUser() !== null) {
         console.info("user get Session");
         showSignedIn();
         auth.getSession();
-
     }else {
         showSignedOut();
     }
@@ -39,20 +41,12 @@ function setUp(authData) {
     var curUrl = window.location.href;
     auth.parseCognitoWebResponse(curUrl);
 
-    return auth;
-}
-
-// Operations when signed in.
-function showSignedIn() {
-    console.info("show signed in");
-    document.getElementById("signInButton").innerHTML = signOut;
+    userAuth = auth;
 }
 
 // Perform user operations.
 function userButton(auth) {
-    var state = document.getElementById('signInButton').innerHTML;
-    var statestr = state.toString();
-    if (statestr.includes(signOut)) {
+    if (isSignIn()) {
         document.getElementById("signInButton").innerHTML = signIn;
         auth.signOut();
         showSignedOut();
@@ -61,10 +55,24 @@ function userButton(auth) {
     }
 }
 
+// Operations when signed in.
+function showSignedIn() {
+    console.info("show signed in");
+    document.getElementById("signInButton").innerHTML = signOut;
+    onSignIn();
+}
+
+
 function showSignedOut() {
     console.info("show signOut");
     document.getElementById("signInButton").innerHTML = signIn;
+    onSignOut();
 }
+
+
+
+
+
 
 // Initialize a cognito auth object.
 function initCognitoSDK(authData) {
@@ -72,14 +80,9 @@ function initCognitoSDK(authData) {
     auth.userhandler = {
         onSuccess: function(result) {
             console.log("Cognito Sign in successful!");
-            showSignedIn(result);
+            showSignedIn();
             let id_token = auth.signInUserSession.idToken.jwtToken;
 
-            let cognitoParams = {
-                IdentityPoolId: identityPool,
-                Logins: {}
-            };
-            cognitoParams.Logins["cognito-idp."+region+".amazonaws.com/"+poolId] = id_token;
             $.ajax({
                 type : 'GET',
                 url : userEndpoint,
@@ -107,3 +110,15 @@ function initCognitoSDK(authData) {
     return auth;
 }
 
+function isSignIn() {
+    let state = document.getElementById('signInButton').innerHTML;
+    let statestr = state.toString();
+    return statestr.includes(signOut)
+}
+
+let userAuth;
+
+function getToken() {
+    userAuth.getSession();
+    return userAuth.signInUserSession.idToken.jwtToken;
+}

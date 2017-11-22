@@ -9,6 +9,7 @@
     <script src="auth.js"></script>
     <script src="aws-cognito-sdk.js"></script>
     <script src="amazon-cognito-auth.min.js"></script>
+    <script src="signin.js"></script>
 
 </head>
 <body onload="onLoad()">
@@ -62,26 +63,6 @@
     </form>
 </div>
 <script>
-    var id_token;
-
-    function onLoad() {
-        id_token = getCookie(cookieToken);
-    }
-
-    function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
 
 
     function addOrder() {
@@ -95,6 +76,7 @@
         order.products[0] = document.getElementById("products").value;
         order.money = document.getElementById("money").value;
         order.comment = document.getElementById("comment").value;
+        let id_token = getToken();
 
         $.ajax({
             type : 'PUT',

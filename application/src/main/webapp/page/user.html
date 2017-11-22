@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>個人資料</title>
+    <link rel="stylesheet" type="text/css" href="user.css"/>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="aws-cognito-sdk.js"></script>
+    <script src="amazon-cognito-auth.min.js"></script>
+    <script src="signin.js"></script>
+
+</head>
+<body onload="onLoad()">
+<div id="content">
+
+    <h1 id="center">訂單輸入系統</h1>
+
+    <form id="order_form" name="order_form" class="order_form">
+
+        <div id="accountFields">
+            <fieldset>
+                <div class="textinput" id="iputLastName">
+                    <label for="lastName">姓</label>
+                    <input id="lastName" type="text" autocapitalize="off" autocorrect="off" value="林"></input>
+                </div>
+                <div class="textinput" id="inputFirstName">
+                    <label for="firstName">名</label>
+                    <input id="firstName" type="text" autocapitalize="off" autocorrect="off" value="岑勳"></input>
+                </div>
+
+                <div class="textinput" id="inputMail">
+                    <label for="mail">電子郵件</label>
+                    <input id="mail" type="email" autocapitalize="off" autocorrect="off" value="cenxuilin@gmail.com"></input>
+                </div>
+                <div class="textinput" id="inputPhone">
+                    <label for="phone">聯絡電話</label>
+                    <input id="phone" name="phone" type="tel" autocapitalize="off" autocorrect="off" value="0928554033"></input>
+                </div>
+                <div class="textinput" id="inputAddress">
+                    <label for="address">地址</label>
+                    <input id="address" name="address" autocapitalize="off" autocorrect="off" value="no"></input>
+                </div>
+
+            </fieldset>
+
+            <div class="buttoninput">
+                <a id="submit_button" class="css3button" href="#" alt="Continue" value="Continue" onclick="save()">確認</a>
+            </div>
+
+            <div class="buttoninput">
+                <a id="cancel_button" class="css3button" href="#" alt="Continue" value="Continue" onclick="cancel()">取消</a>
+            </div>
+
+        </div>
+
+    </form>
+</div>
