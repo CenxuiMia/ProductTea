@@ -58,10 +58,9 @@ body, html {
     text-decoration: none;
     background-color: transparent;
     color: white;
-    padding: 10px 18px 10px 18px;
 }
 
-.login a:hover {
+.login:hover {
     background-color: #777777;
 }
 
