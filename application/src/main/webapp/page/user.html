@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>個人資料</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="//hwangying.com/favicon.ico">
+    <link rel="icon" href="//hwangying.com/favicon.ico">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="global.css">
+    <link rel="stylesheet" type="text/css" href="signin.css">
     <link rel="stylesheet" type="text/css" href="user.css"/>
+
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
     <script src="auth.js"></script>
@@ -14,17 +22,21 @@
 
 </head>
 <body onload="onLoad()">
+
 <div id="navbar">
     <div id="tab">
-        <a href="https://tw.hwangying.com">首頁</a>
+        <a href="//tw.hwangying.com">首頁</a>
         <a href="#news">最新消息</a>
-        <a href="javascript:void(0)" class="active">產品</a>
+        <a href="//tw.hwangying.com/products.html">產品</a>
         <a href="#contact">聯絡我們</a>
     </div>
 
     <div class="login">
         <a id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
     </div>
+
+    <a href="javascript:void(0)"><i id="member" class="material-icons md-light">person</i></a>
+    <a href="//tw.hwangying.com/order.html"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
 </div>
 
 <div id="content">
@@ -44,6 +56,10 @@
                     <input id="firstName" type="text" autocapitalize="off" autocorrect="off" value="岑勳"></input>
                 </div>
 
+                <div class="textinput" id="inputMail">
+                    <label for="mail">電子郵件</label>
+                    <input id="mail" type="email" autocapitalize="off" autocorrect="off" value="cenxuilin@gmail.com"></input>
+                </div>
                 <div class="textinput" id="inputPhone">
                     <label for="phone">聯絡電話</label>
                     <input id="phone" name="phone" type="tel" autocapitalize="off" autocorrect="off" value="0928554033"></input>
@@ -67,63 +83,3 @@
 
     </form>
 </div>
-
-<script>
-
-    function onLoad() {
-        setUp(
-            userAuthData,
-            function () {
-           //todo load data
-                attributeList = loadUserData();
-
-            },
-            function () {
-            //todo
-            }
-        );
-    }
-
-    function onSave() {
-        var attributeList = [];
-
-        let lastName = document.getElementById("lastName").value;
-        if (lastName !== null) {
-            var attribute = {
-                Name : 'lastName',
-                Value : lastName
-            };
-            attributeList.push(attribute);
-        }
-
-        let firstName = document.getElementById("firstName").value;
-        if (lastName !== null) {
-            var attribute = {
-                Name : 'firstName',
-                Value : firstName
-            };
-            attributeList.push(attribute);
-        }
-
-        let phone = document.getElementById("phone").value;
-        if (phone !== null) {
-            var attribute = {
-                Name : 'phone',
-                Value : phone
-            };
-            attributeList.push(attribute);
-        }
-
-        let address = document.getElementById("address").value;
-        if (address !== null) {
-            var attribute = {
-                Name : 'address',
-                Value : address
-            };
-            attributeList.push(attribute);
-        }
-
-        updateUserData(attributeList);
-    }
-
-</script>

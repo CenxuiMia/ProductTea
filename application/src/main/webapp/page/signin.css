@@ -1,0 +1,23 @@
+.login {
+    min-width: 100px;
+    float: right;
+    border: solid #fff 1px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-right: 15px;
+    margin-top: 5px;
+    margin-left: 5px;
+    text-align: center;
+    display: block;
+    z-index: 1;
+}
+
+.login a {
+    text-decoration: none;
+    background-color: transparent;
+    color: white;
+}
+
+.login:hover {
+    background-color: #777777;
+}

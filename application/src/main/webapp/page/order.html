@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>訂單系統</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="//hwangying.com/favicon.ico">
+    <link rel="icon" href="//hwangying.com/favicon.ico">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="global.css">
+    <link rel="stylesheet" type="text/css" href="signin.css">
     <link rel="stylesheet" type="text/css" href="order.css"/>
+
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
     <script src="auth.js"></script>
@@ -13,6 +22,23 @@
 
 </head>
 <body onload="onLoad()">
+
+<div id="navbar">
+    <div id="tab">
+        <a href="//tw.hwangying.com">首頁</a>
+        <a href="#news">最新消息</a>
+        <a href="//tw.hwangying.com/products.html">產品</a>
+        <a href="#contact">聯絡我們</a>
+    </div>
+
+    <div class="login">
+        <a id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
+    </div>
+
+    <a href="//tw.hwangying.com/user.html"><i id="member" class="material-icons md-light">person</i></a>
+    <a href="javascript:void(0)"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
+</div>
+
 <div id="content">
 
     <h1 id="center">訂單輸入系統</h1>
