@@ -10,6 +10,7 @@ public class Path {
         @Getter public static final String PRODUCT = "/product";
         @Getter public static final String ORDER = "/order";
         @Getter public static final String TEST= "/test";
+        @Getter public static final String USER = "/user";
     }
 
 }

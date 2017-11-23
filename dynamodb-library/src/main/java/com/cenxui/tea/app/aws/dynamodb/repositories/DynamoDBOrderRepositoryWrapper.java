@@ -104,8 +104,8 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
-    public boolean removeOrder(String mail, String time) {
-        orderRepository.removeOrder(mail, time);
+    public boolean deleteOrder(String mail, String time) {
+        orderRepository.deleteOrder(mail, time);
         return false;
     }
 

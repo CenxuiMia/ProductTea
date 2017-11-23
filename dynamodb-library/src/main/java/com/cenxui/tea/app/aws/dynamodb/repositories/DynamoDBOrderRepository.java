@@ -124,7 +124,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     @Override
-    public boolean removeOrder(String mail, String time) {
+    public boolean deleteOrder(String mail, String time) {
         //todo
         throw new UnsupportedOperationException("not yet");
     }

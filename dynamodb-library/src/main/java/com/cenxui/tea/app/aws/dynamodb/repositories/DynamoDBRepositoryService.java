@@ -7,8 +7,6 @@ import com.cenxui.tea.app.repositories.user.UserRepository;
 
 public class DynamoDBRepositoryService {
 
-    private static final DynamoDBUserRepository userRepository = new DynamoDBUserRepository();
-
     public static OrderRepository getOrderRepository(
                                                      String region,
                                                      String orderTableName,
@@ -58,7 +56,20 @@ public class DynamoDBRepositoryService {
 
     }
 
-    public static UserRepository getUserRepository() {
-        return userRepository;
+    public static UserRepository getUserRepository(String region, String userTableName) {
+
+        Table userTable = DynamoDBManager.getDynamoDB(region).getTable(userTableName);
+
+        return new DynamoDBUserRepository(userTable);
     }
+
+    public static UserRepository getUserRepositoryLocal(String region, String url, String userTableName) {
+
+        Table userTable = DynamoDBManager.getDynamoDBLocal(region, url).getTable(userTableName);
+
+        return new DynamoDBUserRepository(userTable);
+    }
+
+
+
 }
