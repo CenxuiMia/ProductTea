@@ -14,10 +14,13 @@
     <link rel="stylesheet" type="text/css" href="user.css"/>
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.156.0.min.js"></script>
+
     <script src="auth.js"></script>
     <script src="aws-cognito-sdk.js"></script>
     <script src="amazon-cognito-auth.min.js"></script>
+
+
     <script src="signin.js"></script>
 
 </head>
@@ -56,10 +59,6 @@
                     <input id="firstName" type="text" autocapitalize="off" autocorrect="off" value="岑勳"></input>
                 </div>
 
-                <div class="textinput" id="inputMail">
-                    <label for="mail">電子郵件</label>
-                    <input id="mail" type="email" autocapitalize="off" autocorrect="off" value="cenxuilin@gmail.com"></input>
-                </div>
                 <div class="textinput" id="inputPhone">
                     <label for="phone">聯絡電話</label>
                     <input id="phone" name="phone" type="tel" autocapitalize="off" autocorrect="off" value="0928554033"></input>
@@ -83,3 +82,68 @@
 
     </form>
 </div>
+
+<script>
+
+    function onLoad() {
+
+        setUp(
+            userAuthData,
+            function () {
+                loadUserData();
+                updateUserData();
+            },
+            function () {
+
+            });
+    }
+
+    function save() {
+        var attributeList = [];
+        let lastName = document.getElementById("lastName").value;
+        if (lastName !== null) {
+            var attribute = {
+                Name : 'lastName',
+                Value : lastName
+            };
+            attributeList.push(attribute);
+        }
+
+        let firstName = document.getElementById("firstName").value;
+        if (lastName !== null) {
+            var attribute = {
+                Name : 'firstName',
+                Value : firstName
+            };
+            attributeList.push(attribute);
+        }
+
+        let phone = document.getElementById("phone").value;
+        if (phone !== null) {
+            var attribute = {
+                Name : 'phone',
+                Value : phone
+            };
+            attributeList.push(attribute);
+        }
+
+        let address = document.getElementById("address").value;
+        if (address !== null) {
+            var attribute = {
+                Name : 'address',
+                Value : address
+            };
+            attributeList.push(attribute);
+        }
+
+        let  cognitoUser = userPool.getCurrentUser();
+        cognitoUser.updateAttributes(attributeList, function(err, result) {
+            if (err) {
+                alert(err);
+                return;
+            }
+            console.log('call result: ' + result);
+        });
+    }
+
+</script>

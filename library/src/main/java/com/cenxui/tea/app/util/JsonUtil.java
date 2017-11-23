@@ -3,6 +3,7 @@ package com.cenxui.tea.app.util;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderResult;
 import com.cenxui.tea.app.repositories.product.Product;
+import com.cenxui.tea.app.repositories.user.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,6 +36,12 @@ public class JsonUtil {
         return product;
     }
 
+    public static User mapToUser(String userJson) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        User user = mapper.readValue(userJson, User.class);
+        return user;
+    }
+
     public static String mapToJson(Object object) {
         ObjectMapper mapper = new ObjectMapper();
         String objectJson;
@@ -45,4 +52,5 @@ public class JsonUtil {
         }
         return objectJson;
     }
+
 }
