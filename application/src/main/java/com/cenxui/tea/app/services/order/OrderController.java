@@ -46,7 +46,15 @@ public class OrderController extends CoreController {
 
         String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
 
-        Order clientOrder = JsonUtil.mapToOrder(body);
+        Order clientOrder = null;
+
+        try {
+            clientOrder = JsonUtil.mapToOrder(body);
+        }catch (Throwable e) {
+            //todo throw exception
+        }
+
+
 
         if (isValidate(clientOrder) == false) return "fail";
 

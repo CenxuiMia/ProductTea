@@ -34,6 +34,7 @@ deploy to aws
 table with table name
 aws cloudformation deploy --template-file tea-product-table.yaml --stack-name teaProductTable
 aws cloudformation deploy --template-file tea-order-table.yaml --stack-name tea-order-table
+aws cloudformation deploy --template-file tea-user-table.yaml --stack-name tea-user-table
 
 
 

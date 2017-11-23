@@ -71,7 +71,7 @@ public final class Application {
         }));
 
 
-        get(Path.Web.ORDER, OrderController.getOrderByTMail);
+
 
         get("/user", ((request, response) -> {
             Map<String, String> userdata = new HashMap<>();
@@ -83,7 +83,18 @@ public final class Application {
             return "user : " + userdata.get(Header.MAIL) ;
         }));
 
-        put(Path.Web.ORDER, ((OrderController.addOrder)));
+
+        /**
+         * todo add user post and get
+         */
+
+
+
+        /**
+         * Order
+         */
+        get(Path.Web.ORDER, OrderController.getOrderByTMail);
+        put(Path.Web.ORDER, OrderController.addOrder);
 
     }
 
