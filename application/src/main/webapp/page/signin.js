@@ -34,7 +34,6 @@ function setUp(authData, doSignIn, doSignOut) {
 
     if (auth.getCurrentUser()!== null) {
         console.info("user get Session");
-        showSignedIn();
         auth.getSession();
     }else {
         showSignedOut();
@@ -115,32 +114,14 @@ function isSignIn() {
 }
 
 function getToken() {
-    userAuth.getSession();
+    // userAuth.getSession(); todo
     return userAuth.signInUserSession.idToken.jwtToken;
+}
+
+function loadUserData() {
+
 }
 
 function updateUserData(attributeList) {
 
-    var attribute = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(attribute);
-    attributeList.push(attribute);
-
-    cognitoUser.updateAttributes(attributeList, function(err, result) {
-        if (err) {
-            alert(err);
-            return;
-        }
-        console.log('call result: ' + result);
-    });
-}
-
-function loadUserData() {
-    let userData;
-    cognitoUser.getUserAttributes(function(err, result) {
-        if (err) {
-            alert(err);
-            return;
-        }
-        userData = result;
-    });
-    return userData;
 }
