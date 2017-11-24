@@ -2,8 +2,6 @@ package com.cenxui.tea.app.repositories.order;
 
 import com.cenxui.tea.app.repositories.Repository;
 
-import java.util.List;
-
 public interface OrderRepository extends Repository {
 
     OrderResult getAllOrders();
@@ -28,7 +26,7 @@ public interface OrderRepository extends Repository {
 
     Order addOrder(Order order);
 
-    boolean removeOrder(String mail, String time);
+    boolean deleteOrder(String mail, String time);
 
     Order activeOrder(String mail, String time);
 

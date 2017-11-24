@@ -4,9 +4,40 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
+import com.cenxui.tea.app.repositories.user.User;
 import lombok.NonNull;
 
 public class ItemUtil {
+    public static Item getUserItem(@NonNull User user) {
+        Item item = new Item()
+                .withPrimaryKey(User.MAIL, user.getMail());
+
+        if (user.getIsActive() != null) {
+            item.withBoolean(User.IS_ACTIVE, user.getIsActive());
+        }
+
+        if (user.getAddress() != null) {
+            item.withString(User.ADDRESS, user.getAddress());
+        }
+
+        if (user.getFirstName() != null) {
+            item.withString(User.FIRST_NAME, user.getFirstName());
+        }
+
+        if (user.getLastName() != null) {
+            item.withString(User.LAST_NAME, user.getLastName());
+        }
+
+        if (user.getPhone() != null) {
+            item.withString(User.PHONE, user.getPhone());
+        }
+
+        if (user.getMail() != null) {
+            item.withString(User.MAIL, user.getMail());
+        }
+        return item;
+    }
+
     public static Item getProductItem(@NonNull Product product) {
 
         Item item = new Item()
