@@ -6,6 +6,8 @@ import com.cenxui.tea.app.repositories.product.ProductRepository;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class DynamoDBProductRepositoryTest {
@@ -20,10 +22,26 @@ public class DynamoDBProductRepositoryTest {
                 );
     }
 
+    @Test
+    public void addProducts() {
+        productRepository.addProduct(Product.of("綠茶", "阿里山", "Ａ","Ａ","Ａ",
+                new ArrayList<>(),true,500F,"Ａ"));
+
+        productRepository.addProduct(Product.of("綠茶", "翠玉", "Ａ","Ａ","Ａ",
+                new ArrayList<>(),true,500F,"Ａ"));
+
+        productRepository.addProduct(Product.of("紅茶", "阿里山", "Ａ","Ａ","Ａ",
+                new ArrayList<>(),true,500F,"Ａ"));
+
+        productRepository.addProduct(Product.of("紅茶", "大禹嶺", "Ａ","Ａ","Ａ",
+                new ArrayList<>(),true,500F,"Ａ"));
+
+
+    }
 
     @Test
     public void getAllProducts() throws Exception {
-        productRepository.getAllProducts().forEach(System.out::println);
+        productRepository.getAllProducts().getProducts().forEach(System.out::println);
 
     }
 

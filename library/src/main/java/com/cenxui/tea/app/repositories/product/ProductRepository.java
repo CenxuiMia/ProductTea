@@ -6,15 +6,17 @@ import java.util.List;
 
 public interface ProductRepository extends Repository {
 
-    List<Product> getAllProducts();
+    ProductResult getAllProducts();
 
-    List<Product> getProductsByTag(String tag);
+    ProductResult getProductsByTag(String tag);
 
-    List<Product> getProductsByPrice(Float price);
+    ProductResult getProductsByPrice(Float price);
 
-    List<Product> getProductsByName(String name);
+    ProductResult getProductsByName(String name);
 
     Product getProductByNameVersion(String name, String version);
 
     Float getProductPrice(String name, String version);
+
+    boolean addProduct(Product product);
 }

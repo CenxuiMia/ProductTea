@@ -5,7 +5,7 @@ import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.user.User;
 import com.cenxui.tea.app.repositories.user.UserRepository;
 import com.cenxui.tea.app.services.CoreController;
-import com.cenxui.tea.app.services.Header;
+import com.cenxui.tea.app.services.util.Header;
 import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;
