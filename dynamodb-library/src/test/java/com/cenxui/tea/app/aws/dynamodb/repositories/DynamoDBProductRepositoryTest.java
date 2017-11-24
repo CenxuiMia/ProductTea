@@ -24,18 +24,17 @@ public class DynamoDBProductRepositoryTest {
 
     @Test
     public void addProducts() {
-        productRepository.addProduct(Product.of("綠茶", "阿里山", "Ａ","Ａ","Ａ",
-                new ArrayList<>(),true,500F,"Ａ"));
 
-        productRepository.addProduct(Product.of("綠茶", "翠玉", "Ａ","Ａ","Ａ",
+//        productRepository.addProduct(Product.of("綠茶", "翠玉", "Ａ","Ａ","Ａ",
+//                new ArrayList<>(),true,500F,"Ａ"));
+//
+//        productRepository.addProduct(Product.of("紅茶", "阿里山", "Ａ","Ａ","Ａ",
+//                new ArrayList<>(),true,500F,"Ａ"));
+//
+//        productRepository.addProduct(Product.of("紅茶", "大禹嶺", "Ａ","Ａ","Ａ",
+//                new ArrayList<>(),true,500F,"Ａ"));
+        productRepository.addProduct(Product.of("greentea", "1", "Ａ","Ａ","Ａ",
                 new ArrayList<>(),true,500F,"Ａ"));
-
-        productRepository.addProduct(Product.of("紅茶", "阿里山", "Ａ","Ａ","Ａ",
-                new ArrayList<>(),true,500F,"Ａ"));
-
-        productRepository.addProduct(Product.of("紅茶", "大禹嶺", "Ａ","Ａ","Ａ",
-                new ArrayList<>(),true,500F,"Ａ"));
-
 
     }
 

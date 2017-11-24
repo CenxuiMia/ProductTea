@@ -115,6 +115,35 @@
     photo.src = "https://farm5.staticflickr.com/4519/37762617154_7d6f095f03_z.jpg";
     let parent = document.getElementById("photos");
     parent.appendChild(photo);
+
+    let name = getParameterByName("name");
+    let version = getParameterByName("version");
+
+    console.info("name :" + name);
+    console.info("version :" + version);
+
+    $.ajax({
+        type : 'GET',
+        url : productEndpoint + "/" + name + "/" + version,
+        success : function(response) {
+            console.log("product: " + response)
+
+        },
+        error : function(xhr, status, error) {
+            console.log(" error ");
+        }
+    });
+
+    function getParameterByName(name) {
+        let url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
 </script>
 
 </body>
