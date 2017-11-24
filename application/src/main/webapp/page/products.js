@@ -34,7 +34,7 @@ function queryProductsData() {
                         "<img src='https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg'" +//TODO 改圖 data.products[i].smallImage;
                         " alt='茶品項' style='width: 100%'>" +
                         "<div class='info'>" +
-                            "<p><b>" + data.products[i].name + "</b><br>" + data.products[i].details + "</p>" +
+                            "<p><b>" + data.products[i].name + "</b><br>" + data.products[i].introduction + "</p>" +
                             "<div class='price'>$" + data.products[i].price + "</div>" +
                         "</div>" +
                     "</a>" +
