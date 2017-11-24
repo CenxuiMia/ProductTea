@@ -5,7 +5,7 @@ import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.services.CoreController;
-import com.cenxui.tea.app.services.Header;
+import com.cenxui.tea.app.services.util.Header;
 import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;
@@ -46,7 +46,15 @@ public class OrderController extends CoreController {
 
         String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
 
-        Order clientOrder = JsonUtil.mapToOrder(body);
+        Order clientOrder = null;
+
+        try {
+            clientOrder = JsonUtil.mapToOrder(body);
+        }catch (Throwable e) {
+            //todo throw exception
+        }
+
+
 
         if (isValidate(clientOrder) == false) return "fail";
 
