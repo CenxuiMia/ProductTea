@@ -26,34 +26,19 @@ function queryProductsData() {
         let count = data.products.length;
         let productList = document.getElementsByClassName("prod-list")[0];
         for (let i=0; i<count; i++) {
-            let wrapper = document.createElement("div");
-            wrapper.className = "prod-wrapper";
-            let link = document.createElement("a");
-            link.href = "https://tw.hwangying.com/product.html?product="
-                + data.products[i].name +"&version="
-                + data.products[i].version;
-
-            let img = document.createElement("img");
-            img.src = "https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg"; //TODO 改圖 data.products[i].smallImage;
-            img.style = "width: 100%";
-
-            let info = document.createElement("div");
-            info.className = "info";
-            let text = document.createElement("p");
-            let name = document.createElement("b");
-            name.color = "#000000";
-            name.innerHTML = data.products[i].name;
-            let detail = data.products[i].detail;
-            text.appendChild(name);
-            text.innerHTML = detail;
-            let price = document.createElement("div");
-            price.className = "price";
-            price.innerHTML = data.products[i].price;
-
-            info.appendChild(text).appendChild(price);
-            link.appendChild(img).appendChild(info);
-            wrapper.appendChild(link);
-            productList.appendChild(wrapper);
+            let queryString = "https://tw.hwangying.com/product.html?product=" +
+                data.products[i].name + "&version=" + data.products[i].version;
+            productList.innerHTML +=
+                "<div class='prod-wrapper'>" +
+                    "<a href=" + queryString + ">" +
+                        "<img src='https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg'" +//TODO 改圖 data.products[i].smallImage;
+                        " alt='茶品項' style='width: 100%'>" +
+                        "<div class='info'>" +
+                            "<p><b>" + data.products[i].name + "</b><br>" + data.products[i].details + "</p>" +
+                            "<div class='price'>$" + data.products[i].price + "</div>" +
+                        "</div>" +
+                    "</a>" +
+                "</div>";
         }
     });
 }
