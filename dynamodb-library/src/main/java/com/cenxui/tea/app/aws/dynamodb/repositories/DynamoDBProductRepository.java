@@ -3,6 +3,7 @@ package com.cenxui.tea.app.aws.dynamodb.repositories;
 import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
+import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductJsonMapException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
@@ -20,7 +21,6 @@ final class DynamoDBProductRepository implements ProductRepository {
 
     DynamoDBProductRepository(Table table) {
         this.productTable = table;
-
     }
 
     @Override
@@ -38,6 +38,25 @@ final class DynamoDBProductRepository implements ProductRepository {
         return ProductResult.of(products, productKey);
     }
 
+    @Override
+    public ProductResult getAllProductsProjectIntroSmallImagePriceTag() {
+
+        //todo add field
+        ScanSpec scanSpec = new ScanSpec()
+                .withProjectionExpression(
+                        Product.PRODUCT_NAME + "," +
+                        Product.VERSION +"," +
+                        Product.SMALL_IMAGE + "," +
+                        Product.INTRODUCTION + "," +
+                        Product.PRICE + "," +
+                        Product.TAG );
+
+        ItemCollection itemCollection = productTable.scan(scanSpec);
+        List<Product> products = mapToProducts(itemCollection);
+        ProductKey productKey = getScanOutcomeLastKey(itemCollection);
+
+        return ProductResult.of(products, productKey);
+    }
 
     @Override
     public ProductResult getProductsByPrice(Float price) {
@@ -48,7 +67,7 @@ final class DynamoDBProductRepository implements ProductRepository {
     @Override
     public ProductResult getProductsByName(String name) {
         QuerySpec spec = new QuerySpec()
-                .withHashKey(Product.NAME, name);
+                .withHashKey(Product.PRODUCT_NAME, name);
 
         ItemCollection collection = productTable.query(spec);
 
@@ -60,15 +79,25 @@ final class DynamoDBProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product getProductByNameVersion(String name, String version) {
-        //todo
-        throw new UnsupportedOperationException("not yet");
+    public Product getProductByProductNameVersion(String productName, String version) {
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Product.PRODUCT_NAME, productName)
+                .withRangeKeyCondition( new RangeKeyCondition(Product.VERSION).eq(version));
+
+        ItemCollection collection = productTable.query(spec);
+        List<Product> productList = mapToProducts(collection);
+
+        if (productList.size() == 1) {
+            return productList.get(0);
+        }
+
+        return null;
     }
 
     @Override
-    public Float getProductPrice(String name, String version) {
+    public Float getProductPrice(String productName, String version) {
         QuerySpec querySpec = new QuerySpec()
-                .withHashKey(Product.NAME, name)
+                .withHashKey(Product.PRODUCT_NAME, productName)
                 .withRangeKeyCondition(new RangeKeyCondition(Product.VERSION).eq(version));
 
         ItemCollection collection = productTable.query(querySpec);
@@ -112,7 +141,7 @@ final class DynamoDBProductRepository implements ProductRepository {
 
         if (lastKeyEvaluated != null) { //null if it is last one
             productKey = ProductKey.of(
-                    lastKeyEvaluated.get(Product.NAME).getS(), lastKeyEvaluated.get(Product.VERSION).getS());
+                    lastKeyEvaluated.get(Product.PRODUCT_NAME).getS(), lastKeyEvaluated.get(Product.VERSION).getS());
         }
 
         return productKey;

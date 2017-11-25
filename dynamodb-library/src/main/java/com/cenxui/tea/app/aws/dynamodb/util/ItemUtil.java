@@ -39,19 +39,17 @@ public class ItemUtil {
     }
 
     public static Item getProductItem(@NonNull Product product) {
+        //todo modify if null
 
         Item item = new Item()
-                .withPrimaryKey(Product.NAME, product.getName(), Product.VERSION, product.getVersion())
+                .withPrimaryKey(Product.PRODUCT_NAME, product.getProductName(), Product.VERSION, product.getVersion())
                 .withString(Product.DETAILS, product.getDetails())
-                .withString(Product.IMAGES, product.getSmallImage())
-                .withString(Product.BIG_IMAGE, product.getBigImage())
+                .withString(Product.INTRODUCTION, product.getIntroduction())
+                .withString(Product.SMALL_IMAGE, product.getSmallImage())
+                .withString(Product.VIDEO, product.getVideo())
                 .with(Product.IMAGES, product.getImages())
                 .withDouble(Product.PRICE, product.getPrice())
                 .withString(Product.TAG, product.getTag());
-
-        if (product.getStatus() == true) {
-            item.withBoolean(Product.STATUS, true);
-        }
 
         return item;
     }

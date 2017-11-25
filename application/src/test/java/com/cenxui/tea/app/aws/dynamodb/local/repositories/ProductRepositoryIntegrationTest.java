@@ -41,13 +41,13 @@ public class ProductRepositoryIntegrationTest {
 
     private void createTable() {
 
-        AttributeDefinition name = new AttributeDefinition(Product.NAME, "S");
+        AttributeDefinition name = new AttributeDefinition(Product.PRODUCT_NAME, "S");
         AttributeDefinition version = new AttributeDefinition(Product.VERSION, "N");
 
         Collection<AttributeDefinition> attributeDefinitions =
                 Arrays.asList(name, version);
 
-        KeySchemaElement primaryKey = new KeySchemaElement(Product.NAME, KeyType.HASH);
+        KeySchemaElement primaryKey = new KeySchemaElement(Product.PRODUCT_NAME, KeyType.HASH);
         KeySchemaElement sortKey = new KeySchemaElement(Product.VERSION, KeyType.RANGE);
 
 
@@ -155,7 +155,7 @@ public class ProductRepositoryIntegrationTest {
     }
 
     private void deleteItem() {
-        table.deleteItem(Product.NAME, "black tea", Product.VERSION, 1);
+        table.deleteItem(Product.PRODUCT_NAME, "black tea", Product.VERSION, 1);
         System.out.println("---------------delete item black tea version 1------------------");
     }
 
@@ -178,7 +178,7 @@ public class ProductRepositoryIntegrationTest {
                 50); //Price
 
         UpdateItemOutcome outcome = table.updateItem(
-                Product.NAME,          // key attribute name
+                Product.PRODUCT_NAME,          // key attribute name
                 "green tea",           // key attribute value
                 Product.VERSION,
                 1,

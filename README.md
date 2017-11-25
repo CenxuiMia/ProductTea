@@ -32,7 +32,7 @@ deploy to aws
 ** you can change the tamplate name and its details to the name you want to deploy
 
 table with table name
-aws cloudformation deploy --template-file tea-product-table.yaml --stack-name teaProductTable
+aws cloudformation deploy --template-file tea-product-table.yaml --stack-name tea-product-table
 aws cloudformation deploy --template-file tea-order-table.yaml --stack-name tea-order-table
 aws cloudformation deploy --template-file tea-user-table.yaml --stack-name tea-user-table
 
