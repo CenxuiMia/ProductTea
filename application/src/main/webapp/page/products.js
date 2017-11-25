@@ -3,8 +3,7 @@
  */
 
 // Operations when the web page is loaded.
-function onLoad() {
-    // Initiatlize CognitoAuth object
+$(document).ready(function () {
     setUp(productsAuthData,
         function () {
             console.info("index on signIn");
@@ -15,7 +14,7 @@ function onLoad() {
     );
 
     queryProductsData();
-}
+});
 
 function queryProductsData() {
 

@@ -3,7 +3,7 @@
  */
 
 // Operations when the web page is loaded.
-function onLoad() {
+$(document).ready(function () {
     setUp(productAuthData,
         function () {
             console.info("index on signIn");
@@ -12,7 +12,7 @@ function onLoad() {
             console.info("index on signOut");
         }
     );
-}
+});
 
 let name = getParameterByName("name");
 let version = getParameterByName("version");
