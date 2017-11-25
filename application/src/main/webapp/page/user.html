@@ -24,7 +24,7 @@
     <script src="signin.js"></script>
 
 </head>
-<body onload="onLoad()">
+<body>
 
 <div id="navbar">
     <div id="tab">
@@ -85,8 +85,8 @@
 
 <script>
 
-    function onLoad() {
-
+    // Operations when the web page is loaded.
+    $(document).ready(function () {
         setUp(
             userAuthData,
             function () {
@@ -96,7 +96,7 @@
             function () {
 
             });
-    }
+    });
 
     function save() {
         var attributeList = [];
