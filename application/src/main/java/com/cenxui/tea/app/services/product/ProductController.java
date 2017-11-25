@@ -17,14 +17,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * return products value in json
- *  {
- *      "products" : []
- *  }
- *
- */
-
-/**
  * todo add cache
  */
 
@@ -36,48 +28,34 @@ public class ProductController extends CoreController {
                     DynamoDBConfig.PRODUCT_TABLE
             );
 
-    private static Map<String,Map<String,Product>> productMap;
+    private static final Map<String,Map<String,Product>> productMap = new TreeMap<>();
     private static String productJson;
 
-    static {
-        ProductResult productResult = productRepository.getAllProducts();
-        productJson = JsonUtil.mapToJson(productResult);
-
-
-        productMap = new TreeMap<>();
-        List<Product> products = productResult.getProducts();
-        for (Product product : products) {
-            if (productMap.containsKey(product.getName()) == false) {
-                productMap.put(product.getName(),new TreeMap<>());
-            }
-            productMap.get(product.getName()).put(product.getVersion(), product);
-        }
-    }
-
     public static final Route getAllProducts = (Request request,  Response response) -> {
+        if (productJson == null) {
+            productJson = JsonUtil.mapToJsonIgnoreNull(
+                    productRepository.getAllProductsProjectIntroSmallImagePriceTag());
+        }
 
         return productJson;
     };
 
     public static final Route getProduct = (Request request,  Response response) -> {
+        String productName = request.params(Param.NAME);
+        String version = request.params(Param.VERSION);
 
-        Product product = null;
-        try {
-            String name = request.params(Param.NAME);
-            String version = request.params(Param.VERSION);
-
-            product = productMap.get(name).get(version);
-        }catch (Throwable e) {
-            StringBuilder m = new StringBuilder();
-            m.append(e.getMessage());
-            for (StackTraceElement s : e.getStackTrace()) {
-                m.append(s);
-            }
-            return m;
+        if (productMap.containsKey(productName) == false) {
+            productMap.put(productName, new TreeMap<>());
         }
 
+        if (productMap.get(productName).containsKey(version) == false) {
+            Product product =
+                    productRepository.getProductByProductNameVersion(productName, version);
 
-        return JsonUtil.mapToJson(product);
+            productMap.get(productName).put(version, product);
+        }
+
+        return JsonUtil.mapToJsonIgnoreNull(productMap.get(productName).get(version));
     };
 
     //todo

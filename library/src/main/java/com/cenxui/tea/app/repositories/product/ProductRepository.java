@@ -8,13 +8,15 @@ public interface ProductRepository extends Repository {
 
     ProductResult getAllProducts();
 
+    ProductResult getAllProductsProjectIntroSmallImagePriceTag();
+
     ProductResult getProductsByTag(String tag);
 
     ProductResult getProductsByPrice(Float price);
 
-    ProductResult getProductsByName(String name);
+    ProductResult getProductsByName(String productName);
 
-    Product getProductByNameVersion(String name, String version);
+    Product getProductByProductNameVersion(String productName, String version);
 
     Float getProductPrice(String name, String version);
 

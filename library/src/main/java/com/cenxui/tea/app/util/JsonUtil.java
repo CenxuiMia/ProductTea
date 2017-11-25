@@ -4,10 +4,9 @@ import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderResult;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.user.User;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.List;
 
 public class JsonUtil {
 
@@ -44,6 +43,18 @@ public class JsonUtil {
 
     public static String mapToJson(Object object) {
         ObjectMapper mapper = new ObjectMapper();
+        String objectJson;
+        try {
+            objectJson = mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new ObjectToJsonException(object);
+        }
+        return objectJson;
+    }
+
+    public static String mapToJsonIgnoreNull(Object object) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(Include.NON_NULL);
         String objectJson;
         try {
             objectJson = mapper.writeValueAsString(object);

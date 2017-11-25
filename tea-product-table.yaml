@@ -6,7 +6,7 @@ Resources:
     Properties:
       AttributeDefinitions:
         -
-          AttributeName: "name"
+          AttributeName: "productName"
           AttributeType: "S"
         -
           AttributeName: "version"
@@ -14,7 +14,7 @@ Resources:
 
       KeySchema:
         -
-          AttributeName: "name"
+          AttributeName: "productName"
           KeyType: "HASH"
         -
           AttributeName: "version"
