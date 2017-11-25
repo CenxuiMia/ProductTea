@@ -84,7 +84,18 @@ select:hover {
     margin-top: 1%;
 }
 
-#photos img {
+.photos iframe {
+    display: block;
+    margin: 4% auto;
+}
+
+.photos p {
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 18px;
+}
+
+.photos img {
     display: block;
     margin: 4% auto; /* margin: (top, bottom) (left, right) */
 }

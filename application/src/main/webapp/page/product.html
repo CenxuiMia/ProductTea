@@ -47,13 +47,13 @@
 
 <div class="content">
     <div class="info">
-        <div class="info-content" id="info-img">
-            <img src="https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg" alt="產品照" >
+        <div class="info-content">
+            <img id="smallImage" src="https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg" alt="產品照" >
         </div>
 
         <div class="info-content">
-            <h2 id="name">翠玉綠茶</h2>
-            <p id="intro">清新耐泡，低發酵保留原始茶香，給你一整天好心情</p>
+            <h2 id="productName">翠玉綠茶</h2>
+            <p id="introduction">清新耐泡，低發酵保留原始茶香，給你一整天好心情</p>
             <table style="text-align: left">
                 <tr>
                     <th>產地</th>
@@ -100,8 +100,16 @@
     <div class="border"></div>
     <div class="border2"></div>
 
-    <div id="photos">
-        <img src="https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg" alt="產品照">
+    <div class="photos">
+        <iframe id="video" width="560" height="315"
+                src="https://www.youtube.com/embed/2Vv-BfVoq4g?rel=0&amp;controls=0&amp;showinfo=0"
+                frameborhereder="0" allowfullscreen></iframe>
+
+        <p id="details">Here's some details for the product. Hope it'll bring you joy.</p>
+
+        <div id="images">
+            <img src="https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg" alt="產品照">
+        </div>
     </div>
 
 </div>
@@ -109,42 +117,6 @@
 <footer class="footer-copyright">
     <p>Copyright © 2017 HWANGYING All rights reserved.</p>
 </footer>
-
-<script>
-    let photo = document.createElement("img");
-    photo.src = "https://farm5.staticflickr.com/4519/37762617154_7d6f095f03_z.jpg";
-    let parent = document.getElementById("photos");
-    parent.appendChild(photo);
-
-    let name = getParameterByName("name");
-    let version = getParameterByName("version");
-
-    console.info("name :" + name);
-    console.info("version :" + version);
-
-    $.ajax({
-        type : 'GET',
-        url : productEndpoint + "/" + name + "/" + version,
-        success : function(response) {
-            console.log("product: " + response)
-
-        },
-        error : function(xhr, status, error) {
-            console.log(" error ");
-        }
-    });
-
-    function getParameterByName(name) {
-        let url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
-</script>
 
 </body>
 </html>
