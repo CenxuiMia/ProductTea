@@ -24,7 +24,7 @@ let cognitoUser;
 
 function setUp(authData, doSignIn, doSignOut) {
     onSignOut = doSignOut;
-    onSignIn = doSignIn
+    onSignIn = doSignIn;
 
     let auth = initCognitoSDK(authData);
 
@@ -60,13 +60,15 @@ function userButton(auth) {
 function showSignedIn() {
     console.info("show signed in");
     document.getElementById("signInButton").innerHTML = signOut;
+    document.getElementById("member").style.display = "block";
     onSignIn();
 }
 
 
 function showSignedOut() {
-    console.info("show signOut");
+    console.info("show signed out");
     document.getElementById("signInButton").innerHTML = signIn;
+    document.getElementById("member").style.display = "none";
     onSignOut();
 }
 
