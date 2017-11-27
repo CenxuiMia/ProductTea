@@ -20,11 +20,10 @@
     <script src="aws-cognito-sdk.js"></script>
     <script src="amazon-cognito-auth.min.js"></script>
 
-
     <script src="signin.js"></script>
-
+    <script src="user.js"></script>
 </head>
-<body>
+<body onload="initLocalStorage()">
 
 <div id="navbar">
     <div id="tab">
@@ -52,20 +51,20 @@
             <fieldset>
                 <div class="textinput" id="iputLastName">
                     <label for="lastName">姓</label>
-                    <input id="lastName" type="text" autocapitalize="off" autocorrect="off" value="林"></input>
+                    <input id="lastName" type="text" autocapitalize="off" autocorrect="off" />
                 </div>
                 <div class="textinput" id="inputFirstName">
                     <label for="firstName">名</label>
-                    <input id="firstName" type="text" autocapitalize="off" autocorrect="off" value="岑勳"></input>
+                    <input id="firstName" type="text" autocapitalize="off" autocorrect="off" />
                 </div>
 
                 <div class="textinput" id="inputPhone">
                     <label for="phone">聯絡電話</label>
-                    <input id="phone" name="phone" type="tel" autocapitalize="off" autocorrect="off" value="0928554033"></input>
+                    <input id="phone" name="phone" type="tel" autocapitalize="off" autocorrect="off" value="0900"/>
                 </div>
                 <div class="textinput" id="inputAddress">
                     <label for="address">地址</label>
-                    <input id="address" name="address" autocapitalize="off" autocorrect="off" value="no"></input>
+                    <input id="address" name="address" autocapitalize="off" autocorrect="off" value="A市B區C路"/>
                 </div>
 
             </fieldset>
@@ -83,67 +82,5 @@
     </form>
 </div>
 
-<script>
-
-    // Operations when the web page is loaded.
-    $(document).ready(function () {
-        setUp(
-            userAuthData,
-            function () {
-                loadUserData();
-                updateUserData();
-            },
-            function () {
-
-            });
-    });
-
-    function save() {
-        var attributeList = [];
-        let lastName = document.getElementById("lastName").value;
-        if (lastName !== null) {
-            var attribute = {
-                Name : 'lastName',
-                Value : lastName
-            };
-            attributeList.push(attribute);
-        }
-
-        let firstName = document.getElementById("firstName").value;
-        if (lastName !== null) {
-            var attribute = {
-                Name : 'firstName',
-                Value : firstName
-            };
-            attributeList.push(attribute);
-        }
-
-        let phone = document.getElementById("phone").value;
-        if (phone !== null) {
-            var attribute = {
-                Name : 'phone',
-                Value : phone
-            };
-            attributeList.push(attribute);
-        }
-
-        let address = document.getElementById("address").value;
-        if (address !== null) {
-            var attribute = {
-                Name : 'address',
-                Value : address
-            };
-            attributeList.push(attribute);
-        }
-
-        let  cognitoUser = userPool.getCurrentUser();
-        cognitoUser.updateAttributes(attributeList, function(err, result) {
-            if (err) {
-                alert(err);
-                return;
-            }
-            console.log('call result: ' + result);
-        });
-    }
-
-</script>
+</body>
+</html>
