@@ -20,5 +20,6 @@ public interface ProductRepository extends Repository {
 
     Float getProductPrice(String name, String version);
 
-    boolean addProduct(Product product);
+    Product addProduct(Product product);
+
 }

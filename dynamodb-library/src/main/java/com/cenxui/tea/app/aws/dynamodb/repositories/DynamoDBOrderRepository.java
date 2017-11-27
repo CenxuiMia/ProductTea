@@ -2,18 +2,18 @@ package com.cenxui.tea.app.aws.dynamodb.repositories;
 
 import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderAlreadyExistException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderJsonMapException;
 import com.cenxui.tea.app.repositories.order.OrderKey;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
-import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.repositories.order.OrderResult;
-import com.cenxui.tea.app.repositories.product.ProductRepository;
 import com.cenxui.tea.app.util.JsonUtil;
 
 import java.time.LocalDate;
@@ -47,9 +47,9 @@ class DynamoDBOrderRepository implements OrderRepository {
                 .withMaxResultSize(limit)
                 .withExclusiveStartKey(Order.MAIL, mail, Order.TIME, time);
 
-        ItemCollection collection = orderTable.scan(scanSpec);
-        List<Order> orders = mapToOrders(collection);
-        OrderKey orderKey = getLastKey(collection);
+        ItemCollection<ScanOutcome> collection = orderTable.scan(scanSpec);
+        List<Order> orders = mapScanOutcomeToOrders(collection);
+        OrderKey orderKey = getScanOutcomeLastKey(collection);
         return OrderResult.of(orders, orderKey);
     }
 
@@ -70,15 +70,21 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public OrderResult getOrdersByMail(String mail) {
-        throw new UnsupportedOperationException("not yet");
-        //todo
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Order.MAIL, mail);
+
+        ItemCollection<QueryOutcome> collection = orderTable.query(spec);
+
+        List<Order> orders = mapQueryOutcomeToOrders(collection);
+        OrderKey orderKey = getQueryOutcomeLastKey(collection);
+        return OrderResult.of(orders, orderKey);
     }
 
     @Override
     public OrderResult getAllOrders() {
-        ItemCollection collection = orderTable.scan();
-        List<Order> orders = mapToOrders(collection);
-        OrderKey orderKey = getLastKey(collection);
+        ItemCollection<ScanOutcome> collection = orderTable.scan();
+        List<Order> orders = mapScanOutcomeToOrders(collection);
+        OrderKey orderKey = getScanOutcomeLastKey(collection);
 
         return OrderResult.of(orders, orderKey);
     }
@@ -102,8 +108,17 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order getOrdersByMailAndTime(String mail, String time) {
-        throw new UnsupportedOperationException("not yet");
-        //todo
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Order.MAIL, mail)
+                .withRangeKeyCondition(new RangeKeyCondition(Order.TIME).eq(time));
+        ItemCollection<QueryOutcome> collection = orderTable.query(spec);
+        List<Order> orders = mapQueryOutcomeToOrders(collection);
+
+        if (orders.size() == 1) {
+            return orders.get(0);
+        }
+
+        return null;
     }
 
 
@@ -115,10 +130,8 @@ class DynamoDBOrderRepository implements OrderRepository {
                     .withItem(ItemUtil.getOrderItem(order))
                     .withConditionExpression("attribute_not_exists("+ Order.MAIL + ")");
             orderTable.putItem(putItemSpec);
-        } catch (DuplicateProductException e) {
-            System.out.println("Product record can not be duplicated "); //todo modify to runtime exception
         } catch (ConditionalCheckFailedException e) {
-            System.out.println("Record already exists in Dynamo DB Table"); //todo modify to runtime exception
+            throw new OrderAlreadyExistException("order exists cannot add the same order");
         }
         return order;
     }
@@ -229,7 +242,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         return getOrder(orderJson);
     }
 
-    private OrderKey getLastKey(ItemCollection<ScanOutcome> collection) {
+    private OrderKey getScanOutcomeLastKey(ItemCollection<ScanOutcome> collection) {
         ScanOutcome scanOutcome = collection.getLastLowLevelResult();
         Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
 
@@ -243,7 +256,33 @@ class DynamoDBOrderRepository implements OrderRepository {
         return orderKey;
     }
 
-    private List<Order> mapToOrders(ItemCollection<Item> collection) {
+    private OrderKey getQueryOutcomeLastKey(ItemCollection<QueryOutcome> collection) {
+        QueryOutcome queryOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = queryOutcome.getQueryResult().getLastEvaluatedKey();
+
+        OrderKey orderKey = null;
+
+        if (lastKeyEvaluated != null) {//null if it is last one
+            orderKey = OrderKey.of(
+                    lastKeyEvaluated.get(Order.MAIL).getS(), lastKeyEvaluated.get(Order.TIME).getS());
+        }
+
+        return orderKey;
+    }
+
+    private List<Order> mapScanOutcomeToOrders(ItemCollection<ScanOutcome> collection) {
+        List<Order> orders = new ArrayList<>();
+
+        collection.forEach(
+                (s) -> {
+                    orders.add(getOrder(s.toJSON()));
+                }
+        );
+
+        return Collections.unmodifiableList(orders);
+    }
+
+    private List<Order> mapQueryOutcomeToOrders(ItemCollection<QueryOutcome> collection) {
         List<Order> orders = new ArrayList<>();
 
         collection.forEach(
@@ -257,9 +296,9 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     private OrderResult scanIndex(String indexName) {
         Index index = orderTable.getIndex(indexName);
-        ItemCollection collection = index.scan();
-        List<Order> orders = mapToOrders(collection);
-        OrderKey orderKey = getLastKey(collection);
+        ItemCollection<ScanOutcome> collection = index.scan();
+        List<Order> orders = mapScanOutcomeToOrders(collection);
+        OrderKey orderKey = getScanOutcomeLastKey(collection);
 
         return OrderResult.of(orders, orderKey);
     }
@@ -270,9 +309,9 @@ class DynamoDBOrderRepository implements OrderRepository {
         ScanSpec scanSpec = new ScanSpec()
                 .withMaxResultSize(limit)
                 .withExclusiveStartKey(Order.MAIL, mail, Order.TIME, time);
-        ItemCollection collection = index.scan(scanSpec);
-        List<Order> orders = mapToOrders(collection);
-        OrderKey orderKey = getLastKey(collection);
+        ItemCollection<ScanOutcome> collection = index.scan(scanSpec);
+        List<Order> orders = mapScanOutcomeToOrders(collection);
+        OrderKey orderKey = getScanOutcomeLastKey(collection);
         return OrderResult.of(orders, orderKey);
     }
 

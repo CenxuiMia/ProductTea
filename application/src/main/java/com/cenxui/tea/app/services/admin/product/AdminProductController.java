@@ -14,6 +14,7 @@ import spark.Route;
 import java.util.Map;
 
 public class AdminProductController extends CoreController {
+
     private static final ProductRepository productRepository =
             DynamoDBRepositoryService.getProductRepository(
                     DynamoDBConfig.REGION,
@@ -22,9 +23,9 @@ public class AdminProductController extends CoreController {
 
     public static final Route addProduct = (Request request, Response response) -> {
         Product product = JsonUtil.mapToProduct(request.body());
-        boolean isSuccess = productRepository.addProduct(product);
+        Product productResult = productRepository.addProduct(product);
 
-        return isSuccess ? "success" : "fail";
+        return JsonUtil.mapToJson(productResult);
     };
 
     public static final Route getAllProducts = (Request request, Response response) -> {

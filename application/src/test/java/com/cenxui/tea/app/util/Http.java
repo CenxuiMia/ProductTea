@@ -64,8 +64,6 @@ public class Http {
 
             writer.close();
 
-            connection.getResponseCode();
-
             reader = new BufferedReader(
                     new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
 

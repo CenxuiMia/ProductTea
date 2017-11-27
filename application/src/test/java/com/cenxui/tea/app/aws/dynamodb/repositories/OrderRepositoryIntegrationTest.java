@@ -11,7 +11,6 @@ import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.tea.app.aws.dynamodb.local.repositories.util.TestData;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
-import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
 import com.cenxui.tea.app.repositories.order.Order;
 import org.junit.Before;
 import org.junit.Test;
@@ -97,8 +96,6 @@ public class OrderRepositoryIntegrationTest {
                         .withItem(ItemUtil.getOrderItem(order))
                         .withConditionExpression("attribute_not_exists("+ Order.MAIL + ")");
                 table.putItem(putItemSpec);
-            } catch (DuplicateProductException e) {
-                e.printStackTrace();
             } catch (ConditionalCheckFailedException e) {
                 System.out.println("Record already exists in Dynamo DB Table");
             }

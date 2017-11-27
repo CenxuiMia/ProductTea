@@ -6,6 +6,7 @@ import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.services.CoreController;
 import com.cenxui.tea.app.services.util.Param;
+import com.cenxui.tea.app.services.util.error.ApplicationError;
 import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;
@@ -51,9 +52,13 @@ public class AdminOrderController extends CoreController{
     };
 
     public static final Route getOrdersByMail = (Request request, Response response) -> {
-        Map<String, String> map = request.params();
-        String mail = getMail(map);
-        return JsonUtil.mapToJson(orderRepository.getOrdersByMail(mail));
+        try {
+            Map<String, String> map = request.params();
+            String mail = getMail(map);
+            return JsonUtil.mapToJson(orderRepository.getOrdersByMail(mail));
+        }catch (Throwable e) {
+            return ApplicationError.getTrace(e.getStackTrace());
+        }
     };
 
     public static final Route getOrderByMailAndTime = (Request request, Response response) -> {

@@ -3,7 +3,6 @@ package com.cenxui.tea.app.aws.dynamodb.util;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
 import com.cenxui.tea.app.repositories.user.User;
 import lombok.NonNull;
 
@@ -39,7 +38,7 @@ public class ItemUtil {
     }
 
     public static Item getProductItem(@NonNull Product product) {
-        //todo modify if null
+        //todo prevent null
 
         Item item = new Item()
                 .withPrimaryKey(Product.PRODUCT_NAME, product.getProductName(), Product.VERSION, product.getVersion())
@@ -54,7 +53,9 @@ public class ItemUtil {
         return item;
     }
 
-    public static Item getOrderItem(@NonNull Order order) throws DuplicateProductException {
+    public static Item getOrderItem(@NonNull Order order) {
+
+        //todo prevent null
 
         Item item = new Item()
                 .withPrimaryKey(Order.MAIL, order.getMail(), Order.TIME, order.getTime())
