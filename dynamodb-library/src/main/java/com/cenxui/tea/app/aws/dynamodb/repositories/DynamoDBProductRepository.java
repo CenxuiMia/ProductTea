@@ -65,7 +65,7 @@ final class DynamoDBProductRepository implements ProductRepository {
     }
 
     @Override
-    public ProductResult getProductsByName(String name) {
+    public ProductResult getProductsByProductName(String name) {
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Product.PRODUCT_NAME, name);
 

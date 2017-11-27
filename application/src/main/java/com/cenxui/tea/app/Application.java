@@ -1,5 +1,7 @@
 package com.cenxui.tea.app;
 
+import com.cenxui.tea.app.services.admin.order.AdminOrderController;
+import com.cenxui.tea.app.services.admin.product.AdminProductController;
 import com.cenxui.tea.app.services.util.Header;
 import com.cenxui.tea.app.services.order.OrderController;
 import com.cenxui.tea.app.services.product.ProductController;
@@ -14,8 +16,9 @@ public final class Application {
         //config
         port(9000);
         definceBasicResources();
-        AuthResources();
-        UnAuthResources();
+        authResources();
+        unAuthResources();
+        adminResources();
         options("/*",
                 (request, response) -> {
 
@@ -52,31 +55,16 @@ public final class Application {
     }
 
 
-    private static void UnAuthResources() {
+    private static void unAuthResources() {
         get(Path.Web.PRODUCT, ProductController.getAllProducts);
-        get(Path.Web.PRODUCT + "/" + Param.NAME + "/" + Param.VERSION, ProductController.getProduct);
-
-
-
-
+        get(Path.Web.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION, ProductController.getProduct);
 
         get(Path.Web.INDEX, (req, rep) -> {
             return "Hello World";
         });
     }
 
-    private static void AuthResources() {
-        get("/users/:name/:version", ((request, response) -> {
-
-            String name = request.params(":name");
-
-            String version = request.params(":version");
-
-            return "Hello " + name + version + ", Welcome!";
-        }));
-
-
-
+    private static void authResources() {
 
         get("/user", ((request, response) -> {
 
@@ -87,24 +75,96 @@ public final class Application {
         /**
          * todo add user post and get
          */
-
-
-
         /**
          * Order
          */
-        get(Path.Web.ORDER, OrderController.getOrderByTMail);
+        get(Path.Web.ORDER, OrderController.getOrdersByMail);
         put(Path.Web.ORDER, OrderController.addOrder);
 
     }
 
+    private static void adminResources() {
+        /**
+         * orders
+         */
+
+        get(Path.Web.Admin.ORDER, AdminOrderController.getAllOrders);
+
+        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
+
+            return  "get all orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
+        });
+
+
+
+        /**
+         * order
+         */
+
+        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
+
+            return  "get orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
+        });
+
+        put(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
+
+            return  "add orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
+        });
+
+        post(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
+
+            return  "update orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
+        });
+
+
+        /**
+         * products
+         */
+
+        get(Path.Web.Admin.PRODUCT,  AdminProductController.getAllProducts);
+
+        /**
+         * product
+         */
+
+        get(Path.Web.Admin.PRODUCT, AdminProductController.getAllProducts);
+
+        get(Path.Web.Admin.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION,
+                ProductController.getProduct);
+
+        put(Path.Web.Admin.PRODUCT, AdminProductController.addProduct);
+
+        post(Path.Web.Admin.PRODUCT, (request, response) -> {
+
+            return  "update product" + request.params(Param.PRODUCT_NAME) + request.params(Param.PRODUCT_VERSION);
+        });
+
+
+        /**
+         * user
+         */
+
+        get(Path.Web.Admin.USER, (request, response) -> {
+
+            return  "get all user";
+        });
+
+        get(Path.Web.Admin.USER + "/" + Param.ORDER_MAIL,  (request, response) -> {
+
+            return  "get user";
+        });
+
+
+
+
+    }
 
     /**
      * add unauth route here
      */
 
     public static void defineUnAuthResources() {
-        UnAuthResources();
+        unAuthResources();
         definceBasicResources();
     }
 
@@ -113,7 +173,12 @@ public final class Application {
      */
 
     public static void defineAuthResources() {
-        AuthResources();
+        authResources();
+        definceBasicResources();
+    }
+
+    public static void defineAdminResources() {
+        adminResources();
         definceBasicResources();
     }
 
