@@ -27,8 +27,8 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
-    public OrderResult getAllOrder(Integer limit, String mail, String time) {
-        return orderRepository.getAllOrder(limit, mail, time);
+    public OrderResult getAllOrdersByLastKey(Integer limit, String mail, String time) {
+        return orderRepository.getAllOrdersByLastKey(limit, mail, time);
     }
 
     @Override

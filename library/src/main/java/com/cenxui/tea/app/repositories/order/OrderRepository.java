@@ -6,7 +6,7 @@ public interface OrderRepository extends Repository {
 
     OrderResult getAllOrders();
 
-    OrderResult getAllOrder(Integer limit, String mail, String time);
+    OrderResult getAllOrdersByLastKey(Integer limit, String mail, String time);
 
     OrderResult getAllProcessingOrders();
 

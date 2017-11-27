@@ -42,7 +42,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     @Override
-    public OrderResult getAllOrder(Integer limit, String mail, String time) {
+    public OrderResult getAllOrdersByLastKey(Integer limit, String mail, String time) {
         ScanSpec scanSpec = new ScanSpec()
                 .withMaxResultSize(limit)
                 .withExclusiveStartKey(Order.MAIL, mail, Order.TIME, time);

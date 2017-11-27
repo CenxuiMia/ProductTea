@@ -6,8 +6,10 @@ import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.services.CoreController;
 import com.cenxui.tea.app.services.util.Header;
+import com.cenxui.tea.app.services.util.Param;
 import com.cenxui.tea.app.services.util.error.ApplicationError;
 import com.cenxui.tea.app.util.JsonUtil;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -25,44 +27,21 @@ public class OrderController extends CoreController {
                     DynamoDBConfig.PRODUCT_TABLE
             );
 
-    public static final Route getAllOrders = (Request request, Response response) -> {
-        try {
-            return JsonUtil.mapToJson(orderRepository.getAllOrders());
-        }catch (Throwable throwable) {
-            return ApplicationError.getTrace(throwable.getStackTrace());
-        }
+    public static final Route getOrdersByMail = (Request request, Response response) -> {
 
-    };
-
-    public static final Route getOrderByTMail = (Request request, Response response) -> {
-        Map<String, String> map = request.params();
-        String mail = map.get(Order.MAIL);
-        return orderRepository.getOrdersByMail(mail);
-    };
-
-    public static final Route getOrdersByMailAndTime = (Request request, Response response) -> {
-        Map<String, String> map = request.params();
-        String mail = map.get(Order.MAIL);
-        String time = map.get(Order.TIME);
-
-        return orderRepository.getOrdersByMailAndTime(mail, time);
+        String mail = request.headers(Header.MAIL);
+        return JsonUtil.mapToJson(orderRepository.getOrdersByMail(mail));
     };
 
     public static final Route addOrder = (Request request, Response response) -> {
+
         String body = request.body();
 
         if (body == null || body.isEmpty()) return "fail";
 
         String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
 
-        Order clientOrder = null;
-
-        try {
-            clientOrder = JsonUtil.mapToOrder(body);
-        }catch (Throwable e) {
-            //todo throw exception
-        }
-
+        Order clientOrder = mapRequestBodyToOrder(body);
 
         if (isValidate(clientOrder) == false) return "fail";
 
@@ -80,28 +59,12 @@ public class OrderController extends CoreController {
                 null,
                 true);
 
-        try {
-            orderRepository.addOrder(order);
-        }catch (Throwable e) {
+        Order resultOrder = orderRepository.addOrder(order);
 
-            StringBuilder trace = new StringBuilder();
-
-            for (StackTraceElement element : e.getStackTrace()) {
-                trace.append(element.toString());
-            }
-
-            return "data repository error : " + trace.toString();
-        }
-
-        return "success";
+        return JsonUtil.mapToJson(resultOrder);
     };
 
     public static final Route removeOrder = (Request request, Response response) -> {
-        //todo
-        throw new UnsupportedOperationException("not yet");
-    };
-
-    public static final Route activeOrder =  (Request request, Response response) -> {
         //todo
         throw new UnsupportedOperationException("not yet");
     };
@@ -111,28 +74,15 @@ public class OrderController extends CoreController {
         throw new UnsupportedOperationException("not yet");
     };
 
-    public static final Route payOrder =  (Request request, Response response) -> {
-        //todo
-        throw new UnsupportedOperationException("not yet");
-    };
+    private static Order mapRequestBodyToOrder(String body) {
+        try {
+            return JsonUtil.mapToOrder(body);
+        }catch (Throwable e) {
+            throw new OrderControllerException("request body not allow :" + body);
+        }
+    }
 
-    public static Route dePayOrder = (Request request, Response response) -> {
-        //todo
-        throw new UnsupportedOperationException("not yet");
-    };
-
-    public static Route shipOrder =  (Request request, Response response) -> {
-        //todo
-        throw new UnsupportedOperationException("not yet");
-    };
-
-
-    public static Route deShipOrder = (Request request, Response response) -> {
-        //todo
-        throw new UnsupportedOperationException("not yet");
-    };
-
-    public static boolean isValidate(Order order) {
+    private static boolean isValidate(Order order) {
 
         if (order == null) return false;
 
@@ -153,5 +103,6 @@ public class OrderController extends CoreController {
         if (s == null || s.isEmpty()) return true;
         return false;
     }
+
 }
 

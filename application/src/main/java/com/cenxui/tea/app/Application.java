@@ -1,5 +1,7 @@
 package com.cenxui.tea.app;
 
+import com.cenxui.tea.app.services.admin.order.AdminOrderController;
+import com.cenxui.tea.app.services.admin.product.AdminProductController;
 import com.cenxui.tea.app.services.util.Header;
 import com.cenxui.tea.app.services.order.OrderController;
 import com.cenxui.tea.app.services.product.ProductController;
@@ -55,7 +57,7 @@ public final class Application {
 
     private static void unAuthResources() {
         get(Path.Web.PRODUCT, ProductController.getAllProducts);
-        get(Path.Web.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.VERSION, ProductController.getProduct);
+        get(Path.Web.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION, ProductController.getProduct);
 
         get(Path.Web.INDEX, (req, rep) -> {
             return "Hello World";
@@ -76,7 +78,7 @@ public final class Application {
         /**
          * Order
          */
-        get(Path.Web.ORDER, OrderController.getOrderByTMail);
+        get(Path.Web.ORDER, OrderController.getOrdersByMail);
         put(Path.Web.ORDER, OrderController.addOrder);
 
     }
@@ -86,11 +88,11 @@ public final class Application {
          * orders
          */
 
-        get(Path.Web.Admin.ORDERS, OrderController.getAllOrders);
+        get(Path.Web.Admin.ORDER, AdminOrderController.getAllOrders);
 
-        get(Path.Web.Admin.ORDERS + "/" + Param.MAIL + "/" + Param.TIME,(request, response) -> {
+        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
 
-            return  "get all orders" + request.params(Param.MAIL) + request.params(Param.TIME) ;
+            return  "get all orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
         });
 
 
@@ -99,19 +101,19 @@ public final class Application {
          * order
          */
 
-        get(Path.Web.Admin.ORDER + "/" + Param.MAIL + "/" + Param.TIME,(request, response) -> {
+        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
 
-            return  "get orders" + request.params(Param.MAIL) + request.params(Param.TIME) ;
+            return  "get orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
         });
 
-        put(Path.Web.Admin.ORDER + "/" + Param.MAIL + "/" + Param.TIME,(request, response) -> {
+        put(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
 
-            return  "add orders" + request.params(Param.MAIL) + request.params(Param.TIME) ;
+            return  "add orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
         });
 
-        post(Path.Web.Admin.ORDER + "/" + Param.MAIL + "/" + Param.TIME,(request, response) -> {
+        post(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
 
-            return  "update orders" + request.params(Param.MAIL) + request.params(Param.TIME) ;
+            return  "update orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
         });
 
 
@@ -119,22 +121,22 @@ public final class Application {
          * products
          */
 
-        get(Path.Web.Admin.PRODUCTS,  ProductController.getAllProducts);
+        get(Path.Web.Admin.PRODUCT,  AdminProductController.getAllProducts);
 
         /**
          * product
          */
 
-        get(Path.Web.Admin.PRODUCT, ProductController.getAllProducts);
+        get(Path.Web.Admin.PRODUCT, AdminProductController.getAllProducts);
 
-        get(Path.Web.Admin.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.VERSION,
+        get(Path.Web.Admin.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION,
                 ProductController.getProduct);
 
-        put(Path.Web.Admin.PRODUCT, ProductController.addProduct);
+        put(Path.Web.Admin.PRODUCT, AdminProductController.addProduct);
 
         post(Path.Web.Admin.PRODUCT, (request, response) -> {
 
-            return  "update product" + request.params(Param.PRODUCT_NAME) + request.params(Param.VERSION);
+            return  "update product" + request.params(Param.PRODUCT_NAME) + request.params(Param.PRODUCT_VERSION);
         });
 
 
@@ -142,12 +144,12 @@ public final class Application {
          * user
          */
 
-        get(Path.Web.Admin.USERS, (request, response) -> {
+        get(Path.Web.Admin.USER, (request, response) -> {
 
             return  "get all user";
         });
 
-        get(Path.Web.Admin.USER + "/" + Param.MAIL,  (request, response) -> {
+        get(Path.Web.Admin.USER + "/" + Param.ORDER_MAIL,  (request, response) -> {
 
             return  "get user";
         });

@@ -40,7 +40,7 @@ public class ProductController extends CoreController {
 
     public static final Route getProduct = (Request request,  Response response) -> {
         String productName = request.params(Param.PRODUCT_NAME);
-        String version = request.params(Param.VERSION);
+        String version = request.params(Param.PRODUCT_VERSION);
 
         if (productMap.containsKey(productName) == false) {
             productMap.put(productName, new TreeMap<>());
@@ -56,13 +56,6 @@ public class ProductController extends CoreController {
         return JsonUtil.mapToJsonIgnoreNull(productMap.get(productName).get(version));
     };
 
-    public static final Route addProduct = (Request request, Response response) -> {
-        Product product = JsonUtil.mapToProduct(request.body());
-
-        boolean isSuccess = productRepository.addProduct(product);
-
-      return isSuccess ? "success" : "fail";
-    };
     //todo
 
 }
