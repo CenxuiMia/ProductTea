@@ -233,8 +233,14 @@ class DynamoDBOrderRepository implements OrderRepository {
         ScanOutcome scanOutcome = collection.getLastLowLevelResult();
         Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
 
-        return OrderKey.of(
-                lastKeyEvaluated.get(Order.MAIL).getS(), lastKeyEvaluated.get(Order.TIME).getS());
+        OrderKey orderKey = null;
+
+        if (lastKeyEvaluated != null) {//null if it is last one
+            orderKey = OrderKey.of(
+                    lastKeyEvaluated.get(Order.MAIL).getS(), lastKeyEvaluated.get(Order.TIME).getS());
+        }
+
+        return orderKey;
     }
 
     private List<Order> mapToOrders(ItemCollection<Item> collection) {

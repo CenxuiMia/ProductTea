@@ -14,8 +14,9 @@ public final class Application {
         //config
         port(9000);
         definceBasicResources();
-        AuthResources();
-        UnAuthResources();
+        authResources();
+        unAuthResources();
+        adminResources();
         options("/*",
                 (request, response) -> {
 
@@ -52,31 +53,16 @@ public final class Application {
     }
 
 
-    private static void UnAuthResources() {
+    private static void unAuthResources() {
         get(Path.Web.PRODUCT, ProductController.getAllProducts);
-        get(Path.Web.PRODUCT + "/" + Param.NAME + "/" + Param.VERSION, ProductController.getProduct);
-
-
-
-
+        get(Path.Web.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.VERSION, ProductController.getProduct);
 
         get(Path.Web.INDEX, (req, rep) -> {
             return "Hello World";
         });
     }
 
-    private static void AuthResources() {
-        get("/users/:name/:version", ((request, response) -> {
-
-            String name = request.params(":name");
-
-            String version = request.params(":version");
-
-            return "Hello " + name + version + ", Welcome!";
-        }));
-
-
-
+    private static void authResources() {
 
         get("/user", ((request, response) -> {
 
@@ -87,9 +73,6 @@ public final class Application {
         /**
          * todo add user post and get
          */
-
-
-
         /**
          * Order
          */
@@ -98,13 +81,88 @@ public final class Application {
 
     }
 
+    private static void adminResources() {
+        /**
+         * orders
+         */
+
+        get(Path.Web.Admin.ORDERS, OrderController.getAllOrders);
+
+        get(Path.Web.Admin.ORDERS + "/" + Param.MAIL + "/" + Param.TIME,(request, response) -> {
+
+            return  "get all orders" + request.params(Param.MAIL) + request.params(Param.TIME) ;
+        });
+
+
+
+        /**
+         * order
+         */
+
+        get(Path.Web.Admin.ORDER + "/" + Param.MAIL + "/" + Param.TIME,(request, response) -> {
+
+            return  "get orders" + request.params(Param.MAIL) + request.params(Param.TIME) ;
+        });
+
+        put(Path.Web.Admin.ORDER + "/" + Param.MAIL + "/" + Param.TIME,(request, response) -> {
+
+            return  "add orders" + request.params(Param.MAIL) + request.params(Param.TIME) ;
+        });
+
+        post(Path.Web.Admin.ORDER + "/" + Param.MAIL + "/" + Param.TIME,(request, response) -> {
+
+            return  "update orders" + request.params(Param.MAIL) + request.params(Param.TIME) ;
+        });
+
+
+        /**
+         * products
+         */
+
+        get(Path.Web.Admin.PRODUCTS,  ProductController.getAllProducts);
+
+        /**
+         * product
+         */
+
+        get(Path.Web.Admin.PRODUCT, ProductController.getAllProducts);
+
+        get(Path.Web.Admin.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.VERSION,
+                ProductController.getProduct);
+
+        put(Path.Web.Admin.PRODUCT, ProductController.addProduct);
+
+        post(Path.Web.Admin.PRODUCT, (request, response) -> {
+
+            return  "update product" + request.params(Param.PRODUCT_NAME) + request.params(Param.VERSION);
+        });
+
+
+        /**
+         * user
+         */
+
+        get(Path.Web.Admin.USERS, (request, response) -> {
+
+            return  "get all user";
+        });
+
+        get(Path.Web.Admin.USER + "/" + Param.MAIL,  (request, response) -> {
+
+            return  "get user";
+        });
+
+
+
+
+    }
 
     /**
      * add unauth route here
      */
 
     public static void defineUnAuthResources() {
-        UnAuthResources();
+        unAuthResources();
         definceBasicResources();
     }
 
@@ -113,7 +171,12 @@ public final class Application {
      */
 
     public static void defineAuthResources() {
-        AuthResources();
+        authResources();
+        definceBasicResources();
+    }
+
+    public static void defineAdminResources() {
+        adminResources();
         definceBasicResources();
     }
 

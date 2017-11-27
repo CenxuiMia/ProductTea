@@ -6,6 +6,7 @@ import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.services.CoreController;
 import com.cenxui.tea.app.services.util.Header;
+import com.cenxui.tea.app.services.util.error.ApplicationError;
 import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;
@@ -24,6 +25,14 @@ public class OrderController extends CoreController {
                     DynamoDBConfig.PRODUCT_TABLE
             );
 
+    public static final Route getAllOrders = (Request request, Response response) -> {
+        try {
+            return JsonUtil.mapToJson(orderRepository.getAllOrders());
+        }catch (Throwable throwable) {
+            return ApplicationError.getTrace(throwable.getStackTrace());
+        }
+
+    };
 
     public static final Route getOrderByTMail = (Request request, Response response) -> {
         Map<String, String> map = request.params();
@@ -53,7 +62,6 @@ public class OrderController extends CoreController {
         }catch (Throwable e) {
             //todo throw exception
         }
-
 
 
         if (isValidate(clientOrder) == false) return "fail";

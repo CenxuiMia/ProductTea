@@ -4,7 +4,6 @@ import com.cenxui.tea.app.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
-import com.cenxui.tea.app.repositories.product.ProductResult;
 import com.cenxui.tea.app.services.CoreController;
 import com.cenxui.tea.app.services.util.Param;
 import com.cenxui.tea.app.util.JsonUtil;
@@ -12,7 +11,6 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -41,7 +39,7 @@ public class ProductController extends CoreController {
     };
 
     public static final Route getProduct = (Request request,  Response response) -> {
-        String productName = request.params(Param.NAME);
+        String productName = request.params(Param.PRODUCT_NAME);
         String version = request.params(Param.VERSION);
 
         if (productMap.containsKey(productName) == false) {
@@ -58,6 +56,13 @@ public class ProductController extends CoreController {
         return JsonUtil.mapToJsonIgnoreNull(productMap.get(productName).get(version));
     };
 
+    public static final Route addProduct = (Request request, Response response) -> {
+        Product product = JsonUtil.mapToProduct(request.body());
+
+        boolean isSuccess = productRepository.addProduct(product);
+
+      return isSuccess ? "success" : "fail";
+    };
     //todo
 
 }
