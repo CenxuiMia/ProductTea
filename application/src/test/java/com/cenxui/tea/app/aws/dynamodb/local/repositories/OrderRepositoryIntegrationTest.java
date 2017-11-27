@@ -9,7 +9,6 @@ import com.cenxui.tea.app.aws.dynamodb.local.repositories.util.TestData;
 import com.cenxui.tea.app.aws.dynamodb.local.repositories.util.DynamoDBLocalUtil;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
-import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

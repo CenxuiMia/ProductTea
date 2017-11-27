@@ -11,7 +11,6 @@ import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.tea.app.aws.dynamodb.local.repositories.util.TestData;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
-import com.cenxui.tea.app.aws.dynamodb.util.exception.DuplicateProductException;
 import com.cenxui.tea.app.repositories.order.Order;
 import org.junit.Before;
 import org.junit.Test;

@@ -90,30 +90,34 @@ public final class Application {
 
         get(Path.Web.Admin.ORDER, AdminOrderController.getAllOrders);
 
-        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
+        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" + Param.ORDER_COUNT,
+                AdminOrderController.getOrdersByLastKey);
 
-            return  "get all orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
-        });
+        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL, AdminOrderController.getOrdersByMail);
 
+
+        //todo paid processing shipped
 
 
         /**
          * order
          */
 
-        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
+        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+                (request, response) -> {
 
-            return  "get orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
-        });
+                    return  "get order" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
+                });
+
 
         put(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
 
-            return  "add orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
+            return  "add order" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
         });
 
         post(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
 
-            return  "update orders" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
+            return  "update order" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
         });
 
 
