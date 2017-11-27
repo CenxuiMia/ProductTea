@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>訂單系統</title>
+    <title>皇飲｜訂單系統</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="//hwangying.com/favicon.ico">
@@ -19,7 +19,7 @@
     <script src="aws-cognito-sdk.js"></script>
     <script src="amazon-cognito-auth.min.js"></script>
     <script src="signin.js"></script>
-
+    <script src="order.js"></script>
 </head>
 <body>
 
@@ -39,6 +39,11 @@
     <a href="javascript:void(0)"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
 </div>
 
+<div class="banner">
+    <h2>皇飲</h2>
+    <p>生活，來點品味。</p>
+</div>
+
 <div id="content">
 
     <h1 id="center">訂單輸入系統</h1>
@@ -49,35 +54,35 @@
             <fieldset>
                 <div class="textinput" id="inputBuyer">
                     <label for="purchaser">購買人</label>
-                    <input id="purchaser" name="buyer" type="text" autocapitalize="off" autocorrect="off" value="cenxui"></input>
+                    <input id="purchaser" name="buyer" type="text">
                 </div>
                 <div class="textinput" id="inputMail">
                     <label for="mail">電子郵件</label>
-                    <input id="mail" name="mail" type="email" autocapitalize="off" autocorrect="off" value="cenxuilin@gmail.com"></input>
+                    <input id="mail" name="mail" type="email">
                 </div>
                 <div class="textinput" id="inputPhone">
                     <label for="phone">聯絡電話</label>
-                    <input id="phone" name="phone" type="tel" autocapitalize="off" autocorrect="off" value="0928554033"></input>
+                    <input id="phone" name="phone" type="tel">
                 </div>
                 <div class="textinput" id="inputReceiver">
                     <label for="receiver">收件人</label>
-                    <input id="receiver" name="receiver" autocapitalize="off" autocorrect="off" value="mai"></input>
+                    <input id="receiver" name="receiver">
                 </div>
                 <div class="textinput" id="inputAddress">
                     <label for="address">收件地址</label>
-                    <input id="address" name="address" autocapitalize="off" autocorrect="off" value="no"></input>
+                    <input id="address" name="address">
                 </div>
                 <div class="textinput" id="inputPurchases">
                     <label for="products">購買商品</label>
-                    <input id="products" name="products" autocapitalize="off" autocorrect="off" value="green tea"></input>
+                    <input id="products" name="products" value="green tea">
                 </div>
                 <div class="textinput" id="inputMoney">
                     <label for="money">消費金額</label>
-                    <input id="money" name="money" autocapitalize="off" autocorrect="off" value="1000"></input>
+                    <input id="money" name="money" value="1000">
                 </div>
                 <div class="textinput" id="inputComment">
                     <label for="comment">備註事項</label>
-                    <input id="comment" name="comment" autocapitalize="off" autocorrect="off" value="none"></input>
+                    <input id="comment" name="comment" value="none">
                 </div>
             </fieldset>
 
@@ -88,41 +93,6 @@
 
     </form>
 </div>
-<script>
-
-
-    function addOrder() {
-        let order = {};
-        order.purchaser = document.getElementById("purchaser").value;
-        order.mail = document.getElementById("mail").value;
-        order.phone = document.getElementById("phone").value;
-        order.receiver = document.getElementById("receiver").value;
-        order.address = document.getElementById("address").value;
-        order.products = [];
-        order.products[0] = document.getElementById("products").value;
-        order.money = document.getElementById("money").value;
-        order.comment = document.getElementById("comment").value;
-        let id_token = getToken();
-
-        $.ajax({
-            type : 'PUT',
-            url : orderEndpoint,
-            headers : {
-                Authorization : id_token
-            },
-            data: JSON.stringify(order),
-            success : function(response) {
-                console.log("message: " + response)
-
-            },
-            error : function(xhr, status, error) {
-                console.log( "error: " + error);
-            }
-        });
-
-    }
-
-</script>
 
 </body>
 </html>
