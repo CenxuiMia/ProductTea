@@ -1,5 +1,8 @@
 package com.cenxui.tea.app;
 
+import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderNotFoundException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductNotFoundException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.map.user.UserNotFoundException;
 import com.cenxui.tea.app.services.admin.order.AdminOrderController;
 import com.cenxui.tea.app.services.admin.product.AdminProductController;
 import com.cenxui.tea.app.services.util.Header;
@@ -15,7 +18,7 @@ public final class Application {
 
         //config
         port(9000);
-        definceBasicResources();
+        defineBasicResources();
         authResources();
         unAuthResources();
         adminResources();
@@ -45,13 +48,25 @@ public final class Application {
      * add same route here
      */
 
-    private static void definceBasicResources() {
+    private static void defineBasicResources() {
         before(((request, response) -> {
             /**
              * todo modify to https://tw.hwangying,com
              */
             response.header("Access-Control-Allow-Origin", "*");
         }));
+//
+//        exception(OrderNotFoundException.class, (exception, request, response) -> {
+//            response.body(exception.getMessage());
+//        });
+//
+//        exception(ProductNotFoundException.class, (exception, request, response) -> {
+//            response.body(exception.getMessage());
+//        });
+//
+//        exception(UserNotFoundException.class, (exception, request, response) -> {
+//            response.body(exception.getMessage());
+//        });
     }
 
 
@@ -104,21 +119,13 @@ public final class Application {
          */
 
         get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
-                (request, response) -> {
+                AdminOrderController.getOrderByMailAndTime);
 
-                    return  "get order" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
-                });
-
-
-        put(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
-
-            return  "add order" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
-        });
-
-        post(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,(request, response) -> {
-
-            return  "update order" + request.params(Param.ORDER_MAIL) + request.params(Param.ORDER_TIME) ;
-        });
+        /**
+         * add order
+         */
+        put(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+                AdminOrderController.addOrder);
 
 
         /**
@@ -127,21 +134,21 @@ public final class Application {
 
         get(Path.Web.Admin.PRODUCT,  AdminProductController.getAllProducts);
 
+
+
         /**
          * product
          */
 
-        get(Path.Web.Admin.PRODUCT, AdminProductController.getAllProducts);
-
         get(Path.Web.Admin.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION,
-                ProductController.getProduct);
+                AdminProductController.getProduct);
 
+        /**
+         * add product
+         */
         put(Path.Web.Admin.PRODUCT, AdminProductController.addProduct);
 
-        post(Path.Web.Admin.PRODUCT, (request, response) -> {
-
-            return  "update product" + request.params(Param.PRODUCT_NAME) + request.params(Param.PRODUCT_VERSION);
-        });
+        post(Path.Web.Admin.PRODUCT, AdminProductController.updateProduct);
 
 
         /**
@@ -169,7 +176,7 @@ public final class Application {
 
     public static void defineUnAuthResources() {
         unAuthResources();
-        definceBasicResources();
+        defineBasicResources();
     }
 
     /**
@@ -178,12 +185,12 @@ public final class Application {
 
     public static void defineAuthResources() {
         authResources();
-        definceBasicResources();
+        defineBasicResources();
     }
 
     public static void defineAdminResources() {
         adminResources();
-        definceBasicResources();
+        defineBasicResources();
     }
 
 }

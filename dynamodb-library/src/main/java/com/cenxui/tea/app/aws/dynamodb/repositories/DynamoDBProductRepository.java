@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductJsonMapException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductNotFoundException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.product.ProductKey;
@@ -31,8 +32,8 @@ final class DynamoDBProductRepository implements ProductRepository {
 
     @Override
     public ProductResult getAllProducts() {
-        ItemCollection itemCollection = productTable.scan();
-        List<Product> products = mapToProducts(itemCollection);
+        ItemCollection<ScanOutcome> itemCollection = productTable.scan();
+        List<Product> products = mapScanOutcomeToProducts(itemCollection);
         ProductKey productKey = getScanOutcomeLastKey(itemCollection);
 
         return ProductResult.of(products, productKey);
@@ -51,8 +52,8 @@ final class DynamoDBProductRepository implements ProductRepository {
                         Product.PRICE + "," +
                         Product.TAG );
 
-        ItemCollection itemCollection = productTable.scan(scanSpec);
-        List<Product> products = mapToProducts(itemCollection);
+        ItemCollection<ScanOutcome> itemCollection = productTable.scan(scanSpec);
+        List<Product> products = mapScanOutcomeToProducts(itemCollection);
         ProductKey productKey = getScanOutcomeLastKey(itemCollection);
 
         return ProductResult.of(products, productKey);
@@ -69,13 +70,13 @@ final class DynamoDBProductRepository implements ProductRepository {
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Product.PRODUCT_NAME, name);
 
-        ItemCollection collection = productTable.query(spec);
+        ItemCollection<QueryOutcome> collection = productTable.query(spec);
 
-        List<Product> products = mapToProducts(collection);
+        List<Product> products = mapQueryOutcomeToProducts(collection);
 
-         //todo throw exception
+        ProductKey productKey = getQueryOutcomeLastKey(collection);
 
-        throw new UnsupportedOperationException("not yet");
+        return ProductResult.of(products, productKey);
     }
 
     @Override
@@ -84,8 +85,8 @@ final class DynamoDBProductRepository implements ProductRepository {
                 .withHashKey(Product.PRODUCT_NAME, productName)
                 .withRangeKeyCondition( new RangeKeyCondition(Product.VERSION).eq(version));
 
-        ItemCollection collection = productTable.query(spec);
-        List<Product> productList = mapToProducts(collection);
+        ItemCollection<QueryOutcome> collection = productTable.query(spec);
+        List<Product> productList = mapQueryOutcomeToProducts(collection);
 
         if (productList.size() == 1) {
             return productList.get(0);
@@ -100,37 +101,52 @@ final class DynamoDBProductRepository implements ProductRepository {
                 .withHashKey(Product.PRODUCT_NAME, productName)
                 .withRangeKeyCondition(new RangeKeyCondition(Product.VERSION).eq(version));
 
-        ItemCollection collection = productTable.query(querySpec);
+        ItemCollection<QueryOutcome> collection = productTable.query(querySpec);
 
-        List<Product> products = mapToProducts(collection);
+        List<Product> products = mapQueryOutcomeToProducts(collection);
 
-        Product product = products.get(0); // todo throw exception; posible not exist
-
-        return product.getPrice();
+        if (products.size() == 1) {
+            return products.get(0).getPrice();
+        }
+        throw new ProductNotFoundException(productName, version);
     }
 
     @Override
-    public boolean addProduct(Product product) {
+    public Product addProduct(Product product) {
         PutItemSpec spec = new PutItemSpec()
                 .withItem(ItemUtil.getProductItem(product));
         productTable.putItem(spec);
-
-        return true;
+        //todo not stable
+        return product;
     }
 
-    private List<Product> mapToProducts(ItemCollection<Item> collection) {
+    private List<Product> mapQueryOutcomeToProducts(ItemCollection<QueryOutcome> collection) {
         List<Product> products = new ArrayList<>();
         collection.forEach(
                 (s) -> {
-                    String productJson = s.toJSON();
-                    try {
-                        products.add(JsonUtil.mapToProduct(productJson));
-                    }catch (Exception e) {
-                        throw new ProductJsonMapException(productJson);
-                    }
+                    products.add(mapToProduct(s.toJSON()));
                 }
         );
         return products;
+    }
+
+
+    private List<Product> mapScanOutcomeToProducts(ItemCollection<ScanOutcome> collection) {
+        List<Product> products = new ArrayList<>();
+        collection.forEach(
+                (s) -> {
+                    products.add(mapToProduct(s.toJSON()));
+                }
+        );
+        return products;
+    }
+
+    private Product mapToProduct(String productJson) {
+        try {
+            return JsonUtil.mapToProduct(productJson);
+        }catch (Throwable e) {
+            throw new ProductJsonMapException(productJson);
+        }
     }
 
     private ProductKey getScanOutcomeLastKey(ItemCollection<ScanOutcome> collection) {
@@ -146,5 +162,20 @@ final class DynamoDBProductRepository implements ProductRepository {
 
         return productKey;
     }
+
+    private ProductKey getQueryOutcomeLastKey(ItemCollection<QueryOutcome> collection) {
+        QueryOutcome queryOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = queryOutcome.getQueryResult().getLastEvaluatedKey();
+
+        ProductKey productKey = null;
+
+        if (lastKeyEvaluated != null) { //null if it is last one
+            productKey = ProductKey.of(
+                    lastKeyEvaluated.get(Product.PRODUCT_NAME).getS(), lastKeyEvaluated.get(Product.VERSION).getS());
+        }
+
+        return productKey;
+    }
+
 
 }

@@ -123,8 +123,6 @@ public class OrderRepositoryIntegrationTest {
                         .withItem(ItemUtil.getOrderItem(order))
                         .withConditionExpression("attribute_not_exists("+ Order.MAIL + ")");
                 table.putItem(putItemSpec);
-            } catch (DuplicateProductException e) {
-                e.printStackTrace();
             } catch (ConditionalCheckFailedException e) {
                 System.out.println("Record already exists in Dynamo DB Table");
             }
