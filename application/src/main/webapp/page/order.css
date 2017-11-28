@@ -1,7 +1,9 @@
 a{color:black}
 a:focus{color:#ccc}
 input{font:16px / 18px sans-serif}
-fieldset{margin:0;padding:0;border:0}
+fieldset{margin:0;padding:0;border:0;line-height:21px;
+    font-weight:bold;font-size:14px;margin-bottom:7px;
+    color:#444;font-family:"Helvetica Neue",Roboto,Arial,sans-serif}
 form div{padding:0}
 
 #content{width:100%}
@@ -13,7 +15,7 @@ form div{padding:0}
 .textinput{padding-top:10px;clear:both}
 .textinput label{display:block;clear:left;padding-right:10px;line-height:21px;font-weight:bold;font-size:14px;
     margin-bottom:7px;color:#444;font-family:"Helvetica Neue",Roboto,Arial,sans-serif}
-.textinput input{border:1px solid #ccc;border-radius:4px;box-sizing:border-box;font-size:14px;padding:7px 10px;width:380px}
+.textinput input{border:1px solid #ccc;border-radius:4px;font-size:14px;padding:7px 10px}
 .textinput input:focus{border-color:#38d;box-shadow:0 0 8px rgba(51,136,221,0.5);outline:0 none}
 .order_form{float: left;width:370px}
 .link{font-size:.8em}
