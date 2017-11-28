@@ -13,11 +13,19 @@ public class Http {
 
     public static void get(String url) {
 
+        input(url, "GET");
+    }
+
+    public static void delete(String url) {
+        input(url, "DELETE");
+    }
+
+    private static void input(String url, String method) {
         BufferedReader reader = null;
 
         try {
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod(method);
             connection.setDoInput(true);
             connection.setUseCaches(false);
 
@@ -92,6 +100,5 @@ public class Http {
 
         }
     }
-
 
 }

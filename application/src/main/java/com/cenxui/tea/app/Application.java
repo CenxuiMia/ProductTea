@@ -55,18 +55,18 @@ public final class Application {
              */
             response.header("Access-Control-Allow-Origin", "*");
         }));
-//
-//        exception(OrderNotFoundException.class, (exception, request, response) -> {
-//            response.body(exception.getMessage());
-//        });
-//
-//        exception(ProductNotFoundException.class, (exception, request, response) -> {
-//            response.body(exception.getMessage());
-//        });
-//
-//        exception(UserNotFoundException.class, (exception, request, response) -> {
-//            response.body(exception.getMessage());
-//        });
+
+        exception(OrderNotFoundException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+        });
+
+        exception(ProductNotFoundException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+        });
+
+        exception(UserNotFoundException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+        });
     }
 
 
