@@ -51,51 +51,37 @@ function setInputValue(lastName, firstName, phone, address) {
     document.getElementById("address").setAttribute("value", address);
 }
 
+
 function save() {
-    var attributeList = [];
+
     let lastName = document.getElementById("lastName").value;
-    if (lastName !== null) {
-        var attribute = {
-            Name : 'lastName',
-            Value : lastName
-        };
-        attributeList.push(attribute);
-    }
 
     let firstName = document.getElementById("firstName").value;
-    if (firstName !== null) {
-        var attribute = {
-            Name : 'firstName',
-            Value : firstName
-        };
-        attributeList.push(attribute);
-    }
 
     let phone = document.getElementById("phone").value;
-    if (phone !== null) {
-        var attribute = {
-            Name : 'phone',
-            Value : phone
-        };
-        attributeList.push(attribute);
-    }
 
     let address = document.getElementById("address").value;
-    if (address !== null) {
-        var attribute = {
-            Name : 'address',
-            Value : address
-        };
-        attributeList.push(attribute);
-    }
 
-    let  cognitoUser = userPool.getCurrentUser();
-    cognitoUser.updateAttributes(attributeList, function(err, result) {
-        if (err) {
-            alert(err);
-            return;
+    let userProfile = {
+        lastName : lastName,
+        firstName : firstName,
+        phone : phone,
+        address : address,
+    };
+
+    $.ajax({
+        type : 'POST',
+        url : userEndpoint,
+        headers : {
+            Authorization : getToken()
+        },
+        data: JSON.stringify(userProfile),
+        success : function(response) {
+            console.log("user message: " + response);
+        },
+        error : function(xhr, status, error) {
+            console.log("token error");
         }
-        console.log('call result: ' + result);
     });
 
     setLocalStorage(lastName, firstName, phone, address);
