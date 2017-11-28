@@ -1,9 +1,7 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
-import com.amazonaws.services.dynamodbv2.document.ItemCollection;
-import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
-import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
-import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.*;
+import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
@@ -54,6 +52,17 @@ final class DynamoDBUserRepository implements UserRepository {
             return users.get(0);
         }
         return null;//no profile
+    }
+
+    @Override
+    public boolean deleteUser(String mail) {
+        DeleteItemSpec spec = new DeleteItemSpec()
+                .withPrimaryKey(User.MAIL, mail);
+        DeleteItemOutcome outcome = userTable.deleteItem(spec);
+
+        //todo
+
+        return true;
     }
 
     private User getUser(String userJson) {

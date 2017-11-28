@@ -8,4 +8,6 @@ public interface UserRepository extends Repository {
 
     User getUserProfile(String mail);
 
+    boolean deleteUser(String mail);
+
 }

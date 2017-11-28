@@ -11,7 +11,7 @@ Resources:
 
       KeySchema:
         -
-          AttributeName: "name"
+          AttributeName: "mail"
           KeyType: "HASH"
 
       ProvisionedThroughput:

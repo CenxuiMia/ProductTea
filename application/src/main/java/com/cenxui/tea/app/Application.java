@@ -5,7 +5,7 @@ import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductNotFoundExc
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.user.UserNotFoundException;
 import com.cenxui.tea.app.services.admin.order.AdminOrderController;
 import com.cenxui.tea.app.services.admin.product.AdminProductController;
-import com.cenxui.tea.app.services.util.Header;
+import com.cenxui.tea.app.services.user.UserController;
 import com.cenxui.tea.app.services.order.OrderController;
 import com.cenxui.tea.app.services.product.ProductController;
 import com.cenxui.tea.app.services.util.Param;
@@ -55,24 +55,25 @@ public final class Application {
              */
             response.header("Access-Control-Allow-Origin", "*");
         }));
-//
-//        exception(OrderNotFoundException.class, (exception, request, response) -> {
-//            response.body(exception.getMessage());
-//        });
-//
-//        exception(ProductNotFoundException.class, (exception, request, response) -> {
-//            response.body(exception.getMessage());
-//        });
-//
-//        exception(UserNotFoundException.class, (exception, request, response) -> {
-//            response.body(exception.getMessage());
-//        });
+
+        exception(OrderNotFoundException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+        });
+
+        exception(ProductNotFoundException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+        });
+
+        exception(UserNotFoundException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+        });
     }
 
 
     private static void unAuthResources() {
         get(Path.Web.PRODUCT, ProductController.getAllProducts);
-        get(Path.Web.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION, ProductController.getProduct);
+        get(Path.Web.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION,
+                ProductController.getProduct);
 
         get(Path.Web.INDEX, (req, rep) -> {
             return "Hello World";
@@ -81,15 +82,9 @@ public final class Application {
 
     private static void authResources() {
 
-        get("/user", ((request, response) -> {
+        get(Path.Web.USER, UserController.getUserProfile);
+        post(Path.Web.USER, UserController.updateUserProfile);
 
-            return "user : " + request.headers(Header.MAIL) ;
-        }));
-
-
-        /**
-         * todo add user post and get
-         */
         /**
          * Order
          */
@@ -164,9 +159,6 @@ public final class Application {
 
             return  "get user";
         });
-
-
-
 
     }
 

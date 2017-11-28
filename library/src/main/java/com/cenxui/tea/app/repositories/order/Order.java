@@ -67,9 +67,4 @@ public class Order {
                 isActive);
     }
 
-    private boolean isEmpty(String s) {
-        if (s == null || s.isEmpty()) return true;
-        return false;
-    }
-
 }

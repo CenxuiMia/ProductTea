@@ -108,7 +108,7 @@ final class DynamoDBProductRepository implements ProductRepository {
         if (products.size() == 1) {
             return products.get(0).getPrice();
         }
-        throw new ProductNotFoundException(productName, version);
+        return null;
     }
 
     @Override

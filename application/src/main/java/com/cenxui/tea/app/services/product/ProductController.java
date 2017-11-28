@@ -14,9 +14,6 @@ import spark.Route;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * todo add cache
- */
 
 public class ProductController extends CoreController {
 
