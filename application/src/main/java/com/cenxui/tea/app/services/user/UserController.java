@@ -34,7 +34,6 @@ public class UserController extends CoreController {
         try {
             clientUser = JsonUtil.mapToUser(request.body());
         }catch (Throwable e) {
-            //todo exception
             return "request body error";
         }
 
@@ -42,7 +41,7 @@ public class UserController extends CoreController {
             return "request body error";
         }
 
-        userRepository.updateUserProfile(
+        User user = userRepository.updateUserProfile(
                 User.of(clientUser.getIsActive(),
                         clientUser.getFirstName(),
                         clientUser.getLastName(),
@@ -50,6 +49,6 @@ public class UserController extends CoreController {
                         clientUser.getAddress(),
                         clientUser.getPhone()));
 
-        return "success"; //todo
+        return JsonUtil.mapToJson(user);
     };
 }

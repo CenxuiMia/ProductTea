@@ -6,42 +6,39 @@ import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.user.User;
 import lombok.NonNull;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+
 public class ItemUtil {
     public static Item getUserItem(@NonNull User user) {
-        Item item = new Item()
+        final Item item = new Item()
                 .withPrimaryKey(User.MAIL, user.getMail());
 
-        if (user.getIsActive() != null) {
-            item.withBoolean(User.IS_ACTIVE, user.getIsActive());
-        }
+        Arrays.asList(user.getClass().getDeclaredFields()).forEach(
+                (s) -> {
+                    String fieldName = s.getName();
+                    if (!User.MAIL.equals(fieldName)) {
+                        s.setAccessible(true);
+                        try {
+                            setItem(user, item, s, fieldName);
 
-        if (user.getAddress() != null) {
-            item.withString(User.ADDRESS, user.getAddress());
-        }
+                        } catch (IllegalAccessException e) {
+                            throw new ItemUtilException();
+                        }
+                    }
+                }
+        );
 
-        if (user.getFirstName() != null) {
-            item.withString(User.FIRST_NAME, user.getFirstName());
-        }
-
-        if (user.getLastName() != null) {
-            item.withString(User.LAST_NAME, user.getLastName());
-        }
-
-        if (user.getPhone() != null) {
-            item.withString(User.PHONE, user.getPhone());
-        }
-
-        if (user.getMail() != null) {
-            item.withString(User.MAIL, user.getMail());
-        }
         return item;
     }
 
     public static Item getProductItem(@NonNull Product product) {
-        //todo prevent null
 
         Item item = new Item()
-                .withPrimaryKey(Product.PRODUCT_NAME, product.getProductName(), Product.VERSION, product.getVersion())
+                .withPrimaryKey(
+                        Product.PRODUCT_NAME, product.getProductName(),
+                        Product.VERSION, product.getVersion())
                 .withString(Product.DETAILS, product.getDetails())
                 .withString(Product.INTRODUCTION, product.getIntroduction())
                 .withString(Product.SMALL_IMAGE, product.getSmallImage())
@@ -50,42 +47,60 @@ public class ItemUtil {
                 .withDouble(Product.PRICE, product.getPrice())
                 .withString(Product.TAG, product.getTag());
 
+        Arrays.asList(product.getClass().getDeclaredFields()).forEach(
+                (s)-> {
+                    String fieldName = s.getName();
+                    if (!Product.PRODUCT_NAME.equals(fieldName) &&
+                            !Product.VERSION.equals(fieldName)) {
+
+                        s.setAccessible(true);
+                        try {
+                            setItem(product, item, s, fieldName);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        );
+
         return item;
     }
 
     public static Item getOrderItem(@NonNull Order order) {
 
-        //todo prevent null
-
         Item item = new Item()
-                .withPrimaryKey(Order.MAIL, order.getMail(), Order.TIME, order.getTime())
-                .withList(Order.PRODUCTS, order.getProducts())
-                .withString(Order.PURCHASER, order.getPurchaser())
-                .withNumber(Order.MONEY, order.getMoney())
-                .withString(Order.RECEIVER, order.getReceiver())
-                .withString(Order.PHONE, order.getPhone())
-                .withString(Order.ADDRESS, order.getAddress());
+                .withPrimaryKey(Order.MAIL, order.getMail(), Order.TIME, order.getTime());
 
-        if (order.getComment() != null) {
-            item.withString(Order.COMMENT, order.getComment());
-        }
+        Arrays.asList(order.getClass().getDeclaredFields()).forEach(
+                (s)-> {
+                    String fieldName = s.getName();
+                    if(!Order.MAIL.equals(fieldName) && !Order.TIME.equals(fieldName)) {
+                        s.setAccessible(true);
+                        try {
+                            setItem(order, item, s, fieldName);
+                        } catch (IllegalAccessException e) {
+                            throw new ItemUtilException();
+                        }
+                    }
 
-        if (order.getPaidDate() != null) {
-            item.withString(Order.PAID_DATE, order.getPaidDate());
-        }
-
-        if (order.getShippedDate() != null) {
-            item.withString(Order.SHIP_DATE, order.getShippedDate());
-        }
-
-        if (order.getProcessingDate() != null) {
-            item.withString(Order.PROCESS_DATE, order.getProcessingDate());
-        }
-
-        if (order.getIsActive() != Boolean.FALSE) {
-            item.withBoolean(Order.IS_ACTIVE, true);
-        }
+                }
+        );
 
         return item;
+    }
+
+    private static void setItem(@NonNull Object object, Item item, Field s, String fieldName) throws IllegalAccessException {
+        if (Modifier.isStatic(s.getModifiers())) {
+            return;
+        }
+
+        Object field = s.get(object);
+        if (field instanceof String && ((String) field).length() != 0) {
+            item.withString(fieldName, (String) field);
+        }else if (field instanceof Number) {
+            item.withNumber(fieldName, (Number) field);
+        }else if (Boolean.TRUE.equals(field)) {
+            item.withBoolean(fieldName, true);
+        }
     }
 }

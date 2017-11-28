@@ -28,16 +28,10 @@ public class DynamoDBProductRepositoryTest {
     @Test
     public void addProducts() {
 
-        productRepository.addProduct(Product.of("綠茶", "翠玉", "Ａ","Ａ","Ａ","A",
-                new ArrayList<>(),400F,"Ａ"));
+        Product product = productRepository.addProduct(Product.of("綠茶", "翠玉冰茶", "Ａ","Ａ","Ａ","A",
+                new ArrayList<>(),40000F,"Ａ"));
 
-        productRepository.addProduct(Product.of("紅茶", "阿里山", "Ａ","Ａ","Ａ","A",
-                new ArrayList<>(),580F,"Ａ"));
-
-        productRepository.addProduct(Product.of("紅茶", "大禹嶺", "Ａ","Ａ","Ａ","A",
-                new ArrayList<>(),1500F,"Ａ"));
-        productRepository.addProduct(Product.of("greentea", "1", "Ａ","Ａ","Ａ","A",
-                new ArrayList<>(),560F,"Ａ"));
+        System.out.println(product);
 
     }
 
