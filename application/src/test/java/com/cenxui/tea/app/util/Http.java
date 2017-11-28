@@ -4,56 +4,47 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class Http {
     public static void put(String url, String body) {
-
-        outPut(url, "PUT",body);
+        outPut(url, "PUT",body, null);
     }
+
+    public static void put(String url, String body, Map<String, String> headers) {
+        outPut(url, "PUT",body, headers);
+    }
+
 
     public static void get(String url) {
 
-        input(url, "GET");
+        input(url, "GET", null);
+    }
+
+    public static void get(String url, Map<String, String> headers) {
+
+        input(url, "GET", headers);
     }
 
     public static void delete(String url) {
-        input(url, "DELETE");
+        input(url, "DELETE", null);
     }
 
-    private static void input(String url, String method) {
-        BufferedReader reader = null;
 
-        try {
-            HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
-            connection.setRequestMethod(method);
-            connection.setDoInput(true);
-            connection.setUseCaches(false);
-
-            reader = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-
-            reader.lines().forEach(System.out::println);
-
-        }catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
+    public static void delete(String url, Map<String, String> headers) {
+        input(url, "DELETE", headers);
     }
 
     public static void post(String url, String body) {
-       outPut(url, "POST", body);
+       outPut(url, "POST", body, null);
     }
 
-    private static void outPut(String url, String method,String body) {
+    public static void post(String url, String body, Map<String, String> headers) {
+        outPut(url, "POST", body, headers);
+    }
+
+
+    private static void outPut(String url, String method,String body, Map<String, String> headers) {
         OutputStreamWriter writer = null;
 
         BufferedReader reader = null;
@@ -65,6 +56,13 @@ public class Http {
             connection.setDoInput(true);
             connection.setAllowUserInteraction(true);
             connection.setUseCaches(false);
+
+            if (headers != null) {
+                for (String header : headers.keySet()) {
+                    connection.setRequestProperty(header, headers.get(header));
+                }
+            }
+
 
             writer = new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8);
 
@@ -100,5 +98,43 @@ public class Http {
 
         }
     }
+
+
+
+    private static void input(String url, String method, Map<String, String> headers) {
+        BufferedReader reader = null;
+
+        try {
+            HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
+            connection.setRequestMethod(method);
+            connection.setDoInput(true);
+            connection.setUseCaches(false);
+
+            if (headers != null) {
+                for (String header : headers.keySet()) {
+                    connection.setRequestProperty(header, headers.get(header));
+                }
+            }
+
+            reader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+
+            reader.lines().forEach(System.out::println);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
 
 }

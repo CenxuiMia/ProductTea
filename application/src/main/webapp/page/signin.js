@@ -80,22 +80,6 @@ function initCognitoSDK(authData) {
             console.log("Cognito Sign in successful!");
             cognitoUser = auth.getCurrentUser();
             showSignedIn();
-            let id_token = auth.signInUserSession.idToken.jwtToken;
-
-            $.ajax({
-                type : 'GET',
-                url : userEndpoint,
-                headers : {
-                    Authorization : id_token
-                },
-                success : function(response) {
-                    console.log("user message: " + response)
-
-                },
-                error : function(xhr, status, error) {
-                    console.log("token error ");
-                }
-            });
         },
         onFailure: function(err) {
             console.log("Error!" + err);
@@ -118,12 +102,4 @@ function isSignIn() {
 function getToken() {
     // userAuth.getSession(); todo
     return userAuth.signInUserSession.idToken.jwtToken;
-}
-
-function loadUserData() {
-
-}
-
-function updateUserData(attributeList) {
-
 }

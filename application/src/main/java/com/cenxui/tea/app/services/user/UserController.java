@@ -34,21 +34,22 @@ public class UserController extends CoreController {
         try {
             clientUser = JsonUtil.mapToUser(request.body());
         }catch (Throwable e) {
-            //todo throw exception
+            //todo exception
+            return "request body error";
         }
 
         if (clientUser == null) {
-            return "error";
+            return "request body error";
         }
 
         userRepository.updateUserProfile(
                 User.of(clientUser.getIsActive(),
                         clientUser.getFirstName(),
                         clientUser.getLastName(),
-                        clientUser.getMail(),
+                        mail,
                         clientUser.getAddress(),
                         clientUser.getPhone()));
 
-        return "success";
+        return "success"; //todo
     };
 }
