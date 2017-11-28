@@ -26,8 +26,6 @@ public class DynamoDBUserRepositoryTest {
                 "0928554033"
         );
 
-
-
         System.out.println(JsonUtil.mapToJson(userRepository.updateUserProfile(user)));
     }
 

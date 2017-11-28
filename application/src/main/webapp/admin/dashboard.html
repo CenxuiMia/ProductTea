@@ -129,7 +129,8 @@
             url : orderEndpoint,
             success : function(response) {
                 let data = JSON.parse(response);
-                appendText(data);
+                let orders = data.orders;
+                appendText(orders);
                 console.info(data)
 
             },
