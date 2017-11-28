@@ -68,8 +68,6 @@ public class ItemUtil {
 
     public static Item getOrderItem(@NonNull Order order) {
 
-        //todo prevent null
-
         Item item = new Item()
                 .withPrimaryKey(Order.MAIL, order.getMail(), Order.TIME, order.getTime());
 
@@ -99,10 +97,10 @@ public class ItemUtil {
         Object field = s.get(object);
         if (field instanceof String && ((String) field).length() != 0) {
             item.withString(fieldName, (String) field);
-        }else if (field instanceof Boolean && Boolean.TRUE.equals(field)) {
-            item.withBoolean(fieldName, true); //todo
         }else if (field instanceof Number) {
             item.withNumber(fieldName, (Number) field);
+        }else if (Boolean.TRUE.equals(field)) {
+            item.withBoolean(fieldName, true);
         }
     }
 }
