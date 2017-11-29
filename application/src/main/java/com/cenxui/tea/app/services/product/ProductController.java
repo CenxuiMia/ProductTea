@@ -4,6 +4,7 @@ import com.cenxui.tea.app.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
+import com.cenxui.tea.app.repositories.product.Products;
 import com.cenxui.tea.app.services.CoreController;
 import com.cenxui.tea.app.services.util.Param;
 import com.cenxui.tea.app.util.JsonUtil;
@@ -35,24 +36,34 @@ public class ProductController extends CoreController {
         return productJson;
     };
 
+    /**
+     * todo modify to cache
+     */
     public static final Route getProduct = (Request request,  Response response) -> {
         String productName = request.params(Param.PRODUCT_NAME);
         String version = request.params(Param.PRODUCT_VERSION);
-
-        if (productMap.containsKey(productName) == false) {
-            productMap.put(productName, new TreeMap<>());
-        }
-
-        if (productMap.get(productName).containsKey(version) == false) {
-            Product product =
-                    productRepository.getProductByProductNameVersion(productName, version);
-
-            productMap.get(productName).put(version, product);
+        if (productMap.isEmpty()) {
+            initialProductMap();
         }
 
         return JsonUtil.mapToJsonIgnoreNull(productMap.get(productName).get(version));
     };
 
-    //todo
+    private static void initialProductMap() {
+        Products products = productRepository.getAllProducts();
+
+        products.getProducts().forEach(
+                (s)-> {
+                    if (!productMap.containsKey(s.getProductName())) {
+                        productMap.put(s.getProductName(), new TreeMap<>());
+                    }
+
+                    if (!productMap.get(s.getProductName()).containsKey(s.getVersion())) {
+                        productMap.get(s.getProductName()).put(s.getVersion(), s);
+                    }
+
+                }
+        );
+    }
 
 }

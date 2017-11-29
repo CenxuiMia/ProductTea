@@ -40,11 +40,11 @@ public class Order {
 
     String receiver;
     String phone;
-    String address;
+    String address; //todo modify address
     String comment;
 
     String paidTime;
-    String processingDate;
+    String processingDate; //todo add owner
     String shippedTime;
     Boolean isActive;
 

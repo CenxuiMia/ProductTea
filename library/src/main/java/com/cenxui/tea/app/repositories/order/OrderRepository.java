@@ -44,7 +44,12 @@ public interface OrderRepository extends Repository {
 
     Order deShipOrder(String mail, String time);
 
-    //todo add order money sum order sum paid sum etc...
-
+//    //todo add order money sum order sum paid sum etc...
+//
+//    Double getAllPaidOrderIncome();
+//
+//    Double getAllPaidOrderIncome(String from);
+//
+//    Double getAllPaidOrderIncome(String from, String to);
 
 }
