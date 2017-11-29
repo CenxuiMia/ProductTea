@@ -39,12 +39,12 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     @Override
-    public OrderResult getAllOrders() {
+    public Orders getAllOrders() {
         return getAllOrders(null, null, null);
     }
 
     @Override
-    public OrderResult getAllOrders(Integer limit, String mail, String time) {
+    public Orders getAllOrders(String mail, String time, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
         if (limit != null) {
@@ -58,16 +58,16 @@ class DynamoDBOrderRepository implements OrderRepository {
         ItemCollection<ScanOutcome> collection = orderTable.scan(scanSpec);
         List<Order> orders = mapScanOutcomeToOrders(collection);
         OrderKey orderKey = getScanOutcomeLastKey(collection);
-        return OrderResult.of(orders, orderKey);
+        return Orders.of(orders, orderKey);
     }
 
     @Override
-    public OrderResult getAllPaidOrders() {
+    public Orders getAllPaidOrders() {
         return getAllPaidOrders(null, null);
     }
 
     @Override
-    public OrderResult getAllPaidOrders(Integer limit, String paidTime) {
+    public Orders getAllPaidOrders(String paidTime, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
         if (limit != null ) {
@@ -86,16 +86,16 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         PaidOrderKey key = getPaidIndexScanOutcomeLastKey(collection);
 
-        return OrderResult.of(orders, key);
+        return Orders.of(orders, key);
     }
 
     @Override
-    public OrderResult getAllProcessingOrders() {
+    public Orders getAllProcessingOrders() {
         return getAllProcessingOrders(null, null);
     }
 
     @Override
-    public OrderResult getAllProcessingOrders(Integer limit, String processingDate) {
+    public Orders getAllProcessingOrders(String processingDate, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
         if (limit != null ) {
@@ -114,16 +114,16 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         ProcessingOrderKey key = getProcessingIndexScanOutcomeLastKey(collection);
 
-        return OrderResult.of(orders, key);
+        return Orders.of(orders, key);
     }
 
     @Override
-    public OrderResult getAllShippedOrders() {
+    public Orders getAllShippedOrders() {
         return getAllShippedOrders(null, null);
     }
 
     @Override
-    public OrderResult getAllShippedOrders(Integer limit, String shippedTime) {
+    public Orders getAllShippedOrders(String shippedTime, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
         if (limit != null ) {
@@ -142,11 +142,11 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         ShippedOrderKey key = getShippedIndexScanOutcomeLastKey(collection);
 
-        return OrderResult.of(orders, key);
+        return Orders.of(orders, key);
     }
 
     @Override
-    public OrderResult getOrdersByMail(String mail) {
+    public Orders getOrdersByMail(String mail) {
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.MAIL, mail);
 
@@ -154,7 +154,7 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         List<Order> orders = mapQueryOutcomeToOrders(collection);
         OrderKey orderKey = getQueryOutcomeLastKey(collection);
-        return OrderResult.of(orders, orderKey);
+        return Orders.of(orders, orderKey);
     }
 
 
@@ -200,7 +200,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Order activeOrder(String mail, String time) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
-                .withConditionExpression("attribute_not_exists" + Order.IS_ACTIVE +")")
+                .withConditionExpression("attribute_not_exists(" + Order.IS_ACTIVE +")")
                 .withUpdateExpression("set " + Order.IS_ACTIVE + "=:ia")
                 .withValueMap(new ValueMap().withBoolean( ":ia", true))
                 .withReturnValues(ReturnValue.ALL_NEW);
@@ -240,7 +240,7 @@ class DynamoDBOrderRepository implements OrderRepository {
                 .withUpdateExpression("set " + Order.PAID_TIME + "=:pa,"+ Order.PROCESSING_DATE+ "=:pr")
                 .withConditionExpression(
                         "attribute_exists(" + Order.IS_ACTIVE +")" +
-                                "add attribute_not_exists(" + Order.PAID_TIME + ")")
+                                "and attribute_not_exists(" + Order.PAID_TIME + ")")
                 .withValueMap(
                         new ValueMap().withString(":pa" , paidTime).withString(":pr", paidTime))
                 .withReturnValues(ReturnValue.ALL_NEW);
@@ -277,7 +277,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withConditionExpression(
                         "attribute_exists(" + Order.PAID_TIME +")" +
-                                "add attribute_not_exists(" + Order.SHIPPED_TIME)
+                                "and attribute_not_exists(" + Order.SHIPPED_TIME + ")")
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
                 .withUpdateExpression("set " + Order.SHIPPED_TIME+ "=:sh" + " remove " + Order.PROCESSING_DATE)
                 .withValueMap(new ValueMap().withString(":sh", shippedTime))

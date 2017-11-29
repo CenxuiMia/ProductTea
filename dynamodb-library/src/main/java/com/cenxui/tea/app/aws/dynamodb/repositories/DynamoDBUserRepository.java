@@ -11,6 +11,7 @@ import com.cenxui.tea.app.aws.dynamodb.exceptions.map.user.UserJsonMapException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.repositories.user.User;
 import com.cenxui.tea.app.repositories.user.UserRepository;
+import com.cenxui.tea.app.repositories.user.Users;
 import com.cenxui.tea.app.util.JsonUtil;
 
 import java.util.ArrayList;
@@ -63,6 +64,18 @@ final class DynamoDBUserRepository implements UserRepository {
         //todo
 
         return true;
+    }
+
+    @Override
+    public Users getAllUsers() {
+        //todo
+        throw new UnsupportedOperationException("not yet");
+    }
+
+    @Override
+    public User getAllUsers(String mail) {
+        //todo
+        throw new UnsupportedOperationException("not yet");
     }
 
     private User getUser(String userJson) {

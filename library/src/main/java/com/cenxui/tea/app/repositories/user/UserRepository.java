@@ -10,4 +10,8 @@ public interface UserRepository extends Repository {
 
     boolean deleteUser(String mail);
 
+    Users getAllUsers();
+
+    User getAllUsers(String mail);
+
 }

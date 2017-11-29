@@ -35,6 +35,10 @@ public class Http {
         input(url, "DELETE", headers);
     }
 
+    public static void post(String url) {
+        input(url, "POST", null);
+    }
+
     public static void post(String url, String body) {
        outPut(url, "POST", body, null);
     }

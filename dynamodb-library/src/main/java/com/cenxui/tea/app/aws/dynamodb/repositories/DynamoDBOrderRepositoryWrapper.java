@@ -4,7 +4,7 @@ import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderProductFormatEx
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductNotFoundException;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
-import com.cenxui.tea.app.repositories.order.OrderResult;
+import com.cenxui.tea.app.repositories.order.Orders;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
 
 import java.util.List;
@@ -23,47 +23,47 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
 
 
     @Override
-    public OrderResult getAllOrders() {
+    public Orders getAllOrders() {
         return orderRepository.getAllOrders();
     }
 
     @Override
-    public OrderResult getAllOrdersByLastKey(Integer limit, String mail, String time) {
-        return orderRepository.getAllOrdersByLastKey(limit, mail, time);
+    public Orders getAllOrders(String mail, String time, Integer limit) {
+        return orderRepository.getAllOrders(mail, time, limit);
     }
 
     @Override
-    public OrderResult getAllProcessingOrders() {
+    public Orders getAllProcessingOrders() {
         return orderRepository.getAllProcessingOrders();
     }
 
     @Override
-    public OrderResult getAllProcessingOrders(Integer limit, String mail, String time) {
-        return orderRepository.getAllProcessingOrders(limit, mail, time);
+    public Orders getAllProcessingOrders(String processingDate, Integer limit) {
+        return orderRepository.getAllProcessingOrders(processingDate, limit);
     }
 
     @Override
-    public OrderResult getAllShippedOrders() {
+    public Orders getAllShippedOrders() {
         return orderRepository.getAllShippedOrders();
     }
 
     @Override
-    public OrderResult getAllShippedOrders(Integer limit, String mail, String time) {
-        return orderRepository.getAllShippedOrders(limit, mail, time);
+    public Orders getAllShippedOrders(String shippedTime, Integer limit) {
+        return orderRepository.getAllShippedOrders(shippedTime, limit);
     }
 
     @Override
-    public OrderResult getAllPaidOrders() {
+    public Orders getAllPaidOrders() {
         return orderRepository.getAllPaidOrders();
     }
 
     @Override
-    public OrderResult getAllPaidOrders(Integer limit, String mail, String time) {
-        return orderRepository.getAllPaidOrders(limit, mail, time);
+    public Orders getAllPaidOrders(String paidTime, Integer limit) {
+        return orderRepository.getAllPaidOrders(paidTime, limit);
     }
 
     @Override
-    public OrderResult getOrdersByMail(String mail) {
+    public Orders getOrdersByMail(String mail) {
         return orderRepository.getOrdersByMail(mail);
     }
 

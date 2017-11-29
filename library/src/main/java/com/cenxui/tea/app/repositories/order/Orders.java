@@ -5,7 +5,7 @@ import lombok.Value;
 import java.util.List;
 
 @Value(staticConstructor = "of")
-public class OrderResult{
+public class Orders {
     List<Order> orders;
     Key key;
 }

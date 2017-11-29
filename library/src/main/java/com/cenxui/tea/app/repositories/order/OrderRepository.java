@@ -4,23 +4,23 @@ import com.cenxui.tea.app.repositories.Repository;
 
 public interface OrderRepository extends Repository {
 
-    OrderResult getAllOrders();
+    Orders getAllOrders();
 
-    OrderResult getAllOrders(Integer limit, String mail, String time);
+    Orders getAllOrders(String mail, String time, Integer limit);
 
-    OrderResult getAllPaidOrders();
+    Orders getAllPaidOrders();
 
-    OrderResult getAllPaidOrders(Integer limit, String paidTime);
+    Orders getAllPaidOrders(String paidTime, Integer limit);
 
-    OrderResult getAllProcessingOrders();
+    Orders getAllProcessingOrders();
 
-    OrderResult getAllProcessingOrders(Integer limit, String processingDate);
+    Orders getAllProcessingOrders(String processingDate, Integer limit);
 
-    OrderResult getAllShippedOrders();
+    Orders getAllShippedOrders();
 
-    OrderResult getAllShippedOrders(Integer limit, String shipTime);
+    Orders getAllShippedOrders(String shipTime, Integer limit);
 
-    OrderResult getOrdersByMail(String mail);
+    Orders getOrdersByMail(String mail);
 
     Order getOrdersByMailAndTime(String mail, String time);
 
@@ -43,5 +43,8 @@ public interface OrderRepository extends Repository {
     Order shipOrder(String mail, String time, String shippedTime);
 
     Order deShipOrder(String mail, String time);
+
+    //todo add order money sum order sum paid sum etc...
+
 
 }
