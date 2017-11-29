@@ -1,0 +1,106 @@
+a {
+    color: black
+}
+
+a:focus {
+    color: #ccc
+}
+
+input {
+    font: 16px / 18px sans-serif
+}
+
+fieldset {
+    margin-bottom: 20px;
+    padding: 0;
+    border: 0
+}
+
+form div {
+    padding: 0
+}
+
+#content {
+    width: 100%
+}
+
+#accountFields {
+    padding-left: 100px
+}
+
+#inputComment {
+    padding-bottom: 10px
+}
+
+.center {
+    margin: 10px;
+    text-align: center
+}
+
+.buttoninput {
+    clear: both
+}
+
+.textinput {
+    padding-top: 10px;
+    clear: both
+}
+
+.textinput label {
+    display: block;
+    clear: left;
+    padding-right: 10px;
+    line-height: 21px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 7px;
+    color: #444;
+    font-family: "Helvetica Neue", Roboto, Arial, sans-serif
+}
+
+.textinput input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    padding: 7px 10px;
+    margin: 10px 0;
+    width: 380px
+}
+
+.textinput input:focus {
+    border-color: #777777;
+    box-shadow: 0 0 8px #cccccc;
+    outline: 0 none
+}
+
+.order_form {
+    float: left;
+    width: 370px
+}
+
+.link {
+    font-size: .8em
+}
+
+.actionButton {
+    line-height: 25px;
+    padding: 7px 0;
+    width: 380px;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-color: #f7f7f7;
+    border: dotted #cccccc 1px;
+    border-radius: 5px;
+    outline: none;
+    margin-bottom: 20px
+}
+
+.actionButton:hover {
+    background-color: olivedrab;
+    color: #f2f2f2;
+}
+
