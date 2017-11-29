@@ -25,7 +25,7 @@
 </head>
 <body onload="initLocalStorage()">
 
-<div id="navbar">
+<div class="navbar">
     <div id="tab">
         <a href="//tw.hwangying.com">首頁</a>
         <a href="#news">最新消息</a>
@@ -48,28 +48,26 @@
 
 <div id="content">
 
-    <h1 id="center">個人資料</h1>
+    <h2 class="title">個人資料</h2>
 
-    <form id="order_form" name="order_form" class="order_form">
+    <div class="borderLeft"></div>
+
+    <form id="order_form" name="order_form" class="order_form ">
 
         <div id="accountFields">
             <fieldset>
                 <div class="textinput" id="iputLastName">
-                    <label for="lastName">姓</label>
-                    <input id="lastName" type="text">
+                    <input id="lastName" type="text" placeholder="姓">
                 </div>
                 <div class="textinput" id="inputFirstName">
-                    <label for="firstName">名</label>
-                    <input id="firstName" type="text">
+                    <input id="firstName" type="text" placeholder="名">
                 </div>
 
                 <div class="textinput" id="inputPhone">
-                    <label for="phone">聯絡電話</label>
-                    <input id="phone" name="phone" type="tel" value="0900">
+                    <input id="phone" name="phone" type="tel" placeholder="聯絡電話">
                 </div>
                 <div class="textinput" id="inputAddress">
-                    <label for="address">地址</label>
-                    <input id="address" name="address" value="A市B區C路">
+                    <input id="address" name="address" placeholder="地址">
                 </div>
 
             </fieldset>
