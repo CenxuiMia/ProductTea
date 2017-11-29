@@ -17,7 +17,7 @@ $(document).ready(function () {
 
 function initLocalStorage() {
     console.info("initLocalStorage");
-    // clearLocalStorage(); //For testing.
+    clearLocalStorage(); //For testing.
     if (localStorage.getItem("lastName") === null) {
         setLocalStorage("", "", "", "");
     } else {
