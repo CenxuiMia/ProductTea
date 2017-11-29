@@ -12,13 +12,13 @@ Resources:
           AttributeName: "time"
           AttributeType: "S"
         -
-          AttributeName: "paidDate"
+          AttributeName: "paidTime"
           AttributeType: "S"
         -
           AttributeName: "processingDate"
           AttributeType: "S"
         -
-          AttributeName: "shippedDate"
+          AttributeName: "shippedTime"
           AttributeType: "S"
 
 
@@ -39,7 +39,7 @@ Resources:
           IndexName: "paidIndex"
           KeySchema:
           -
-            AttributeName: "paidDate"
+            AttributeName: "paidTime"
             KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"
@@ -61,7 +61,7 @@ Resources:
           IndexName: "shippedIndex"
           KeySchema:
           -
-            AttributeName: "shippedDate"
+            AttributeName: "shippedTime"
             KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"

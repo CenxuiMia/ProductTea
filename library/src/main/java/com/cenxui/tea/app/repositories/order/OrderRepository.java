@@ -6,19 +6,19 @@ public interface OrderRepository extends Repository {
 
     OrderResult getAllOrders();
 
-    OrderResult getAllOrdersByLastKey(Integer limit, String mail, String time);
-
-    OrderResult getAllProcessingOrders();
-
-    OrderResult getAllProcessingOrders(Integer limit, String mail, String time);
-
-    OrderResult getAllShippedOrders();
-
-    OrderResult getAllShippedOrders(Integer limit, String mail, String time);
+    OrderResult getAllOrders(Integer limit, String mail, String time);
 
     OrderResult getAllPaidOrders();
 
-    OrderResult getAllPaidOrders(Integer limit, String mail, String time);
+    OrderResult getAllPaidOrders(Integer limit, String paidTime);
+
+    OrderResult getAllProcessingOrders();
+
+    OrderResult getAllProcessingOrders(Integer limit, String processingDate);
+
+    OrderResult getAllShippedOrders();
+
+    OrderResult getAllShippedOrders(Integer limit, String shipTime);
 
     OrderResult getOrdersByMail(String mail);
 
@@ -34,9 +34,13 @@ public interface OrderRepository extends Repository {
 
     Order payOrder(String mail, String time);
 
+    Order payOrder(String mail, String time, String paidTime);
+
     Order dePayOrder(String mail, String time);
 
     Order shipOrder(String mail, String time);
+
+    Order shipOrder(String mail, String time, String shippedTime);
 
     Order deShipOrder(String mail, String time);
 

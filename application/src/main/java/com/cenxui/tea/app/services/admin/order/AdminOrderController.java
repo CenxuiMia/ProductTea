@@ -42,7 +42,7 @@ public class AdminOrderController extends CoreController{
         return JsonUtil.mapToJson(orderRepository.getAllOrders());
     };
 
-    public static final Route getOrdersByLastKey = (Request request, Response response) -> {
+    public static final Route getAllOrdersByLastKey = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
         String time = getTime(map);
@@ -68,6 +68,17 @@ public class AdminOrderController extends CoreController{
 
         return JsonUtil.mapToJson(orderRepository.getOrdersByMailAndTime(mail, time));
     };
+
+
+    public static final Route getAllShippedOrders = (Request request, Response response) -> {
+        return JsonUtil.mapToJson(orderRepository.getAllShippedOrders());
+    };
+
+    public static final Route getAllShippedOrdersByLastKey = (Request request, Response response) -> {
+        return JsonUtil.mapToJson(orderRepository.getAllShippedOrders());
+    };
+
+
 
     public static final Route activeOrder =  (Request request, Response response) -> {
         Map<String, String> map = request.params();

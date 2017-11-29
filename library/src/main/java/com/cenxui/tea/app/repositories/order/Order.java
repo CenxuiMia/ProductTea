@@ -27,9 +27,9 @@ public class Order {
     public static final String ADDRESS = "address";
 
     public static final String COMMENT = "comment";
-    public static final String PAID_DATE = "paidDate";
-    public static final String SHIP_DATE = "shippedDate";
-    public static final String PROCESS_DATE = "processingDate";
+    public static final String PAID_TIME = "paidTime";
+    public static final String SHIPPED_TIME= "shippedTime";
+    public static final String PROCESSING_DATE = "processingDate";
     public static final String IS_ACTIVE = "isActive";
 
     String mail; // default user email
@@ -43,9 +43,9 @@ public class Order {
     String address;
     String comment;
 
-    String paidDate;
+    String paidTime;
     String processingDate;
-    String shippedDate;
+    String shippedTime;
     Boolean isActive;
 
     public static Order of(String mail,
@@ -56,14 +56,14 @@ public class Order {
                            String phone,
                            String address,
                            String comment,
-                           String paidDate,
+                           String paidTime,
                            String processingDate,
-                           String shippedDate,
+                           String shippedTime,
                            Boolean isActive) {
 
         return new Order(
                 mail, products, purchaser, money, receiver, phone,
-                address, comment, paidDate, processingDate, shippedDate,
+                address, comment, paidTime, processingDate, shippedTime,
                 isActive);
     }
 
