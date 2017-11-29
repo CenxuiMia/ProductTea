@@ -2,19 +2,17 @@ package com.cenxui.tea.app.repositories.product;
 
 import com.cenxui.tea.app.repositories.Repository;
 
-import java.util.List;
-
 public interface ProductRepository extends Repository {
 
-    ProductResult getAllProducts();
+    Products getAllProducts();
 
-    ProductResult getAllProductsProjectIntroSmallImagePriceTag();
+    Products getAllProductsProjectIntroSmallImagePriceTag();
 
-    ProductResult getProductsByTag(String tag);
+    Products getProductsByTag(String tag);
 
-    ProductResult getProductsByPrice(Float price);
+    Products getProductsByPrice(Float price);
 
-    ProductResult getProductsByProductName(String productName);
+    Products getProductsByProductName(String productName);
 
     Product getProductByProductNameVersion(String productName, String version);
 

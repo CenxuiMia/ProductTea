@@ -1,7 +1,7 @@
 package com.cenxui.tea.app.util;
 
 import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.repositories.order.OrderResult;
+import com.cenxui.tea.app.repositories.order.Orders;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -9,17 +9,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtil {
-
-    public static String mapOrderResultToJson(OrderResult orderResult) {
-        ObjectMapper mapper = new ObjectMapper();
-        String ordersJson;
-        try {
-            ordersJson = mapper.writeValueAsString(orderResult);
-        } catch (JsonProcessingException e) {
-            throw new ObjectToJsonException(orderResult);
-        }
-        return ordersJson;
-    }
 
     public static Order mapToOrder(String orderJson) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
