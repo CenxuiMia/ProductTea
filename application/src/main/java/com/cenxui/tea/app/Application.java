@@ -100,25 +100,60 @@ public final class Application {
 
         get(Path.Web.Admin.ORDER, AdminOrderController.getAllOrders);
 
-        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" + Param.ORDER_COUNT,
+        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" + Param.ORDER_LIMIT,
                 AdminOrderController.getAllOrdersByLastKey);
 
         get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL, AdminOrderController.getOrdersByMail);
-//
-//        get(Path.Web.Admin.ORDERS_PAID, AdminOrderController.);
-//
-//
-        //todo paid processing shipped
+
+        get(Path.Web.Admin.ORDER_PAID, AdminOrderController.getAllPaidOrders);
+
+        get(Path.Web.Admin.ORDER_PAID + "/" + Param.ORDER_PAID_TIME + "/" + Param.ORDER_LIMIT,
+                AdminOrderController.getAllPaidOrdersByLastKey);
+
+        get(Path.Web.Admin.ORDER_PROCESSING, AdminOrderController.getAllProcessingOrders);
+
+        get(Path.Web.Admin.ORDER_PROCESSING + "/" + Param.ORDER_PROCESSING_DATE + "/" + Param.ORDER_LIMIT,
+                AdminOrderController.getAllProcessingOrdersByLastKey);
+
+        get(Path.Web.Admin.ORDER_SHIPPED, AdminOrderController.getAllShippedOrders);
+
+        get(Path.Web.Admin.ORDER_SHIPPED + "/" + Param.ORDER_SHIPPED_TIME + "/" + Param.ORDER_LIMIT,
+                AdminOrderController.getAllShippedOrdersByLastKey);
 
 
         /**
          * order
          */
 
-        //todo active pay pay
-
         get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
                 AdminOrderController.getOrderByMailAndTime);
+
+        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL,
+                AdminOrderController.getOrdersByMail);
+
+        /**
+         * manipulate order lifecycle
+         */
+
+        post(Path.Web.Admin.ORDER_ACTIVE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+                AdminOrderController.activeOrder);
+
+        post(Path.Web.Admin.ORDER_DEACTIVE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+                AdminOrderController.deActiveOrder);
+
+        post(Path.Web.Admin.ORDER_PAY + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+                AdminOrderController.payOrder);
+
+        post(Path.Web.Admin.ORDER_DEPAY + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+                AdminOrderController.dePayOrder);
+
+
+        post(Path.Web.Admin.ORDER_SHIP + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+                AdminOrderController.shipOrder);
+
+        post(Path.Web.Admin.ORDER_DESHIP + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+                AdminOrderController.deShipOrder);
+
 
         /**
          * add order

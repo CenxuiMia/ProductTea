@@ -6,6 +6,7 @@ import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.services.CoreController;
 import com.cenxui.tea.app.services.util.Param;
+import com.cenxui.tea.app.services.util.Path;
 import com.cenxui.tea.app.services.util.error.ApplicationError;
 import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
@@ -48,17 +49,13 @@ public class AdminOrderController extends CoreController{
         String time = getTime(map);
         Integer limit = getLimit(map);
 
-        return JsonUtil.mapToJson(orderRepository.getAllOrdersByLastKey(limit, mail, time));
+        return JsonUtil.mapToJson(orderRepository.getAllOrders(mail, time, limit));
     };
 
     public static final Route getOrdersByMail = (Request request, Response response) -> {
-        try {
-            Map<String, String> map = request.params();
-            String mail = getMail(map);
-            return JsonUtil.mapToJson(orderRepository.getOrdersByMail(mail));
-        }catch (Throwable e) {
-            return ApplicationError.getTrace(e.getStackTrace());
-        }
+        Map<String, String> map = request.params();
+        String mail = getMail(map);
+        return JsonUtil.mapToJson(orderRepository.getOrdersByMail(mail));
     };
 
     public static final Route getOrderByMailAndTime = (Request request, Response response) -> {
@@ -69,24 +66,53 @@ public class AdminOrderController extends CoreController{
         return JsonUtil.mapToJson(orderRepository.getOrdersByMailAndTime(mail, time));
     };
 
+    public static final Route getAllPaidOrders = (Request request, Response response) -> {
+        return JsonUtil.mapToJson(orderRepository.getAllPaidOrders());
+    };
+
+    public static final Route getAllPaidOrdersByLastKey = (Request request, Response response) -> {
+        Map<String, String> map = request.params();
+        String paidTime = getPaidTime(map);
+        Integer limit = getLimit(map);
+
+        return JsonUtil.mapToJson(orderRepository.getAllPaidOrders(paidTime, limit));
+    };
+
+    public static final Route getAllProcessingOrders = (Request request, Response response) -> {
+        return JsonUtil.mapToJson(orderRepository.getAllProcessingOrders());
+    };
+
+    public static final Route getAllProcessingOrdersByLastKey = (Request request, Response response) -> {
+        Map<String, String> map = request.params();
+        String processingDate = getProcessingDate(map);
+        Integer limit = getLimit(map);
+
+        return JsonUtil.mapToJson(orderRepository.getAllProcessingOrders(processingDate, limit));
+    };
 
     public static final Route getAllShippedOrders = (Request request, Response response) -> {
         return JsonUtil.mapToJson(orderRepository.getAllShippedOrders());
     };
 
     public static final Route getAllShippedOrdersByLastKey = (Request request, Response response) -> {
-        return JsonUtil.mapToJson(orderRepository.getAllShippedOrders());
+        Map<String, String> map = request.params();
+        String shippedTime = getShippedTime(map);
+        Integer limit = getLimit(map);
+
+        return JsonUtil.mapToJson(orderRepository.getAllShippedOrders(shippedTime, limit));
     };
 
-
-
     public static final Route activeOrder =  (Request request, Response response) -> {
-        Map<String, String> map = request.params();
-        String mail = getMail(map);
-        String time = getTime(map);
-        Order order = orderRepository.activeOrder(mail, time);
+        try {
+            Map<String, String> map = request.params();
+            String mail = getMail(map);
+            String time = getTime(map);
+            Order order = orderRepository.activeOrder(mail, time);
 
-        return JsonUtil.mapToJson(order);
+            return JsonUtil.mapToJson(order);
+        }catch (Throwable e) {
+            return ApplicationError.getTrace(e.getStackTrace());
+        }
     };
 
     public static final Route deActiveOrder =  (Request request, Response response) -> {
@@ -107,7 +133,7 @@ public class AdminOrderController extends CoreController{
         return JsonUtil.mapToJson(order);
     };
 
-    public static Route dePayOrder = (Request request, Response response) -> {
+    public static final Route dePayOrder = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
         String time = getTime(map);
@@ -116,7 +142,7 @@ public class AdminOrderController extends CoreController{
         return JsonUtil.mapToJson(order);
     };
 
-    public static Route shipOrder =  (Request request, Response response) -> {
+    public static final Route shipOrder =  (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
         String time = getTime(map);
@@ -126,7 +152,7 @@ public class AdminOrderController extends CoreController{
     };
 
 
-    public static Route deShipOrder = (Request request, Response response) -> {
+    public static final Route deShipOrder = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
         String time = getTime(map);
@@ -152,9 +178,22 @@ public class AdminOrderController extends CoreController{
     }
 
     private static Integer getLimit(Map<String, String> map) {
-        Integer count = Integer.valueOf(map.get(Param.ORDER_COUNT));
+        //todo throw exception
+        Integer count = Integer.valueOf(map.get(Param.ORDER_LIMIT));
 
         return count;
+    }
+
+    private static String getPaidTime(Map<String, String> map) {
+        return map.get(Param.ORDER_PAID_TIME);
+    }
+
+    private static String getProcessingDate(Map<String, String> map) {
+        return map.get(Param.ORDER_PROCESSING_DATE);
+    }
+
+    private static String getShippedTime(Map<String, String> map) {
+        return map.get(Param.ORDER_SHIPPED_TIME);
     }
 
 }

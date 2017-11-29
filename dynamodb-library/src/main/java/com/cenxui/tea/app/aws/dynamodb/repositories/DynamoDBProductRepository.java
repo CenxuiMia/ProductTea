@@ -6,12 +6,11 @@ import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductJsonMapException;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductNotFoundException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.product.ProductKey;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
-import com.cenxui.tea.app.repositories.product.ProductResult;
+import com.cenxui.tea.app.repositories.product.Products;
 import com.cenxui.tea.app.util.JsonUtil;
 
 import java.util.*;
@@ -25,22 +24,22 @@ final class DynamoDBProductRepository implements ProductRepository {
     }
 
     @Override
-    public ProductResult getProductsByTag(String tag) {
+    public Products getProductsByTag(String tag) {
         //todo
         throw new UnsupportedOperationException("not yet");
     }
 
     @Override
-    public ProductResult getAllProducts() {
+    public Products getAllProducts() {
         ItemCollection<ScanOutcome> itemCollection = productTable.scan();
         List<Product> products = mapScanOutcomeToProducts(itemCollection);
         ProductKey productKey = getScanOutcomeLastKey(itemCollection);
 
-        return ProductResult.of(products, productKey);
+        return Products.of(products, productKey);
     }
 
     @Override
-    public ProductResult getAllProductsProjectIntroSmallImagePriceTag() {
+    public Products getAllProductsProjectIntroSmallImagePriceTag() {
 
         //todo add field
         ScanSpec scanSpec = new ScanSpec()
@@ -56,17 +55,17 @@ final class DynamoDBProductRepository implements ProductRepository {
         List<Product> products = mapScanOutcomeToProducts(itemCollection);
         ProductKey productKey = getScanOutcomeLastKey(itemCollection);
 
-        return ProductResult.of(products, productKey);
+        return Products.of(products, productKey);
     }
 
     @Override
-    public ProductResult getProductsByPrice(Float price) {
+    public Products getProductsByPrice(Float price) {
         //todo
         throw new UnsupportedOperationException("not yet");
     }
 
     @Override
-    public ProductResult getProductsByProductName(String name) {
+    public Products getProductsByProductName(String name) {
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Product.PRODUCT_NAME, name);
 
@@ -76,7 +75,7 @@ final class DynamoDBProductRepository implements ProductRepository {
 
         ProductKey productKey = getQueryOutcomeLastKey(collection);
 
-        return ProductResult.of(products, productKey);
+        return Products.of(products, productKey);
     }
 
     @Override

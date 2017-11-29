@@ -4,17 +4,18 @@ let paidOrder = "已付款訂單";
 let processingOrder = "處理中訂單";
 let shippedOrder = "已出貨訂單";
 
-let mail = "信箱";
+let primaryKey = "訂單序號";
 let time = "時間";
 let money = "總額";
+let purchaser = "購買人";
 let receiver = "收件人";
 let address = "地址";
 
 function onAllOrder() {
     document.getElementById("sectionTitle").innerHTML = allOrder;
     cleanOrderForm();
-    setOrderColumn(mail, time, money, receiver, address);
-    queryOrders(orderEndpoint);
+    setOrderColumn(primaryKey, purchaser, money, receiver, address);
+    queryOrders(orderEndpoint + "/table");
 }
 
 function onActiveOrder() {
@@ -26,19 +27,19 @@ function onActiveOrder() {
 function onPaidOrder() {
     document.getElementById("sectionTitle").innerHTML = paidOrder;
     cleanOrderForm();
-    // queryOrders(orderEndpoint);
+    queryOrders(orderEndpoint + "/paid");
 }
 
 function onProcessingOrder() {
     document.getElementById("sectionTitle").innerHTML = processingOrder;
     cleanOrderForm();
-    // queryOrders(orderEndpoint);
+    queryOrders(orderEndpoint + "/processing");
 }
 
 function onShippedOrder() {
     document.getElementById("sectionTitle").innerHTML = shippedOrder;
     cleanOrderForm();
-    // queryOrders(orderEndpoint);
+    queryOrders(orderEndpoint + "/shipped");
 }
 
 function onLoad() {
@@ -79,14 +80,29 @@ function appendText(data) {
     for (var i = 0; i< data.length ; i++) {
         var order =
             "<tr> " +
-            "   <td>" + data[i].mail +"</td> " +
-            "   <td>" + data[i].time +"</td> " +
+            "   <td onclick='onClickOrder()'>" + data[i].mail + ":" + data[i].time + "<button onclick='shipOrder()>出貨</button>" + "</td> " +
+            "   <td>" + data[i].purchaser+"</td> " +
             "   <td>" + data[i].money +"</td> " +
-            "   <td>dolor</td> " +
-            "   <td>sit</td> " +
+            "   <td>" + data[i].receiver + "</td> " +
+            "   <td>" + data[i].address + "</td> " +
             "</tr>";               // Create element with HTML
         orderForm.innerHTML += order;      // Append the new elements
     }
+}
+
+function shipOrder(e) {
+    e = e || window.event;
+    var target = e.target || e.srcElement;
+    console.info(target.parentNode.innerText);
+}
+
+
+function onClickOrder(e) {
+    // e = e || window.event;
+    // var target = e.target || e.srcElement,
+    //     text = target.textContent || text.innerText;
+    // console.info("item :" + text);
+
 
 }
 

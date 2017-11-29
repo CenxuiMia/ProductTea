@@ -15,10 +15,17 @@ public class Path {
 
             public static final String PRODUCT = "/admin/product";
 
-            public static final String ORDER = "/admin/order";
-            public static final String ORDERS_PAID = "/admin/orders/paid";
-            public static final String ORDERS_PROCESSING = "/admin/orders/processing";
-            public static final String ORDERS_SHIPPED = "/admin/orders/shipped";
+            public static final String ORDER = "/admin/order/table";
+            public static final String ORDER_ACTIVE = "/admin/order/table/active";
+            public static final String ORDER_DEACTIVE = "/admin/order/table/deactive";
+            public static final String ORDER_PAY = "/admin/order/table/pay";
+            public static final String ORDER_DEPAY = "/admin/order/table/depay";
+            public static final String ORDER_SHIP ="/admin/order/table/ship";
+            public static final String ORDER_DESHIP ="/admin/order/table/deship";
+
+            public static final String ORDER_PAID = "/admin/order/paid";
+            public static final String ORDER_PROCESSING = "/admin/order/processing";
+            public static final String ORDER_SHIPPED = "/admin/order/shipped";
 
         }
     }
