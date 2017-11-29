@@ -10,6 +10,7 @@ import com.cenxui.tea.app.services.order.OrderController;
 import com.cenxui.tea.app.services.product.ProductController;
 import com.cenxui.tea.app.services.util.Param;
 import com.cenxui.tea.app.services.util.Path;
+import com.cenxui.tea.app.services.util.error.ApplicationError;
 
 import static spark.Spark.*;
 
@@ -67,6 +68,13 @@ public final class Application {
         exception(UserNotFoundException.class, (exception, request, response) -> {
             response.body(exception.getMessage());
         });
+
+//        /**
+//         * todo remove it in product version
+//         */
+//        exception(RuntimeException.class, (exception, request, response) -> {
+//            response.body(ApplicationError.getTrace(exception.getStackTrace()));
+//        });
     }
 
 

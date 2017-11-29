@@ -45,13 +45,17 @@ public class OrderPathTest {
 
     @Test
     public void shippedOrder() {
-        Http.post(url + "/ship/5cenxui@gmail.com/2017-11-29T17:19:51");
+        String t = "http://localhost:9000/admin/order/table/ship/0cenxui@gmail.com/2017-11-29T18";
+
+        Http.post(url + "/ship/0cenxui@gmail.com/2017-11-29T18:04:10");
     }
 
     @Test
     public void deShippedorder() {
-        Http.post(url + "/deship/5cenxui@gmail.com/2017-11-29T17:19:51");
+        Http.post(url + "/deship/0cenxui@gmail.com/2017-11-29T18:04:10");
 
     }
+
+
 
 }

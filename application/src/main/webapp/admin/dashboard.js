@@ -80,7 +80,7 @@ function appendText(data) {
     for (var i = 0; i< data.length ; i++) {
         var order =
             "<tr> " +
-            "   <td onclick='onClickOrder()'>" + data[i].mail + ":" + data[i].time + "<button onclick='shipOrder()>出貨</button>" + "</td> " +
+            "   <td>" + data[i].mail + "," + data[i].time + "<img type='image' src='image/button_shipped.png' onclick='shipOrderButton()'>" + "</td> " +
             "   <td>" + data[i].purchaser+"</td> " +
             "   <td>" + data[i].money +"</td> " +
             "   <td>" + data[i].receiver + "</td> " +
@@ -90,22 +90,62 @@ function appendText(data) {
     }
 }
 
-function shipOrder(e) {
+function shipOrderButton(e) {
     e = e || window.event;
     var target = e.target || e.srcElement;
-    console.info(target.parentNode.innerText);
+
+    target.disabled = true;
+    let key = target.parentNode.innerText.split(",");
+    let mail = key[0].trim();
+    let time = key[1].trim();
+
+    if (target.src.endsWith('button_shipped.png') ) {
+        shipOrder(target, mail, time);
+    }else {
+        deshipOrder(target, mail, time);
+    }
+}
+
+function shipOrder(element, mail, time) {
+    let url = orderEndpoint + "/table/ship/" + mail + "/" + time;
+    console.info("url :" + url);
+
+    $.ajax({
+        type : 'POST',
+        url : url,
+        success : function(response) {
+            console.info(response)
+            element.disabled = false;
+            element.src = 'image/button_cancel.png';
+
+        },
+        error : function(xhr, status, error) {
+            element.disabled = false;
+            alert(error);
+        }
+    });
 }
 
 
-function onClickOrder(e) {
-    // e = e || window.event;
-    // var target = e.target || e.srcElement,
-    //     text = target.textContent || text.innerText;
-    // console.info("item :" + text);
+function deshipOrder(element, mail, time) {
+    $.ajax({
+        type : 'POST',
+        url : orderEndpoint + "/table/deship/" + mail + "/" + time,
+        success : function(response) {
+            console.info(response)
+            element.disabled = false;
+            element.src = 'image/button_shipped.png';
 
-
+        },
+        error : function(xhr, status, error) {
+            element.disabled = false;
+            alert(error);
+        }
+    });
 }
+
+
 
 function onScroll() {
-
+ //todo
 }

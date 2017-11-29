@@ -103,16 +103,12 @@ public class AdminOrderController extends CoreController{
     };
 
     public static final Route activeOrder =  (Request request, Response response) -> {
-        try {
-            Map<String, String> map = request.params();
-            String mail = getMail(map);
-            String time = getTime(map);
-            Order order = orderRepository.activeOrder(mail, time);
+        Map<String, String> map = request.params();
+        String mail = getMail(map);
+        String time = getTime(map);
+        Order order = orderRepository.activeOrder(mail, time);
 
-            return JsonUtil.mapToJson(order);
-        }catch (Throwable e) {
-            return ApplicationError.getTrace(e.getStackTrace());
-        }
+        return JsonUtil.mapToJson(order);
     };
 
     public static final Route deActiveOrder =  (Request request, Response response) -> {
