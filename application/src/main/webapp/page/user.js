@@ -17,7 +17,7 @@ $(document).ready(function () {
 
 function initLocalStorage() {
     console.info("initLocalStorage");
-    // clearLocalStorage(); //For testing.
+    clearLocalStorage(); //For testing.
     if (localStorage.getItem("lastName") === null) {
         setLocalStorage("", "", "", "");
     } else {
@@ -45,10 +45,10 @@ function clearLocalStorage() {
 }
 
 function setInputValue(lastName, firstName, phone, address) {
-    document.getElementById("lastName").setAttribute("value", lastName);
-    document.getElementById("firstName").setAttribute("value", firstName);
-    document.getElementById("phone").setAttribute("value", phone);
-    document.getElementById("address").setAttribute("value", address);
+    $("#lastName").val(lastName);
+    $("#firstName").val(firstName);
+    $("#phone").val(phone);
+    $("#address").val(address);
 }
 
 
@@ -85,4 +85,8 @@ function save() {
     });
 
     setLocalStorage(lastName, firstName, phone, address);
+}
+
+function cancel() {
+    setInputValue(localStorage.lastName, localStorage.firstName, localStorage.phone, localStorage.address);
 }

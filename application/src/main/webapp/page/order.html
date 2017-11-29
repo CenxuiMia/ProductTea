@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="global.css">
     <link rel="stylesheet" type="text/css" href="signin.css">
+    <link rel="stylesheet" href="form.css">
     <link rel="stylesheet" type="text/css" href="order.css"/>
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -23,7 +24,9 @@
 </head>
 <body>
 
-<div id="navbar">
+<div id="id_wrapper">
+
+<div id="id_header" class="navbar">
     <div id="tab">
         <a href="//tw.hwangying.com">首頁</a>
         <a href="#news">最新消息</a>
@@ -39,14 +42,16 @@
     <a href="javascript:void(0)"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
 </div>
 
-<div class="banner">
-    <h2>皇飲</h2>
-    <p>生活，來點品味。</p>
-</div>
+<div id="id_content">
 
-<div id="content">
+    <h2 class="formTitle">訂單系統</h2>
 
-    <h1 id="center">訂單輸入系統</h1>
+    <div class="borderLeft"></div>
+
+    <div class="bannerRight">
+        <h2>皇飲</h2>
+        <p>生活，來點品味。</p>
+    </div>
 
     <form id="order_form" name="order_form" class="order_form">
 
@@ -78,9 +83,9 @@
                 </div>
                 <div class="textinput" id="inputShippingWay">
                     取貨方式<br>
-                    <input id="shippingConvi" name="shipping" type="radio" value="超商取貨">
+                    <input id="shippingConvi" name="shipping" type="radio" value="超商取貨" style="width: 18px; display: inline-block">
                     <label for="shippingConvi" style="display: inline-block">超商取貨</label>
-                    <input id="shippingHome" name="shipping" type="radio" value="宅配">
+                    <input id="shippingHome" name="shipping" type="radio" value="宅配" style="width: 18px; display: inline-block">
                     <label for="shippingHome" style="display: inline-block">宅配</label>
                 </div>
                 <div class="textinput" id="inputAddress">
@@ -94,11 +99,17 @@
             </fieldset>
 
             <div class="buttoninput" id="input_submit_button">
-                <a id="submit_button" class="css3button" href="#" alt="Continue" value="Continue" onclick="addOrder()">確認送出</a>
+                <a id="submit_button" class="actionButton" href="#" alt="Continue" value="Continue" onclick="addOrder()">確認送出</a>
             </div>
         </div>
 
     </form>
+</div>
+
+    <footer class="footer-copyright">
+        <p>Copyright © 2017 HWANGYING All rights reserved.</p>
+    </footer>
+
 </div>
 
 </body>

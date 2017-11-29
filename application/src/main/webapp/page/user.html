@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="global.css">
     <link rel="stylesheet" type="text/css" href="signin.css">
-    <link rel="stylesheet" type="text/css" href="user.css"/>
+    <link rel="stylesheet" type="text/css" href="form.css"/>
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.156.0.min.js"></script>
@@ -25,7 +25,9 @@
 </head>
 <body onload="initLocalStorage()">
 
-<div id="navbar">
+<div id="id_wrapper">
+
+<div id="id_header" class="navbar">
     <div id="tab">
         <a href="//tw.hwangying.com">首頁</a>
         <a href="#news">最新消息</a>
@@ -41,51 +43,55 @@
     <a href="//tw.hwangying.com/order.html"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
 </div>
 
-<div class="banner">
-    <h2>皇飲</h2>
-    <p>生活，來點品味。</p>
-</div>
+<div id="id_content">
 
-<div id="content">
+    <h2 class="formTitle">個人資料</h2>
 
-    <h1 id="center">個人資料</h1>
+    <div class="borderLeft"></div>
 
-    <form id="order_form" name="order_form" class="order_form">
+    <div class="bannerRight">
+        <h2>皇飲</h2>
+        <p>生活，來點品味。</p>
+    </div>
+
+    <form id="order_form" name="order_form" class="order_form ">
 
         <div id="accountFields">
             <fieldset>
                 <div class="textinput" id="iputLastName">
-                    <label for="lastName">姓</label>
-                    <input id="lastName" type="text">
+                    <input id="lastName" type="text" placeholder="姓">
                 </div>
                 <div class="textinput" id="inputFirstName">
-                    <label for="firstName">名</label>
-                    <input id="firstName" type="text">
+                    <input id="firstName" type="text" placeholder="名">
                 </div>
 
                 <div class="textinput" id="inputPhone">
-                    <label for="phone">聯絡電話</label>
-                    <input id="phone" name="phone" type="tel" value="0900">
+                    <input id="phone" name="phone" type="tel" placeholder="聯絡電話">
                 </div>
                 <div class="textinput" id="inputAddress">
-                    <label for="address">地址</label>
-                    <input id="address" name="address" value="A市B區C路">
+                    <input id="address" name="address" placeholder="地址">
                 </div>
 
             </fieldset>
 
             <div class="buttoninput">
-                <a id="submit_button" class="css3button" href="#" alt="Continue" value="Continue" onclick="save()">確認</a>
+                <a id="submit_button" class="actionButton" href="#" alt="Continue" value="Continue" onclick="save()">確認</a>
             </div>
 
             <div class="buttoninput">
-                <a id="cancel_button" class="css3button" href="#" alt="Continue" value="Continue" onclick="cancel()">取消</a>
+                <a id="cancel_button" class="actionButton" href="#" alt="Continue" value="Continue" onclick="cancel()">取消</a>
             </div>
 
         </div>
 
     </form>
 </div>
+
+</div>
+
+<footer class="footer-copyright">
+    <p>Copyright © 2017 HWANGYING All rights reserved.</p>
+</footer>
 
 </body>
 </html>

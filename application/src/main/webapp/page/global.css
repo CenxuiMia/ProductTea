@@ -6,7 +6,30 @@ body, html {
 
 .material-icons.md-light { color: rgba(255, 255, 255, 1); }
 
-#navbar {
+#id_wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
+#id_header {
+    height: 50px;
+    box-sizing: border-box;
+}
+
+#id_content {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+#id_footer {
+    height: 50px;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.navbar {
     overflow: auto;
     position: fixed;
     background-color: #444444;
@@ -16,7 +39,7 @@ body, html {
     top: 0;
 }
 
-#navbar::after {
+.navbar::after {
     clear: both;
 }
 
@@ -58,7 +81,6 @@ body, html {
 }
 
 .banner {
-    margin-top: 50px;
     padding: 30px;
     text-align: center;
     color: white;
@@ -75,6 +97,31 @@ body, html {
 }
 
 .banner p {
+    font-size: 20px;
+    opacity: 1;
+}
+
+.bannerRight {
+    float: right;
+    padding: 30px;
+    margin: 10px 100px 0 0;
+    text-align: center;
+    color: white;
+    opacity: 0.8;
+    background: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg") no-repeat center;
+    background-size: cover;
+    min-height: 300px;
+    max-height: 80%;
+    min-width: 30%;
+    letter-spacing: 10px;
+}
+
+.bannerRight h2 {
+    font-size: 36px;
+    opacity: 1;
+}
+
+.bannerRight p {
     font-size: 20px;
     opacity: 1;
 }
@@ -98,4 +145,16 @@ body, html {
     text-align: center;
     font-size: 12px;
     padding: 15px;
+}
+
+.formTitle {
+    margin-left: 50px;
+    margin-bottom: 0;
+    margin-top: 50px;
+}
+
+.borderLeft {
+    border-top: solid #cccccc 2px;
+    width: 80%;
+    margin-right: auto;
 }
