@@ -9,14 +9,11 @@ import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderAlreadyExistException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderJsonMapException;
-import com.cenxui.tea.app.repositories.order.OrderKey;
+import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
-import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.repositories.order.OrderRepository;
-import com.cenxui.tea.app.repositories.order.OrderResult;
 import com.cenxui.tea.app.util.JsonUtil;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,10 +39,21 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     @Override
-    public OrderResult getAllOrdersByLastKey(Integer limit, String mail, String time) {
-        ScanSpec scanSpec = new ScanSpec()
-                .withMaxResultSize(limit)
-                .withExclusiveStartKey(Order.MAIL, mail, Order.TIME, time);
+    public OrderResult getAllOrders() {
+        return getAllOrders(null, null, null);
+    }
+
+    @Override
+    public OrderResult getAllOrders(Integer limit, String mail, String time) {
+        ScanSpec scanSpec = new ScanSpec();
+
+        if (limit != null) {
+             scanSpec.withMaxResultSize(limit);
+        }
+
+        if (mail != null && time != null) {
+             scanSpec.withExclusiveStartKey(Order.MAIL, mail, Order.TIME, time);
+        }
 
         ItemCollection<ScanOutcome> collection = orderTable.scan(scanSpec);
         List<Order> orders = mapScanOutcomeToOrders(collection);
@@ -54,18 +62,87 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     @Override
-    public OrderResult getAllProcessingOrders(Integer limit, String mail, String time) {
-        return scanIndex(limit, mail, time, processingIndex);
+    public OrderResult getAllPaidOrders() {
+        return getAllPaidOrders(null, null);
     }
 
     @Override
-    public OrderResult getAllShippedOrders(Integer limit, String mail, String time) {
-        return scanIndex(limit, mail, time, shippedIndex);
+    public OrderResult getAllPaidOrders(Integer limit, String paidTime) {
+        ScanSpec scanSpec = new ScanSpec();
+
+        if (limit != null ) {
+            scanSpec.withMaxResultSize(limit);
+        }
+
+        if (paidTime != null) {
+            scanSpec.withExclusiveStartKey(Order.PAID_TIME, paidTime);
+        }
+
+        Index index = orderTable.getIndex(paidIndex);
+
+        ItemCollection<ScanOutcome> collection = index.scan(scanSpec);
+
+        List<Order> orders = mapScanOutcomeToOrders(collection);
+
+        PaidOrderKey key = getPaidIndexScanOutcomeLastKey(collection);
+
+        return OrderResult.of(orders, key);
     }
 
     @Override
-    public OrderResult getAllPaidOrders(Integer limit, String mail, String time) {
-        return scanIndex(limit, mail, time, paidIndex);
+    public OrderResult getAllProcessingOrders() {
+        return getAllProcessingOrders(null, null);
+    }
+
+    @Override
+    public OrderResult getAllProcessingOrders(Integer limit, String processingDate) {
+        ScanSpec scanSpec = new ScanSpec();
+
+        if (limit != null ) {
+            scanSpec.withMaxResultSize(limit);
+        }
+
+        if (processingDate != null) {
+            scanSpec.withExclusiveStartKey(Order.PROCESSING_DATE, processingDate);
+        }
+
+        Index index = orderTable.getIndex(processingIndex);
+
+        ItemCollection<ScanOutcome> collection = index.scan(scanSpec);
+
+        List<Order> orders = mapScanOutcomeToOrders(collection);
+
+        ProcessingOrderKey key = getProcessingIndexScanOutcomeLastKey(collection);
+
+        return OrderResult.of(orders, key);
+    }
+
+    @Override
+    public OrderResult getAllShippedOrders() {
+        return getAllShippedOrders(null, null);
+    }
+
+    @Override
+    public OrderResult getAllShippedOrders(Integer limit, String shippedTime) {
+        ScanSpec scanSpec = new ScanSpec();
+
+        if (limit != null ) {
+            scanSpec.withMaxResultSize(limit);
+        }
+
+        if (shippedTime != null) {
+            scanSpec.withExclusiveStartKey(Order.SHIPPED_TIME, shippedTime);
+        }
+
+        Index index = orderTable.getIndex(shippedIndex);
+
+        ItemCollection<ScanOutcome> collection = index.scan(scanSpec);
+
+        List<Order> orders = mapScanOutcomeToOrders(collection);
+
+        ShippedOrderKey key = getShippedIndexScanOutcomeLastKey(collection);
+
+        return OrderResult.of(orders, key);
     }
 
     @Override
@@ -80,30 +157,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         return OrderResult.of(orders, orderKey);
     }
 
-    @Override
-    public OrderResult getAllOrders() {
-        ItemCollection<ScanOutcome> collection = orderTable.scan();
-        List<Order> orders = mapScanOutcomeToOrders(collection);
-        OrderKey orderKey = getScanOutcomeLastKey(collection);
 
-        return OrderResult.of(orders, orderKey);
-    }
-
-    @Override
-    public OrderResult getAllProcessingOrders() {
-        return scanIndex(processingIndex);
-    }
-
-
-    @Override
-    public OrderResult getAllShippedOrders() {
-        return scanIndex(shippedIndex);
-    }
-
-    @Override
-    public OrderResult getAllPaidOrders() {
-        return scanIndex(paidIndex);
-    }
 
 
     @Override
@@ -162,7 +216,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
                 .withConditionExpression(
-                        "attribute_not_exists(" + Order.PAID_DATE + ")" +
+                        "attribute_not_exists(" + Order.PAID_TIME + ")" +
                         " and attribute_exists(" + Order.IS_ACTIVE + ")")
                 .withUpdateExpression("remove " + Order.IS_ACTIVE)
                 .withReturnValues(ReturnValue.ALL_NEW);
@@ -175,15 +229,20 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order payOrder(String mail, String time) {
-        String date = LocalDate.now().toString();
+        String paidTime = LocalDateTime.now().toString();
+        return payOrder(mail, time, paidTime);
+    }
 
+    @Override
+    public Order payOrder(String mail, String time, String paidTime) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
-                .withUpdateExpression("set " + Order.PAID_DATE + "=:pa,"+ Order.PROCESS_DATE+ "=:pr")
+                .withUpdateExpression("set " + Order.PAID_TIME + "=:pa,"+ Order.PROCESSING_DATE+ "=:pr")
                 .withConditionExpression(
                         "attribute_exists(" + Order.IS_ACTIVE +")" +
-                        "add attribute_not_exists(" + Order.PAID_DATE + ")")
-                .withValueMap(new ValueMap().withString(":pa" , date).withString(":pr", date))
+                                "add attribute_not_exists(" + Order.PAID_TIME + ")")
+                .withValueMap(
+                        new ValueMap().withString(":pa" , paidTime).withString(":pr", paidTime))
                 .withReturnValues(ReturnValue.ALL_NEW);
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
@@ -197,8 +256,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
-                .withConditionExpression("attribute_exists(" + Order.PAID_DATE +")")
-                .withUpdateExpression("remove " + Order.PAID_DATE+ "," + Order.PROCESS_DATE)
+                .withConditionExpression("attribute_exists(" + Order.PAID_TIME +")")
+                .withUpdateExpression("remove " + Order.PAID_TIME+ "," + Order.PROCESSING_DATE)
                 .withReturnValues(ReturnValue.ALL_NEW);
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
@@ -209,15 +268,19 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order shipOrder(String mail, String time) {
-        String date = LocalDate.now().toString();
+        String shippedTime = LocalDateTime.now().toString();
+        return shipOrder(mail, time, shippedTime);
+    }
 
+    @Override
+    public Order shipOrder(String mail, String time, String shippedTime) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withConditionExpression(
-                        "attribute_exists(" + Order.PAID_DATE +")" +
-                        "add attribute_not_exists(" + Order.SHIP_DATE)
+                        "attribute_exists(" + Order.PAID_TIME +")" +
+                                "add attribute_not_exists(" + Order.SHIPPED_TIME)
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
-                .withUpdateExpression("set " + Order.SHIP_DATE+ "=:sh" + " remove " + Order.PROCESS_DATE)
-                .withValueMap(new ValueMap().withString(":sh", date))
+                .withUpdateExpression("set " + Order.SHIPPED_TIME+ "=:sh" + " remove " + Order.PROCESSING_DATE)
+                .withValueMap(new ValueMap().withString(":sh", shippedTime))
                 .withReturnValues(ReturnValue.ALL_NEW);
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
@@ -230,9 +293,9 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Order deShipOrder(String mail, String time) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
-                .withConditionExpression("attribute_exists(" + Order.SHIP_DATE + ")")
-                .withUpdateExpression("set " + Order.PROCESS_DATE+ "=" + Order.PAID_DATE +
-                        " remove " + Order.SHIP_DATE)
+                .withConditionExpression("attribute_exists(" + Order.SHIPPED_TIME + ")")
+                .withUpdateExpression("set " + Order.PROCESSING_DATE+ "=" + Order.PAID_TIME +
+                        " remove " + Order.SHIPPED_TIME)
                 .withReturnValues(ReturnValue.ALL_NEW);
 
         UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
@@ -270,6 +333,49 @@ class DynamoDBOrderRepository implements OrderRepository {
         return orderKey;
     }
 
+    private PaidOrderKey getPaidIndexScanOutcomeLastKey(ItemCollection<ScanOutcome> collection) {
+        ScanOutcome scanOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
+
+        PaidOrderKey paidOrderKey = null;
+
+        if (lastKeyEvaluated != null) {//null if it is last one
+            paidOrderKey = PaidOrderKey.of(
+                    lastKeyEvaluated.get(Order.PAID_TIME).getS());
+        }
+
+        return paidOrderKey;
+    }
+
+    private ProcessingOrderKey getProcessingIndexScanOutcomeLastKey(ItemCollection<ScanOutcome> collection) {
+        ScanOutcome scanOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
+
+        ProcessingOrderKey processingOrderKey = null;
+
+        if (lastKeyEvaluated != null) {//null if it is last one
+            processingOrderKey = ProcessingOrderKey.of(
+                    lastKeyEvaluated.get(Order.PROCESSING_DATE).getS());
+        }
+
+        return processingOrderKey;
+    }
+
+    private ShippedOrderKey getShippedIndexScanOutcomeLastKey(ItemCollection<ScanOutcome> collection) {
+        ScanOutcome scanOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
+
+        ShippedOrderKey shippedOrderKey = null;
+
+        if (lastKeyEvaluated != null) {//null if it is last one
+            shippedOrderKey = ShippedOrderKey.of(
+                    lastKeyEvaluated.get(Order.SHIPPED_TIME).getS());
+        }
+
+        return shippedOrderKey;
+    }
+
+
     private List<Order> mapScanOutcomeToOrders(ItemCollection<ScanOutcome> collection) {
         List<Order> orders = new ArrayList<>();
 
@@ -292,27 +398,6 @@ class DynamoDBOrderRepository implements OrderRepository {
         );
 
         return Collections.unmodifiableList(orders);
-    }
-
-    private OrderResult scanIndex(String indexName) {
-        Index index = orderTable.getIndex(indexName);
-        ItemCollection<ScanOutcome> collection = index.scan();
-        List<Order> orders = mapScanOutcomeToOrders(collection);
-        OrderKey orderKey = getScanOutcomeLastKey(collection);
-
-        return OrderResult.of(orders, orderKey);
-    }
-
-
-    private OrderResult scanIndex(Integer limit, String mail, String time, String indexName) {
-        Index index = orderTable.getIndex(indexName);
-        ScanSpec scanSpec = new ScanSpec()
-                .withMaxResultSize(limit)
-                .withExclusiveStartKey(Order.MAIL, mail, Order.TIME, time);
-        ItemCollection<ScanOutcome> collection = index.scan(scanSpec);
-        List<Order> orders = mapScanOutcomeToOrders(collection);
-        OrderKey orderKey = getScanOutcomeLastKey(collection);
-        return OrderResult.of(orders, orderKey);
     }
 
     private Order getOrder(String orderJson) {

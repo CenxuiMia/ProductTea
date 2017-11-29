@@ -103,9 +103,9 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
                 order.getPhone(),
                 order.getAddress(),
                 order.getComment(),
-                order.getPaidDate(),
+                order.getPaidTime(),
                 order.getProcessingDate(),
-                order.getShippedDate(),
+                order.getShippedTime(),
                 order.getIsActive()));
     }
 
@@ -132,6 +132,11 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
+    public Order payOrder(String mail, String time, String paidTime) {
+        return orderRepository.payOrder(mail, time, paidTime);
+    }
+
+    @Override
     public Order dePayOrder(String mail, String time) {
         return orderRepository.dePayOrder(mail, time);
     }
@@ -139,6 +144,11 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     @Override
     public Order shipOrder(String mail, String time) {
         return orderRepository.shipOrder(mail, time);
+    }
+
+    @Override
+    public Order shipOrder(String mail, String time, String shippedTime) {
+        return orderRepository.shipOrder(mail, time, shippedTime);
     }
 
     @Override

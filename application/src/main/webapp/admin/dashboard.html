@@ -15,7 +15,7 @@
     <link href="dashboard.css" rel="stylesheet">
 </head>
 
-<body>
+<body onload="onLoad()">
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">Dashboard</a>
@@ -83,21 +83,14 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Header</th>
-                        <th>Header</th>
-                        <th>Header</th>
-                        <th>Header</th>
+                        <th id="v1">mail</th>
+                        <th id="v2">time</th>
+                        <th id="v3">money</th>
+                        <th id="v4">Header</th>
+                        <th id="v5">Header</th>
                     </tr>
                     </thead>
                     <tbody id="orderForm">
-                    <tr>
-                        <td>1,001</td>
-                        <td>Lorem</td>
-                        <td>ipsum</td>
-                        <td>dolor</td>
-                        <td>sit</td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -120,42 +113,6 @@
 <script src="dashboard.js"></script>
 
 <script>
-
-    onLoad();
-
-    function onLoad() {
-        $.ajax({
-            type : 'GET',
-            url : orderEndpoint,
-            success : function(response) {
-                let data = JSON.parse(response);
-                let orders = data.orders;
-                appendText(orders);
-                console.info(data)
-
-            },
-            error : function(xhr, status, error) {
-                console.log("error: " + error + ", status: " + status);
-            }
-        });
-    }
-
-    function appendText(data) {
-        let orderForm = document.getElementById("orderForm");
-
-        for (var i = 0; i< data.length ; i++) {
-            var order =
-                "<tr> " +
-                "   <td>" + data[i].mail +"</td> " +
-                "   <td>" + data[i].time +"</td> " +
-                "   <td>" + data[i].money +"</td> " +
-                "   <td>dolor</td> " +
-                "   <td>sit</td> " +
-                "</tr>";               // Create element with HTML
-            orderForm.innerHTML += order;      // Append the new elements
-        }
-
-    }
 
 </script>
 
