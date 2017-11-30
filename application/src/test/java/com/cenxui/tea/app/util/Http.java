@@ -67,7 +67,6 @@ public class Http {
                 }
             }
 
-
             writer = new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8);
 
             writer.write(body);

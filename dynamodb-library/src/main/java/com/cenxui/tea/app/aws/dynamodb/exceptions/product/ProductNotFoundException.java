@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.aws.dynamodb.exceptions.map.product;
+package com.cenxui.tea.app.aws.dynamodb.exceptions.product;
 
 import com.cenxui.tea.app.aws.dynamodb.exceptions.RepositoryException;
 import com.cenxui.tea.app.repositories.product.Product;

@@ -1,33 +1,25 @@
-let allOrder = "所有訂單";
-let activeOrder = "有效訂單";
-let paidOrder = "已付款訂單";
-let processingOrder = "處理中訂單";
-let shippedOrder = "已出貨訂單";
-
-let primaryKey = "訂單序號";
-let time = "時間";
-let money = "總額";
-let purchaser = "購買人";
-let receiver = "收件人";
-let address = "地址";
-
 function onAllOrder() {
     document.getElementById("sectionTitle").innerHTML = allOrder;
     cleanOrderForm();
     setOrderColumn(primaryKey, purchaser, money, receiver, address);
     queryOrders(orderEndpoint + "/table");
+
+    //todo
 }
 
 function onActiveOrder() {
     document.getElementById("sectionTitle").innerHTML = activeOrder;
     cleanOrderForm();
     // queryOrders(orderEndpoint);
+    //todo
 }
 
 function onPaidOrder() {
     document.getElementById("sectionTitle").innerHTML = paidOrder;
     cleanOrderForm();
     queryOrders(orderEndpoint + "/paid");
+
+    //todo
 }
 
 function onProcessingOrder() {
@@ -40,6 +32,7 @@ function onShippedOrder() {
     document.getElementById("sectionTitle").innerHTML = shippedOrder;
     cleanOrderForm();
     queryOrders(orderEndpoint + "/shipped");
+    //todo
 }
 
 function onLoad() {
@@ -71,16 +64,31 @@ function queryOrders(url) {
 
 function cleanOrderForm() {
     document.getElementById("orderForm").innerHTML = "";
-
 }
 
 function appendText(data) {
+    let sectionTitle = document.getElementById("sectionTitle").innerText;
+
+    var buttonHTML;
+
+    if (sectionTitle.includes(allOrder)) {
+        buttonHTML = "<button>未定</button>" //todo
+    }else if (sectionTitle.includes(activeOrder)) {
+        buttonHTML = "<button>未定</button>"
+    }else if (sectionTitle.includes(paidOrder)) {
+        buttonHTML = "<button onclick='payOrderButton()'>取消</button>"
+    }else if (sectionTitle.includes(processingOrder)) {
+        buttonHTML = "<button onclick='shipOrderButton()'>出貨</button>"
+    }else if (sectionTitle.includes(shippedOrder)) {
+        buttonHTML = "<button onclick='shipOrderButton()'>取消</button>"
+    }
+
     let orderForm = document.getElementById("orderForm");
 
     for (var i = 0; i< data.length ; i++) {
         var order =
             "<tr> " +
-            "   <td>" + data[i].mail + "," + data[i].time + "<img type='image' src='image/button_shipped.png' onclick='shipOrderButton()'>" + "</td> " +
+            "   <td>" + data[i].mail + " " + data[i].time + " " + buttonHTML + "</td> " +
             "   <td>" + data[i].purchaser+"</td> " +
             "   <td>" + data[i].money +"</td> " +
             "   <td>" + data[i].receiver + "</td> " +
@@ -90,23 +98,91 @@ function appendText(data) {
     }
 }
 
+function activeOrderButton(e) {
+
+}
+
+function active() {
+
+}
+
+function deactive() {
+
+}
+
+
+function payOrderButton(e) {
+    e = e || window.event;
+    var target = e.target || e.srcElement;
+
+    target.disabled = true;
+    let key = target.parentNode.innerText.split(" ");
+    let mail = key[0].trim();
+    let time = key[1].trim();
+
+    if (target.innerText.includes(payOrder)) {
+        pay(target, mail, time);
+    }else {
+        depay(target, mail, time);
+    }
+}
+
+function pay(element, mail, time) {
+    let url = orderEndpoint + "/table/pay/" + mail + "/" + time;
+    console.info("url :" + url);
+
+    $.ajax({
+        type : 'POST',
+        url : url,
+        success : function(response) {
+            console.info(response)
+            element.disabled = false;
+            element.innerText= cancelOrder;
+
+        },
+        error : function(xhr, status, error) {
+            element.disabled = false;
+            alert(error);
+        }
+    });
+}
+
+function depay(element, mail, time) {
+    let url = orderEndpoint + "/table/depay/" + mail + "/" + time;
+    console.info("url :" + url);
+
+    $.ajax({
+        type : 'POST',
+        url : url,
+        success : function(response) {
+            console.info(response)
+            element.disabled = false;
+            element.innerText= payOrder;
+        },
+        error : function(xhr, status, error) {
+            element.disabled = false;
+            alert(error);
+        }
+    });
+}
+
 function shipOrderButton(e) {
     e = e || window.event;
     var target = e.target || e.srcElement;
 
     target.disabled = true;
-    let key = target.parentNode.innerText.split(",");
+    let key = target.parentNode.innerText.split(" ");
     let mail = key[0].trim();
     let time = key[1].trim();
 
-    if (target.src.endsWith('button_shipped.png') ) {
-        shipOrder(target, mail, time);
+    if (target.innerText.includes(shipOrder)) {
+        ship(target, mail, time);
     }else {
-        deshipOrder(target, mail, time);
+        deship(target, mail, time);
     }
 }
 
-function shipOrder(element, mail, time) {
+function ship(element, mail, time) {
     let url = orderEndpoint + "/table/ship/" + mail + "/" + time;
     console.info("url :" + url);
 
@@ -116,7 +192,7 @@ function shipOrder(element, mail, time) {
         success : function(response) {
             console.info(response)
             element.disabled = false;
-            element.src = 'image/button_cancel.png';
+            element.innerText= cancelOrder;
 
         },
         error : function(xhr, status, error) {
@@ -127,14 +203,14 @@ function shipOrder(element, mail, time) {
 }
 
 
-function deshipOrder(element, mail, time) {
+function deship(element, mail, time) {
     $.ajax({
         type : 'POST',
         url : orderEndpoint + "/table/deship/" + mail + "/" + time,
         success : function(response) {
             console.info(response)
             element.disabled = false;
-            element.src = 'image/button_shipped.png';
+            element.innerText = shipOrder;
 
         },
         error : function(xhr, status, error) {
