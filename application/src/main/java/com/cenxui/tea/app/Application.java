@@ -1,8 +1,7 @@
 package com.cenxui.tea.app;
 
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderNotFoundException;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductNotFoundException;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.user.UserNotFoundException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.RepositoryException;
+import com.cenxui.tea.app.services.ControllerException;
 import com.cenxui.tea.app.services.admin.order.AdminOrderController;
 import com.cenxui.tea.app.services.admin.product.AdminProductController;
 import com.cenxui.tea.app.services.user.UserController;
@@ -10,7 +9,6 @@ import com.cenxui.tea.app.services.order.OrderController;
 import com.cenxui.tea.app.services.product.ProductController;
 import com.cenxui.tea.app.services.util.Param;
 import com.cenxui.tea.app.services.util.Path;
-import com.cenxui.tea.app.services.util.error.ApplicationError;
 
 import static spark.Spark.*;
 
@@ -57,17 +55,17 @@ public final class Application {
             response.header("Access-Control-Allow-Origin", "*");
         }));
 
-        exception(OrderNotFoundException.class, (exception, request, response) -> {
+        exception(RepositoryException.class, (exception, request, response) -> {
             response.body(exception.getMessage());
+            response.status(400);
         });
 
-        exception(ProductNotFoundException.class, (exception, request, response) -> {
+        exception(ControllerException.class, (exception, request, response) -> {
             response.body(exception.getMessage());
+            response.status(400);
         });
 
-        exception(UserNotFoundException.class, (exception, request, response) -> {
-            response.body(exception.getMessage());
-        });
+        //todo dynaomdb Server and Client exception
 
 //        /**
 //         * todo remove it in product version
@@ -89,7 +87,9 @@ public final class Application {
     }
 
     private static void authResources() {
-
+        /**
+         * user
+         */
         get(Path.Web.USER, UserController.getUserProfile);
         post(Path.Web.USER, UserController.updateUserProfile);
 

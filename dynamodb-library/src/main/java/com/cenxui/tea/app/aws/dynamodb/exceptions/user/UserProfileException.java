@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.aws.dynamodb.exceptions.data.user;
+package com.cenxui.tea.app.aws.dynamodb.exceptions.user;
 
 import com.cenxui.tea.app.repositories.user.User;
 

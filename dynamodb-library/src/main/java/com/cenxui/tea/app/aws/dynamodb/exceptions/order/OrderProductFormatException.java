@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.aws.dynamodb.exceptions.map.order;
+package com.cenxui.tea.app.aws.dynamodb.exceptions.order;
 
 import com.cenxui.tea.app.aws.dynamodb.exceptions.RepositoryException;
 

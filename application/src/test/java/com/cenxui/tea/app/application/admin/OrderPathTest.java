@@ -22,6 +22,11 @@ public class OrderPathTest {
     }
 
     @Test
+    public void getOrder() {
+        Http.get("http://localhost:9000/admin/order/table/4cenxui@gmail.com/2017-11-29T17:19:51");
+    }
+
+    @Test
     public void activeOrder() {
         Http.post(url + "/active/5cenxui@gmail.com/2017-11-29T17:19:51");
     }

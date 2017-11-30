@@ -24,8 +24,8 @@ public class Order {
     public static final String MONEY = "money";
     public static final String RECEIVER = "receiver";
     public static final String PHONE = "phone";
-    public static final String ADDRESS = "address";
-
+    public static final String SHIPPING_ADDRESS = "shippingAddress";
+    public static final String SHIPPING_WAY = "shippingWay";
     public static final String COMMENT = "comment";
     public static final String PAID_TIME = "paidTime";
     public static final String SHIPPED_TIME= "shippedTime";
@@ -33,20 +33,22 @@ public class Order {
     public static final String IS_ACTIVE = "isActive";
 
     String mail; // default user email
-    String time =  LocalDateTime.now().toString().substring(0,19);
+    String time =  LocalDateTime.now().toString().substring(0,19); //todo
     List<String> products;
     String purchaser;
     Float money;
 
     String receiver;
     String phone;
-    String address; //todo modify address
+    String shippingWay;
+    String shippingAddress;
     String comment;
 
     String paidTime;
     String processingDate; //todo add owner
     String shippedTime;
     Boolean isActive;
+    String owner = "admin";
 
     public static Order of(String mail,
                            List<String> products,
@@ -54,7 +56,8 @@ public class Order {
                            Float money,
                            String receiver,
                            String phone,
-                           String address,
+                           String shippingWay,
+                           String shippingAddress,
                            String comment,
                            String paidTime,
                            String processingDate,
@@ -62,8 +65,8 @@ public class Order {
                            Boolean isActive) {
 
         return new Order(
-                mail, products, purchaser, money, receiver, phone,
-                address, comment, paidTime, processingDate, shippedTime,
+                mail, products, purchaser, money, receiver, phone, shippingWay,
+                shippingAddress, comment, paidTime, processingDate, shippedTime,
                 isActive);
     }
 

@@ -7,7 +7,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderAlreadyExistException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.order.*;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderJsonMapException;
 import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
@@ -25,7 +25,6 @@ class DynamoDBOrderRepository implements OrderRepository {
     private final String paidIndex;
     private final String processingIndex;
     private final String shippedIndex;
-
 
     DynamoDBOrderRepository(
             Table orderTable,
@@ -178,16 +177,15 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order addOrder(Order order) {
-
+        PutItemSpec putItemSpec = new PutItemSpec()
+                .withItem(ItemUtil.getOrderItem(order))
+                .withConditionExpression("attribute_not_exists("+ Order.MAIL + ")");
         try {
-            PutItemSpec putItemSpec = new PutItemSpec()
-                    .withItem(ItemUtil.getOrderItem(order))
-                    .withConditionExpression("attribute_not_exists("+ Order.MAIL + ")");
             orderTable.putItem(putItemSpec);
+            return order;
         } catch (ConditionalCheckFailedException e) {
-            throw new OrderAlreadyExistException("order exists cannot add the same order");
+            throw new OrderCannotAddException(order);
         }
-        return order;
     }
 
     @Override
@@ -205,10 +203,13 @@ class DynamoDBOrderRepository implements OrderRepository {
                 .withValueMap(new ValueMap().withBoolean( ":ia", true))
                 .withReturnValues(ReturnValue.ALL_NEW);
 
-        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
-        String orderJson = outcome.getItem().toJSON();
-
-        return getOrder(orderJson);
+        try {
+            UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+            String orderJson = outcome.getItem().toJSON();
+            return getOrder(orderJson);
+        }catch (ConditionalCheckFailedException e) {
+            throw new OrderCannotActiveException(mail, time);
+        }
     }
 
     @Override
@@ -221,10 +222,13 @@ class DynamoDBOrderRepository implements OrderRepository {
                 .withUpdateExpression("remove " + Order.IS_ACTIVE)
                 .withReturnValues(ReturnValue.ALL_NEW);
 
-        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
-        String orderJson = outcome.getItem().toJSON();
-
-        return getOrder(orderJson);
+        try {
+            UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+            String orderJson = outcome.getItem().toJSON();
+            return getOrder(orderJson);
+        }catch (ConditionalCheckFailedException e) {
+            throw new OrderCannotDeActiveException(mail, time);
+        }
     }
 
     @Override
@@ -245,10 +249,13 @@ class DynamoDBOrderRepository implements OrderRepository {
                         new ValueMap().withString(":pa" , paidTime).withString(":pr", paidTime))
                 .withReturnValues(ReturnValue.ALL_NEW);
 
-        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
-        String orderJson = outcome.getItem().toJSON();
-
-        return getOrder(orderJson);
+        try {
+            UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+            String orderJson = outcome.getItem().toJSON();
+            return getOrder(orderJson);
+        }catch (ConditionalCheckFailedException e) {
+            throw new OrderCannotPayException(mail, time, paidTime);
+        }
     }
 
     @Override
@@ -260,10 +267,13 @@ class DynamoDBOrderRepository implements OrderRepository {
                 .withUpdateExpression("remove " + Order.PAID_TIME+ "," + Order.PROCESSING_DATE)
                 .withReturnValues(ReturnValue.ALL_NEW);
 
-        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
-        String orderJson = outcome.getItem().toJSON();
-
-        return getOrder(orderJson);
+        try {
+            UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+            String orderJson = outcome.getItem().toJSON();
+            return getOrder(orderJson);
+        }catch (ConditionalCheckFailedException e) {
+            throw new OrderCannotDePayExcetion(mail, time);
+        }
     }
 
     @Override
@@ -283,10 +293,14 @@ class DynamoDBOrderRepository implements OrderRepository {
                 .withValueMap(new ValueMap().withString(":sh", shippedTime))
                 .withReturnValues(ReturnValue.ALL_NEW);
 
-        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
-        String orderJson = outcome.getItem().toJSON();
+        try {
+            UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+            String orderJson = outcome.getItem().toJSON();
+            return getOrder(orderJson);
+        }catch (ConditionalCheckFailedException e) {
+            throw new OrderCannotShipException(mail, time, shippedTime);
+        }
 
-        return getOrder(orderJson);
     }
 
     @Override
@@ -298,11 +312,13 @@ class DynamoDBOrderRepository implements OrderRepository {
                         " remove " + Order.SHIPPED_TIME)
                 .withReturnValues(ReturnValue.ALL_NEW);
 
-        UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
-        String orderJson = outcome.getItem().toJSON();
-
-
-        return getOrder(orderJson);
+        try {
+            UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
+            String orderJson = outcome.getItem().toJSON();
+            return getOrder(orderJson);
+        }catch (ConditionalCheckFailedException e) {
+            throw new OrderCannotDeShipException(mail, time);
+        }
     }
 
     private OrderKey getScanOutcomeLastKey(ItemCollection<ScanOutcome> collection) {
