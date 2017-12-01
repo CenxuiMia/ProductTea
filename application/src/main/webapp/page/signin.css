@@ -8,14 +8,11 @@
     margin-top: 5px;
     margin-left: 5px;
     text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: transparent;
     display: block;
     z-index: 1;
-}
-
-.login a {
-    text-decoration: none;
-    background-color: transparent;
-    color: white;
 }
 
 .login:hover {
