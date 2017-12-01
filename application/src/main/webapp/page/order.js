@@ -26,7 +26,7 @@ function setInputWithUserData() {
         document.getElementById("purchaser").setAttribute("value", localStorage.lastName + localStorage.firstName);
         // document.getElementById("mail").setAttribute("value", localStorage.mail); //TODO get mail from localStorage
         document.getElementById("phone").setAttribute("value", localStorage.phone);
-        document.getElementById("address").setAttribute("value", localStorage.address);
+        document.getElementById("shippingAddress").setAttribute("value", localStorage.address);
     } else {
         console.info("Query DB!");
         //TODO query user data from DB
@@ -39,8 +39,9 @@ function addOrder() {
     order.mail = document.getElementById("mail").value;
     order.phone = document.getElementById("phone").value;
     order.receiver = document.getElementById("receiver").value;
-    order.address = document.getElementById("address").value;
-    order.products = [];
+    order.shippingWay = document.getElementById("shippingWay").value;
+    order.shippingAddress = document.getElementById("shippingAddress").value;
+    order.products = [];//TODO name;version;count
     order.products[0] = document.getElementById("products").value;
     order.money = document.getElementById("money").value;
     order.comment = document.getElementById("comment").value;
