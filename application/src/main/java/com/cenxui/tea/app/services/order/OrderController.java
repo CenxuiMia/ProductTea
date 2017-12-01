@@ -52,7 +52,8 @@ public class OrderController extends CoreController {
                 null,
                 clientOrder.getReceiver(),
                 clientOrder.getPhone(),
-                clientOrder.getAddress(),
+                clientOrder.getShippingWay(),
+                clientOrder.getShippingAddress(),
                 clientOrder.getComment(),
                 null,
                 null,
@@ -64,10 +65,11 @@ public class OrderController extends CoreController {
         return JsonUtil.mapToJson(resultOrder);
     };
 
-    public static final Route removeOrder = (Request request, Response response) -> {
+    public static final Route activeOrder =  (Request request, Response response) -> {
         //todo
         throw new UnsupportedOperationException("not yet");
     };
+
 
     public static final Route deActiveOrder =  (Request request, Response response) -> {
         //todo
@@ -94,7 +96,9 @@ public class OrderController extends CoreController {
 
         if (isEmpty(order.getPhone())) return false;
 
-        if (isEmpty(order.getAddress())) return false;
+        if (isEmpty(order.getShippingWay())) return false;
+
+        if (isEmpty(order.getShippingAddress())) return false;
 
         return true;
     }

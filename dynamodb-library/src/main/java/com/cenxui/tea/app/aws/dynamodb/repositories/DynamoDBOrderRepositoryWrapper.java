@@ -1,7 +1,7 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderProductFormatException;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductNotFoundException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.order.OrderProductFormatException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductNotFoundException;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.repositories.order.Orders;
@@ -80,7 +80,7 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
         List<String> products = order.getProducts();
 
         for (String product: products) {
-            String[] s = product.split(";");
+            String[] s = product.split(";");//todo
 
             if (s.length != 3) throw new OrderProductFormatException(product);
 
@@ -101,7 +101,8 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
                 money,
                 order.getReceiver(),
                 order.getPhone(),
-                order.getAddress(),
+                order.getShippingAddress(),
+                order.getShippingWay(),
                 order.getComment(),
                 order.getPaidTime(),
                 order.getProcessingDate(),
