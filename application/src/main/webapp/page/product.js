@@ -34,6 +34,7 @@ $.ajax({
         document.getElementById("productName").innerHTML = data.productName;
         document.getElementById("version").innerHTML = data.version;
         document.getElementById("introduction").innerHTML = data.introduction;
+        document.getElementById("currency").innerHTML = data.currency;
         document.getElementById("price").innerHTML = data.price;
         document.getElementById("video").setAttribute("src", data.video);
 
@@ -61,6 +62,7 @@ function getParameterByName(name) {
 }
 
 function addToCart() {
+    //TODO 加入購物車的商品必須全為同幣別 currency
     let cartItems;
     let selected = document.getElementById("count");
     let count = parseInt(selected.options[selected.selectedIndex].value);
