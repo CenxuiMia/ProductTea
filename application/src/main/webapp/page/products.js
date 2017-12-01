@@ -34,7 +34,7 @@ function queryProductsData() {
                         " alt='茶品項' style='width: 100%'>" +
                         "<div class='info'>" +
                             "<p><b>" + data.products[i].productName + "</b><br>" + data.products[i].introduction + "</p>" +
-                            "<div class='price'>$" + data.products[i].price + "</div>" +
+                            "<div class='price'>" + data.products[i].currency + data.products[i].price + "</div>" +
                         "</div>" +
                     "</a>" +
                 "</div>";

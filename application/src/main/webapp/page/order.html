@@ -34,10 +34,7 @@
         <a href="#contact">聯絡我們</a>
     </div>
 
-    <div class="login">
-        <a id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
-    </div>
-
+    <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
     <a href="//tw.hwangying.com/user.html"><i id="member" class="material-icons md-light">person</i></a>
     <a href="javascript:void(0)"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
 </div>
@@ -54,6 +51,15 @@
     </div>
 
     <form id="order_form" name="order_form" class="order_form">
+        <div id="productsList">
+            <table id="cartTable">
+                <tr>
+                    <th>商品名稱</th>
+                    <th>數量</th>
+                    <th>價格</th>
+                </tr>
+            </table>
+        </div>
 
         <div id="accountFields">
             <fieldset>
@@ -73,24 +79,16 @@
                     <label for="receiver">收件人</label>
                     <input id="receiver" name="receiver">
                 </div>
-                <div class="textinput" id="inputPurchases">
-                    <label for="products">購買商品</label>
-                    <input id="products" name="products" value="green tea">
-                </div>
-                <div class="textinput" id="inputMoney">
-                    <label for="money">消費金額</label>
-                    <input id="money" name="money" value="1000">
-                </div>
-                <div class="textinput" id="inputShippingWay">
+                <div class="textinput" id="shippingWay">
                     取貨方式<br>
-                    <input id="shippingConvi" name="shipping" type="radio" value="超商取貨" style="width: 18px; display: inline-block">
+                    <input id="shippingConvi" name="shippingWay" type="radio" value="超商取貨" style="width: 18px; display: inline-block">
                     <label for="shippingConvi" style="display: inline-block">超商取貨</label>
-                    <input id="shippingHome" name="shipping" type="radio" value="宅配" style="width: 18px; display: inline-block">
+                    <input id="shippingHome" name="shippingWay" type="radio" value="宅配" style="width: 18px; display: inline-block">
                     <label for="shippingHome" style="display: inline-block">宅配</label>
                 </div>
                 <div class="textinput" id="inputAddress">
-                    <label for="address">收件地址/超商+店號</label>
-                    <input id="address" name="address">
+                    <label for="shippingAddress">收件地址/超商+店號</label>
+                    <input id="shippingAddress" name="address">
                 </div>
                 <div class="textinput" id="inputComment">
                     <label for="comment">備註事項</label>
