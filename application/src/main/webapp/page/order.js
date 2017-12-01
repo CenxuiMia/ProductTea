@@ -43,22 +43,56 @@ function setInputWithUserData() {
 }
 
 function showCartItems() {
+    // {"productName":"綠茶","version":"翠玉","introduction":"Ａ","details":"Ａ",
+    // "smallImage":"Ａ","video":"A","images":[],"price":400.0,"tag":"Ａ"}, 3, {key},1
+    let cartItems = new Map(JSON.parse(localStorage.getItem("cartItems")));
+    console.info("cartItems size:" + cartItems.size);
+
+    let cartTable = document.getElementById("cartTable");
+
+    cartItems.forEach(function(value,key,map) {
+        console.info("key :" + key);
+        console.info("value :" + value);
+
+        let item = JSON.parse(key);
+        let queryString = "https://tw.hwangying.com/product.html?name=" + item.productName + "&version=" + item.versio;
+
+        cartTable.innerHTML +=
+            "<tr>" +
+                "<td class='cartProductName' style='background-color: #d4edda'>" +
+                    "<a href=" + queryString + ">" +
+                        // "<img src=" +item.smallImage +">" + item.productName + item.version + //TODO change smallImage
+                        "<img class='cartImage' src=https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg>" +
+                        "<span>" + item.productName + item.version + "</span>" +
+                    "</a>" +
+                "</td>" +
+                "<td style='background-color: #fcf8e3'>" + value + "</td>" +
+                "<td style='background-color: #f8d7da'>" + item.price + "</td>" +
+            "</tr>";
+
+        //Add product to orderProductsList for order usage
+        let orderProduct = item.productName + ";" + item.version + ";"+ value;
+        orderProductsList.push(orderProduct);
+    });
 
 }
 
+let orderProductsList = [];
+
 function addOrder() {
+    //TODO 加上防呆不送出
     let order = {};
     order.purchaser = document.getElementById("purchaser").value;
     order.mail = document.getElementById("mail").value;
     order.phone = document.getElementById("phone").value;
     order.receiver = document.getElementById("receiver").value;
-    order.shippingWay = document.getElementById("shippingWay").value;
+    order.shippingWay = document.querySelector('input[name="shippingWay"]:checked').value;
     order.shippingAddress = document.getElementById("shippingAddress").value;
-    order.products = [];//TODO name;version;count
-    order.products[0] = document.getElementById("products").value;
-    order.money = document.getElementById("money").value;
+    order.products = orderProductsList;
     order.comment = document.getElementById("comment").value;
     let id_token = getToken();
+
+    console.info("Add order: " + JSON.stringify(order));
 
     $.ajax({
         type : 'PUT',

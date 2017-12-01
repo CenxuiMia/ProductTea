@@ -52,7 +52,7 @@
 
     <form id="order_form" name="order_form" class="order_form">
         <div id="productsList">
-            <table id="productsTable">
+            <table id="cartTable">
                 <tr>
                     <th>商品名稱</th>
                     <th>數量</th>
@@ -79,19 +79,11 @@
                     <label for="receiver">收件人</label>
                     <input id="receiver" name="receiver">
                 </div>
-                <div class="textinput" id="inputPurchases">
-                    <label for="products">購買商品</label>
-                    <input id="products" name="products" value="green tea">
-                </div>
-                <div class="textinput" id="inputMoney">
-                    <label for="money">消費金額</label>
-                    <input id="money" name="money" value="1000">
-                </div>
-                <div class="textinput" id="inputShippingWay">
+                <div class="textinput" id="shippingWay">
                     取貨方式<br>
-                    <input id="shippingConvi" name="shipping" type="radio" value="超商取貨" style="width: 18px; display: inline-block">
+                    <input id="shippingConvi" name="shippingWay" type="radio" value="超商取貨" style="width: 18px; display: inline-block">
                     <label for="shippingConvi" style="display: inline-block">超商取貨</label>
-                    <input id="shippingHome" name="shipping" type="radio" value="宅配" style="width: 18px; display: inline-block">
+                    <input id="shippingHome" name="shippingWay" type="radio" value="宅配" style="width: 18px; display: inline-block">
                     <label for="shippingHome" style="display: inline-block">宅配</label>
                 </div>
                 <div class="textinput" id="inputAddress">
