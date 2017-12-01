@@ -13,8 +13,17 @@ $(document).ready(function () {
         }
     );
 
-    setInputWithUserData();
+    checkCartValid();
 });
+
+function checkCartValid() {
+    if (localStorage.getItem("cartItems") === null) {
+        //TODO 購物車沒東西的頁面 html
+    } else {
+        setInputWithUserData();
+        showCartItems();
+    }
+}
 
 function setInputWithUserData() {
     if (localStorage.getItem("lastName") !== null) {
@@ -31,6 +40,10 @@ function setInputWithUserData() {
         console.info("Query DB!");
         //TODO query user data from DB
     }
+}
+
+function showCartItems() {
+
 }
 
 function addOrder() {

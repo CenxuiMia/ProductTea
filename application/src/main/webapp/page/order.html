@@ -54,6 +54,15 @@
     </div>
 
     <form id="order_form" name="order_form" class="order_form">
+        <div id="productsList">
+            <table id="productsTable">
+                <tr>
+                    <th>商品名稱</th>
+                    <th>數量</th>
+                    <th>價格</th>
+                </tr>
+            </table>
+        </div>
 
         <div id="accountFields">
             <fieldset>
@@ -89,8 +98,8 @@
                     <label for="shippingHome" style="display: inline-block">宅配</label>
                 </div>
                 <div class="textinput" id="inputAddress">
-                    <label for="address">收件地址/超商+店號</label>
-                    <input id="address" name="address">
+                    <label for="shippingAddress">收件地址/超商+店號</label>
+                    <input id="shippingAddress" name="address">
                 </div>
                 <div class="textinput" id="inputComment">
                     <label for="comment">備註事項</label>
