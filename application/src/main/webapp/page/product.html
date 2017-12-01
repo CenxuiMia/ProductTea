@@ -55,7 +55,7 @@
         </div>
 
         <div class="info-content">
-            <h2 id="productName">翠玉綠茶</h2>
+            <h2><span id="productName">翠玉</span><span id="version">綠茶</span></h2>
             <p id="introduction">清新耐泡，低發酵保留原始茶香，給你一整天好心情</p>
             <table style="text-align: left">
                 <tr>
@@ -79,10 +79,10 @@
                     <td id="weight">100g</td>
                 </tr>
             </table>
-            <p id="price">NT.123</p>
+            <p>NT.<span id="price">123</span></p>
             <div>
                 <label>
-                    <select>
+                    <select id="count">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -95,7 +95,7 @@
                         <option value="10">10</option>
                     </select>
                 </label>
-                <span><button class="addToCart">加入購物車</button></span>
+                <span><button class="addToCart" onclick="addToCart()">加入購物車</button></span>
             </div>
         </div>
     </div>
