@@ -9,8 +9,14 @@ let time = "時間";
 let money = "總額";
 let purchaser = "購買人";
 let receiver = "收件人";
-let address = "地址";
+let shippingWay = "送貨方式"
+let shippingAddress = "送貨地址";
+let paidTime = "付款時間";
+
 
 let shipOrder = "出貨";
-let cancelOrder = "取消";
+let deShipOrder = "取消"
 let payOrder = "付款";
+let depayOrder = "取消"
+let reactiveOrder = "復原";
+let deactiveOrder = "失效"

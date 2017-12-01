@@ -20,7 +20,9 @@ Resources:
         -
           AttributeName: "shippedTime"
           AttributeType: "S"
-
+        -
+          AttributeName: "owner"
+          AttributeType: "S"
 
       KeySchema:
         -
@@ -52,6 +54,9 @@ Resources:
           -
             AttributeName: "processingDate"
             KeyType: "HASH"
+          -
+            AttributeName: "owner"
+            KeyType: "RANGE"
           Projection:
             ProjectionType: "ALL"
           ProvisionedThroughput:

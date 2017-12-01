@@ -13,6 +13,7 @@ import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.util.JsonUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +53,31 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         if (mail != null && time != null) {
              scanSpec.withExclusiveStartKey(Order.MAIL, mail, Order.TIME, time);
+        }
+
+        ItemCollection<ScanOutcome> collection = orderTable.scan(scanSpec);
+        List<Order> orders = mapScanOutcomeToOrders(collection);
+        OrderKey orderKey = getScanOutcomeLastKey(collection);
+        return Orders.of(orders, orderKey);
+    }
+
+    @Override
+    public Orders getAllActiveOrders() {
+        return getAllActiveOrders(null, null, null);
+    }
+
+    @Override
+    public Orders getAllActiveOrders(String mail, String time, Integer limit) {
+        ScanSpec scanSpec = new ScanSpec()
+                .withFilterExpression("isActive = :v")
+                .withValueMap(new ValueMap().withBoolean(":v", true));
+
+        if (limit != null) {
+            scanSpec.withMaxResultSize(limit);
+        }
+
+        if (mail != null && time != null) {
+            scanSpec.withExclusiveStartKey(Order.MAIL, mail, Order.TIME, time);
         }
 
         ItemCollection<ScanOutcome> collection = orderTable.scan(scanSpec);
@@ -157,8 +183,6 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
 
-
-
     @Override
     public Order getOrdersByMailAndTime(String mail, String time) {
         QuerySpec spec = new QuerySpec()
@@ -218,7 +242,9 @@ class DynamoDBOrderRepository implements OrderRepository {
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
                 .withConditionExpression(
                         "attribute_not_exists(" + Order.PAID_TIME + ")" +
-                        " and attribute_exists(" + Order.IS_ACTIVE + ")")
+                                " and attribute_not_exists(" + Order.PROCESSING_DATE + ")" +
+                                " and attribute_not_exists(" + Order.SHIPPED_TIME + ")" +
+                                " and attribute_exists(" + Order.IS_ACTIVE + ")")
                 .withUpdateExpression("remove " + Order.IS_ACTIVE)
                 .withReturnValues(ReturnValue.ALL_NEW);
 
@@ -239,14 +265,18 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order payOrder(String mail, String time, String paidTime) {
+        String processingDate = LocalDateTime.now().toString();
+
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
                 .withUpdateExpression("set " + Order.PAID_TIME + "=:pa,"+ Order.PROCESSING_DATE+ "=:pr")
                 .withConditionExpression(
                         "attribute_exists(" + Order.IS_ACTIVE +")" +
-                                "and attribute_not_exists(" + Order.PAID_TIME + ")")
+                                "and attribute_not_exists(" + Order.PAID_TIME + ")" +
+                                "and attribute_not_exists(" + Order.PROCESSING_DATE + ")" +
+                                "and attribute_not_exists(" + Order.SHIPPED_TIME + ")")
                 .withValueMap(
-                        new ValueMap().withString(":pa" , paidTime).withString(":pr", paidTime))
+                        new ValueMap().withString(":pa" , paidTime).withString(":pr", processingDate))
                 .withReturnValues(ReturnValue.ALL_NEW);
 
         try {
@@ -263,7 +293,11 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
-                .withConditionExpression("attribute_exists(" + Order.PAID_TIME +")")
+                .withConditionExpression(
+                                "attribute_exists(" + Order.IS_ACTIVE +")" +
+                                        " and attribute_exists(" + Order.PAID_TIME +")" +
+                                        " and attribute_exists(" + Order.PROCESSING_DATE + ")" +
+                                        " and attribute_not_exists(" + Order.SHIPPED_TIME + ")")
                 .withUpdateExpression("remove " + Order.PAID_TIME+ "," + Order.PROCESSING_DATE)
                 .withReturnValues(ReturnValue.ALL_NEW);
 
@@ -286,8 +320,10 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Order shipOrder(String mail, String time, String shippedTime) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withConditionExpression(
-                        "attribute_exists(" + Order.PAID_TIME +")" +
-                                "and attribute_not_exists(" + Order.SHIPPED_TIME + ")")
+                        "attribute_exists(" + Order.IS_ACTIVE +")" +
+                                " and attribute_exists(" + Order.PAID_TIME +")" +
+                                " and attribute_exists(" + Order.PROCESSING_DATE +")" +
+                                " and attribute_not_exists(" + Order.SHIPPED_TIME + ")")
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
                 .withUpdateExpression("set " + Order.SHIPPED_TIME+ "=:sh" + " remove " + Order.PROCESSING_DATE)
                 .withValueMap(new ValueMap().withString(":sh", shippedTime))
@@ -305,13 +341,19 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order deShipOrder(String mail, String time) {
+        String processingDate = LocalDate.now().toString();
+
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.TIME, time)
-                .withConditionExpression("attribute_exists(" + Order.SHIPPED_TIME + ")")
-                .withUpdateExpression("set " + Order.PROCESSING_DATE+ "=" + Order.PAID_TIME +
+                .withConditionExpression(
+                        "attribute_exists(" + Order.IS_ACTIVE + ")" +
+                        "and attribute_exists(" + Order.PAID_TIME + ")" +
+                        "and attribute_not_exists(" + Order.PROCESSING_DATE + ")" +
+                                 "and attribute_exists(" + Order.SHIPPED_TIME + ")")
+                .withUpdateExpression("set " + Order.PROCESSING_DATE + "= :v "+
                         " remove " + Order.SHIPPED_TIME)
+                .withValueMap(new ValueMap().withString(":v", processingDate))
                 .withReturnValues(ReturnValue.ALL_NEW);
-
         try {
             UpdateItemOutcome outcome = orderTable.updateItem(updateItemSpec);
             String orderJson = outcome.getItem().toJSON();

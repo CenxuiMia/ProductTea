@@ -66,6 +66,19 @@ public class AdminOrderController extends CoreController{
         return JsonUtil.mapToJson(orderRepository.getOrdersByMailAndTime(mail, time));
     };
 
+    public static final Route getAllActiveOrders =  (Request request, Response response) -> {
+        return JsonUtil.mapToJson(orderRepository.getAllActiveOrders());
+    };
+
+    public static final Route getAllActiveOrdersByLastKey = (Request request, Response response) -> {
+        Map<String, String> map = request.params();
+        String mail = getMail(map);
+        String time = getTime(map);
+        Integer limit = getLimit(map);
+
+        return JsonUtil.mapToJson(orderRepository.getAllActiveOrders(mail, time, limit));
+    };
+
     public static final Route getAllPaidOrders = (Request request, Response response) -> {
         return JsonUtil.mapToJson(orderRepository.getAllPaidOrders());
     };

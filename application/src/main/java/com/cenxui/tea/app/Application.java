@@ -106,12 +106,17 @@ public final class Application {
          * orders
          */
 
-        get(Path.Web.Admin.ORDER, AdminOrderController.getAllOrders);
+        get(Path.Web.Admin.ORDER_ALL, AdminOrderController.getAllOrders);
 
-        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" + Param.ORDER_LIMIT,
+        get(Path.Web.Admin.ORDER_ALL + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" + Param.ORDER_LIMIT,
                 AdminOrderController.getAllOrdersByLastKey);
 
         get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL, AdminOrderController.getOrdersByMail);
+
+        get(Path.Web.Admin.ORDER_ALL_ACTIVE, AdminOrderController.getAllActiveOrders);
+
+        get(Path.Web.Admin.ORDER_ACTIVE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" + Param.ORDER_LIMIT,
+                AdminOrderController.getAllActiveOrdersByLastKey);
 
         get(Path.Web.Admin.ORDER_PAID, AdminOrderController.getAllPaidOrders);
 

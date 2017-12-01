@@ -33,6 +33,16 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
+    public Orders getAllActiveOrders() {
+        return orderRepository.getAllActiveOrders();
+    }
+
+    @Override
+    public Orders getAllActiveOrders(String mail, String time, Integer limit) {
+        return orderRepository.getAllActiveOrders(mail, time, limit);
+    }
+
+    @Override
     public Orders getAllProcessingOrders() {
         return orderRepository.getAllProcessingOrders();
     }
@@ -101,8 +111,8 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
                 money,
                 order.getReceiver(),
                 order.getPhone(),
-                order.getShippingAddress(),
                 order.getShippingWay(),
+                order.getShippingAddress(),
                 order.getComment(),
                 order.getPaidTime(),
                 order.getProcessingDate(),
