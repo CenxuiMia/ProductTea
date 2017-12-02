@@ -20,10 +20,13 @@
     <script src="aws-cognito-sdk.js"></script>
     <script src="amazon-cognito-auth.min.js"></script>
 
+    <script src="language/tw.js"></script>
     <script src="signin.js"></script>
     <script src="user.js"></script>
+
+    <script src="library.js"></script> //this library should be placed at last
 </head>
-<body onload="initLocalStorage()">
+<body>
 
 <div id="id_wrapper">
 
@@ -72,17 +75,23 @@
             </fieldset>
 
             <div class="buttoninput">
-                <a id="submit_button" class="actionButton" href="#" alt="Continue" value="Continue" onclick="save()">確認</a>
+                <button id="submitButton" class="actionButton" value="Continue" onclick="save()">確認</button>
             </div>
 
             <div class="buttoninput">
-                <a id="cancel_button" class="actionButton" href="#" alt="Continue" value="Continue" onclick="cancel()">取消</a>
+                <button id="cancelButton" class="actionButton" value="Continue" onclick="cancel()">取消</button>
             </div>
 
+            <div class="buttoninput">
+                <button class="actionButton" onclick="clearLocalStorage()">清除user localStorage(email外)</button>
+            </div>
         </div>
 
     </form>
 </div>
+
+    <!-- The actual snackbar -->
+    <div id="snackbar">處理中...</div>
 
 </div>
 

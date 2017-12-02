@@ -7,17 +7,16 @@ $(document).ready(function () {
     setUp(
         userAuthData,
         function () {
-            loadUserData();
-            updateUserData();
+            initLocalStorage()
         },
         function () {
-
+            console.info("signed out on user page")
         });
 });
 
 function initLocalStorage() {
+    //TODO Use map to store different user data. key = mail
     console.info("initLocalStorage");
-    clearLocalStorage(); //For testing.
     if (localStorage.getItem("lastName") === null) {
         setLocalStorage("", "", "", "");
     } else {
@@ -31,10 +30,15 @@ function setLocalStorage(lastName, firstName, phone, address) {
     localStorage.phone = phone;
     localStorage.address = address;
 
-    console.info("lastName: " + localStorage.lastName +
+    console.info("LocalStorage lastName: " + localStorage.lastName +
         ", firstName: " + localStorage.firstName +
         "\nphone: " + localStorage.phone +
         ", address: " + localStorage.address);
+}
+
+function setLocalStorageMail(mail) {
+    localStorage.mail = mail;
+    console.info("LocalStorage mail: " + localStorage.mail);
 }
 
 function clearLocalStorage() {
@@ -53,6 +57,11 @@ function setInputValue(lastName, firstName, phone, address) {
 
 
 function save() {
+    console.info("onclick save");
+    showSnackBar(document.getElementById("snackbar"), processing);
+    //disable buttons
+    document.getElementById("submitButton").disabled = true;
+    document.getElementById("cancelButton").disabled = true;
 
     let lastName = document.getElementById("lastName").value;
 
@@ -77,14 +86,23 @@ function save() {
         },
         data: JSON.stringify(userProfile),
         success : function(response) {
+            showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
             console.log("user message: " + response);
+            setLocalStorageMail(JSON.parse(response).mail);
         },
         error : function(xhr, status, error) {
+            showSnackBarAutoClose(document.getElementById("snackbar"), processingfailed);
             console.log("token error");
+        },
+        complete : function (jqxhr, status) {
+            setLocalStorage(lastName, firstName, phone, address);
+
+            //enable buttons
+            document.getElementById("submitButton").disabled = false;
+            document.getElementById("cancelButton").disabled = false;
         }
     });
 
-    setLocalStorage(lastName, firstName, phone, address);
 }
 
 function cancel() {
