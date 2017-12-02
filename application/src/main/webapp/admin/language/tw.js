@@ -5,14 +5,19 @@ let processingOrder = "處理中訂單";
 let shippedOrder = "已出貨訂單";
 
 let primaryKey = "訂單序號";
-let time = "時間";
-let money = "總額";
+let products = "項目";
 let purchaser = "購買人";
+let currency = "幣別";
+let money = "總額";
 let receiver = "收件人";
+let phone = "電話";
 let shippingWay = "送貨方式"
 let shippingAddress = "送貨地址";
-let paidTime = "付款時間";
-
+let comment = "附註";
+let paidTime = "付款時間"
+let processingDate = "受理日期";
+let shippedTime = "出貨時間";
+let isActive = "有效";
 
 let shipOrder = "出貨";
 let deShipOrder = "取消"

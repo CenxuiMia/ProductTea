@@ -7,10 +7,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductJsonMapException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
-import com.cenxui.tea.app.repositories.product.Product;
-import com.cenxui.tea.app.repositories.product.ProductKey;
-import com.cenxui.tea.app.repositories.product.ProductRepository;
-import com.cenxui.tea.app.repositories.product.Products;
+import com.cenxui.tea.app.repositories.product.*;
 import com.cenxui.tea.app.util.JsonUtil;
 
 import java.util.*;
@@ -95,7 +92,7 @@ final class DynamoDBProductRepository implements ProductRepository {
     }
 
     @Override
-    public Float getProductPrice(String productName, String version) {
+    public Price getProductPrice(String productName, String version) {
         QuerySpec querySpec = new QuerySpec()
                 .withHashKey(Product.PRODUCT_NAME, productName)
                 .withRangeKeyCondition(new RangeKeyCondition(Product.VERSION).eq(version));
@@ -105,7 +102,8 @@ final class DynamoDBProductRepository implements ProductRepository {
         List<Product> products = mapQueryOutcomeToProducts(collection);
 
         if (products.size() == 1) {
-            return products.get(0).getPrice();
+            Product product = products.get(0);
+            return Price.of(product.getCurrency(), product.getPrice());
         }
         return null;
     }

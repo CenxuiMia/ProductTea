@@ -50,6 +50,7 @@ public class OrderController extends CoreController {
                 clientOrder.getProducts(),
                 clientOrder.getPurchaser(),
                 null,
+                null,
                 clientOrder.getReceiver(),
                 clientOrder.getPhone(),
                 clientOrder.getShippingWay(),

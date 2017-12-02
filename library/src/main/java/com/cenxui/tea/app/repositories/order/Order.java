@@ -21,11 +21,12 @@ public class Order {
     public static final String TIME = "time";
     public static final String PRODUCTS = "products";
     public static final String PURCHASER = "purchaser";
+    public static final String CURRENCY = "currency";
     public static final String MONEY = "money";
     public static final String RECEIVER = "receiver";
     public static final String PHONE = "phone";
-    public static final String SHIPPING_ADDRESS = "shippingAddress";
     public static final String SHIPPING_WAY = "shippingWay";
+    public static final String SHIPPING_ADDRESS = "shippingAddress";
     public static final String COMMENT = "comment";
     public static final String PAID_TIME = "paidTime";
     public static final String SHIPPED_TIME= "shippedTime";
@@ -36,6 +37,7 @@ public class Order {
     String time =  LocalDateTime.now().toString().substring(0,19); //todo
     List<String> products;
     String purchaser;
+    String currency;
     Float money;
 
     String receiver;
@@ -53,6 +55,7 @@ public class Order {
     public static Order of(String mail,
                            List<String> products,
                            String purchaser,
+                           String currency,
                            Float money,
                            String receiver,
                            String phone,
@@ -65,7 +68,7 @@ public class Order {
                            Boolean isActive) {
 
         return new Order(
-                mail, products, purchaser, money, receiver, phone, shippingWay,
+                mail, products, purchaser, currency, money, receiver, phone, shippingWay,
                 shippingAddress, comment, paidTime, processingDate, shippedTime,
                 isActive);
     }

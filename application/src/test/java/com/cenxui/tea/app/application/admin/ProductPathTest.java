@@ -27,7 +27,7 @@ public class ProductPathTest {
         Product product = Product.of
                 ("花茶", "大玉茶", "Ａ",
                         "Ａ","Ａ","A",
-                new ArrayList<>(),4400F,"Ａ");
+                new ArrayList<>(),4400F,"NT", "A");
 
         String body = JsonUtil.mapToJson(product);
 

@@ -56,11 +56,13 @@ public final class Application {
         }));
 
         exception(RepositoryException.class, (exception, request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
             response.body(exception.getMessage());
             response.status(400);
         });
 
         exception(ControllerException.class, (exception, request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
             response.body(exception.getMessage());
             response.status(400);
         });

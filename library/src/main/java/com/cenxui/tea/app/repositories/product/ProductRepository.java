@@ -16,8 +16,8 @@ public interface ProductRepository extends Repository {
 
     Product getProductByProductNameVersion(String productName, String version);
 
-    Float getProductPrice(String name, String version);
-
     Product addProduct(Product product);
+
+    Price getProductPrice(String name, String version);
 
 }

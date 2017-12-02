@@ -170,12 +170,17 @@ function appendAllShippedOrders(orders) {
     for (var i = 0; i< orders.length ; i++) {
         var order =
             "<tr> " +
-            "   <td>" + orders[i].mail + " " + orders[i].time + " " + buttonHTML + "</td> " +
-            "   <td>" + orders[i].purchaser+"</td> " +
-            "   <td>" + orders[i].money +"</td> " +
+            "   <td >" + "<span>" + orders[i].mail + " " + orders[i].time + " " + "</span>"+ buttonHTML + "</td> " +
+            "   <td>" + orders[i].currency + orders[i].money +"</td> " +
+            "   <td>" + orders[i].products+"</td> " +
             "   <td>" + orders[i].receiver + "</td> " +
             "   <td>" + orders[i].shippingWay + "</td> " +
             "   <td>" + orders[i].shippingAddress + "</td> " +
+            "   <td>" + orders[i].comment+"</td> " +
+            "   <td>" + orders[i].purchaser+"</td> " +
+            "   <td>" + orders[i].paidTime+"</td> " +
+            "   <td>" + orders[i].processingDate+"</td> " +
+            "   <td>" + orders[i].shippedTime+"</td> " +
             "</tr>";               // Create element with HTML
         orderForm.innerHTML += order;      // Append the new elements
     }
@@ -300,6 +305,7 @@ function shipOrderButton(e) {
     var target = e.target || e.srcElement;
 
     target.disabled = true;
+    console.info("key :" + target.parentNode.innerText);
     let key = target.parentNode.innerText.split(" ");
     let mail = key[0].trim();
     let time = key[1].trim();
