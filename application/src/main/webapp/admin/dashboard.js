@@ -1,34 +1,40 @@
 function onAllOrder() {
     document.getElementById("sectionTitle").innerHTML = allOrder;
     cleanOrderForm();
-    setOrderColumn(primaryKey, purchaser, money, receiver, shippingWay, shippingAddress);
+    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
+    comment, purchaser, paidTime, processingDate, shippedTime);
     getOrders(orderEndpoint + "/table");
 }
 
 function onActiveOrder() {
     document.getElementById("sectionTitle").innerHTML = activeOrder;
-    setOrderColumn(primaryKey, purchaser, money, receiver, shippingWay, shippingAddress);
+    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
+        comment, purchaser, paidTime, processingDate, shippedTime);
+
     cleanOrderForm();
     getOrders(orderEndpoint + "/active");
 }
 
 function onPaidOrder() {
     document.getElementById("sectionTitle").innerHTML = paidOrder;
-    setOrderColumn(primaryKey, purchaser, money, receiver, shippingWay, shippingAddress);
+    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
+        comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
     getOrders(orderEndpoint + "/paid");
 }
 
 function onProcessingOrder() {
     document.getElementById("sectionTitle").innerHTML = processingOrder;
-    setOrderColumn(primaryKey, purchaser, money, receiver, shippingWay, shippingAddress);
+    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
+        comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
     getOrders(orderEndpoint + "/processing");
 }
 
 function onShippedOrder() {
     document.getElementById("sectionTitle").innerHTML = shippedOrder;
-    setOrderColumn(primaryKey, purchaser, money, receiver, shippingWay, shippingAddress);
+    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
+        comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
     getOrders(orderEndpoint + "/shipped");
     //todo
@@ -38,13 +44,18 @@ function onLoad() {
    onAllOrder();
 }
 
-function setOrderColumn(v1, v2, v3, v4, v5, v6) {
+function setOrderColumn(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) {
     document.getElementById("v1").innerHTML = v1;
     document.getElementById("v2").innerHTML = v2;
     document.getElementById("v3").innerHTML = v3;
     document.getElementById("v4").innerHTML = v4;
     document.getElementById("v5").innerHTML = v5;
     document.getElementById("v6").innerHTML = v6;
+    document.getElementById("v7").innerHTML = v7;
+    document.getElementById("v8").innerHTML = v8;
+    document.getElementById("v9").innerHTML = v9;
+    document.getElementById("v10").innerHTML = v10;
+    document.getElementById("v11").innerHTML = v11;
 }
 
 
@@ -57,15 +68,13 @@ function getOrders(url) {
             let sectionTitle = document.getElementById("sectionTitle").innerHTML;
             let orders = data.orders;
             if (sectionTitle.includes(allOrder)) {
-                appendAllOrders(orders);
+                appendOrders(orders);
             }else if (sectionTitle.includes(activeOrder)) {
-                appendAllActiveOrders(orders);
-            }else if (sectionTitle.includes(paidOrder)) {
-                appendAllPaidOrders(orders);
+                appendOrders(orders);
             }else if (sectionTitle.includes(processingOrder)) {
-                appendAllProcessingOrders(orders);
+                appendOrders(orders);
             }else if (sectionTitle.includes(shippedOrder)) {
-                appendAllShippedOrders(orders);
+                appendOrders(orders);
             }
         },
         error : function(xhr, status, error) {
@@ -78,100 +87,36 @@ function cleanOrderForm() {
     document.getElementById("orderForm").innerHTML = "";
 }
 
-function appendAllOrders(orders) {
-    let buttonHTML = ""; //todo
+function appendOrders(orders) {
     let orderForm = document.getElementById("orderForm");
+    let sectionTile = document.getElementById("sectionTitle").innerText;
 
-    for (var i = 0; i< orders.length ; i++) {
-        var order =
-            "<tr> " +
-            "   <td>" + orders[i].mail + " " + orders[i].time + " " + buttonHTML + "</td> " +
-            "   <td>" + orders[i].purchaser+"</td> " +
-            "   <td>" + orders[i].money +"</td> " +
-            "   <td>" + orders[i].receiver + "</td> " +
-            "   <td>" + orders[i].shippingWay + "</td> " +
-            "   <td>" + orders[i].shippingAddress + "</td> " +
-            "</tr>";               // Create element with HTML
-        orderForm.innerHTML += order;      // Append the new elements
-    }
-
-}
-
-function appendAllActiveOrders(orders) {
-    let orderForm = document.getElementById("orderForm");
 
     for (var i = 0; i< orders.length ; i++) {
         let buttonActiveHTML = "";
         let buttonPayHTML = "";
-        if (orders[i].paidTime === null) {
-            buttonActiveHTML = "<button onclick='activeOrderButton()'>失效</button>"
-            buttonPayHTML = "<button onclick='payOrderButton()'>付款</button>";
+        let buttonShipHTML = "";
+
+        if (orders[i].shippedTime !== null) {
+            buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨取消</button>"
+        }else if(orders[i].processingDate !== null) {
+            buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨確認</button>"
+        }else if (orders.isActive !== null && orders[i].paidTime === null) {
+            buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單取消</button>"
+            buttonPayHTML = "<button onclick='payOrderButton()'>付款確認</button>";
+        }  else if (orders.isActive === null) {
+            buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單復原</button>"
+        }
+
+        if (!sectionTile.includes(processingOrder) && orders.isActive !== null
+            && orders[i].paidTime !== null && orders[i].shippedTime === null) {
+            buttonPayHTML = "<button onclick='payOrderButton()'>付款取消</button>"
         }
 
         var order =
             "<tr> " +
-            "   <td>" + orders[i].mail + " " + orders[i].time + " " + buttonActiveHTML + " " + buttonPayHTML + "</td> " +
-            "   <td>" + orders[i].purchaser+"</td> " +
-            "   <td>" + orders[i].money +"</td> " +
-            "   <td>" + orders[i].receiver + "</td> " +
-            "   <td>" + orders[i].shippingWay + "</td> " +
-            "   <td>" + orders[i].shippingAddress + "</td> " +
-            "</tr>";               // Create element with HTML
-        orderForm.innerHTML += order;      // Append the new elements
-    }
-}
-
-function appendAllPaidOrders(orders) {
-
-
-    let orderForm = document.getElementById("orderForm");
-
-    for (var i = 0; i< orders.length ; i++) {
-        let buttonPayHTML = "";
-        if (orders[i].shippedTime === null) {
-            buttonPayHTML = "<button onclick='payOrderButton()'>取消</button>"
-        }
-
-        var order =
-            "<tr> " +
-            "   <td>" + orders[i].mail + " " + orders[i].time + " " + buttonPayHTML + "</td> " +
-            "   <td>" + orders[i].purchaser+"</td> " +
-            "   <td>" + orders[i].money +"</td> " +
-            "   <td>" + orders[i].receiver + "</td> " +
-            "   <td>" + orders[i].shippingWay + "</td> " +
-            "   <td>" + orders[i].shippingAddress + "</td> " +
-            "</tr>";               // Create element with HTML
-        orderForm.innerHTML += order;      // Append the new elements
-    }
-}
-
-function appendAllProcessingOrders(orders) {
-    let buttonHTML = "<button onclick='shipOrderButton()'>出貨</button>";
-    let orderForm = document.getElementById("orderForm");
-
-    for (var i = 0; i< orders.length ; i++) {
-        var order =
-            "<tr> " +
-            "   <td>" + orders[i].mail + " " + orders[i].time + " " + buttonHTML + "</td> " +
-            "   <td>" + orders[i].purchaser+"</td> " +
-            "   <td>" + orders[i].money +"</td> " +
-            "   <td>" + orders[i].receiver + "</td> " +
-            "   <td>" + orders[i].shippingWay + "</td> " +
-            "   <td>" + orders[i].shippingAddress + "</td> " +
-            "</tr>";               // Create element with HTML
-        orderForm.innerHTML += order;      // Append the new elements
-    }
-}
-
-function appendAllShippedOrders(orders) {
-    let buttonHTML = "<button onclick='shipOrderButton()'>取消</button>";
-    let orderForm = document.getElementById("orderForm");
-
-    for (var i = 0; i< orders.length ; i++) {
-        var order =
-            "<tr> " +
-            "   <td >" + "<span>" + orders[i].mail + " " + orders[i].time + " " + "</span>"+ buttonHTML + "</td> " +
-            "   <td>" + orders[i].currency + orders[i].money +"</td> " +
+            "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + " " + buttonActiveHTML + buttonPayHTML + buttonShipHTML + "</td> " +
+            "   <td>" + orders[i].currency + orders[i].price +"</td> " +
             "   <td>" + orders[i].products+"</td> " +
             "   <td>" + orders[i].receiver + "</td> " +
             "   <td>" + orders[i].shippingWay + "</td> " +
@@ -184,6 +129,7 @@ function appendAllShippedOrders(orders) {
             "</tr>";               // Create element with HTML
         orderForm.innerHTML += order;      // Append the new elements
     }
+
 }
 
 function activeOrderButton(e) {
@@ -193,18 +139,18 @@ function activeOrderButton(e) {
     target.disabled = true;
     let key = target.parentNode.innerText.split(" ");
     let mail = key[0].trim();
-    let time = key[1].trim();
+    let dateTime = key[1].trim();
 
     if (target.innerText.includes(reactiveOrder)) {
-        active(target, mail, time);
+        active(target, mail, dateTime);
     }else {
-        deactive(target, mail, time);
+        deactive(target, mail, dateTime);
     }
 
 }
 
-function active(element, mail, time) {
-    let url = orderEndpoint + "/table/active/" + mail + "/" + time;
+function active(element, mail, dateTime) {
+    let url = orderEndpoint + "/table/active/" + mail + "/" + dateTime;
     console.info("url :" + url);
 
     $.ajax({
@@ -224,8 +170,8 @@ function active(element, mail, time) {
 
 }
 
-function deactive(element, mail, time) {
-    let url = orderEndpoint + "/table/deactive/" + mail + "/" + time;
+function deactive(element, mail, dateTime) {
+    let url = orderEndpoint + "/table/deactive/" + mail + "/" + dateTime;
     console.info("url :" + url);
 
     $.ajax({
@@ -252,17 +198,17 @@ function payOrderButton(e) {
     target.disabled = true;
     let key = target.parentNode.innerText.split(" ");
     let mail = key[0].trim();
-    let time = key[1].trim();
+    let dateTime = key[1].trim();
 
     if (target.innerText.includes(payOrder)) {
-        pay(target, mail, time);
+        pay(target, mail, dateTime);
     }else {
-        depay(target, mail, time);
+        depay(target, mail, dateTime);
     }
 }
 
-function pay(element, mail, time) {
-    let url = orderEndpoint + "/table/pay/" + mail + "/" + time;
+function pay(element, mail, dateTime) {
+    let url = orderEndpoint + "/table/pay/" + mail + "/" + dateTime;
     console.info("url :" + url);
 
     $.ajax({
@@ -281,8 +227,8 @@ function pay(element, mail, time) {
     });
 }
 
-function depay(element, mail, time) {
-    let url = orderEndpoint + "/table/depay/" + mail + "/" + time;
+function depay(element, mail, dateTime) {
+    let url = orderEndpoint + "/table/depay/" + mail + "/" + dateTime;
     console.info("url :" + url);
 
     $.ajax({
@@ -308,17 +254,17 @@ function shipOrderButton(e) {
     console.info("key :" + target.parentNode.innerText);
     let key = target.parentNode.innerText.split(" ");
     let mail = key[0].trim();
-    let time = key[1].trim();
+    let dateTime = key[1].trim();
 
     if (target.innerText.includes(shipOrder)) {
-        ship(target, mail, time);
+        ship(target, mail, dateTime);
     }else {
-        deship(target, mail, time);
+        deship(target, mail, dateTime);
     }
 }
 
-function ship(element, mail, time) {
-    let url = orderEndpoint + "/table/ship/" + mail + "/" + time;
+function ship(element, mail, dateTime) {
+    let url = orderEndpoint + "/table/ship/" + mail + "/" + dateTime;
     console.info("url :" + url);
 
     $.ajax({
@@ -338,10 +284,10 @@ function ship(element, mail, time) {
 }
 
 
-function deship(element, mail, time) {
+function deship(element, mail, dateTime) {
     $.ajax({
         type : 'POST',
-        url : orderEndpoint + "/table/deship/" + mail + "/" + time,
+        url : orderEndpoint + "/table/deship/" + mail + "/" + dateTime,
         success : function(response) {
             console.info(response)
             element.disabled = false;

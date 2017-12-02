@@ -61,12 +61,12 @@ public class ItemUtil {
     public static Item getOrderItem(@NonNull Order order) {
 
         Item item = new Item()
-                .withPrimaryKey(Order.MAIL, order.getMail(), Order.TIME, order.getTime());
+                .withPrimaryKey(Order.MAIL, order.getMail(), Order.ORDER_DATE_TIME, order.getOrderDateTime());
 
         Arrays.asList(order.getClass().getDeclaredFields()).forEach(
                 (s)-> {
                     String fieldName = s.getName();
-                    if(!Order.MAIL.equals(fieldName) && !Order.TIME.equals(fieldName)) {
+                    if(!Order.MAIL.equals(fieldName) && !Order.ORDER_DATE_TIME.equals(fieldName)) {
                         s.setAccessible(true);
                         setItem(order, item, s, fieldName);
 

@@ -6,6 +6,7 @@ import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductNotFoundExcepti
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.repositories.order.Orders;
+import com.cenxui.tea.app.repositories.order.report.CashReport;
 import com.cenxui.tea.app.repositories.product.Price;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
 import com.cenxui.tea.app.util.JsonUtil;
@@ -61,8 +62,8 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
-    public Orders getAllShippedOrders(String shippedTime, Integer limit) {
-        return orderRepository.getAllShippedOrders(shippedTime, limit);
+    public Orders getAllShippedOrders(String shippedDate, String shippedTime, Integer limit) {
+        return orderRepository.getAllShippedOrders(shippedDate,shippedTime, limit);
     }
 
     @Override
@@ -71,8 +72,8 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
-    public Orders getAllPaidOrders(String paidTime, Integer limit) {
-        return orderRepository.getAllPaidOrders(paidTime, limit);
+    public Orders getAllPaidOrders(String paidDate, String paidTime, Integer limit) {
+        return orderRepository.getAllPaidOrders(paidDate, paidTime, limit);
     }
 
     @Override
@@ -89,7 +90,7 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     public Order addOrder(Order order) {
 
 
-        Float money = 0F;
+        Float orderPrice = 0F;
 
         List<String> products = order.getProducts();
 
@@ -114,7 +115,7 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
                 currency = price.getCurrency();
             }
 
-            money = money + price.getMoney() * Float.valueOf(count);
+            orderPrice = orderPrice + price.getMoney() * Float.valueOf(count);
         }
 
         return orderRepository.addOrder(Order.of(
@@ -122,14 +123,17 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
                 order.getProducts(),
                 order.getPurchaser(),
                 currency,
-                money,
+                orderPrice,
+                order.getPaymentMethod(),
                 order.getReceiver(),
                 order.getPhone(),
                 order.getShippingWay(),
                 order.getShippingAddress(),
                 order.getComment(),
+                order.getPaidDate(),
                 order.getPaidTime(),
                 order.getProcessingDate(),
+                order.getShippedDate(),
                 order.getShippedTime(),
                 order.getIsActive()));
     }
@@ -157,8 +161,8 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
-    public Order payOrder(String mail, String time, String paidTime) {
-        return orderRepository.payOrder(mail, time, paidTime);
+    public Order payOrder(String mail, String time, String payDate,String paidTime) {
+        return orderRepository.payOrder(mail, time, payDate, paidTime);
     }
 
     @Override
@@ -172,12 +176,27 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
-    public Order shipOrder(String mail, String time, String shippedTime) {
-        return orderRepository.shipOrder(mail, time, shippedTime);
+    public Order shipOrder(String mail, String time, String shippedDate, String shippedTime) {
+        return orderRepository.shipOrder(mail, time, shippedDate, shippedTime);
     }
 
     @Override
     public Order deShipOrder(String mail, String time) {
         return orderRepository.deShipOrder(mail, time);
+    }
+
+    @Override
+    public CashReport getCashAllReport() {
+        return orderRepository.getCashAllReport();
+    }
+
+    @Override
+    public CashReport getDailyCashReport(String paidDate) {
+        return orderRepository.getDailyCashReport(paidDate);
+    }
+
+    @Override
+    public CashReport getRangeCashReport(String fromPaidDate, String toPaidDate) {
+        return orderRepository.getRangeCashReport(fromPaidDate, toPaidDate);
     }
 }

@@ -35,12 +35,36 @@ public class OrderPathTest {
 //                "abc","good", null,null,null,null
 //        );
 
-        Map<String, String> headers = new HashMap<>();
-        headers.put(Header.MAIL, "cenxui@gmail.com");
+        for (int i = 0; i<3; i++) {
 
-        String body = "{\"purchaser\":\"黃盈盈\",\"mail\":\"a\",\"phone\":\"0900111222\",\"receiver\":\"a\",\"shippingWay\":\"超商取貨\",\"shippingAddress\":\"A市B區C路DFG\",\"products\":[\"花茶;大玉茶;2\"],\"comment\":\"none\"}";
+            Map<String, String> headers1 = new HashMap<>();
+            headers1.put(Header.MAIL, "mia@gmail.com");
 
-        Http.put(url, body, headers);
+            Map<String, String> headers2 = new HashMap<>();
+            headers2.put(Header.MAIL, "admin@gmail.com");
+
+            Map<String, String> headers3 = new HashMap<>();
+            headers2.put(Header.MAIL, "cenxui@gmail.com");
+
+            String body1 = "{\"purchaser\":\"黃盈盈\",\"mail\":\"帥哥林\",\"phone\":\"0900111222\",\"receiver\":\"帥哥林\",\"shippingWay\":\"超商取貨\",\"shippingAddress\":\"A市B區C路DFG\",\"products\":[\"花茶;大玉茶;2\"],\"comment\":\"none\"}";
+
+            String body2 = "{\"purchaser\":\"黃盈盈\",\"mail\":\"大流士\",\"phone\":\"0900111222\",\"receiver\":\"大流士\",\"shippingWay\":\"超商取貨\",\"shippingAddress\":\"A市B區C路DFG\",\"products\":[\"美茶;大玉茶;2\"],\"comment\":\"none\"}";
+
+            String body3 = "{\"purchaser\":\"呱呱\",\"mail\":\"大流士\",\"phone\":\"0900111222\",\"receiver\":\"珠珠\",\"shippingWay\":\"超商取貨\",\"shippingAddress\":\"A市B區C路DFG\",\"products\":[\"美茶;大玉茶;2\"],\"comment\":\"none\"}";
+
+
+            Http.put(url, body1, headers1);
+
+            Http.put(url, body2, headers2);
+
+            Http.put(url, body3, headers3);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }

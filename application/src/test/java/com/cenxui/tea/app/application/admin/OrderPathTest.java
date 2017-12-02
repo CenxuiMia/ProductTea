@@ -28,36 +28,35 @@ public class OrderPathTest {
 
     @Test
     public void activeOrder() {
-        Http.post(url + "/active/5cenxui@gmail.com/2017-11-29T17:19:51");
+        Http.post(url + "/active/mia@gmail.com/2017-12-02T20:56:02");
     }
 
     @Test
     public void deactiveOrder() {
-        Http.post(url + "/deactive/5cenxui@gmail.com/2017-11-29T17:19:51");
+        Http.post(url + "/deactive/mia@gmail.com/2017-12-02T20:56:02");
 
     }
-
     @Test
     public void paidOrder() {
-        Http.post(url + "/pay/5cenxui@gmail.com/2017-11-29T17:19:51");
+        Http.post(url + "/pay/mia@gmail.com/2017-12-02T20:56:02");
     }
 
     @Test
     public void dePaidOrder() {
-        Http.post(url + "/depay/5cenxui@gmail.com/2017-11-29T17:19:51");
+        Http.post(url + "/depay/mia@gmail.com/2017-12-02T20:56:02");
 
     }
 
     @Test
     public void shippedOrder() {
-        String t = "http://localhost:9000/admin/order/table/ship/0cenxui@gmail.com/2017-11-29T18";
 
-        Http.post(url + "/ship/0cenxui@gmail.com/2017-11-29T18:04:10");
+
+        Http.post(url + "/ship/mia@gmail.com/2017-12-02T20:56:02");
     }
 
     @Test
     public void deShippedorder() {
-        Http.post(url + "/deship/0cenxui@gmail.com/2017-11-29T18:04:10");
+        Http.post(url + "/deship/mia@gmail.com/2017-12-02T20:56:02");
 
     }
 

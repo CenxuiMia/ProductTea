@@ -1,5 +1,6 @@
 package com.cenxui.tea.app.services.admin.order;
 
+import com.amazonaws.services.dynamodbv2.xspec.M;
 import com.cenxui.tea.app.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.order.Order;
@@ -85,10 +86,11 @@ public class AdminOrderController extends CoreController{
 
     public static final Route getAllPaidOrdersByLastKey = (Request request, Response response) -> {
         Map<String, String> map = request.params();
+        String paidDate = getPaidDate(map);
         String paidTime = getPaidTime(map);
         Integer limit = getLimit(map);
 
-        return JsonUtil.mapToJson(orderRepository.getAllPaidOrders(paidTime, limit));
+        return JsonUtil.mapToJson(orderRepository.getAllPaidOrders(paidDate, paidTime, limit));
     };
 
     public static final Route getAllProcessingOrders = (Request request, Response response) -> {
@@ -109,10 +111,11 @@ public class AdminOrderController extends CoreController{
 
     public static final Route getAllShippedOrdersByLastKey = (Request request, Response response) -> {
         Map<String, String> map = request.params();
+        String shippedDate = getShippedDate(map);
         String shippedTime = getShippedTime(map);
         Integer limit = getLimit(map);
 
-        return JsonUtil.mapToJson(orderRepository.getAllShippedOrders(shippedTime, limit));
+        return JsonUtil.mapToJson(orderRepository.getAllShippedOrders(shippedDate, shippedTime, limit));
     };
 
     public static final Route activeOrder =  (Request request, Response response) -> {
@@ -193,12 +196,20 @@ public class AdminOrderController extends CoreController{
         return count;
     }
 
+    private static String getPaidDate(Map<String, String> map) {
+        return map.get(Param.ORDER_PAID_DATE);
+    }
+
     private static String getPaidTime(Map<String, String> map) {
         return map.get(Param.ORDER_PAID_TIME);
     }
 
     private static String getProcessingDate(Map<String, String> map) {
         return map.get(Param.ORDER_PROCESSING_DATE);
+    }
+
+    private static String getShippedDate(Map<String, String> map) {
+        return map.get(Param.ORDER_SHIPPED_DATE);
     }
 
     private static String getShippedTime(Map<String, String> map) {
