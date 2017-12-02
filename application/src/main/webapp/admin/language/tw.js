@@ -19,9 +19,9 @@ let processingDate = "受理日期";
 let shippedTime = "出貨時間";
 let isActive = "有效";
 
-let shipOrder = "出貨";
-let deShipOrder = "取消"
-let payOrder = "付款";
-let depayOrder = "取消"
-let reactiveOrder = "復原";
-let deactiveOrder = "失效"
+let shipOrder = "出貨確認";
+let deShipOrder = "出貨取消"
+let payOrder = "付款確認";
+let depayOrder = "付款取消"
+let reactiveOrder = "訂單復原";
+let deactiveOrder = "訂單取消"

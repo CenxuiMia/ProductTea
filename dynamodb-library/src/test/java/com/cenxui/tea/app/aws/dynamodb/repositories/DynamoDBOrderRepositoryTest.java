@@ -74,82 +74,7 @@ public class DynamoDBOrderRepositoryTest {
     }
 
     @Test
-    public void addOrder() throws Exception {
-        List<String> products = new ArrayList<>();
-        int i = 0;
-//        for (; i<3; i++) {
-//            Order order = Order.of(
-//                    i + "cenxui@gmail.com",
-//                    products,
-//                    "cenxui",
-//                    1000F,
-//                    "Mia",
-//                    "0928282",
-//                    "Ａ",
-//                    "A",
-//                    "NO",
-//                    LocalDateTime.now().toString(),
-//                    null,
-//                    LocalDateTime.now().toString(),
-//                    true);
-//            System.out.println(orderRepository.addOrder(order));
-//        }
-
-//        for (i = 3; i<7; i++) {
-//            Order order = Order.of(
-//                    i + "cenxui@gmail.com",
-//                    products,
-//                    "cenxui",
-//                    1000F,
-//                    "Mia",
-//                    "0928282",
-//                    "Ａ",
-//                    "A",
-//                    "NO",
-//                    LocalDateTime.now().toString(),
-//                    LocalDate.now().toString(),
-//                      null  ,
-//                    true);
-//            System.out.println(orderRepository.addOrder(order));
-//        }
-//
-        for (; i<10; i++) {
-//            Order order = Order.of(
-//                    i + "cenxui@gmail.com",
-//                    products,
-//                    "cenxui",
-//                    1000F,
-//                    "Mia",
-//                    "0928282",
-//                    "Ａ",
-//                    "A",
-//                    "NO",
-//                    null,
-//                    null,
-//                    null  ,
-//                    true);
-//            System.out.println(orderRepository.addOrder(order));
-        }
-//
-//        for (; i<13; i++) {
-//            Order order = Order.of(
-//                    i + "cenxui@gmail.com",
-//                    products,
-//                    "cenxui",
-//                    1000F,
-//                    "Mia",
-//                    "0928282",
-//                    "Ａ",
-//                    "A",
-//                    "NO",
-//                    null,
-//                    null,
-//                    null  ,
-//                    false);
-//            System.out.println(orderRepository.addOrder(order));
-//        }
-
-    }
+    public void addOrder() throws Exception {}
 
     @Test
     public void deleteOrder() throws Exception {
@@ -189,6 +114,11 @@ public class DynamoDBOrderRepositoryTest {
     public void deshipOrder() throws Exception {
         System.out.println(orderRepository.deShipOrder("5cenxui@gmail.com", "2017-11-29T17:19:51"));
 
+    }
+
+    @Test
+    public void getAllCashReport() {
+        System.out.println(orderRepository.getCashAllReport());
     }
 
 

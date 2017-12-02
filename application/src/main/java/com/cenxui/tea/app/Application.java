@@ -56,13 +56,11 @@ public final class Application {
         }));
 
         exception(RepositoryException.class, (exception, request, response) -> {
-            response.header("Access-Control-Allow-Origin", "*");
             response.body(exception.getMessage());
             response.status(400);
         });
 
         exception(ControllerException.class, (exception, request, response) -> {
-            response.header("Access-Control-Allow-Origin", "*");
             response.body(exception.getMessage());
             response.status(400);
         });
@@ -122,7 +120,7 @@ public final class Application {
 
         get(Path.Web.Admin.ORDER_PAID, AdminOrderController.getAllPaidOrders);
 
-        get(Path.Web.Admin.ORDER_PAID + "/" + Param.ORDER_PAID_TIME + "/" + Param.ORDER_LIMIT,
+        get(Path.Web.Admin.ORDER_PAID +  "/" + Param.ORDER_PAID_DATE  +"/" + Param.ORDER_PAID_TIME + "/" + Param.ORDER_LIMIT,
                 AdminOrderController.getAllPaidOrdersByLastKey);
 
         get(Path.Web.Admin.ORDER_PROCESSING, AdminOrderController.getAllProcessingOrders);
@@ -132,7 +130,7 @@ public final class Application {
 
         get(Path.Web.Admin.ORDER_SHIPPED, AdminOrderController.getAllShippedOrders);
 
-        get(Path.Web.Admin.ORDER_SHIPPED + "/" + Param.ORDER_SHIPPED_TIME + "/" + Param.ORDER_LIMIT,
+        get(Path.Web.Admin.ORDER_SHIPPED + "/" + Param.ORDER_SHIPPED_DATE + "/" + Param.ORDER_SHIPPED_TIME + "/" + Param.ORDER_LIMIT,
                 AdminOrderController.getAllShippedOrdersByLastKey);
 
 

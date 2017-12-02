@@ -1,5 +1,6 @@
 package com.cenxui.tea.app.repositories.order;
 
+import com.cenxui.tea.app.repositories.order.report.CashReport;
 import com.cenxui.tea.app.repositories.Repository;
 
 public interface OrderRepository extends Repository {
@@ -14,7 +15,7 @@ public interface OrderRepository extends Repository {
 
     Orders getAllPaidOrders();
 
-    Orders getAllPaidOrders(String paidTime, Integer limit);
+    Orders getAllPaidOrders(String paidDate, String paidTime, Integer limit);
 
     Orders getAllProcessingOrders();
 
@@ -22,7 +23,7 @@ public interface OrderRepository extends Repository {
 
     Orders getAllShippedOrders();
 
-    Orders getAllShippedOrders(String shipTime, Integer limit);
+    Orders getAllShippedOrders(String paidDate, String shipTime, Integer limit);
 
     Orders getOrdersByMail(String mail);
 
@@ -38,22 +39,21 @@ public interface OrderRepository extends Repository {
 
     Order payOrder(String mail, String time);
 
-    Order payOrder(String mail, String time, String paidTime);
+    Order payOrder(String mail, String time, String paidDate, String paidTime);
 
     Order dePayOrder(String mail, String time);
 
     Order shipOrder(String mail, String time);
 
-    Order shipOrder(String mail, String time, String shippedTime);
+    Order shipOrder(String mail, String time, String paidDate, String shippedTime);
 
     Order deShipOrder(String mail, String time);
 
-//    //todo add order money sum order sum paid sum etc...
-//
-//    Double getAllPaidOrderIncome();
-//
-//    Double getAllPaidOrderIncome(String from);
-//
-//    Double getAllPaidOrderIncome(String from, String to);
+    CashReport getCashAllReport();
+
+    CashReport getDailyCashReport(String paidDate);
+
+    CashReport getRangeCashReport(String fromPaidDate, String toPaidDate);
+
 
 }

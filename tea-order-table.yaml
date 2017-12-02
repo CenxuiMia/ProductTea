@@ -9,13 +9,19 @@ Resources:
           AttributeName: "mail"
           AttributeType: "S"
         -
-          AttributeName: "time"
+          AttributeName: "orderDateTime"
+          AttributeType: "S"
+        -
+          AttributeName: "paidDate"
           AttributeType: "S"
         -
           AttributeName: "paidTime"
           AttributeType: "S"
         -
           AttributeName: "processingDate"
+          AttributeType: "S"
+        -
+          AttributeName: "shippedDate"
           AttributeType: "S"
         -
           AttributeName: "shippedTime"
@@ -29,7 +35,7 @@ Resources:
           AttributeName: "mail"
           KeyType: "HASH"
         -
-          AttributeName: "time"
+          AttributeName: "orderDateTime"
           KeyType: "RANGE"
       ProvisionedThroughput:
         ReadCapacityUnits: "1"
@@ -41,10 +47,13 @@ Resources:
           IndexName: "paidIndex"
           KeySchema:
           -
-            AttributeName: "paidTime"
+            AttributeName: "paidDate"
             KeyType: "HASH"
+          -
+            AttributeName: "paidTime"
+            KeyType: "RANGE"
           Projection:
-            ProjectionType: "ALL"
+            ProjectionType: "ALL" #modify todo
           ProvisionedThroughput:
             ReadCapacityUnits: "1"
             WriteCapacityUnits: "1"
@@ -66,10 +75,13 @@ Resources:
           IndexName: "shippedIndex"
           KeySchema:
           -
-            AttributeName: "shippedTime"
+            AttributeName: "shippedDate"
             KeyType: "HASH"
+          -
+            AttributeName: "shippedTime"
+            KeyType: "RANGE"
           Projection:
-            ProjectionType: "ALL"
+            ProjectionType: "ALL" #modify todo
           ProvisionedThroughput:
             ReadCapacityUnits: "1"
             WriteCapacityUnits: "1"
