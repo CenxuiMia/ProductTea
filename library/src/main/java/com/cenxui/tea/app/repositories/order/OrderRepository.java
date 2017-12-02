@@ -8,6 +8,10 @@ public interface OrderRepository extends Repository {
 
     Orders getAllOrders(String mail, String time, Integer limit);
 
+    Orders getAllActiveOrders();
+
+    Orders getAllActiveOrders(String mail, String time, Integer limit);
+
     Orders getAllPaidOrders();
 
     Orders getAllPaidOrders(String paidTime, Integer limit);

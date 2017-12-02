@@ -24,21 +24,23 @@ public class OrderPathTest {
 
     @Test
     public void addOrder() {
-        List<String> products = new ArrayList<>();
-
-        String good = "花茶;大玉茶;10";
-        products.add(good);
-
-        Order order = Order.of(
-                null, products, "cenxui",
-                0F, "mia","09283399","airbus",
-                "abc","good", null,null,null,null
-        );
+//        List<String> products = new ArrayList<>();
+//
+//        String good = "花茶;大玉茶;10";
+//        products.add(good);
+//
+//        Order order = Order.of(
+//                null, products, "黃盈盈",
+//                null, null, "mia","09283399","airbus",
+//                "abc","good", null,null,null,null
+//        );
 
         Map<String, String> headers = new HashMap<>();
         headers.put(Header.MAIL, "cenxui@gmail.com");
 
-        Http.put(url, JsonUtil.mapToJson(order), headers);
+        String body = "{\"purchaser\":\"黃盈盈\",\"mail\":\"a\",\"phone\":\"0900111222\",\"receiver\":\"a\",\"shippingWay\":\"超商取貨\",\"shippingAddress\":\"A市B區C路DFG\",\"products\":[\"花茶;大玉茶;2\"],\"comment\":\"none\"}";
+
+        Http.put(url, body, headers);
     }
 
 }

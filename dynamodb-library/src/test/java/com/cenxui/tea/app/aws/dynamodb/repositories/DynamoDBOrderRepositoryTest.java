@@ -21,6 +21,8 @@ public class DynamoDBOrderRepositoryTest {
                     Config.ORDER_PROCESSING_INDEX,
                     Config.ORDER_SHIPPED_INDEX,
                     Config.PRODUCT_TABLE);
+
+
     @Test
     public void getAllOrdersByLastKey() throws Exception {
     }
@@ -40,11 +42,17 @@ public class DynamoDBOrderRepositoryTest {
 
     @Test
     public void getOrdersByMail() throws Exception {
-        orderRepository.getOrdersByMail("cenxui1@gmail.com").getOrders().forEach(System.out::println);
+        orderRepository.getOrdersByMail("0cenxui@gmail.com").getOrders().forEach(System.out::println);
     }
 
     @Test
     public void getAllOrders() throws Exception {
+        orderRepository.getAllOrders().getOrders().forEach(System.out::println);
+    }
+
+    @Test
+    public void getAllActiveOrders() throws Exception {
+        orderRepository.getAllActiveOrders().getOrders().forEach(System.out::println);
     }
 
     @Test
@@ -61,31 +69,85 @@ public class DynamoDBOrderRepositoryTest {
 
     @Test
     public void getOrdersByMailAndTime() throws Exception {
+//        mtlisa42@gmail.com 2017-12-01T15:14:51
+        orderRepository.getOrdersByMailAndTime("mtlisa42@gmail.com", "2017-12-01T15:14:51").getProducts().forEach(System.out::println);
     }
 
     @Test
     public void addOrder() throws Exception {
         List<String> products = new ArrayList<>();
+        int i = 0;
+//        for (; i<3; i++) {
+//            Order order = Order.of(
+//                    i + "cenxui@gmail.com",
+//                    products,
+//                    "cenxui",
+//                    1000F,
+//                    "Mia",
+//                    "0928282",
+//                    "Ａ",
+//                    "A",
+//                    "NO",
+//                    LocalDateTime.now().toString(),
+//                    null,
+//                    LocalDateTime.now().toString(),
+//                    true);
+//            System.out.println(orderRepository.addOrder(order));
+//        }
 
-        for (int i = 0; i<5; i++) {
-            Order order = Order.of(
-                    i + "cenxui@gmail.com",
-                    products,
-                    "cenxui",
-                    1000F,
-                    "Mia",
-                    "0928282",
-                    "Ａ",
-                    "",
-                    LocalDateTime.now().toString(),
-                    null,
-                    LocalDateTime.now().toString(),
-                    true);
-            System.out.println(orderRepository.addOrder(order));
+//        for (i = 3; i<7; i++) {
+//            Order order = Order.of(
+//                    i + "cenxui@gmail.com",
+//                    products,
+//                    "cenxui",
+//                    1000F,
+//                    "Mia",
+//                    "0928282",
+//                    "Ａ",
+//                    "A",
+//                    "NO",
+//                    LocalDateTime.now().toString(),
+//                    LocalDate.now().toString(),
+//                      null  ,
+//                    true);
+//            System.out.println(orderRepository.addOrder(order));
+//        }
+//
+        for (; i<10; i++) {
+//            Order order = Order.of(
+//                    i + "cenxui@gmail.com",
+//                    products,
+//                    "cenxui",
+//                    1000F,
+//                    "Mia",
+//                    "0928282",
+//                    "Ａ",
+//                    "A",
+//                    "NO",
+//                    null,
+//                    null,
+//                    null  ,
+//                    true);
+//            System.out.println(orderRepository.addOrder(order));
         }
-
-
-
+//
+//        for (; i<13; i++) {
+//            Order order = Order.of(
+//                    i + "cenxui@gmail.com",
+//                    products,
+//                    "cenxui",
+//                    1000F,
+//                    "Mia",
+//                    "0928282",
+//                    "Ａ",
+//                    "A",
+//                    "NO",
+//                    null,
+//                    null,
+//                    null  ,
+//                    false);
+//            System.out.println(orderRepository.addOrder(order));
+//        }
 
     }
 

@@ -1,6 +1,7 @@
 package com.cenxui.tea.app.aws.dynamodb.util;
 
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.kms.model.UnsupportedOperationException;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.user.User;
@@ -9,6 +10,13 @@ import lombok.NonNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+
+/**
+ * Ignore null value
+ *
+ * only support String Number Boolean bytearray bytebuffer Set Map List
+ *
+ */
 
 public class ItemUtil {
     public static Item getUserItem(@NonNull User user) {
@@ -20,12 +28,7 @@ public class ItemUtil {
                     String fieldName = s.getName();
                     if (!User.MAIL.equals(fieldName)) {
                         s.setAccessible(true);
-                        try {
-                            setItem(user, item, s, fieldName);
-
-                        } catch (IllegalAccessException e) {
-                            throw new ItemUtilException();
-                        }
+                        setItem(user, item, s, fieldName);
                     }
                 }
         );
@@ -38,14 +41,7 @@ public class ItemUtil {
         Item item = new Item()
                 .withPrimaryKey(
                         Product.PRODUCT_NAME, product.getProductName(),
-                        Product.VERSION, product.getVersion())
-                .withString(Product.DETAILS, product.getDetails())
-                .withString(Product.INTRODUCTION, product.getIntroduction())
-                .withString(Product.SMALL_IMAGE, product.getSmallImage())
-                .withString(Product.VIDEO, product.getVideo())
-                .with(Product.IMAGES, product.getImages())
-                .withDouble(Product.PRICE, product.getPrice())
-                .withString(Product.TAG, product.getTag());
+                        Product.VERSION, product.getVersion());
 
         Arrays.asList(product.getClass().getDeclaredFields()).forEach(
                 (s)-> {
@@ -54,11 +50,7 @@ public class ItemUtil {
                             !Product.VERSION.equals(fieldName)) {
 
                         s.setAccessible(true);
-                        try {
-                            setItem(product, item, s, fieldName);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        setItem(product, item, s, fieldName);
                     }
                 }
         );
@@ -76,11 +68,8 @@ public class ItemUtil {
                     String fieldName = s.getName();
                     if(!Order.MAIL.equals(fieldName) && !Order.TIME.equals(fieldName)) {
                         s.setAccessible(true);
-                        try {
-                            setItem(order, item, s, fieldName);
-                        } catch (IllegalAccessException e) {
-                            throw new ItemUtilException();
-                        }
+                        setItem(order, item, s, fieldName);
+
                     }
 
                 }
@@ -89,18 +78,22 @@ public class ItemUtil {
         return item;
     }
 
-    private static void setItem(@NonNull Object object, Item item, Field s, String fieldName) throws IllegalAccessException {
-        if (Modifier.isStatic(s.getModifiers())) {
-            return;
-        }
+    private static void setItem(@NonNull Object object, Item item, Field s, String fieldName) {
+        try {
+            if (Modifier.isStatic(s.getModifiers())) {
+                return;
+            }
 
-        Object field = s.get(object);
-        if (field instanceof String && ((String) field).length() != 0) {
-            item.withString(fieldName, (String) field);
-        }else if (field instanceof Number) {
-            item.withNumber(fieldName, (Number) field);
-        }else if (Boolean.TRUE.equals(field)) {
-            item.withBoolean(fieldName, true);
+            Object field = s.get(object);
+
+            if (field != null) {
+                item.with(fieldName, field); // todo modify it to make efficient
+            }
+
+        } catch (IllegalAccessException e) {
+            throw new ItemUtilCannotAccessFieldException(fieldName);
+        } catch (UnsupportedOperationException e) {
+            throw new ItemUtilNotSupportClassTypeException(fieldName, s.getType().getTypeName());
         }
     }
 }

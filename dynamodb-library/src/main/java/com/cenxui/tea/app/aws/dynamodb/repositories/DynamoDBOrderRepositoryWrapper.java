@@ -1,11 +1,14 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
 import com.cenxui.tea.app.aws.dynamodb.exceptions.order.OrderProductFormatException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductCurrencyNotConsistException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductNotFoundException;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.repositories.order.Orders;
+import com.cenxui.tea.app.repositories.product.Price;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
+import com.cenxui.tea.app.util.JsonUtil;
 
 import java.util.List;
 
@@ -30,6 +33,16 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     @Override
     public Orders getAllOrders(String mail, String time, Integer limit) {
         return orderRepository.getAllOrders(mail, time, limit);
+    }
+
+    @Override
+    public Orders getAllActiveOrders() {
+        return orderRepository.getAllActiveOrders();
+    }
+
+    @Override
+    public Orders getAllActiveOrders(String mail, String time, Integer limit) {
+        return orderRepository.getAllActiveOrders(mail, time, limit);
     }
 
     @Override
@@ -75,9 +88,12 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     @Override
     public Order addOrder(Order order) {
 
+
         Float money = 0F;
 
         List<String> products = order.getProducts();
+
+        String currency = null;
 
         for (String product: products) {
             String[] s = product.split(";");//todo
@@ -86,23 +102,31 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
 
             String productName = s[0].trim();
             String version = s[1].trim();
+            String count = s[2].trim();
 
-            Float price = productRepository.getProductPrice(productName, version);
+            Price price = productRepository.getProductPrice(productName, version);
 
             if (price == null) throw new ProductNotFoundException(productName, version);
 
-            money = money + price * Float.valueOf(s[2].trim());
+            if (currency != null && !currency.equals(price.getCurrency())) {
+                throw new ProductCurrencyNotConsistException(JsonUtil.mapToJson(products));
+            }else {
+                currency = price.getCurrency();
+            }
+
+            money = money + price.getMoney() * Float.valueOf(count);
         }
 
         return orderRepository.addOrder(Order.of(
                 order.getMail(),
                 order.getProducts(),
                 order.getPurchaser(),
+                currency,
                 money,
                 order.getReceiver(),
                 order.getPhone(),
-                order.getShippingAddress(),
                 order.getShippingWay(),
+                order.getShippingAddress(),
                 order.getComment(),
                 order.getPaidTime(),
                 order.getProcessingDate(),

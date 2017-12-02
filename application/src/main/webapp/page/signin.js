@@ -33,6 +33,7 @@ function setUp(authData, doSignIn, doSignOut) {
     });
 
     if (auth.getCurrentUser()!== null) {
+        //todo possibly user exists but not signin
         console.info("user get Session");
         auth.getSession();
     }else {
