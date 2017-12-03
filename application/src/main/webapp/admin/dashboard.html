@@ -27,17 +27,18 @@
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="onActiveOrder()" href="#">有效訂單</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Settings</a>
+                    <a class="nav-link" onclick="onPaidOrder()" href="#">已付款定單</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" onclick="onProcessingOrder()"  href="#">處理中訂單</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Help</a>
+                    <a class="nav-link" onclick="onShippedOrder()" href="#">已出貨訂單</a>
                 </li>
             </ul>
             <form class="form-inline mt-2 mt-md-0">
@@ -50,31 +51,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Overview <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" ></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="onAllOrder()" href="#">所有訂單</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="onActiveOrder()" href="#">有效訂單</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="onProcessingOrder()" href="#">處理中訂單</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="onShippedOrder()" href="#">已出貨訂單</a>
-                </li>
-            </ul>
-
-        </nav>
-
-        <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+        <main role="main">
             <h1>Dashboard</h1>
 
             <h2 id="sectionTitle">Section title</h2>

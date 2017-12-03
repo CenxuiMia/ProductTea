@@ -1,14 +1,10 @@
 package com.cenxui.tea.app.services.admin.order;
 
-import com.amazonaws.services.dynamodbv2.xspec.M;
 import com.cenxui.tea.app.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.tea.app.config.DynamoDBConfig;
-import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.repositories.order.OrderRepository;
+import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.services.CoreController;
 import com.cenxui.tea.app.services.util.Param;
-import com.cenxui.tea.app.services.util.Path;
-import com.cenxui.tea.app.services.util.error.ApplicationError;
 import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;
@@ -47,7 +43,7 @@ public class AdminOrderController extends CoreController{
     public static final Route getAllOrdersByLastKey = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
-        String time = getTime(map);
+        String time = getOrderDateTime(map);
         Integer limit = getLimit(map);
 
         return JsonUtil.mapToJson(orderRepository.getAllOrders(mail, time, limit));
@@ -62,7 +58,7 @@ public class AdminOrderController extends CoreController{
     public static final Route getOrderByMailAndTime = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
-        String time = getTime(map);
+        String time = getOrderDateTime(map);
 
         return JsonUtil.mapToJson(orderRepository.getOrdersByMailAndTime(mail, time));
     };
@@ -74,7 +70,7 @@ public class AdminOrderController extends CoreController{
     public static final Route getAllActiveOrdersByLastKey = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
-        String time = getTime(map);
+        String time = getOrderDateTime(map);
         Integer limit = getLimit(map);
 
         return JsonUtil.mapToJson(orderRepository.getAllActiveOrders(mail, time, limit));
@@ -88,9 +84,12 @@ public class AdminOrderController extends CoreController{
         Map<String, String> map = request.params();
         String paidDate = getPaidDate(map);
         String paidTime = getPaidTime(map);
+        String mail = getMail(map);
+        String orderDateTime = getOrderDateTime(map);
         Integer limit = getLimit(map);
 
-        return JsonUtil.mapToJson(orderRepository.getAllPaidOrders(paidDate, paidTime, limit));
+        return JsonUtil.mapToJson(orderRepository.getAllPaidOrders(
+                OrderPaidLastKey.of(paidDate, paidTime, mail, orderDateTime), limit));
     };
 
     public static final Route getAllProcessingOrders = (Request request, Response response) -> {
@@ -100,9 +99,12 @@ public class AdminOrderController extends CoreController{
     public static final Route getAllProcessingOrdersByLastKey = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String processingDate = getProcessingDate(map);
+        String mail = getMail(map);
+        String orderDateTime = getOrderDateTime(map);
         Integer limit = getLimit(map);
 
-        return JsonUtil.mapToJson(orderRepository.getAllProcessingOrders(processingDate, limit));
+        return JsonUtil.mapToJson(orderRepository.getAllProcessingOrders(
+                OrderProcessingLastKey.of(processingDate, mail, orderDateTime), limit));
     };
 
     public static final Route getAllShippedOrders = (Request request, Response response) -> {
@@ -113,15 +115,19 @@ public class AdminOrderController extends CoreController{
         Map<String, String> map = request.params();
         String shippedDate = getShippedDate(map);
         String shippedTime = getShippedTime(map);
+        String mail = getMail(map);
+        String orderDateTime = getOrderDateTime(map);
+
         Integer limit = getLimit(map);
 
-        return JsonUtil.mapToJson(orderRepository.getAllShippedOrders(shippedDate, shippedTime, limit));
+        return JsonUtil.mapToJson(orderRepository.getAllShippedOrders(
+                OrderShippedLastKey.of(shippedDate, shippedTime, mail, orderDateTime), limit));
     };
 
     public static final Route activeOrder =  (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
-        String time = getTime(map);
+        String time = getOrderDateTime(map);
         Order order = orderRepository.activeOrder(mail, time);
 
         return JsonUtil.mapToJson(order);
@@ -130,7 +136,7 @@ public class AdminOrderController extends CoreController{
     public static final Route deActiveOrder =  (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
-        String time = getTime(map);
+        String time = getOrderDateTime(map);
         Order order = orderRepository.deActiveOrder(mail, time);
 
         return JsonUtil.mapToJson(order);
@@ -139,7 +145,7 @@ public class AdminOrderController extends CoreController{
     public static final Route payOrder =  (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
-        String time = getTime(map);
+        String time = getOrderDateTime(map);
         Order order = orderRepository.payOrder(mail, time);
 
         return JsonUtil.mapToJson(order);
@@ -148,7 +154,7 @@ public class AdminOrderController extends CoreController{
     public static final Route dePayOrder = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
-        String time = getTime(map);
+        String time = getOrderDateTime(map);
         Order order = orderRepository.dePayOrder(mail, time);
 
         return JsonUtil.mapToJson(order);
@@ -157,7 +163,7 @@ public class AdminOrderController extends CoreController{
     public static final Route shipOrder =  (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
-        String time = getTime(map);
+        String time = getOrderDateTime(map);
         Order order = orderRepository.shipOrder(mail, time);
 
         return JsonUtil.mapToJson(order);
@@ -167,7 +173,7 @@ public class AdminOrderController extends CoreController{
     public static final Route deShipOrder = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
-        String time = getTime(map);
+        String time = getOrderDateTime(map);
         Order order = orderRepository.deShipOrder(mail, time);
 
         return JsonUtil.mapToJson(order);
@@ -185,7 +191,7 @@ public class AdminOrderController extends CoreController{
         return map.get(Param.ORDER_MAIL);
     }
 
-    private static String getTime(Map<String, String> map) {
+    private static String getOrderDateTime(Map<String, String> map) {
         return map.get(Param.ORDER_TIME);
     }
 

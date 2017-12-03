@@ -3,9 +3,7 @@ package com.cenxui.tea.app.aws.dynamodb.repositories;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.order.OrderProductFormatException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductCurrencyNotConsistException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductNotFoundException;
-import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.repositories.order.OrderRepository;
-import com.cenxui.tea.app.repositories.order.Orders;
+import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.repositories.order.report.CashReport;
 import com.cenxui.tea.app.repositories.product.Price;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
@@ -47,13 +45,23 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
+    public Orders getAllPaidOrders() {
+        return orderRepository.getAllPaidOrders();
+    }
+
+    @Override
+    public Orders getAllPaidOrders(OrderPaidLastKey orderPaidLastKey, Integer limit) {
+        return orderRepository.getAllPaidOrders(orderPaidLastKey, limit);
+    }
+
+    @Override
     public Orders getAllProcessingOrders() {
         return orderRepository.getAllProcessingOrders();
     }
 
     @Override
-    public Orders getAllProcessingOrders(String processingDate, Integer limit) {
-        return orderRepository.getAllProcessingOrders(processingDate, limit);
+    public Orders getAllProcessingOrders(OrderProcessingLastKey processingLastKey, Integer limit) {
+        return orderRepository.getAllProcessingOrders(processingLastKey, limit);
     }
 
     @Override
@@ -62,18 +70,8 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
-    public Orders getAllShippedOrders(String shippedDate, String shippedTime, Integer limit) {
-        return orderRepository.getAllShippedOrders(shippedDate,shippedTime, limit);
-    }
-
-    @Override
-    public Orders getAllPaidOrders() {
-        return orderRepository.getAllPaidOrders();
-    }
-
-    @Override
-    public Orders getAllPaidOrders(String paidDate, String paidTime, Integer limit) {
-        return orderRepository.getAllPaidOrders(paidDate, paidTime, limit);
+    public Orders getAllShippedOrders(OrderShippedLastKey orderShippedLastKey, Integer limit) {
+        return orderRepository.getAllShippedOrders(orderShippedLastKey, limit);
     }
 
     @Override
@@ -88,7 +86,6 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
 
     @Override
     public Order addOrder(Order order) {
-
 
         Float orderPrice = 0F;
 
