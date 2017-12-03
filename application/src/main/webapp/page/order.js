@@ -33,7 +33,6 @@ function setInputWithUserData() {
             ", address: " + localStorage.address);
 
         document.getElementById("purchaser").setAttribute("value", localStorage.lastName + localStorage.firstName);
-        // document.getElementById("mail").setAttribute("value", localStorage.mail); //TODO get mail from localStorage
         document.getElementById("phone").setAttribute("value", localStorage.phone);
         document.getElementById("shippingAddress").setAttribute("value", localStorage.address);
     } else {
@@ -80,10 +79,20 @@ function showCartItems() {
 let orderProductsList = [];
 
 function addOrder() {
-    //TODO 加上防呆不送出
+    //TODO 加上防呆不送出, 成功後redirect到會員購物資料
+    console.info("onclick addOrder");
+
+    if (!checkInputValid()) {
+        console.info("Check input not valid!");
+        return;
+    }
+
+    showSnackBar(document.getElementById("snackbar"), processing);
+    //disable buttons
+    document.getElementById("submitButton").disabled = true;
+
     let order = {};
     order.purchaser = document.getElementById("purchaser").value;
-    order.mail = document.getElementById("mail").value;
     order.phone = document.getElementById("phone").value;
     order.receiver = document.getElementById("receiver").value;
     order.shippingWay = document.querySelector('input[name="shippingWay"]:checked').value;
@@ -102,12 +111,59 @@ function addOrder() {
         },
         data: JSON.stringify(order),
         success : function(response) {
-            console.log("message: " + response)
+            console.log("message: " + response);
 
+            showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
+            localStorage.removeItem("cartItems");
         },
         error : function(xhr, status, error) {
             console.log( "error: " + error);
+            showSnackBarAutoClose(document.getElementById("snackbar"), processingfailed);
+        },
+        complete : function (jqxhr, status) {
+            //enable buttons
+            document.getElementById("submitButton").disabled = false;
         }
     });
 
+}
+
+
+
+function checkInputValid() {
+    let isValid = true;
+    let labelArray = ["inputPurchaser", "inputPhone", "inputReceiver", "inputShippingAddress"];
+    let inputArray = ["purchaser", "phone", "receiver", "shippingAddress"];
+    let alertClass = "alert";
+    for (let i=0; i<labelArray.length; i++) {
+        let label = document.getElementById(labelArray[i]);
+        let input = document.getElementById(inputArray[i]);
+        console.info(inputArray[i]);
+        if (label.className !== null && label.className.indexOf(alertClass) !== -1) {
+            console.info(inputArray[i] + " className = " + label.className);
+            label.className = label.className.replace(alertClass, "");
+        }
+        if (input.value === null || input.value === "") {
+            label.className += alertClass;
+            isValid = false;
+        }
+    }
+
+    let shippingWay = document.querySelector('input[name="shippingWay"]:checked');
+    let shippingWayElement = document.getElementById("shippingWay");
+    shippingWayElement.className = shippingWayElement.className.replace(alertClass, "");
+    if (shippingWay === null || shippingWay.value === "") {
+        shippingWayElement.className += alertClass;
+        isValid = false;
+    }
+
+    if (document.getElementById("phone").value !== "" &&
+        !isNumeric(document.getElementById("phone").value)) {
+        document.getElementById("inputPhone").className += alertClass;
+        isValid = false;
+    }
+
+    document.getElementById("alert").hidden = isValid;
+
+    return isValid;
 }
