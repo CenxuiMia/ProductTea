@@ -35,38 +35,44 @@ public class OrderController extends CoreController {
 
     public static final Route addOrder = (Request request, Response response) -> {
 
-        String body = request.body();
+        try {
+            String body = request.body();
 
-        if (body == null || body.isEmpty()) return "fail";
+            if (body == null || body.isEmpty()) return "fail";
 
-        String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
+            String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
 
-        Order clientOrder = mapRequestBodyToOrder(body);
+            Order clientOrder = mapRequestBodyToOrder(body);
 
-        if (isValidate(clientOrder) == false) return "fail";
+            if (isValidate(clientOrder) == false) return "fail";
 
-        Order order = Order.of(
-                mail,
-                clientOrder.getProducts(),
-                clientOrder.getPurchaser(),
-                null,
-                null,
-                clientOrder.getPaymentMethod(),
-                clientOrder.getReceiver(),
-                clientOrder.getPhone(),
-                clientOrder.getShippingWay(),
-                clientOrder.getShippingAddress(),
-                clientOrder.getComment(),
-                null,
-                null,
-                null,
-                null,
-                null,
-                true);
+            Order order = Order.of(
+                    mail,
+                    clientOrder.getProducts(),
+                    clientOrder.getPurchaser(),
+                    null,
+                    null,
+                    clientOrder.getPaymentMethod(),
+                    clientOrder.getReceiver(),
+                    clientOrder.getPhone(),
+                    clientOrder.getShippingWay(),
+                    clientOrder.getShippingAddress(),
+                    clientOrder.getComment(),
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    true);
 
-        Order resultOrder = orderRepository.addOrder(order);
+            Order resultOrder = orderRepository.addOrder(order);
 
-        return JsonUtil.mapToJson(resultOrder);
+            return JsonUtil.mapToJson(resultOrder);
+        }catch (Throwable e) {
+            return ApplicationError.getTrace(e.getStackTrace());
+        }
+
+
     };
 
     public static final Route activeOrder =  (Request request, Response response) -> {

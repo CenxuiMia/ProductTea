@@ -1,5 +1,6 @@
 package com.cenxui.tea.app.util;
 
+import com.cenxui.tea.app.image.ProductImage;
 import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.Orders;
 import com.cenxui.tea.app.repositories.product.Product;
@@ -28,6 +29,12 @@ public class JsonUtil {
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(userJson, User.class);
         return user;
+    }
+
+    public static ProductImage mapToProductImage(String productImageJson) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        ProductImage productImage = mapper.readValue(productImageJson, ProductImage.class);
+        return productImage;
     }
 
     public static String mapToJson(Object object) {
