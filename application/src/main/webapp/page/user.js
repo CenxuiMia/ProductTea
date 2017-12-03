@@ -36,11 +36,6 @@ function setLocalStorage(lastName, firstName, phone, address) {
         ", address: " + localStorage.address);
 }
 
-function setLocalStorageMail(mail) {
-    localStorage.mail = mail;
-    console.info("LocalStorage mail: " + localStorage.mail);
-}
-
 function clearLocalStorage() {
     localStorage.removeItem("lastName");
     localStorage.removeItem("firstName");
@@ -86,13 +81,13 @@ function save() {
         },
         data: JSON.stringify(userProfile),
         success : function(response) {
-            showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
             console.log("user message: " + response);
+            showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
             setLocalStorageMail(JSON.parse(response).mail);
         },
         error : function(xhr, status, error) {
-            showSnackBarAutoClose(document.getElementById("snackbar"), processingfailed);
             console.log("token error");
+            showSnackBarAutoClose(document.getElementById("snackbar"), processingfailed);
         },
         complete : function (jqxhr, status) {
             setLocalStorage(lastName, firstName, phone, address);
