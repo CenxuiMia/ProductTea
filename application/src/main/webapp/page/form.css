@@ -58,6 +58,10 @@ form div {
     font-family: "Helvetica Neue", Roboto, Arial, sans-serif
 }
 
+.textinput label.alert {
+    color: #dc3545;
+}
+
 .textinput input {
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -104,3 +108,6 @@ form div {
     color: #f2f2f2;
 }
 
+.alert {
+    color: #dc3545;
+}

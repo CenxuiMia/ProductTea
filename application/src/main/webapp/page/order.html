@@ -19,8 +19,10 @@
     <script src="auth.js"></script>
     <script src="aws-cognito-sdk.js"></script>
     <script src="amazon-cognito-auth.min.js"></script>
+    <script src="language/tw.js"></script>
     <script src="signin.js"></script>
     <script src="order.js"></script>
+    <script src="library.js"></script> //this library should be placed at last
 </head>
 <body>
 
@@ -50,7 +52,7 @@
         <p>生活，來點品味。</p>
     </div>
 
-    <form id="order_form" name="order_form" class="order_form">
+    <!--<form id="order_form" name="order_form" class="order_form">-->
         <div id="productsList">
             <table id="cartTable">
                 <tr>
@@ -63,45 +65,53 @@
 
         <div id="accountFields">
             <fieldset>
-                <div class="textinput" id="inputBuyer">
-                    <label for="purchaser">購買人</label>
-                    <input id="purchaser" name="buyer" type="text">
+                <div class="textinput">
+                    <label id="inputPurchaser" for="purchaser">購買人</label>
+                    <input id="purchaser" name="purchaser" placeholder="林小明" type="text" required>
                 </div>
-                <div class="textinput" id="inputMail">
-                    <label for="mail">電子郵件</label>
-                    <input id="mail" name="mail" type="email">
+                <div class="textinput">
+                    <label id="inputPhone" for="phone">聯絡電話</label>
+                    <input id="phone" name="phone" placeholder="0900111222" type="tel" required>
                 </div>
-                <div class="textinput" id="inputPhone">
-                    <label for="phone">聯絡電話</label>
-                    <input id="phone" name="phone" type="tel">
-                </div>
-                <div class="textinput" id="inputReceiver">
-                    <label for="receiver">收件人</label>
-                    <input id="receiver" name="receiver">
+                <div class="textinput">
+                    <label id="inputReceiver" for="receiver">收件人</label>
+                    <input id="receiver" name="receiver" placeholder="王大明" type="text" required>
                 </div>
                 <div class="textinput" id="shippingWay">
                     取貨方式<br>
-                    <input id="shippingConvi" name="shippingWay" type="radio" value="超商取貨" style="width: 18px; display: inline-block">
+                    <input id="shippingConvi" name="shippingWay" type="radio" value="超商取貨"
+                           style="width: 18px; display: inline-block" required>
                     <label for="shippingConvi" style="display: inline-block">超商取貨</label>
-                    <input id="shippingHome" name="shippingWay" type="radio" value="宅配" style="width: 18px; display: inline-block">
+                    <input id="shippingHome" name="shippingWay" type="radio" value="宅配"
+                           style="width: 18px; display: inline-block" required>
                     <label for="shippingHome" style="display: inline-block">宅配</label>
                 </div>
-                <div class="textinput" id="inputAddress">
-                    <label for="shippingAddress">收件地址/超商+店號</label>
-                    <input id="shippingAddress" name="address">
+                <div class="textinput">
+                    <label id="inputShippingAddress" for="shippingAddress">收件地址/超商+店號</label>
+                    <input id="shippingAddress" name="shippingAddress" placeholder="7-11 ＸＸ店" type="text" required>
                 </div>
-                <div class="textinput" id="inputComment">
-                    <label for="comment">備註事項</label>
-                    <input id="comment" name="comment" value="none">
+                <div class="textinput">
+                    <label id="inputComment" for="comment">備註事項</label>
+                    <input id="comment" name="comment" placeholder="配送時段、管理員簽收、送貨前致電" >
+                </div>
+
+                <div class="buttoninput" id="inputResetButton">
+                    <input id="resetButton" class="actionButton" type="reset" name="reset" value="重新填寫">
                 </div>
             </fieldset>
 
-            <div class="buttoninput" id="input_submit_button">
-                <a id="submit_button" class="actionButton" href="#" alt="Continue" value="Continue" onclick="addOrder()">確認送出</a>
+            <div class="buttoninput" id="inputSubmitButton">
+                <button id="submitButton" class="actionButton" value="Submit" onclick="addOrder()">確認送出</button>
             </div>
+
+            <p class="alert" id="alert" style="font-size: 13px" hidden>＊請檢查欄位，並重新送出訂單</p>
+
         </div>
 
-    </form>
+    <!--</form>-->
+
+    <!-- The actual snackbar -->
+    <div id="snackbar">處理中...</div>
 </div>
 
     <footer class="footer-copyright">
