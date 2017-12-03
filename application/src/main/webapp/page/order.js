@@ -18,7 +18,9 @@ $(document).ready(function () {
 
 function checkCartValid() {
     if (localStorage.getItem("cartItems") === null) {
-        //TODO 購物車沒東西的頁面 html
+        document.getElementById("productsList").innerHTML = "";
+        document.getElementById("accountFields").innerHTML = cartEmpty +
+            "<a class='actionButton' href='//tw.hwangying.com/products.html'>" + goToProductsList + "</a>";
     } else {
         setInputWithUserData();
         showCartItems();
@@ -79,7 +81,7 @@ function showCartItems() {
 let orderProductsList = [];
 
 function addOrder() {
-    //TODO 加上防呆不送出, 成功後redirect到會員購物資料
+    //TODO 成功後redirect到會員購物資料   xhr商品不存在時刪除該商品
     console.info("onclick addOrder");
 
     if (!checkInputValid()) {
@@ -117,7 +119,7 @@ function addOrder() {
             localStorage.removeItem("cartItems");
         },
         error : function(xhr, status, error) {
-            console.log( "error: " + error);
+            console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
             showSnackBarAutoClose(document.getElementById("snackbar"), processingfailed);
         },
         complete : function (jqxhr, status) {
@@ -134,7 +136,7 @@ function checkInputValid() {
     let isValid = true;
     let labelArray = ["inputPurchaser", "inputPhone", "inputReceiver", "inputShippingAddress"];
     let inputArray = ["purchaser", "phone", "receiver", "shippingAddress"];
-    let alertClass = "alert";
+    let alertClass = " alert";
     for (let i=0; i<labelArray.length; i++) {
         let label = document.getElementById(labelArray[i]);
         let input = document.getElementById(inputArray[i]);
@@ -149,11 +151,13 @@ function checkInputValid() {
         }
     }
 
-    let shippingWay = document.querySelector('input[name="shippingWay"]:checked');
-    let shippingWayElement = document.getElementById("shippingWay");
-    shippingWayElement.className = shippingWayElement.className.replace(alertClass, "");
-    if (shippingWay === null || shippingWay.value === "") {
-        shippingWayElement.className += alertClass;
+    let shippingWay = document.getElementById("shippingWay");
+    shippingWay.className = shippingWay.className.replace(alertClass, "");
+    if (document.getElementById('shippingConvi').checked === false &&
+        document.getElementById('shippingHome').checked === false) {
+        console.info("shipping way not selected. " + shippingWay.className);
+        shippingWay.className += alertClass;
+        console.info( shippingWay.className);
         isValid = false;
     }
 

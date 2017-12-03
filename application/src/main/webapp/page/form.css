@@ -46,6 +46,10 @@ form div {
     clear: both
 }
 
+.textinput .alert {
+    color: #dc3545;
+}
+
 .textinput label {
     display: block;
     clear: left;
@@ -56,10 +60,6 @@ form div {
     margin-bottom: 7px;
     color: #444;
     font-family: "Helvetica Neue", Roboto, Arial, sans-serif
-}
-
-.textinput label.alert {
-    color: #dc3545;
 }
 
 .textinput input {
