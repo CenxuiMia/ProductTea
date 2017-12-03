@@ -43,3 +43,7 @@ function closeSnackBarWithTime(millisecond) {
         element.className = element.className.replace("show", "");
     }, millisecond);
 }
+
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}

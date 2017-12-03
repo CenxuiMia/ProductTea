@@ -161,6 +161,7 @@ body, html {
 
 /*-- snackbar --*/
 #snackbar {
+    position: fixed;
     clear: both;
     visibility: hidden; /* Hidden by default. Visible on click */
     max-width: 250px; /* Set a default minimum width */
@@ -170,7 +171,7 @@ body, html {
     border-radius: 2px; /* Rounded borders */
     padding: 8px 16px; /* Padding */
     margin-left: auto; margin-right: auto; /* Center the snackbar */
-    bottom: 10px; /* 10px from the bottom */
+    bottom: 30px; /* 10px from the bottom */
 }
 
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
