@@ -1,3 +1,8 @@
+** paidIndex project include price
+** processingIndex project include shipped way address  products receiver phone
+** shippedIndex project include KEYS_ONLY
+
+
 prequest 
 
 1. download dynamodb local 

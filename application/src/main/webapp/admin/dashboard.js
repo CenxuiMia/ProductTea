@@ -41,7 +41,7 @@ function onShippedOrder() {
 }
 
 function onLoad() {
-   onAllOrder();
+   onProcessingOrder();
 }
 
 function setOrderColumn(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) {
@@ -58,7 +58,6 @@ function setOrderColumn(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) {
     document.getElementById("v11").innerHTML = v11;
 }
 
-
 function getOrders(url) {
     $.ajax({
         type : 'GET',
@@ -70,6 +69,8 @@ function getOrders(url) {
             if (sectionTitle.includes(allOrder)) {
                 appendOrders(orders);
             }else if (sectionTitle.includes(activeOrder)) {
+                appendOrders(orders);
+            }else if (sectionTitle.includes(paidOrder)) {
                 appendOrders(orders);
             }else if (sectionTitle.includes(processingOrder)) {
                 appendOrders(orders);
@@ -93,7 +94,6 @@ function appendOrders(orders) {
 
 
     for (var i = 0; i< orders.length ; i++) {
-        let buttonActiveHTML = "";
         let buttonPayHTML = "";
         let buttonShipHTML = "";
 
@@ -101,21 +101,18 @@ function appendOrders(orders) {
             buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨取消</button>"
         }else if(orders[i].processingDate !== null) {
             buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨確認</button>"
-        }else if (orders.isActive !== null && orders[i].paidTime === null) {
-            buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單取消</button>"
+        }else if (orders[i].paidTime === null) {
             buttonPayHTML = "<button onclick='payOrderButton()'>付款確認</button>";
-        }  else if (orders.isActive === null) {
-            buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單復原</button>"
         }
 
-        if (!sectionTile.includes(processingOrder) && orders.isActive !== null
+        if (!sectionTile.includes(processingOrder)
             && orders[i].paidTime !== null && orders[i].shippedTime === null) {
             buttonPayHTML = "<button onclick='payOrderButton()'>付款取消</button>"
         }
 
         var order =
             "<tr> " +
-            "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + " " + buttonActiveHTML + buttonPayHTML + buttonShipHTML + "</td> " +
+            "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + " "  + buttonPayHTML + buttonShipHTML + "</td> " +
             "   <td>" + orders[i].currency + orders[i].price +"</td> " +
             "   <td>" + orders[i].products+"</td> " +
             "   <td>" + orders[i].receiver + "</td> " +
@@ -131,65 +128,6 @@ function appendOrders(orders) {
     }
 
 }
-
-function activeOrderButton(e) {
-    e = e || window.event;
-    var target = e.target || e.srcElement;
-
-    target.disabled = true;
-    let key = target.parentNode.innerText.split(" ");
-    let mail = key[0].trim();
-    let dateTime = key[1].trim();
-
-    if (target.innerText.includes(reactiveOrder)) {
-        active(target, mail, dateTime);
-    }else {
-        deactive(target, mail, dateTime);
-    }
-
-}
-
-function active(element, mail, dateTime) {
-    let url = orderEndpoint + "/table/active/" + mail + "/" + dateTime;
-    console.info("url :" + url);
-
-    $.ajax({
-        type : 'POST',
-        url : url,
-        success : function(response) {
-            console.info(response)
-            element.disabled = false;
-            element.innerText= deactiveOrder;
-
-        },
-        error : function(xhr, status, error) {
-            element.disabled = false;
-            alert(error);
-        }
-    });
-
-}
-
-function deactive(element, mail, dateTime) {
-    let url = orderEndpoint + "/table/deactive/" + mail + "/" + dateTime;
-    console.info("url :" + url);
-
-    $.ajax({
-        type : 'POST',
-        url : url,
-        success : function(response) {
-            console.info(response)
-            element.disabled = false;
-            element.innerText= reactiveOrder;
-
-        },
-        error : function(xhr, status, error) {
-            element.disabled = false;
-            alert(error);
-        }
-    });
-}
-
 
 function payOrderButton(e) {
     e = e || window.event;

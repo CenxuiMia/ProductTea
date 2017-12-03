@@ -121,5 +121,9 @@ public class DynamoDBOrderRepositoryTest {
         System.out.println(orderRepository.getCashAllReport());
     }
 
+    @Test
+    public void getDailyCashReport() {
+        System.out.println(orderRepository.getDailyCashReport("2017-12-03"));
+    }
 
 }
