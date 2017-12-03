@@ -67,4 +67,25 @@ public class OrderPathTest {
 
     }
 
+    @Test
+    public void addOrder2() {
+        Map<String, String> headers1 = new HashMap<>();
+        headers1.put(Header.MAIL, "mia@gmail.com");
+        String body1 = "{\"purchaser\":\"aaa\",\"phone\":\"0900\",\"receiver\":\"hhh\",\"shippingWay\":\"超商取貨\",\"shippingAddress\":\"tt\",\"products\":[\"花茶;大玉茶;1\"],\"comment\":\"\"}";
+
+        try {
+            System.out.println(JsonUtil.mapToOrder(body1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+//        String body2 = "{\"purchaser\":\"尿尿小童\",\"phone\":\"09\",\"receiver\":\"勳勳貝貝\",\"shippingWay\":\"宅配\",\"shippingAddress\":\"全家就是你家\",\"products\":[\"綠茶;翠玉;1\",\"烏龍茶;大玉美茶;4\"],\"comment\":\"尿尿小童94勳勳\"}";
+//        String body3 = "{\"purchaser\":\"呱呱\",\"phone\":\"0900111222\",\"receiver\":\"珠珠\",\"shippingWay\":\"超商取貨\",\"shippingAddress\":\"A市B區C路DFG\",\"products\":[\"美茶;大玉茶;2\"],\"comment\":\"none\"}";
+//
+//
+        Http.put(url, body1, headers1);
+
+    }
+
 }
