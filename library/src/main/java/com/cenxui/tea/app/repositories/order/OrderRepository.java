@@ -15,15 +15,15 @@ public interface OrderRepository extends Repository {
 
     Orders getAllPaidOrders();
 
-    Orders getAllPaidOrders(String paidDate, String paidTime, Integer limit);
+    Orders getAllPaidOrders(OrderPaidLastKey orderPaidLastKey, Integer limit);
 
     Orders getAllProcessingOrders();
 
-    Orders getAllProcessingOrders(String processingDate, Integer limit);
+    Orders getAllProcessingOrders(OrderProcessingLastKey orderProcessingLastKey, Integer limit);
 
     Orders getAllShippedOrders();
 
-    Orders getAllShippedOrders(String paidDate, String shipTime, Integer limit);
+    Orders getAllShippedOrders(OrderShippedLastKey orderShippedLastKey, Integer limit);
 
     Orders getOrdersByMail(String mail);
 

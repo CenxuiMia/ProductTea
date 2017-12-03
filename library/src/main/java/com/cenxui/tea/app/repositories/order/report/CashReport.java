@@ -1,6 +1,6 @@
 package com.cenxui.tea.app.repositories.order.report;
 
-import com.cenxui.tea.app.repositories.order.PaidOrderKey;
+import com.cenxui.tea.app.repositories.order.OrderPaidLastKey;
 import lombok.Value;
 
 import java.util.List;
@@ -9,5 +9,5 @@ import java.util.List;
 public class CashReport {
     List<Receipt> receipts;
     Double revenue;
-    PaidOrderKey lastKey;
+    OrderPaidLastKey lastKey;
 }

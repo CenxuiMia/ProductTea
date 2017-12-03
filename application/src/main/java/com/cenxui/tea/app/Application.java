@@ -108,29 +108,42 @@ public final class Application {
 
         get(Path.Web.Admin.ORDER_ALL, AdminOrderController.getAllOrders);
 
-        get(Path.Web.Admin.ORDER_ALL + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" + Param.ORDER_LIMIT,
+        get(Path.Web.Admin.ORDER_ALL + "/" +
+                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
+                        Param.ORDER_LIMIT,
                 AdminOrderController.getAllOrdersByLastKey);
 
-        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL, AdminOrderController.getOrdersByMail);
+        get(Path.Web.Admin.ORDER + "/" +
+                Param.ORDER_MAIL, AdminOrderController.getOrdersByMail);
 
         get(Path.Web.Admin.ORDER_ALL_ACTIVE, AdminOrderController.getAllActiveOrders);
 
-        get(Path.Web.Admin.ORDER_ACTIVE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" + Param.ORDER_LIMIT,
+        get(Path.Web.Admin.ORDER_ACTIVE + "/" +
+                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
+                        Param.ORDER_LIMIT,
                 AdminOrderController.getAllActiveOrdersByLastKey);
 
         get(Path.Web.Admin.ORDER_PAID, AdminOrderController.getAllPaidOrders);
 
-        get(Path.Web.Admin.ORDER_PAID +  "/" + Param.ORDER_PAID_DATE  +"/" + Param.ORDER_PAID_TIME + "/" + Param.ORDER_LIMIT,
+        get(Path.Web.Admin.ORDER_PAID +  "/" +
+                        Param.ORDER_PAID_DATE  +"/" + Param.ORDER_PAID_TIME + "/" +
+                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
+                        Param.ORDER_LIMIT,
                 AdminOrderController.getAllPaidOrdersByLastKey);
 
         get(Path.Web.Admin.ORDER_PROCESSING, AdminOrderController.getAllProcessingOrders);
 
-        get(Path.Web.Admin.ORDER_PROCESSING + "/" + Param.ORDER_PROCESSING_DATE + "/" + Param.ORDER_LIMIT,
+        get(Path.Web.Admin.ORDER_PROCESSING + "/" +
+                        Param.ORDER_PROCESSING_DATE + "/" +
+                        Param.ORDER_LIMIT,
                 AdminOrderController.getAllProcessingOrdersByLastKey);
 
         get(Path.Web.Admin.ORDER_SHIPPED, AdminOrderController.getAllShippedOrders);
 
-        get(Path.Web.Admin.ORDER_SHIPPED + "/" + Param.ORDER_SHIPPED_DATE + "/" + Param.ORDER_SHIPPED_TIME + "/" + Param.ORDER_LIMIT,
+        get(Path.Web.Admin.ORDER_SHIPPED + "/" +
+                        Param.ORDER_SHIPPED_DATE + "/" + Param.ORDER_SHIPPED_TIME + "/" +
+                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
+                        Param.ORDER_LIMIT,
                 AdminOrderController.getAllShippedOrdersByLastKey);
 
 
