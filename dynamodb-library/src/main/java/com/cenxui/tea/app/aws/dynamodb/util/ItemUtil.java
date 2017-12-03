@@ -86,10 +86,10 @@ public class ItemUtil {
 
             Object field = s.get(object);
 
-            if (field instanceof String) {
-                if ( ((String) field).length() != 0) {
-                    item.withString(fieldName, (String) field);
-                }
+            if (field instanceof String && ((String) field).length() == 0) {
+                return;
+            }else if (field instanceof String && ((String) field).length() != 0) {
+                item.withString(fieldName, (String) field);
             }else if (field != null ) {
                 item.with(fieldName, field); // todo modify it to make efficient
             }
