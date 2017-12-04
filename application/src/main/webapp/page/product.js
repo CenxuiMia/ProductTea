@@ -48,6 +48,8 @@ $.ajax({
     },
     error : function(xhr, status, error) {
         console.log("error: " + error + ", status: " + status);
+        //TODO 測試用要拿掉
+        productDataAsKey = JSON.stringify({"productName":"測試","version":"喝喝茶","introduction":"簡介文字","details":"詳細介紹文字","smallImage":"https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg","video":"A","images":[],"price":123.0,"currency":"NT","tag":"A"});
     }
 });
 
