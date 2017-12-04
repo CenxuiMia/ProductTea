@@ -123,7 +123,11 @@ function addOrder() {
     order.shippingWay = document.querySelector('input[name="shippingWay"]:checked').value;
     order.shippingAddress = document.getElementById("shippingAddress").value;
     order.products = orderProductsList;
-    order.comment = document.getElementById("comment").value;
+
+    let commentValue = document.getElementById("comment").value;
+    if (commentValue === null || isNotEmptyNoSpace(commentValue)) {
+        order.comment = commentValue;
+    }
 
     console.info("Add order: " + JSON.stringify(order));
 

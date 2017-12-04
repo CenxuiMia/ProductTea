@@ -47,3 +47,7 @@ function closeSnackBarWithTime(millisecond) {
 function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
+
+function isNotEmptyNoSpace(string) {
+    return /\S/.test(string);
+}
