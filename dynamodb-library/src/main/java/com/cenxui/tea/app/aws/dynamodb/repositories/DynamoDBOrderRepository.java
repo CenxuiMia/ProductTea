@@ -26,6 +26,8 @@ class DynamoDBOrderRepository implements OrderRepository {
     private final String processingIndex;
     private final String shippedIndex;
 
+    private final Integer max = 2; //todo
+
     DynamoDBOrderRepository(
             Table orderTable,
             String paidIndex,
@@ -48,6 +50,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         if (limit != null) {
              scanSpec.withMaxResultSize(limit);
+        }else {
+            scanSpec.withMaxResultSize(max);
         }
 
         if (mail != null && orderDateTime != null) {
@@ -73,11 +77,14 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         if (limit != null) {
             scanSpec.withMaxResultSize(limit);
+        }else {
+            scanSpec.withMaxResultSize(max);
         }
 
         if (mail != null && orderDateTime != null) {
             scanSpec.withExclusiveStartKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime);
         }
+
 
         ItemCollection<ScanOutcome> collection = orderTable.scan(scanSpec);
         List<Order> orders = mapScanOutcomeToOrders(collection);
@@ -96,6 +103,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         if (limit != null ) {
             scanSpec.withMaxResultSize(limit);
+        }else {
+            scanSpec.withMaxResultSize(max);
         }
 
         if (orderPaidLastKey != null) {
@@ -129,14 +138,17 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         if (limit != null ) {
             scanSpec.withMaxResultSize(limit);
+        }else {
+            scanSpec.withMaxResultSize(max);
         }
 
         if (orderProcessingLastKey != null) {
             KeyAttribute k1 = new KeyAttribute(Order.PROCESSING_DATE, orderProcessingLastKey.getProcessingDate());
-            KeyAttribute k2 = new KeyAttribute(Order.MAIL, orderProcessingLastKey.getMail());
-            KeyAttribute k3 = new KeyAttribute(Order.ORDER_DATE_TIME, orderProcessingLastKey.getOrderDateTime());
+            KeyAttribute k2 = new KeyAttribute(Order.OWNER, orderProcessingLastKey.getOwner());
+            KeyAttribute k3 = new KeyAttribute(Order.MAIL, orderProcessingLastKey.getMail());
+            KeyAttribute k4 = new KeyAttribute(Order.ORDER_DATE_TIME, orderProcessingLastKey.getOrderDateTime());
 
-            scanSpec.withExclusiveStartKey( k1, k2, k3);
+            scanSpec.withExclusiveStartKey( k1, k2, k3, k4);
         }
 
         Index index = orderTable.getIndex(processingIndex);
@@ -159,10 +171,12 @@ class DynamoDBOrderRepository implements OrderRepository {
     @Override
     public Orders getAllShippedOrders(
             OrderShippedLastKey orderShippedLastKey, Integer limit) {
-        ScanSpec scanSpec = new ScanSpec(); //todo
+        ScanSpec scanSpec = new ScanSpec();
 
         if (limit != null ) {
             scanSpec.withMaxResultSize(limit);
+        }else {
+            scanSpec.withMaxResultSize(max);
         }
 
         if (orderShippedLastKey != null) {
@@ -438,7 +452,7 @@ class DynamoDBOrderRepository implements OrderRepository {
             });
         }while (lastKey != null);
 
-        Double revenue = receipts.stream().mapToDouble(s -> s.getPrice()).sum();
+        Double revenue = getRevenue(receipts);
 
         return CashReport.of(receipts, revenue, null);
     }
@@ -447,10 +461,11 @@ class DynamoDBOrderRepository implements OrderRepository {
     public CashReport getDailyCashReport(String paidDate) {
         final List<Receipt> receipts = getDailyReceipts(paidDate);
 
-        Double revenue = receipts.stream().mapToDouble(s -> s.getPrice()).sum();
+        Double revenue = getRevenue(receipts);
 
         return CashReport.of(receipts, revenue, null);
     }
+
 
 
     @Override
@@ -462,13 +477,29 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         if (to.isBefore(from)) {
             //todo throw exception
+
+            return null;
         }
 
+        LocalDate temp = from;
 
+        List<Receipt> receipts = new LinkedList<>();
 
-        //todo
-        throw new UnsupportedOperationException("not yet");
+        while (!temp.isAfter(to)){
+            receipts.addAll(getDailyReceipts(temp.toString()));
+
+            temp = temp.plusDays(1);
+        }
+
+        Double revenue = getRevenue(receipts);
+
+        return CashReport.of(receipts, revenue, null);
     }
+
+    private Double getRevenue(List<Receipt> receipts) {
+        return receipts.stream().mapToDouble(s -> s.getPrice()).sum();
+    }
+
 
     private List<Receipt> getDailyReceipts(String paidDate) {
         final List<Receipt> receipts = new LinkedList<>();
@@ -495,6 +526,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
             List<Order> orders = mapQueryOutcomeToOrders(collection);
 
+            lastKey = getPaidIndexQueryOutcomeLastKey(collection);
+
             orders.forEach((s)-> {
                 receipts.add(
                         Receipt.of(
@@ -505,8 +538,8 @@ class DynamoDBOrderRepository implements OrderRepository {
                                 s.getPrice()));
             });
 
-
         }while (lastKey != null);
+
         return receipts;
     }
 
@@ -551,6 +584,17 @@ class DynamoDBOrderRepository implements OrderRepository {
         ScanOutcome scanOutcome = collection.getLastLowLevelResult();
         Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
 
+        return getOrderPaidLastKey(lastKeyEvaluated);
+    }
+
+    private OrderPaidLastKey getPaidIndexQueryOutcomeLastKey(ItemCollection<QueryOutcome> collection) {
+        QueryOutcome scanOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getQueryResult().getLastEvaluatedKey();
+
+        return getOrderPaidLastKey(lastKeyEvaluated);
+    }
+
+    private OrderPaidLastKey getOrderPaidLastKey(Map<String, AttributeValue> lastKeyEvaluated) {
         OrderPaidLastKey orderPaidLastKey = null;
 
         if (lastKeyEvaluated != null) {//null if it is last one
@@ -573,6 +617,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         if (lastKeyEvaluated != null) {//null if it is last one
             orderProcessingLastKey = OrderProcessingLastKey.of(
                     lastKeyEvaluated.get(Order.PROCESSING_DATE).getS(),
+                    lastKeyEvaluated.get(Order.OWNER).getS(),
                     lastKeyEvaluated.get(Order.MAIL).getS(),
                     lastKeyEvaluated.get(Order.ORDER_DATE_TIME).getS());
         }

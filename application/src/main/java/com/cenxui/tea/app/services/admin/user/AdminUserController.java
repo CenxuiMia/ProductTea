@@ -4,6 +4,8 @@ import com.cenxui.tea.app.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.user.UserRepository;
 import com.cenxui.tea.app.services.CoreController;
+import com.cenxui.tea.app.services.util.Param;
+import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -17,8 +19,7 @@ public class AdminUserController extends CoreController{
             );
 
     public static final Route getAllUser = (Request request, Response response) -> {
-        //todo
-        throw new UnsupportedOperationException("not yet");
+        return JsonUtil.mapToJson(userRepository.getAllUsers());
     };
 
     public static final Route getUser = (Request request, Response response) -> {

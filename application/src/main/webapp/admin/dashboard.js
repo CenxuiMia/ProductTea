@@ -88,12 +88,15 @@ function cleanOrderForm() {
     document.getElementById("orderForm").innerHTML = "";
 }
 
+let next = null;
+
 function appendOrders(orders) {
     let orderForm = document.getElementById("orderForm");
     let sectionTile = document.getElementById("sectionTitle").innerText;
 
 
     for (var i = 0; i< orders.length ; i++) {
+        let buttonActiveHTML = "";
         let buttonPayHTML = "";
         let buttonShipHTML = "";
 
@@ -101,8 +104,11 @@ function appendOrders(orders) {
             buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨取消</button>"
         }else if(orders[i].processingDate !== null) {
             buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨確認</button>"
-        }else if (orders[i].paidTime === null) {
+        }else if (orders[i].isActive !== null && orders[i].paidTime === null) {
+            buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單取消</button>";
             buttonPayHTML = "<button onclick='payOrderButton()'>付款確認</button>";
+        }else if (orders[i].isActive === null) {
+            buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單復原</button>";
         }
 
         if (!sectionTile.includes(processingOrder)
@@ -110,9 +116,10 @@ function appendOrders(orders) {
             buttonPayHTML = "<button onclick='payOrderButton()'>付款取消</button>"
         }
 
+
         var order =
             "<tr> " +
-            "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + " "  + buttonPayHTML + buttonShipHTML + "</td> " +
+            "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + " " + buttonActiveHTML + buttonPayHTML + buttonShipHTML + "</td> " +
             "   <td>" + orders[i].currency + orders[i].price +"</td> " +
             "   <td>" + orders[i].products+"</td> " +
             "   <td>" + orders[i].receiver + "</td> " +
@@ -125,6 +132,22 @@ function appendOrders(orders) {
             "   <td>" + orders[i].shippedTime+"</td> " +
             "</tr>";               // Create element with HTML
         orderForm.innerHTML += order;      // Append the new elements
+    }
+}
+
+function activeOrderButton(e) {
+    e = e || window.event;
+    var target = e.target || e.srcElement;
+
+    target.disabled = true;
+    let key = target.parentNode.innerText.split(" ");
+    let mail = key[0].trim();
+    let dateTime = key[1].trim();
+
+    if (target.innerText.includes(reactiveOrder)) {
+        active(target, mail, dateTime);
+    }else {
+        deactive(target, mail, dateTime);
     }
 
 }
@@ -144,6 +167,46 @@ function payOrderButton(e) {
         depay(target, mail, dateTime);
     }
 }
+
+function active(element, mail, dateTime) {
+    let url = orderEndpoint + "/table/active/" + mail + "/" + dateTime;
+    console.info("url :" + url);
+
+    $.ajax({
+        type : 'POST',
+        url : url,
+        success : function(response) {
+            console.info(response)
+            element.disabled = false;
+            element.innerText= deactiveOrder;
+
+        },
+        error : function(xhr, status, error) {
+            element.disabled = false;
+            alert(error);
+        }
+    });
+}
+
+function deactive(element, mail, dateTime) {
+    let url = orderEndpoint + "/table/deactive/" + mail + "/" + dateTime;
+    console.info("url :" + url);
+
+    $.ajax({
+        type : 'POST',
+        url : url,
+        success : function(response) {
+            console.info(response)
+            element.disabled = false;
+            element.innerText= reactiveOrder;
+        },
+        error : function(xhr, status, error) {
+            element.disabled = false;
+            alert(error);
+        }
+    });
+}
+
 
 function pay(element, mail, dateTime) {
     let url = orderEndpoint + "/table/pay/" + mail + "/" + dateTime;
@@ -240,7 +303,3 @@ function deship(element, mail, dateTime) {
 }
 
 
-
-function onScroll() {
- //todo
-}

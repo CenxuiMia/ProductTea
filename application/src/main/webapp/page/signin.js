@@ -102,5 +102,6 @@ function isSignIn() {
 
 function getToken() {
     // userAuth.getSession(); todo
+    userAuth.getIdToken()
     return userAuth.signInUserSession.idToken.jwtToken;
 }

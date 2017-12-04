@@ -14,7 +14,7 @@ public class ProductPathTest {
 
     @Before
     public void setUp() {
-        url = "http://localhost:9000/admin/product";
+        url = "http://localhost:9000/admin/product/table";
     }
 
     @Test

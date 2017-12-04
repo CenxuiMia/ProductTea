@@ -3,28 +3,31 @@ package com.cenxui.tea.app.services.admin.product;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.cenxui.tea.app.config.S3Bucket;
+import com.cenxui.tea.app.image.ProductImage;
 import com.cenxui.tea.app.services.CoreController;
+import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
 import java.io.File;
 
-public class AdminProductUploadController extends CoreController {
+public class AdminProductImageUploadController extends CoreController {
 
     public static final Route uploadProductImage = (Request request, Response response) -> {
         String body = request.body();
 
+        ProductImage image = JsonUtil.mapToProductImage(body);
+
         AmazonS3 s3client =  AmazonS3ClientBuilder.defaultClient();
 
-        File file = new File("/Users/cenxui/Downloads/12166549_911034718984522_1989228322_n.jpg");
+        File file = new File(image.getFilePath());
 
         s3client.putObject(new PutObjectRequest(
-                "product.hwangying.com", file.getName(), file));
+                S3Bucket.BUCKET_NAME, S3Bucket.FOLDER + "/" + file.getName(), file));
 
-        //todo
-
-        return "upload image";
+        return "success";
     };
 
 }

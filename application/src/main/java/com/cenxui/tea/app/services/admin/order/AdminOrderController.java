@@ -99,12 +99,13 @@ public class AdminOrderController extends CoreController{
     public static final Route getAllProcessingOrdersByLastKey = (Request request, Response response) -> {
         Map<String, String> map = request.params();
         String processingDate = getProcessingDate(map);
+        String owner = getOwner(map);
         String mail = getMail(map);
         String orderDateTime = getOrderDateTime(map);
         Integer limit = getLimit(map);
 
         return JsonUtil.mapToJson(orderRepository.getAllProcessingOrders(
-                OrderProcessingLastKey.of(processingDate, mail, orderDateTime), limit));
+                OrderProcessingLastKey.of(processingDate, owner, mail, orderDateTime), limit));
     };
 
     public static final Route getAllShippedOrders = (Request request, Response response) -> {
@@ -192,11 +193,11 @@ public class AdminOrderController extends CoreController{
     }
 
     private static String getOrderDateTime(Map<String, String> map) {
-        return map.get(Param.ORDER_TIME);
+        return map.get(Param.ORDER_DATE_TIME);
     }
 
     private static Integer getLimit(Map<String, String> map) {
-        //todo throw exception
+        //todo throw client error exception
         Integer count = Integer.valueOf(map.get(Param.ORDER_LIMIT));
 
         return count;
@@ -213,6 +214,9 @@ public class AdminOrderController extends CoreController{
     private static String getProcessingDate(Map<String, String> map) {
         return map.get(Param.ORDER_PROCESSING_DATE);
     }
+
+    private static String getOwner(Map<String, String> map) {return map.get(Param.ORDER_OWNER);}
+
 
     private static String getShippedDate(Map<String, String> map) {
         return map.get(Param.ORDER_SHIPPED_DATE);
