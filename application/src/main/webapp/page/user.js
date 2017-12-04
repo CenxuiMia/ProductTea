@@ -126,7 +126,7 @@ function save() {
         },
         error : function(xhr, status, error) {
             console.log("token error");
-            showSnackBarAutoClose(document.getElementById("snackbar"), processingfailed);
+            showSnackBarAutoClose(document.getElementById("snackbar"), processingFailed);
         },
         complete : function (jqxhr, status) {
             setLocalStorage(lastName, firstName, phone, address);

@@ -27,6 +27,10 @@ function checkCartValid() {
     }
 }
 
+function clearCart() {
+    localStorage.removeItem("cartItems");
+}
+
 function setInputWithUserData() {
     if (localStorage.getItem("lastName") !== null) {
         console.info("LocalStorage! lastName: " + localStorage.lastName +
@@ -90,8 +94,9 @@ function showCartItems() {
                         "<span>" + item.productName + item.version + "</span>" +
                     "</a>" +
                 "</td>" +
-                "<td style='background-color: #fcf8e3'>" + value + "</td>" +
                 "<td style='background-color: #f8d7da'>" + item.price + "</td>" +
+                "<td style='background-color: #fcf8e3'>" + value + "</td>" +
+                "<td style='background-color: #f8d7da'>" + parseInt(item.price)*parseInt(value) + "</td>" +
             "</tr>";
 
         //Add product to orderProductsList for order usage
@@ -104,7 +109,7 @@ function showCartItems() {
 let orderProductsList = [];
 
 function addOrder() {
-    //TODO 成功後redirect到會員購物資料   xhr商品不存在時刪除該商品
+    //TODO 成功後redirect到會員購物資料
     console.info("onclick addOrder");
 
     if (!checkInputValid()) {
@@ -131,6 +136,7 @@ function addOrder() {
 
     console.info("Add order: " + JSON.stringify(order));
 
+    //TODO 各種redirect
     $.ajax({
         type : 'PUT',
         url : orderEndpoint,
@@ -139,16 +145,22 @@ function addOrder() {
         },
         data: JSON.stringify(order),
         success : function(response) {
-            console.log("message: " + response);
+            console.log("success reponse: " + response);
 
-            showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
-            localStorage.removeItem("cartItems");
+            if (response.indexOf("failed") === -1) {
+                showSnackBarAutoClose(document.getElementById("snackbar"), shoppingFailed);
+            } else {
+                showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
+                localStorage.removeItem("cartItems");
+            }
         },
         error : function(xhr, status, error) {
             console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
-            showSnackBarAutoClose(document.getElementById("snackbar"), processingfailed);
+            showSnackBarAutoClose(document.getElementById("snackbar"), cartItemWrong);
+            localStorage.removeItem("cartItems");
         },
         complete : function (jqxhr, status) {
+            console.log( "complete jqxhr: " + JSON.stringify(jqxhr) + ", status: " + status);
             //enable buttons
             document.getElementById("submitButton").disabled = false;
         }
