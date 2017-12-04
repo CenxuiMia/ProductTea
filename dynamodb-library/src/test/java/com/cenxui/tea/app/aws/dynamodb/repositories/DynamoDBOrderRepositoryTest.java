@@ -1,7 +1,6 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
-import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.repositories.order.OrderRepository;
+import com.cenxui.tea.app.repositories.order.*;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import org.junit.Test;
 
@@ -25,19 +24,108 @@ public class DynamoDBOrderRepositoryTest {
 
     @Test
     public void getAllOrdersByLastKey() throws Exception {
+
+
+        OrderKey orderKey = null;
+
+        do {
+            Orders orders;
+            if (orderKey == null) {
+                orders  = orderRepository.getAllOrders();
+            }else {
+                orders = orderRepository.getAllOrders(orderKey.getMail(), orderKey.getOrderDateTime(), 2);
+            }
+
+            System.out.println("=========================== first query =======================");
+            System.out.println("start key" + orderKey);
+            orders.getOrders().forEach(System.out::println);
+
+            System.out.println("=========================== end =======================");
+
+            orderKey = ((OrderKey)orders.getLastKey());
+
+
+        }while (orderKey !=null);
+
     }
 
     @Test
     public void getAllProcessingOrders() throws Exception {
+
+        OrderProcessingLastKey orderKey = null;
+
+        do {
+            Orders orders;
+            if (orderKey == null) {
+                orders  = orderRepository.getAllProcessingOrders();
+            }else {
+                orders = orderRepository.getAllProcessingOrders(orderKey, 2);
+            }
+
+            System.out.println("=========================== first query =======================");
+            System.out.println("start key" + orderKey);
+            orders.getOrders().forEach(System.out::println);
+
+            System.out.println("=========================== end =======================");
+
+            orderKey = ((OrderProcessingLastKey)orders.getLastKey());
+
+
+        }while (orderKey !=null);
+
     }
+
 
     @Test
     public void getAllShippedOrders() throws Exception {
+
+        OrderShippedLastKey orderKey = null;
+
+        do {
+            Orders orders;
+            if (orderKey == null) {
+                orders  = orderRepository.getAllShippedOrders();
+            }else {
+                orders = orderRepository.getAllShippedOrders(orderKey, 2);
+            }
+
+            System.out.println("=========================== first query =======================");
+            System.out.println("start key" + orderKey);
+            orders.getOrders().forEach(System.out::println);
+
+            System.out.println("=========================== end =======================");
+
+            orderKey = ((OrderShippedLastKey)orders.getLastKey());
+
+
+        }while (orderKey !=null);
+
     }
 
     @Test
     public void getAllPaidOrders() throws Exception {
-        orderRepository.getAllPaidOrders().getOrders().forEach(System.out::println);
+
+        OrderPaidLastKey orderKey = null;
+
+        do {
+            Orders orders;
+            if (orderKey == null) {
+                orders  = orderRepository.getAllPaidOrders();
+            }else {
+                orders = orderRepository.getAllPaidOrders(orderKey, 2);
+            }
+
+            System.out.println("=========================== first query =======================");
+            System.out.println("start key" + orderKey);
+            orders.getOrders().forEach(System.out::println);
+
+            System.out.println("=========================== end =======================");
+
+            orderKey = ((OrderPaidLastKey)orders.getLastKey());
+
+
+        }while (orderKey !=null);
+
     }
 
     @Test
@@ -52,7 +140,27 @@ public class DynamoDBOrderRepositoryTest {
 
     @Test
     public void getAllActiveOrders() throws Exception {
-        orderRepository.getAllActiveOrders().getOrders().forEach(System.out::println);
+        OrderKey orderKey = null;
+
+        do {
+            Orders orders;
+            if (orderKey == null) {
+                orders  = orderRepository.getAllActiveOrders();
+            }else {
+                orders = orderRepository.getAllActiveOrders(orderKey.getMail(), orderKey.getOrderDateTime(), 2);
+            }
+
+            System.out.println("=========================== first query =======================");
+            System.out.println("start key" + orderKey);
+            orders.getOrders().forEach(System.out::println);
+
+            System.out.println("=========================== end =======================");
+
+            orderKey = ((OrderKey)orders.getLastKey());
+
+
+        }while (orderKey !=null);
+
     }
 
     @Test
@@ -124,6 +232,16 @@ public class DynamoDBOrderRepositoryTest {
     @Test
     public void getDailyCashReport() {
         System.out.println(orderRepository.getDailyCashReport("2017-12-03"));
+    }
+
+    @Test
+    public void getDailyCashReport2() {
+        Double d = orderRepository.getDailyCashReport("2017-12-03").getRevenue() +
+                orderRepository.getDailyCashReport("2017-12-04").getRevenue();
+
+        System.out.println(d);
+        System.out.println(orderRepository.getRangeCashReport("2017-12-03", "2017-12-04").getRevenue());
+        System.out.println(orderRepository.getCashAllReport().getRevenue());
     }
 
 }

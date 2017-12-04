@@ -15,7 +15,6 @@ public class Http {
         outPut(url, "PUT",body, headers);
     }
 
-
     public static void get(String url) {
 
         input(url, "GET", null);
@@ -45,6 +44,41 @@ public class Http {
 
     public static void post(String url, String body, Map<String, String> headers) {
         outPut(url, "POST", body, headers);
+    }
+
+
+    public static String getResult(String url) {
+        BufferedReader reader = null;
+
+        try {
+            HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.setUseCaches(false);
+
+            reader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+
+            StringBuilder builder = new StringBuilder();
+
+            reader.lines().forEach((s)-> {
+                builder.append(s);
+            });
+            return builder.toString();
+        }catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }finally {
+
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
 
 

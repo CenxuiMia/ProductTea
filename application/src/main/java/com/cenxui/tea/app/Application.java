@@ -4,6 +4,8 @@ import com.cenxui.tea.app.aws.dynamodb.exceptions.RepositoryException;
 import com.cenxui.tea.app.services.ControllerException;
 import com.cenxui.tea.app.services.admin.order.AdminOrderController;
 import com.cenxui.tea.app.services.admin.product.AdminProductController;
+import com.cenxui.tea.app.services.admin.product.AdminProductImageUploadController;
+import com.cenxui.tea.app.services.admin.user.AdminUserController;
 import com.cenxui.tea.app.services.user.UserController;
 import com.cenxui.tea.app.services.order.OrderController;
 import com.cenxui.tea.app.services.product.ProductController;
@@ -67,12 +69,6 @@ public final class Application {
 
         //todo dynaomdb Server and Client exception
 
-//        /**
-//         * todo remove it in product version
-//         */
-//        exception(RuntimeException.class, (exception, request, response) -> {
-//            response.body(ApplicationError.getTrace(exception.getStackTrace()));
-//        });
     }
 
 
@@ -106,43 +102,44 @@ public final class Application {
          * orders
          */
 
-        get(Path.Web.Admin.ORDER_ALL, AdminOrderController.getAllOrders);
+        get(Path.Admin.ORDER_ALL, AdminOrderController.getAllOrders);
 
-        get(Path.Web.Admin.ORDER_ALL + "/" +
-                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
+        get(Path.Admin.ORDER_ALL + "/" +
+                        Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME + "/" +
                         Param.ORDER_LIMIT,
                 AdminOrderController.getAllOrdersByLastKey);
 
-        get(Path.Web.Admin.ORDER + "/" +
+        get(Path.Admin.ORDER_TABLE + "/" +
                 Param.ORDER_MAIL, AdminOrderController.getOrdersByMail);
 
-        get(Path.Web.Admin.ORDER_ALL_ACTIVE, AdminOrderController.getAllActiveOrders);
+        get(Path.Admin.ORDER_ALL_ACTIVE, AdminOrderController.getAllActiveOrders);
 
-        get(Path.Web.Admin.ORDER_ACTIVE + "/" +
-                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
+        get(Path.Admin.ORDER_TABLE_ACTIVE + "/" +
+                        Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME + "/" +
                         Param.ORDER_LIMIT,
                 AdminOrderController.getAllActiveOrdersByLastKey);
 
-        get(Path.Web.Admin.ORDER_PAID, AdminOrderController.getAllPaidOrders);
+        get(Path.Admin.ORDER_PAID, AdminOrderController.getAllPaidOrders);
 
-        get(Path.Web.Admin.ORDER_PAID +  "/" +
+        get(Path.Admin.ORDER_PAID +  "/" +
                         Param.ORDER_PAID_DATE  +"/" + Param.ORDER_PAID_TIME + "/" +
-                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
+                        Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME + "/" +
                         Param.ORDER_LIMIT,
                 AdminOrderController.getAllPaidOrdersByLastKey);
 
-        get(Path.Web.Admin.ORDER_PROCESSING, AdminOrderController.getAllProcessingOrders);
+        get(Path.Admin.ORDER_PROCESSING, AdminOrderController.getAllProcessingOrders);
 
-        get(Path.Web.Admin.ORDER_PROCESSING + "/" +
-                        Param.ORDER_PROCESSING_DATE + "/" +
+        get(Path.Admin.ORDER_PROCESSING + "/" +
+                        Param.ORDER_PROCESSING_DATE + "/" + Param.ORDER_OWNER + "/" +
+                        Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME + "/" +
                         Param.ORDER_LIMIT,
                 AdminOrderController.getAllProcessingOrdersByLastKey);
 
-        get(Path.Web.Admin.ORDER_SHIPPED, AdminOrderController.getAllShippedOrders);
+        get(Path.Admin.ORDER_SHIPPED, AdminOrderController.getAllShippedOrders);
 
-        get(Path.Web.Admin.ORDER_SHIPPED + "/" +
+        get(Path.Admin.ORDER_SHIPPED + "/" +
                         Param.ORDER_SHIPPED_DATE + "/" + Param.ORDER_SHIPPED_TIME + "/" +
-                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
+                        Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME + "/" +
                         Param.ORDER_LIMIT,
                 AdminOrderController.getAllShippedOrdersByLastKey);
 
@@ -151,40 +148,40 @@ public final class Application {
          * order
          */
 
-        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+        get(Path.Admin.ORDER_TABLE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME,
                 AdminOrderController.getOrderByMailAndTime);
 
-        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL,
+        get(Path.Admin.ORDER_TABLE + "/" + Param.ORDER_MAIL,
                 AdminOrderController.getOrdersByMail);
 
         /**
          * manipulate order lifecycle
          */
 
-        post(Path.Web.Admin.ORDER_ACTIVE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+        post(Path.Admin.ORDER_TABLE_ACTIVE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME,
                 AdminOrderController.activeOrder);
 
-        post(Path.Web.Admin.ORDER_DEACTIVE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+        post(Path.Admin.ORDER_TABLE_DEACTIVE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME,
                 AdminOrderController.deActiveOrder);
 
-        post(Path.Web.Admin.ORDER_PAY + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+        post(Path.Admin.ORDER_TABLE_PAY + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME,
                 AdminOrderController.payOrder);
 
-        post(Path.Web.Admin.ORDER_DEPAY + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+        post(Path.Admin.ORDER_TABLE_DEPAY + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME,
                 AdminOrderController.dePayOrder);
 
 
-        post(Path.Web.Admin.ORDER_SHIP + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+        post(Path.Admin.ORDER_TABLE_SHIP + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME,
                 AdminOrderController.shipOrder);
 
-        post(Path.Web.Admin.ORDER_DESHIP + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+        post(Path.Admin.ORDER_TABLE_DESHIP + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME,
                 AdminOrderController.deShipOrder);
 
 
         /**
          * add order
          */
-        put(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
+        put(Path.Admin.ORDER_TABLE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME,
                 AdminOrderController.addOrder);
 
 
@@ -192,7 +189,7 @@ public final class Application {
          * products
          */
 
-        get(Path.Web.Admin.PRODUCT,  AdminProductController.getAllProducts);
+        get(Path.Admin.PRODUCT_TABLE,  AdminProductController.getAllProducts);
 
 
 
@@ -200,30 +197,33 @@ public final class Application {
          * product
          */
 
-        get(Path.Web.Admin.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION,
+        get(Path.Admin.PRODUCT_TABLE + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION,
                 AdminProductController.getProduct);
 
         /**
          * add product
          */
-        put(Path.Web.Admin.PRODUCT, AdminProductController.addProduct);
+        put(Path.Admin.PRODUCT_TABLE, AdminProductController.addProduct);
 
-        post(Path.Web.Admin.PRODUCT, AdminProductController.updateProduct);
+        post(Path.Admin.PRODUCT_TABLE, AdminProductController.updateProduct);
 
+
+        /**
+         * product image
+         */
+
+        /**
+         * add image
+         */
+        put(Path.Admin.PRODUCT_IMAGE, AdminProductImageUploadController.uploadProductImage);
 
         /**
          * user
          */
 
-        get(Path.Web.Admin.USER, (request, response) -> {
+        get(Path.Admin.USER, AdminUserController.getAllUser);
 
-            return  "get all user";
-        });
-
-        get(Path.Web.Admin.USER + "/" + Param.ORDER_MAIL,  (request, response) -> {
-
-            return  "get user";
-        });
+        get(Path.Admin.USER + "/" + Param.ORDER_MAIL, AdminUserController.getUser);
 
     }
 
