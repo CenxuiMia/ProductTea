@@ -39,7 +39,30 @@ function setInputWithUserData() {
         document.getElementById("shippingAddress").setAttribute("value", localStorage.address);
     } else {
         console.info("Query DB!");
-        //TODO query user data from DB
+        $.ajax({
+            type : 'GET',
+            url : userEndpoint,
+            headers : {
+                Authorization : getToken()
+            },
+            success : function(response) {
+                console.log("message: " + response);
+
+                let data = JSON.parse(response);
+                if (data.lastName !== null && data.firstName !== null) {
+                    document.getElementById("purchaser").value = data.lastName + data.firstName;
+                }
+                if (data.phone !== null) {
+                    document.getElementById("phone").value = data.phone;
+                }
+                if (data.address !== null) {
+                    document.getElementById("address").value = data.address;
+                }
+            },
+            error : function(xhr, status, error) {
+                console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
+            }
+        });
     }
 }
 
@@ -101,7 +124,6 @@ function addOrder() {
     order.shippingAddress = document.getElementById("shippingAddress").value;
     order.products = orderProductsList;
     order.comment = document.getElementById("comment").value;
-    let id_token = getToken();
 
     console.info("Add order: " + JSON.stringify(order));
 
@@ -109,7 +131,7 @@ function addOrder() {
         type : 'PUT',
         url : orderEndpoint,
         headers : {
-            Authorization : id_token
+            Authorization : getToken()
         },
         data: JSON.stringify(order),
         success : function(response) {

@@ -7,24 +7,63 @@ $(document).ready(function () {
     setUp(
         userAuthData,
         function () {
-            initLocalStorage()
+            // signed in
         },
         function () {
             console.info("signed out on user page")
         });
+
+    initLocalStorage();
 });
 
 function initLocalStorage() {
     //TODO Use map to store different user data. key = mail
-    console.info("initLocalStorage");
     if (localStorage.getItem("lastName") === null) {
-        setLocalStorage("", "", "", "");
+        console.info("init DB & localStorage");
+        let lastName = "", firstName = "", phone = "", address = "";
+        $.ajax({
+            type : 'GET',
+            url : userEndpoint,
+            headers : {
+                Authorization : getToken()
+            },
+            success : function(response) {
+                console.log("message: " + response);
+
+                let data = JSON.parse(response);
+                // lastName = data.lastName;
+                // firstName = data.firstName;
+                // phone = data.phone;
+                // address = data.address;
+                if (lastName !== null) {
+                    document.getElementById("lastName").value = lastName = data.lastName;
+                }
+                if (firstName !== null) {
+                    document.getElementById("firstName").value = firstName = data.firstName;
+                }
+                if (phone !== null) {
+                    document.getElementById("phone").value = phone = data.phone;
+                }
+                if (address !== null) {
+                    document.getElementById("address").value = address = data.address;
+                }
+            },
+            error : function(xhr, status, error) {
+                console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
+            }
+        });
+        setLocalStorage(lastName, firstName, phone, address);
     } else {
+        console.info("initLocalStorage");
         setInputValue(localStorage.lastName, localStorage.firstName, localStorage.phone, localStorage.address);
     }
 }
 
 function setLocalStorage(lastName, firstName, phone, address) {
+    if (lastName === null) lastName = "";
+    if (firstName === null) firstName = "";
+    if (phone === null) phone = "";
+    if (address === null) address = "";
     localStorage.lastName = lastName;
     localStorage.firstName = firstName;
     localStorage.phone = phone;
@@ -83,7 +122,7 @@ function save() {
         success : function(response) {
             console.log("user message: " + response);
             showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
-            setLocalStorageMail(JSON.parse(response).mail);
+            // setLocalStorageMail(JSON.parse(response).mail);
         },
         error : function(xhr, status, error) {
             console.log("token error");
