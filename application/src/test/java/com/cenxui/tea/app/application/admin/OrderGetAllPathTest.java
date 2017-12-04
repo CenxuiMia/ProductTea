@@ -1,14 +1,9 @@
 package com.cenxui.tea.app.application.admin;
 
-import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.repositories.order.OrderKey;
-import com.cenxui.tea.app.repositories.order.Orders;
+import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.services.util.Param;
 import com.cenxui.tea.app.services.util.Path;
-import com.cenxui.tea.app.util.Http;
-import com.cenxui.tea.app.util.JsonTestUtil;
-import com.cenxui.tea.app.util.JsonUtil;
-import com.cenxui.tea.app.util.OrderTestResult;
+import com.cenxui.tea.app.util.*;
 import org.junit.Test;
 
 public class OrderGetAllPathTest {
@@ -79,17 +74,96 @@ public class OrderGetAllPathTest {
 
     @Test
     public void getAllPaidOrder() {
+        try {
 
+            OrderPaidLastKey orderKey = null;
+            do {
+                System.out.println("================start query ==================");
+
+                String body;
+                if (orderKey == null) {
+                    body = Http.getResult(url + Path.Admin.ORDER_PAID);
+                }else {
+                    body = Http.getResult(url + Path.Admin.ORDER_PAID +
+                            "/" + orderKey.getPaidDate() + "/" + orderKey.getPaidTime()+
+                            "/" + orderKey.getMail()+ "/" +  orderKey.getOrderDateTime() + "/" + "2");
+                }
+
+                PaidOrderTestResult orders = JsonTestUtil.mapToPaidOrderTest(body);
+                orders.getOrders().forEach(System.out::println);
+                orderKey = orders.getLastKey();
+
+                System.out.println("================   end   ======================");
+
+            }while (orderKey != null);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void getProcessingOrder() {
+        try {
 
+            OrderProcessingLastKey orderKey = null;
+            do {
+                System.out.println("================start query ==================");
+
+                String body;
+                if (orderKey == null) {
+                    body = Http.getResult(url + Path.Admin.ORDER_PROCESSING);
+                }else {
+                    body = Http.getResult(url + Path.Admin.ORDER_PROCESSING +
+                            "/" + orderKey.getProcessingDate() + "/" + orderKey.getOwner()+
+                            "/" + orderKey.getMail()+ "/" +  orderKey.getOrderDateTime() + "/" + "2");
+                }
+
+                ProcessingOrderTestResult orders = JsonTestUtil.mapToProcessingOrderTestResult(body);
+                orders.getOrders().forEach(System.out::println);
+                orderKey = orders.getLastKey();
+
+                System.out.println("================   end   ======================");
+
+            }while (orderKey != null);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void getShippedOrder() {
+        try {
 
+            //todo bug fixed
+            OrderShippedLastKey orderKey = null;
+            do {
+                System.out.println("================start query ==================");
+
+                String body;
+                if (orderKey == null) {
+                    body = Http.getResult(url + Path.Admin.ORDER_SHIPPED);
+                }else {
+                    body = Http.getResult(url + Path.Admin.ORDER_SHIPPED +
+                            "/" + orderKey.getShippedDate() + "/" + orderKey.getShippedTime()+
+                            "/" + orderKey.getMail()+ "/" +  orderKey.getOrderDateTime() + "/" + "2");
+                }
+
+                ShippedOrderTestResult orders = JsonTestUtil.mapToShippedOrderTestResult(body);
+                orders.getOrders().forEach(System.out::println);
+                orderKey = orders.getLastKey();
+                System.out.println(orderKey);
+                System.out.println("================   end   ======================");
+
+            }while (orderKey != null);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

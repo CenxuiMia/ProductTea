@@ -197,7 +197,7 @@ public class AdminOrderController extends CoreController{
     }
 
     private static Integer getLimit(Map<String, String> map) {
-        //todo throw exception
+        //todo throw client error exception
         Integer count = Integer.valueOf(map.get(Param.ORDER_LIMIT));
 
         return count;

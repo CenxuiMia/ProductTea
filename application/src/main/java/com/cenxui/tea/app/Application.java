@@ -114,7 +114,7 @@ public final class Application {
 
         get(Path.Admin.ORDER_ALL_ACTIVE, AdminOrderController.getAllActiveOrders);
 
-        get(Path.Admin.ORDER_TABLE_ACTIVE + "/" +
+        get(Path.Admin.ORDER_ALL_ACTIVE + "/" +
                         Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME + "/" +
                         Param.ORDER_LIMIT,
                 AdminOrderController.getAllActiveOrdersByLastKey);

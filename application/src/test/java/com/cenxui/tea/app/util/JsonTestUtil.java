@@ -11,4 +11,18 @@ public class JsonTestUtil {
 
     }
 
+    public static PaidOrderTestResult mapToPaidOrderTest(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, PaidOrderTestResult.class);
+    }
+
+    public static ProcessingOrderTestResult mapToProcessingOrderTestResult(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, ProcessingOrderTestResult.class);
+    }
+
+    public static ShippedOrderTestResult mapToShippedOrderTestResult(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, ShippedOrderTestResult.class);
+    }
 }
