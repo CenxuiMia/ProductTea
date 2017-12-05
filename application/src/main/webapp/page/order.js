@@ -9,7 +9,7 @@ $(document).ready(function () {
             console.info("index on signIn");
         },
         function () {
-            console.info("index on signOut");
+            console.info("index on signOut"); //TODO 登入後才可購物
         }
     );
 
@@ -18,9 +18,10 @@ $(document).ready(function () {
 
 function checkCartValid() {
     if (localStorage.getItem("cartItems") === null) {
+        document.getElementsByClassName("bannerRight")[0].hidden = false;
         document.getElementById("productsList").innerHTML = "";
         document.getElementById("accountFields").innerHTML = cartEmpty +
-            "<a class='actionButton' href='//tw.hwangying.com/products.html'>" + goToProductsList + "</a>";
+            "<br><a class='actionButton' href='//tw.hwangying.com/products.html'>" + goToProductsList + "</a>";
     } else {
         setInputWithUserData();
         showCartItems();
@@ -109,7 +110,6 @@ function showCartItems() {
 let orderProductsList = [];
 
 function addOrder() {
-    //TODO 成功後redirect到會員購物資料
     console.info("onclick addOrder");
 
     if (!checkInputValid()) {
@@ -136,7 +136,6 @@ function addOrder() {
 
     console.info("Add order: " + JSON.stringify(order));
 
-    //TODO 各種redirect
     $.ajax({
         type : 'PUT',
         url : orderEndpoint,
@@ -146,13 +145,8 @@ function addOrder() {
         data: JSON.stringify(order),
         success : function(response) {
             console.log("success reponse: " + response);
-
-            if (response.indexOf("failed") === -1) {
-                showSnackBarAutoClose(document.getElementById("snackbar"), shoppingFailed);
-            } else {
-                showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
-                localStorage.removeItem("cartItems");
-            }
+            showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
+            localStorage.removeItem("cartItems");
         },
         error : function(xhr, status, error) {
             console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
@@ -163,6 +157,19 @@ function addOrder() {
             console.log( "complete jqxhr: " + JSON.stringify(jqxhr) + ", status: " + status);
             //enable buttons
             document.getElementById("submitButton").disabled = false;
+
+            document.getElementsByClassName("bannerRight")[0].hidden = false;
+            document.getElementById("productsList").innerHTML = "";
+
+            if (status === "success") {
+                document.getElementById("accountFields").innerHTML = shoppingSuccess +
+                    "<br><a href='//tw.hwangying.com/products.html'>" + goToProductsList + "</a> 或 " +
+                    "<br><a href='//tw.hwangying.com/userOrders.html'>" + goToOrdersList + "</a>";
+            } else {
+                document.getElementById("accountFields").innerHTML = shoppingFailed +
+                    "<br><a href='//tw.hwangying.com/products.html'>" + goToProductsList + "</a>";
+                autoRedirect("//tw.hwangying.com/products.html");
+            }
         }
     });
 
