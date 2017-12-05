@@ -85,6 +85,7 @@ function addToCart() {
     }
     cartItems.set(productDataAsKey, count);
     localStorage.setItem("cartItems", JSON.stringify(Array.from(cartItems.entries())));
+    showSnackBarAutoClose(document.getElementById("snackbar"), addCartSuccess);
 
     console.info("localstorage getItem: " + localStorage.getItem("cartItems"));
     console.info("JSON parse: " + JSON.parse(localStorage.cartItems));
