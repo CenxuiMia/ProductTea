@@ -12,7 +12,6 @@ $(document).ready(function () {
             console.info("index on signOut");
         }
     );
-    // localStorage.removeItem("cartItems"); //For testing
 });
 
 let productDataAsKey;
