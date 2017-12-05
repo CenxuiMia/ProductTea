@@ -9,7 +9,8 @@ $(document).ready(function () {
             console.info("index on signIn");
         },
         function () {
-            console.info("index on signOut"); //TODO 登入後才可購物
+            console.info("index on signOut");
+            document.getElementById("signInButton").click();
         }
     );
 
