@@ -4,7 +4,8 @@
 /**
  * This library should be placed as last in html
  */
-const defaultCloseTime = 3000;
+const CLOSE_TIME = 3000;
+const REDIRECT_TIME = 5000;
 
 // Add the "show" class to DIV
 function showSnackBar(element, message) {
@@ -25,7 +26,7 @@ function showSnackBarAutoClose(element, message) {
     element.className += "show";
     setTimeout(function () {
         element.className = element.className.replace("show", "close");
-    }, defaultCloseTime);
+    }, CLOSE_TIME);
 }
 
 //remove the show class from DIV
@@ -37,7 +38,7 @@ function closeSnackBar(element) {
 function closeSnackBarWithTime(millisecond) {
     if (!isNumber(millisecond)) {
         console.error("closeSnackBar, millisecond should be number");
-        millisecond = defaultCloseTime;
+        millisecond = CLOSE_TIME;
     }
     setTimeout(function () {
         element.className = element.className.replace("show", "");
@@ -50,4 +51,8 @@ function isNumeric(n) {
 
 function isNotEmptyNoSpace(string) {
     return /\S/.test(string);
+}
+
+function autoRedirect(redirectURL) {
+    window.setTimeout('window.location(redirectURL)', REDIRECT_TIME);
 }

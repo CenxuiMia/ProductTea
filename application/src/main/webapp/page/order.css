@@ -7,6 +7,13 @@ fieldset {
     color: #444;
 }
 
+#productsList {
+    float: right;
+    margin-top: 10px;
+    margin-right: 25px;
+    padding-right: 100px;
+}
+
 #cartTable {
     width: 500px;
     background-color: #f7f7f7;
@@ -18,9 +25,9 @@ fieldset {
 }
 
 .cartImage {
-    width: 150px;
+    width: 130px;
     vertical-align: middle;
-    /*padding: 10px;*/
+    padding: 10px;
 }
 
 

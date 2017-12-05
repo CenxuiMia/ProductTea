@@ -18,8 +18,10 @@
     <script src="auth.js"></script>
     <script src="aws-cognito-sdk.js"></script>
     <script src="amazon-cognito-auth.min.js"></script>
+    <script src="language/tw.js"></script>
     <script src="signin.js"></script>
     <script src="product.js"></script>
+    <script src="library.js"></script> //this library should be placed at last
 </head>
 
 <body>
@@ -29,7 +31,6 @@
 <div id="id_header" class="navbar">
     <div id="tab">
         <a href="//tw.hwangying.com">首頁</a>
-        <a href="#news">最新消息</a>
         <a href="javascript:void(0)" class="active">產品</a>
         <a href="#contact">聯絡我們</a>
     </div>
@@ -112,6 +113,8 @@
         </div>
     </div>
 
+    <!-- The actual snackbar -->
+    <div id="snackbar">處理中...</div>
 </div>
 
 </div>

@@ -45,7 +45,7 @@ let orderAuthData = {
     ClientId : clientId,
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
-    RedirectUriSignIn : 'https://tw.hwangying.com/dashboard.html',
+    RedirectUriSignIn : 'https://tw.hwangying.com/order.html',
     RedirectUriSignOut : 'https://tw.hwangying.com'
 };
 
