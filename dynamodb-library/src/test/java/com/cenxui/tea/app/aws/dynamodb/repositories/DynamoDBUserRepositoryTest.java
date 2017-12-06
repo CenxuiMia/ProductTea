@@ -5,8 +5,6 @@ import com.cenxui.tea.app.repositories.user.UserRepository;
 import com.cenxui.tea.app.util.JsonUtil;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class DynamoDBUserRepositoryTest {
 
     private UserRepository userRepository =
