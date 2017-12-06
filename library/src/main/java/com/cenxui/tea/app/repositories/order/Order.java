@@ -59,7 +59,7 @@ public class Order {
     String shippedDate;
     String shippedTime;
     Boolean isActive;
-    String owner = "admin";
+    String owner = "com.cenxui.app.admin";
 
     public static Order of(String mail,
                            List<String> products,

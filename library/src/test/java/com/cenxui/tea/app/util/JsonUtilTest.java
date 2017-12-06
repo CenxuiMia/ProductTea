@@ -3,8 +3,6 @@ package com.cenxui.tea.app.util;
 import com.cenxui.tea.app.repositories.product.Product;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class JsonUtilTest {
     @Test
     public void mapOrderResultToJson() throws Exception {

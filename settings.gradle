@@ -1,3 +1,4 @@
 rootProject.name = 'tea'
-include 'library', 'dynamodb-library', 'application' , 'product-upload'
+include 'library', 'dynamodb-library', 'application' , 'admin', 'product-upload'
+include 'com.cenxui.tea.app.util-test'
 

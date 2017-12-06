@@ -58,28 +58,24 @@ function setOrderColumn(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) {
     document.getElementById("v11").innerHTML = v11;
 }
 
+let lastKey;
+
 function getOrders(url) {
     $.ajax({
         type : 'GET',
         url : url,
         success : function(response) {
             let data = JSON.parse(response);
-            let sectionTitle = document.getElementById("sectionTitle").innerHTML;
             let orders = data.orders;
-            if (sectionTitle.includes(allOrder)) {
-                appendOrders(orders);
-            }else if (sectionTitle.includes(activeOrder)) {
-                appendOrders(orders);
-            }else if (sectionTitle.includes(paidOrder)) {
-                appendOrders(orders);
-            }else if (sectionTitle.includes(processingOrder)) {
-                appendOrders(orders);
-            }else if (sectionTitle.includes(shippedOrder)) {
-                appendOrders(orders);
-            }
+            lastKey = data.lastKey;
+            appendOrders(orders);
+            ableScroll = true;
+
         },
         error : function(xhr, status, error) {
             console.log("error: " + error + ", status: " + status);
+            ableScroll = true;
+
         }
     });
 }
@@ -93,7 +89,6 @@ let next = null;
 function appendOrders(orders) {
     let orderForm = document.getElementById("orderForm");
     let sectionTile = document.getElementById("sectionTitle").innerText;
-
 
     for (var i = 0; i< orders.length ; i++) {
         let buttonActiveHTML = "";
@@ -168,6 +163,24 @@ function payOrderButton(e) {
     }
 }
 
+
+function shipOrderButton(e) {
+    e = e || window.event;
+    var target = e.target || e.srcElement;
+
+    target.disabled = true;
+    console.info("key :" + target.parentNode.innerText);
+    let key = target.parentNode.innerText.split(" ");
+    let mail = key[0].trim();
+    let dateTime = key[1].trim();
+
+    if (target.innerText.includes(shipOrder)) {
+        ship(target, mail, dateTime);
+    }else {
+        deship(target, mail, dateTime);
+    }
+}
+
 function active(element, mail, dateTime) {
     let url = orderEndpoint + "/table/active/" + mail + "/" + dateTime;
     console.info("url :" + url);
@@ -179,7 +192,6 @@ function active(element, mail, dateTime) {
             console.info(response)
             element.disabled = false;
             element.innerText= deactiveOrder;
-
         },
         error : function(xhr, status, error) {
             element.disabled = false;
@@ -199,6 +211,7 @@ function deactive(element, mail, dateTime) {
             console.info(response)
             element.disabled = false;
             element.innerText= reactiveOrder;
+
         },
         error : function(xhr, status, error) {
             element.disabled = false;
@@ -224,6 +237,7 @@ function pay(element, mail, dateTime) {
         error : function(xhr, status, error) {
             element.disabled = false;
             alert(error);
+
         }
     });
 }
@@ -247,22 +261,6 @@ function depay(element, mail, dateTime) {
     });
 }
 
-function shipOrderButton(e) {
-    e = e || window.event;
-    var target = e.target || e.srcElement;
-
-    target.disabled = true;
-    console.info("key :" + target.parentNode.innerText);
-    let key = target.parentNode.innerText.split(" ");
-    let mail = key[0].trim();
-    let dateTime = key[1].trim();
-
-    if (target.innerText.includes(shipOrder)) {
-        ship(target, mail, dateTime);
-    }else {
-        deship(target, mail, dateTime);
-    }
-}
 
 function ship(element, mail, dateTime) {
     let url = orderEndpoint + "/table/ship/" + mail + "/" + dateTime;
@@ -298,8 +296,40 @@ function deship(element, mail, dateTime) {
         error : function(xhr, status, error) {
             element.disabled = false;
             alert(error);
+
         }
     });
+}
+
+let ableScroll = true;
+
+function onScroll() {
+    if (lastKey === null) return;
+
+    if (ableScroll === false) {
+        return;
+    }else {
+        ableScroll = false;
+    }
+
+
+    let sectionTitle = document.getElementById("sectionTitle").innerHTML;
+    let url;
+    if (sectionTitle.includes(allOrder)) {
+       url = orderEndpoint + "/table/" + lastKey.mail + "/" + lastKey.orderDateTime + "/2";
+    }else if (sectionTitle.includes(activeOrder)) {
+        url = orderEndpoint + "/active/" + lastKey.mail + "/" + lastKey.orderDateTime + "/2";
+    }else if (sectionTitle.includes(paidOrder)) {
+        url = orderEndpoint + "/paid/" + lastKey.paidDate + "/" + lastKey.paidTime + "/" +
+            lastKey.mail + "/" + lastKey.orderDateTime + "/2";
+    }else if (sectionTitle.includes(processingOrder)) {
+        url = orderEndpoint + "/processing/" + lastKey.processingDate + "/" + lastKey.owner + "/" +
+        lastKey.mail + "/" + lastKey.orderDateTime + "/2";
+    }else if (sectionTitle.includes(shippedOrder)) {
+        url = orderEndpoint + "/shipped/" + lastKey.shippedDate + "/" + lastKey.shippedTime + "/" +
+            lastKey.mail + "/" + lastKey.orderDateTime + "/2";
+    }
+    getOrders(url);
 }
 
 
