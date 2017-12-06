@@ -168,7 +168,7 @@ function addOrder() {
                     "<br><a href='//tw.hwangying.com/userOrders.html'>" + goToOrdersList + "</a>";
             } else {
                 document.getElementById("accountFields").innerHTML = shoppingFailed +
-                    "<br><a href='//tw.hwangying.com/products.html'>" + goToProductsList + "</a>";
+                    "<br><a href='//tw.hwangying.com/products.html'>" + redirectToProductsList + "</a>";
                 autoRedirect("//tw.hwangying.com/products.html");
             }
         }
