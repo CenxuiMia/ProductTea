@@ -21,5 +21,7 @@ public class Path {
     public static final String ORDER_PROCESSING = "/admin/order/processing";
     public static final String ORDER_SHIPPED = "/admin/order/shipped";
 
-    public static final String CASH_REPORT = "/admin/cash/report";
+    public static final String REPORT_CASH_ALL = "/admin/report/cash/all";
+    public static final String REPORT_CASH_RANGE = "/admin/report/cash/range";
+    public static final String REPORT_CASH_DAILY = "/admin/report/cash/daily";
 }

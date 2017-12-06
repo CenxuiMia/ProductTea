@@ -6,6 +6,9 @@ import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductJsonMapException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductsFormatException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductCurrencyNotConsistException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductNotFoundException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.repositories.product.*;
 import com.cenxui.tea.app.util.JsonUtil;
@@ -108,6 +111,44 @@ final class DynamoDBProductRepository implements ProductRepository {
         return null;
     }
 
+    /**
+     * Caculate
+     * @param products
+     * @return
+     */
+    @Override
+    public Price getProductsPrice(List<String> products) {
+        //todo  business is here
+
+        Float orderPrice = 0F;
+
+        String currency = null;
+
+        for (String product: products) {
+            String[] s = product.split(";");//todo
+
+            if (s.length != 3) throw new ProductsFormatException(product);
+
+            String productName = s[0].trim();
+            String version = s[1].trim();
+            String count = s[2].trim();
+
+            Price price = getProductPrice(productName, version);
+
+            if (price == null) throw new ProductNotFoundException(productName, version);
+
+            if (currency != null && !currency.equals(price.getCurrency())) {
+                throw new ProductCurrencyNotConsistException(JsonUtil.mapToJson(products));
+            }else {
+                currency = price.getCurrency();
+            }
+
+            orderPrice = orderPrice + price.getValue() * Float.valueOf(count);
+        }
+
+        return Price.of(currency, orderPrice);
+    }
+
     @Override
     public Product addProduct(Product product) {
         PutItemSpec spec = new PutItemSpec()
@@ -173,6 +214,5 @@ final class DynamoDBProductRepository implements ProductRepository {
 
         return productKey;
     }
-
 
 }

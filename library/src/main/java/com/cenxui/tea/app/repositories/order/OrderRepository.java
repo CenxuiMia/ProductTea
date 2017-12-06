@@ -49,7 +49,7 @@ public interface OrderRepository extends Repository {
 
     Order deShipOrder(String mail, String time);
 
-    CashReport getCashAllReport();
+    CashReport getAllCashReport();
 
     CashReport getDailyCashReport(String paidDate);
 

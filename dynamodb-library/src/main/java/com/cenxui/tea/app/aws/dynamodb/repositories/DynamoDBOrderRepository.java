@@ -413,7 +413,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     @Override
-    public CashReport getCashAllReport() {
+    public CashReport getAllCashReport() {
 
         final List<Receipt> receipts = new LinkedList<>();
 

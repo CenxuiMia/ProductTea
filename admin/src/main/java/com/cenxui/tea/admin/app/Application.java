@@ -5,6 +5,7 @@ import static spark.Spark.*;
 import com.cenxui.tea.admin.app.service.order.AdminOrderController;
 import com.cenxui.tea.admin.app.service.product.AdminProductController;
 import com.cenxui.tea.admin.app.service.product.AdminProductImageUploadController;
+import com.cenxui.tea.admin.app.service.report.AdminCashController;
 import com.cenxui.tea.admin.app.service.user.AdminUserController;
 import com.cenxui.tea.admin.app.util.Param;
 import com.cenxui.tea.admin.app.util.Path;
@@ -174,6 +175,18 @@ public class Application {
         get(Path.USER, AdminUserController.getAllUser);
 
         get(Path.USER + "/" + Param.ORDER_MAIL, AdminUserController.getUser);
+
+
+        /**
+         * report
+         */
+
+        get(Path.REPORT_CASH_ALL, AdminCashController.getAllCashReport);
+
+        get(Path.REPORT_CASH_RANGE + "/" + Param.REPORT_CASH_FROM_DATE + "/" + Param.REPORT_CASH_TO_DATE,
+                AdminCashController.getRangeCashReport);
+
+        get(Path.REPORT_CASH_DAILY + "/" + Param.REPORT_CASH_DATE, AdminCashController.getDailyCashReport);
 
     }
 }

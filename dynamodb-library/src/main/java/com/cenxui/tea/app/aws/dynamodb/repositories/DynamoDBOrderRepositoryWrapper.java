@@ -1,13 +1,9 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
-import com.cenxui.tea.app.aws.dynamodb.exceptions.order.OrderProductFormatException;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductCurrencyNotConsistException;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductNotFoundException;
 import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.repositories.order.report.CashReport;
 import com.cenxui.tea.app.repositories.product.Price;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
-import com.cenxui.tea.app.util.JsonUtil;
 
 import java.util.List;
 
@@ -87,40 +83,20 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     @Override
     public Order addOrder(Order order) {
 
-        Float orderPrice = 0F;
+
 
         List<String> products = order.getProducts();
 
-        String currency = null;
+        Price price = productRepository.getProductsPrice(products);
 
-        for (String product: products) {
-            String[] s = product.split(";");//todo
 
-            if (s.length != 3) throw new OrderProductFormatException(product);
-
-            String productName = s[0].trim();
-            String version = s[1].trim();
-            String count = s[2].trim();
-
-            Price price = productRepository.getProductPrice(productName, version);
-
-            if (price == null) throw new ProductNotFoundException(productName, version);
-
-            if (currency != null && !currency.equals(price.getCurrency())) {
-                throw new ProductCurrencyNotConsistException(JsonUtil.mapToJson(products));
-            }else {
-                currency = price.getCurrency();
-            }
-
-            orderPrice = orderPrice + price.getMoney() * Float.valueOf(count);
-        }
 
         return orderRepository.addOrder(Order.of(
                 order.getMail(),
                 order.getProducts(),
                 order.getPurchaser(),
-                currency,
-                orderPrice,
+                price.getCurrency(),
+                price.getValue(),
                 order.getPaymentMethod(),
                 order.getReceiver(),
                 order.getPhone(),
@@ -183,8 +159,8 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
     }
 
     @Override
-    public CashReport getCashAllReport() {
-        return orderRepository.getCashAllReport();
+    public CashReport getAllCashReport() {
+        return orderRepository.getAllCashReport();
     }
 
     @Override
