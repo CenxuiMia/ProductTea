@@ -126,19 +126,6 @@ body, html {
     opacity: 1;
 }
 
-.footer-title {
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    font: 20px "Lato", sans-serif;
-    color: beige;
-}
-
-.footer-text {
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #fff;
-}
-
 .footer-copyright {
     clear: both;
     letter-spacing: 2px;
@@ -219,6 +206,10 @@ body, html {
         font: 400 30px/1.8 "Lato", sans-serif;
     }
 
+    .material-icons {
+        font-size: 50px;
+    }
+
     #id_header {
         height: 100px;
     }
@@ -270,17 +261,8 @@ body, html {
         font-size: 30px;
     }
 
-    .footer-title {
-        letter-spacing: 10px;
-        font: 40px "Lato", sans-serif;
-    }
-
-    .footer-text {
-        letter-spacing: 3px;
-    }
-
     .footer-copyright {
-        letter-spacing: 1px;
+        letter-spacing: 0;
         font-size: 11px;
         padding: 15px;
     }
