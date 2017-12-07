@@ -53,7 +53,11 @@ Resources:
             AttributeName: "paidTime"
             KeyType: "RANGE"
           Projection:
-            ProjectionType: "ALL" #modify todo
+            NonKeyAttributes:
+              - "price"
+              - "paidTime"
+              - "paymentMethod"
+            ProjectionType: "INCLUDE" #modify todo
           ProvisionedThroughput:
             ReadCapacityUnits: "1"
             WriteCapacityUnits: "1"
@@ -67,7 +71,14 @@ Resources:
             AttributeName: "owner"
             KeyType: "RANGE"
           Projection:
-            ProjectionType: "ALL"
+            NonKeyAttributes:
+              - "products"
+              - "receiver"
+              - "shippingWay"
+              - "shippingAddress"
+              - "comment"
+              - "phone"
+            ProjectionType: "INCLUDE" #modify todo
           ProvisionedThroughput:
             ReadCapacityUnits: "1"
             WriteCapacityUnits: "1"
@@ -81,7 +92,7 @@ Resources:
             AttributeName: "shippedTime"
             KeyType: "RANGE"
           Projection:
-            ProjectionType: "ALL" #modify todo
+            ProjectionType: "KEYS_ONLY" #modify todo
           ProvisionedThroughput:
             ReadCapacityUnits: "1"
             WriteCapacityUnits: "1"

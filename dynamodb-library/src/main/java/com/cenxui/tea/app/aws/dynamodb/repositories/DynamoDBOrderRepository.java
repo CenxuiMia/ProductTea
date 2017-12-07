@@ -7,12 +7,11 @@ import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.order.*;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderJsonMapException;
-import com.cenxui.tea.app.repositories.order.report.CashReport;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.client.order.*;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.client.map.order.OrderJsonMapException;
+import com.cenxui.tea.app.repositories.order.CashReport;
 import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
-import com.cenxui.tea.app.repositories.order.report.Receipt;
 import com.cenxui.tea.app.util.JsonUtil;
 
 import java.time.LocalDate;
@@ -26,7 +25,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     private final String processingIndex;
     private final String shippedIndex;
 
-    private final Integer max = 2; //todo
+    private final Integer max = Integer.MAX_VALUE; //todo
 
     DynamoDBOrderRepository(
             Table orderTable,
@@ -48,7 +47,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Orders getAllOrders(String mail, String orderDateTime, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
-        if (limit != null) {
+        if (limit != null && limit > 0) {
              scanSpec.withMaxResultSize(limit);
         }else {
             scanSpec.withMaxResultSize(max);
@@ -75,7 +74,7 @@ class DynamoDBOrderRepository implements OrderRepository {
                 .withFilterExpression("isActive = :v")
                 .withValueMap(new ValueMap().withBoolean(":v", true));
 
-        if (limit != null) {
+        if (limit != null && limit > 0) {
             scanSpec.withMaxResultSize(limit);
         }else {
             scanSpec.withMaxResultSize(max);
@@ -84,7 +83,6 @@ class DynamoDBOrderRepository implements OrderRepository {
         if (mail != null && orderDateTime != null) {
             scanSpec.withExclusiveStartKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime);
         }
-
 
         ItemCollection<ScanOutcome> collection = orderTable.scan(scanSpec);
         List<Order> orders = mapScanOutcomeToOrders(collection);
@@ -101,7 +99,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Orders getAllPaidOrders(OrderPaidLastKey orderPaidLastKey, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
-        if (limit != null ) {
+        if (limit != null && limit > 0) {
             scanSpec.withMaxResultSize(limit);
         }else {
             scanSpec.withMaxResultSize(max);
@@ -136,7 +134,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Orders getAllProcessingOrders(OrderProcessingLastKey orderProcessingLastKey, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
-        if (limit != null ) {
+        if (limit != null && limit > 0) {
             scanSpec.withMaxResultSize(limit);
         }else {
             scanSpec.withMaxResultSize(max);
@@ -171,9 +169,10 @@ class DynamoDBOrderRepository implements OrderRepository {
     @Override
     public Orders getAllShippedOrders(
             OrderShippedLastKey orderShippedLastKey, Integer limit) {
+
         ScanSpec scanSpec = new ScanSpec();
 
-        if (limit != null ) {
+        if (limit != null && limit > 0) {
             scanSpec.withMaxResultSize(limit);
         }else {
             scanSpec.withMaxResultSize(max);
@@ -201,6 +200,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Orders getOrdersByMail(String mail) {
+        //todo throw exception
+
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.MAIL, mail);
 
@@ -214,6 +215,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order getOrdersByMailAndTime(String mail, String orderDateTime) {
+        //todo throw exception
+
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.MAIL, mail)
                 .withRangeKeyCondition(new RangeKeyCondition(Order.ORDER_DATE_TIME).eq(orderDateTime));
@@ -230,6 +233,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order addOrder(Order order) {
+        //todo throw exception
+
         PutItemSpec putItemSpec = new PutItemSpec()
                 .withItem(ItemUtil.getOrderItem(order))
                 .withConditionExpression("attribute_not_exists("+ Order.MAIL + ")");
@@ -249,6 +254,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order activeOrder(String mail, String orderDateTime) {
+        //todo throw exception
+
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime)
                 .withConditionExpression("attribute_not_exists(" + Order.IS_ACTIVE +")")
@@ -267,6 +274,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order deActiveOrder(String mail, String dateTime) {
+        //todo throw exception
+
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, dateTime)
                 .withConditionExpression(
@@ -290,6 +299,8 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order payOrder(String mail, String orderDateTime) {
+        //todo throw exception
+
         LocalDateTime now =  LocalDateTime.now();
         String paidDate = now.toLocalDate().toString();
         String paidTime = now.toLocalTime().toString();
@@ -298,8 +309,9 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order payOrder(String mail, String orderDateTime, String paidDate, String paidTime) {
-        String processingDate = LocalDateTime.now().toString();
+        //todo throw exception
 
+        String processingDate = LocalDateTime.now().toString();
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime)
                 .withUpdateExpression(
@@ -330,7 +342,7 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order dePayOrder(String mail, String orderDateTime) {
-
+        //todo throw exception
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime)
                 .withConditionExpression(
@@ -355,6 +367,7 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order shipOrder(String mail, String orderDateTime) {
+        //todo throw exception
         LocalDateTime now =  LocalDateTime.now();
         String shippedDate = now.toLocalDate().toString();
         String shippedTime = now.toLocalTime().toString();
@@ -363,6 +376,7 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order shipOrder(String mail, String orderDateTime, String shippedDate, String shippedTime) {
+        //todo throw exception
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withConditionExpression(
                                 "attribute_exists(" + Order.IS_ACTIVE +")" +
@@ -390,7 +404,7 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order deShipOrder(String mail, String orderDateTime) {
-
+        //todo throw exception
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime)
                 .withConditionExpression(
@@ -415,18 +429,13 @@ class DynamoDBOrderRepository implements OrderRepository {
     @Override
     public CashReport getAllCashReport() {
 
-        final List<Receipt> receipts = new LinkedList<>();
+        final List<Order> allOrders = new LinkedList<>();
 
         OrderPaidLastKey lastKey = null;
 
         do {
-            ScanSpec scanSpec = new ScanSpec()
-                    .withProjectionExpression(
-                            Order.MAIL + "," +
-                                    Order.ORDER_DATE_TIME + "," +
-                                    Order.PAYMENT_METHOD + "," +
-                                    Order.PRICE
-                    );
+            ScanSpec scanSpec = new ScanSpec();
+
 
             if (lastKey != null) {
                 KeyAttribute[] keys = getPaidLastKeyAttributes(lastKey);
@@ -441,80 +450,63 @@ class DynamoDBOrderRepository implements OrderRepository {
 
             lastKey = getPaidIndexScanOutcomeLastKey(collection);
 
-            orders.forEach((s)-> {
-                receipts.add(
-                        Receipt.of(
-                                OrderKey.of(
-                                        s.getMail(),
-                                        s.getOrderDateTime()),
-                                s.getPaymentMethod(),
-                                s.getPrice()));
-            });
+            allOrders.addAll(orders);
         }while (lastKey != null);
 
-        Double revenue = getRevenue(receipts);
+        Double revenue = getRevenue(allOrders);
 
-        return CashReport.of(receipts, revenue, null);
+        return CashReport.of(allOrders, revenue);
     }
 
     @Override
     public CashReport getDailyCashReport(String paidDate) {
-        final List<Receipt> receipts = getDailyReceipts(paidDate);
+        //todo throw exception
+        final List<Order> paidOrders = getDailyPaidOrders(paidDate);
 
-        Double revenue = getRevenue(receipts);
+        Double revenue = getRevenue(paidOrders);
 
-        return CashReport.of(receipts, revenue, null);
+        return CashReport.of(paidOrders, revenue);
     }
-
-
 
     @Override
     public CashReport getRangeCashReport(String fromPaidDate, String toPaidDate) {
-
+        //todo throw exception
         LocalDate from = LocalDate.parse(fromPaidDate);
         LocalDate to = LocalDate.parse(toPaidDate);
 
 
         if (to.isBefore(from)) {
-            //todo throw exception
-
             return null;
         }
 
         LocalDate temp = from;
 
-        List<Receipt> receipts = new LinkedList<>();
+        List<Order> receipts = new LinkedList<>();
 
         while (!temp.isAfter(to)){
-            receipts.addAll(getDailyReceipts(temp.toString()));
+            receipts.addAll(getDailyPaidOrders(temp.toString()));
 
             temp = temp.plusDays(1);
         }
 
         Double revenue = getRevenue(receipts);
 
-        return CashReport.of(receipts, revenue, null);
+        return CashReport.of(receipts, revenue);
     }
 
-    private Double getRevenue(List<Receipt> receipts) {
-        return receipts.stream().mapToDouble(s -> s.getPrice()).sum();
+    private Double getRevenue(List<Order> receipts) {
+        return receipts.stream().mapToDouble(Order::getPrice).sum();
     }
 
 
-    private List<Receipt> getDailyReceipts(String paidDate) {
-        final List<Receipt> receipts = new LinkedList<>();
+    private List<Order> getDailyPaidOrders(String paidDate) {
+        final List<Order> allOrders = new LinkedList<>();
 
         OrderPaidLastKey lastKey = null;
 
         do {
             QuerySpec querySpec = new QuerySpec()
-                    .withHashKey(Order.PAID_DATE, paidDate)
-                    .withProjectionExpression(
-                            Order.MAIL + "," +
-                                    Order.ORDER_DATE_TIME + "," +
-                                    Order.PAYMENT_METHOD + "," +
-                                    Order.PRICE
-                    );
+                    .withHashKey(Order.PAID_DATE, paidDate);
 
             if (lastKey != null) {
                 KeyAttribute[] keys = getPaidLastKeyAttributes(lastKey);
@@ -528,19 +520,11 @@ class DynamoDBOrderRepository implements OrderRepository {
 
             lastKey = getPaidIndexQueryOutcomeLastKey(collection);
 
-            orders.forEach((s)-> {
-                receipts.add(
-                        Receipt.of(
-                                OrderKey.of(
-                                        s.getMail(),
-                                        s.getOrderDateTime()),
-                                s.getPaymentMethod(),
-                                s.getPrice()));
-            });
+            allOrders.addAll(orders);
 
         }while (lastKey != null);
 
-        return receipts;
+        return allOrders;
     }
 
     private KeyAttribute[] getPaidLastKeyAttributes(OrderPaidLastKey lastKey) {

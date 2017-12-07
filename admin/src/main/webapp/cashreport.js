@@ -1,15 +1,22 @@
 function onAllCash() {
     setTableHead();
-    getCash(orderEndpoint + "/")
+    clearReceiptForm()
+    getCash(reportEndpoint + "/cash/all")
     
 }
 
 function onDailyCash() {
     setTableHead();
+    clearReceiptForm();
+    getCash(reportEndpoint + "/cash/daily/" + document.getElementById("daily").value);
 }
 
-function onDailyRangeCash() {
+function onRangeCash() {
     setTableHead();
+    clearReceiptForm();
+    let from = document.getElementById("from").value;
+    let to = document.getElementById("to").value;
+    getCash(reportEndpoint + "/cash/range/" + from + "/" + to);
 }
 
 function setTableHead() {
@@ -25,16 +32,33 @@ function getCash(url) {
         url : url,
         success : function(response) {
             let data = JSON.parse(response);
-            let orders = data.orders;
-            lastKey = data.lastKey;
-            appendOrders(orders);
-            ableScroll = true;
-
+            let receipts = data.receipts;
+            document.getElementById("revenue").innerHTML = data.revenue;
+            appendReceipts(receipts);
         },
         error : function(xhr, status, error) {
             console.log("error: " + error + ", status: " + status);
-            ableScroll = true;
 
         }
     });
+}
+
+function clearReceiptForm() {
+    document.getElementById("receiptForm").innerHTML = "";
+}
+
+function appendReceipts(receipts) {
+    let receiptForm = document.getElementById("receiptForm");
+
+    for (let i = 1; i <= receipts.length; i++) {
+        let receipt =
+            "<tr> " +
+            "   <td>" + i + "</td> " +
+            "   <td>" + receipts[i].mail + " " + receipts[i].orderDateTime + "</td> " +
+            "   <td>" + receipts[i].paymentMethod+"</td> " +
+            "   <td>" + receipts[i].price +"</td> " +
+            "</tr>";
+        receiptForm.innerHTML += receipt;
+    }
+
 }

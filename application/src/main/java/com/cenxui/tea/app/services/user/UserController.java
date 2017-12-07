@@ -24,31 +24,27 @@ public class UserController extends CoreController {
 
         User user = userRepository.getUserProfile(mail);
 
-        return JsonUtil.mapToJson(user);
+        return JsonUtil.mapToJsonIgnoreNull(user);
     };
 
     public static final Route updateUserProfile = (Request request, Response response) -> {
         String mail = request.headers(Header.MAIL);
 
-        User clientUser = null;
+        User clientUser;
+
         try {
             clientUser = JsonUtil.mapToUser(request.body());
-        }catch (Throwable e) {
-            return "request body error";
+        }catch (Exception e) {
+            throw new UserControllerClientException("requst body error :" + request.body());
         }
-
-        if (clientUser == null) {
-            return "request body error";
-        }
-
-        User user = userRepository.updateUserProfile(
-                User.of(clientUser.getIsActive(),
-                        clientUser.getFirstName(),
-                        clientUser.getLastName(),
-                        mail,
-                        clientUser.getAddress(),
-                        clientUser.getPhone()));
-
-        return JsonUtil.mapToJson(user);
+        return JsonUtil.mapToJsonIgnoreNull(
+                userRepository.updateUserProfile(
+                        User.of(
+                                clientUser.getIsActive(),
+                                clientUser.getFirstName(),
+                                clientUser.getLastName(),
+                                mail,
+                                clientUser.getAddress(),
+                                clientUser.getPhone())));
     };
 }

@@ -1,7 +1,9 @@
 package com.cenxui.tea.app;
 
-import com.cenxui.tea.app.aws.dynamodb.exceptions.RepositoryException;
-import com.cenxui.tea.app.services.ControllerException;
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.client.RepositoryClientException;
+import com.cenxui.tea.app.services.ControllerClientException;
 import com.cenxui.tea.app.services.user.UserController;
 import com.cenxui.tea.app.services.order.OrderController;
 import com.cenxui.tea.app.services.product.ProductController;
@@ -14,7 +16,7 @@ public final class Application {
     public static void main(String[] args) {
 
         //config
-        port(9000);
+        port(9001);
         defineBasicResources();
         authResources();
         unAuthResources();
@@ -39,6 +41,16 @@ public final class Application {
                     return "OK";
                 });
 
+        exception(AmazonServiceException.class, (exception, request, response) -> {
+            response.body("retry, error :" + exception.getMessage());
+            response.status(500);
+        });
+
+        exception(AmazonClientException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+            response.status(500);
+        });
+
     }
 
     /**
@@ -53,18 +65,15 @@ public final class Application {
             response.header("Access-Control-Allow-Origin", "*");
         }));
 
-        exception(RepositoryException.class, (exception, request, response) -> {
+        exception(RepositoryClientException.class, (exception, request, response) -> {
             response.body(exception.getMessage());
             response.status(400);
         });
 
-        exception(ControllerException.class, (exception, request, response) -> {
+        exception(ControllerClientException.class, (exception, request, response) -> {
             response.body(exception.getMessage());
             response.status(400);
         });
-
-        //todo dynaomdb Server and Client exception
-
     }
 
 
@@ -72,10 +81,6 @@ public final class Application {
         get(Path.Web.PRODUCT, ProductController.getAllProducts);
         get(Path.Web.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION,
                 ProductController.getProduct);
-
-        get(Path.Web.INDEX, (req, rep) -> {
-            return "Hello World";
-        });
     }
 
     private static void authResources() {
@@ -90,7 +95,7 @@ public final class Application {
          */
         get(Path.Web.ORDER, OrderController.getOrdersByMail);
         put(Path.Web.ORDER, OrderController.addOrder);
-
+        delete(Path.Web.ORDER + "/" + Param.ORDER_DATE_TIME, OrderController.deActiveOrder);
     }
 
     /**

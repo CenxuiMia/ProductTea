@@ -6,10 +6,14 @@ import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
 import com.cenxui.tea.app.services.CoreController;
 import com.cenxui.tea.app.services.util.Header;
+import com.cenxui.tea.app.services.util.Param;
 import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+
+import java.time.LocalDateTime;
+import java.util.Map;
 
 public class OrderController extends CoreController {
     private static final OrderRepository orderRepository =
@@ -23,28 +27,32 @@ public class OrderController extends CoreController {
             );
 
     public static final Route getOrdersByMail = (Request request, Response response) -> {
-
         String mail = request.headers(Header.MAIL);
-        return JsonUtil.mapToJson(orderRepository.getOrdersByMail(mail));
+
+        if (mail == null) throw new OrderControllerServerException("header mail can not be null");
+
+        return JsonUtil.mapToJsonIgnoreNull(orderRepository.getOrdersByMail(mail));
     };
 
     public static final Route addOrder = (Request request, Response response) -> {
 
         String body = request.body();
 
-        if (body == null || body.isEmpty()) return "fail";
+        if (body == null || body.isEmpty()) throw new OrderControllerClientException("request body cannot empty.");
 
-        String mail = request.headers(Header.MAIL) != null ? request.headers(Header.MAIL) : "example@example.com";
+        String mail = request.headers(Header.MAIL);
+
+        if (mail == null) throw new OrderControllerServerException("header mail can not be null.");
 
         Order clientOrder = mapRequestBodyToOrder(body);
 
-        if (isValidate(clientOrder) == false) return "fail";
+        if (!isValidate(clientOrder)) throw new OrderControllerClientException("request body is not acceptable.");
 
         Order order = Order.of(
                 mail,
+                LocalDateTime.now().toString().substring(0,19),
                 clientOrder.getProducts(),
                 clientOrder.getPurchaser(),
-                null,
                 null,
                 clientOrder.getPaymentMethod(),
                 clientOrder.getReceiver(),
@@ -57,29 +65,32 @@ public class OrderController extends CoreController {
                 null,
                 null,
                 null,
-                true);
+                true,
+                "admin");
 
         Order resultOrder = orderRepository.addOrder(order);
 
-        return JsonUtil.mapToJson(resultOrder);
+        return JsonUtil.mapToJsonIgnoreNull(resultOrder);
     };
 
     public static final Route activeOrder =  (Request request, Response response) -> {
-        //todo
-        throw new UnsupportedOperationException("not yet");
+        String mail = request.headers(Header.MAIL);
+        String orderDateTime = getOrderDateTime(request.params());
+        return JsonUtil.mapToJsonIgnoreNull(orderRepository.activeOrder(mail, orderDateTime));
     };
 
 
     public static final Route deActiveOrder =  (Request request, Response response) -> {
-        //todo
-        throw new UnsupportedOperationException("not yet");
+        String mail = request.headers(Header.MAIL);
+        String orderDateTime = getOrderDateTime(request.params());
+        return JsonUtil.mapToJsonIgnoreNull(orderRepository.deActiveOrder(mail, orderDateTime));
     };
 
     private static Order mapRequestBodyToOrder(String body) {
         try {
             return JsonUtil.mapToOrder(body);
         }catch (Throwable e) {
-            throw new OrderControllerException("request body not allow :" + body);
+            throw new OrderControllerServerException("request body not allow :" + body);
         }
     }
 
@@ -105,6 +116,10 @@ public class OrderController extends CoreController {
     private static boolean isEmpty(String s) {
         if (s == null || s.isEmpty()) return true;
         return false;
+    }
+
+    private static String getOrderDateTime(Map<String, String> map) {
+        return map.get(Param.ORDER_DATE_TIME);
     }
 
 }

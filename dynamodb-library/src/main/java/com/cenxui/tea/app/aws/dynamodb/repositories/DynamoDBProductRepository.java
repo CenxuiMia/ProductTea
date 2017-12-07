@@ -5,10 +5,9 @@ import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.product.ProductJsonMapException;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductsFormatException;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductCurrencyNotConsistException;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.product.ProductNotFoundException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.client.map.product.ProductJsonMapException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.client.product.ProductsFormatException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.client.product.ProductNotFoundException;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.repositories.product.*;
 import com.cenxui.tea.app.util.JsonUtil;
@@ -49,6 +48,7 @@ final class DynamoDBProductRepository implements ProductRepository {
                         Product.SMALL_IMAGE + "," +
                         Product.INTRODUCTION + "," +
                         Product.PRICE + "," +
+                        Product.ORIGINAL_PRICE + "," +
                         Product.TAG );
 
         ItemCollection<ScanOutcome> itemCollection = productTable.scan(scanSpec);
@@ -106,7 +106,7 @@ final class DynamoDBProductRepository implements ProductRepository {
 
         if (products.size() == 1) {
             Product product = products.get(0);
-            return Price.of(product.getCurrency(), product.getPrice());
+            return Price.of(product.getPrice());
         }
         return null;
     }
@@ -122,7 +122,6 @@ final class DynamoDBProductRepository implements ProductRepository {
 
         Float orderPrice = 0F;
 
-        String currency = null;
 
         for (String product: products) {
             String[] s = product.split(";");//todo
@@ -136,17 +135,10 @@ final class DynamoDBProductRepository implements ProductRepository {
             Price price = getProductPrice(productName, version);
 
             if (price == null) throw new ProductNotFoundException(productName, version);
-
-            if (currency != null && !currency.equals(price.getCurrency())) {
-                throw new ProductCurrencyNotConsistException(JsonUtil.mapToJson(products));
-            }else {
-                currency = price.getCurrency();
-            }
-
             orderPrice = orderPrice + price.getValue() * Float.valueOf(count);
         }
 
-        return Price.of(currency, orderPrice);
+        return Price.of(orderPrice);
     }
 
     @Override

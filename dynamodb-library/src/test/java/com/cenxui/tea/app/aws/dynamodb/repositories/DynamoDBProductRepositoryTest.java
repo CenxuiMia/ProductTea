@@ -28,8 +28,9 @@ public class DynamoDBProductRepositoryTest {
     @Test
     public void addProducts() {
 
-//        Product product = productRepository.addProduct(Product.of("綠茶", "翠玉冰茶", "Ａ","Ａ","Ａ","A",
-//                new ArrayList<>(),40000F,"Ａ"));
+//        Product product = productRepository.addProduct(
+//                Product.of("綠茶", "", "Ａ","Ａ","Ａ","A",
+//                new ArrayList<>(),"" , 40000F,"Ａ"));
 //
 //        System.out.println(product);
 

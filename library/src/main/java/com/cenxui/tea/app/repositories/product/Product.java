@@ -14,7 +14,7 @@ public class Product {
     public static final String VIDEO = "video";
     public static final String IMAGES = "images";
     public static final String PRICE = "price";
-    public static final String CURRENCY = "currency";
+    public static final String ORIGINAL_PRICE = "originalPrice";
     public static final String TAG = "tag";
 
 
@@ -26,7 +26,7 @@ public class Product {
     String video;
     List<String> images;
     Float price;
-    String currency;
+    Float originalPrice;
     String tag;
 
 }

@@ -2,6 +2,8 @@ package com.cenxui.tea.admin.app;
 
 import static spark.Spark.*;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
 import com.cenxui.tea.admin.app.service.order.AdminOrderController;
 import com.cenxui.tea.admin.app.service.product.AdminProductController;
 import com.cenxui.tea.admin.app.service.product.AdminProductImageUploadController;
@@ -44,6 +46,16 @@ public class Application {
                 });
 
         adminResources();
+
+        exception(AmazonServiceException.class, (exception, request, response) -> {
+            response.body("retry, error :" + exception.getMessage());
+            response.status(500);
+        });
+
+        exception(AmazonClientException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+            response.status(500);
+        });
 
     }
 

@@ -1,9 +1,10 @@
 package com.cenxui.tea.app.repositories.order;
 
+import lombok.NonNull;
 import lombok.Value;
 
 @Value(staticConstructor = "of")
 public class OrderKey extends Key {
-    String mail;
-    String orderDateTime;
+    @NonNull String mail;
+    @NonNull String orderDateTime;
 }

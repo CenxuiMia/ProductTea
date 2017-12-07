@@ -59,8 +59,7 @@ aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file output-s
 
 modify table attribute
 
-Order.class OrderKey.class OrderPaidLastKey.class OrderProcessingLastKey.class OrderShippedLastKey.class
-tea-order-table.yaml
+Order.class OrderKey.class OrderPaidLastKey.class OrderProcessingLastKey.class OrderShippedLastKey.class 
 
 Product
 
@@ -70,3 +69,6 @@ tea-product-table.yaml
 User
 User.class UserKey.class
 tea-user-table-yaml
+
+** the attribute mapping for secondary index is related to tea-order-table.yaml
+make sure the projection mapping and Order.class are right.

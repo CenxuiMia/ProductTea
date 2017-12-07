@@ -1,7 +1,9 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
+import com.cenxui.tea.app.aws.dynamodb.exceptions.server.order.OrderCannotNullException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.server.order.OrderProductsCannotNullException;
 import com.cenxui.tea.app.repositories.order.*;
-import com.cenxui.tea.app.repositories.order.report.CashReport;
+import com.cenxui.tea.app.repositories.order.CashReport;
 import com.cenxui.tea.app.repositories.product.Price;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
 
@@ -82,20 +84,19 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
 
     @Override
     public Order addOrder(Order order) {
+        if (order == null) throw new OrderCannotNullException();
 
-
+        if (order.getProducts() == null) throw new OrderProductsCannotNullException(order);
 
         List<String> products = order.getProducts();
 
         Price price = productRepository.getProductsPrice(products);
 
-
-
         return orderRepository.addOrder(Order.of(
                 order.getMail(),
+                order.getOrderDateTime(),
                 order.getProducts(),
                 order.getPurchaser(),
-                price.getCurrency(),
                 price.getValue(),
                 order.getPaymentMethod(),
                 order.getReceiver(),
@@ -108,7 +109,8 @@ class DynamoDBOrderRepositoryWrapper implements OrderRepository {
                 order.getProcessingDate(),
                 order.getShippedDate(),
                 order.getShippedTime(),
-                order.getIsActive()));
+                order.getIsActive(),
+                order.getOwner()));
     }
 
     @Override
