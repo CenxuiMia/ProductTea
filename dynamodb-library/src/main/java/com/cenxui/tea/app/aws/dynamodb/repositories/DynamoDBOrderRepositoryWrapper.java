@@ -3,7 +3,7 @@ package com.cenxui.tea.app.aws.dynamodb.repositories;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.server.order.OrderCannotNullException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.server.order.OrderProductsCannotNullException;
 import com.cenxui.tea.app.repositories.order.*;
-import com.cenxui.tea.app.repositories.order.report.CashReport;
+import com.cenxui.tea.app.repositories.order.CashReport;
 import com.cenxui.tea.app.repositories.product.Price;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
 

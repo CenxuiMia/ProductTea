@@ -1,7 +1,7 @@
 package com.cenxui.tea.admin.app.application;
 
 import com.cenxui.tea.admin.app.util.JsonTestUtil;
-import com.cenxui.tea.app.repositories.order.report.CashReport;
+import com.cenxui.tea.app.repositories.order.CashReport;
 import com.cenxui.tea.app.util.Http;
 import org.junit.Before;
 import org.junit.Test;

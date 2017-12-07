@@ -1,6 +1,6 @@
 package com.cenxui.tea.admin.app.util;
 
-import com.cenxui.tea.app.repositories.order.report.CashReport;
+import com.cenxui.tea.app.repositories.order.CashReport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;

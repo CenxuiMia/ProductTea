@@ -1,6 +1,5 @@
 package com.cenxui.tea.app.repositories.order;
 
-import com.cenxui.tea.app.repositories.order.report.CashReport;
 import com.cenxui.tea.app.repositories.Repository;
 
 public interface OrderRepository extends Repository {
