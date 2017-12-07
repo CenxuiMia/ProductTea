@@ -33,7 +33,6 @@ $.ajax({
         document.getElementById("productName").innerHTML = data.productName;
         document.getElementById("version").innerHTML = data.version;
         document.getElementById("introduction").innerHTML = data.introduction;
-        document.getElementById("currency").innerHTML = data.currency;
         document.getElementById("price").innerHTML = data.price;
         document.getElementById("video").setAttribute("src", data.video);
 
@@ -48,7 +47,7 @@ $.ajax({
     error : function(xhr, status, error) {
         console.log("error: " + error + ", status: " + status);
         //TODO 測試用要拿掉
-        productDataAsKey = JSON.stringify({"productName":"測試","version":"喝喝茶","introduction":"簡介文字","details":"詳細介紹文字","smallImage":"https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg","video":"A","images":[],"price":123.0,"currency":"NT","tag":"A"});
+        productDataAsKey = JSON.stringify({"productName":"測試","version":"喝喝茶","introduction":"簡介文字","details":"詳細介紹文字","smallImage":"https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg","video":"A","images":[],"price":123.0,"tag":"A"});
     }
 });
 
@@ -63,7 +62,6 @@ function getParameterByName(name) {
 }
 
 function addToCart() {
-    //TODO 加入購物車的商品必須全為同幣別 currency
     let cartItems;
     let selected = document.getElementById("count");
     let count = parseInt(selected.options[selected.selectedIndex].value);
