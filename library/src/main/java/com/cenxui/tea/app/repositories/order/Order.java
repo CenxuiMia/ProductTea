@@ -37,6 +37,8 @@ public class Order {
 
     public static final String IS_ACTIVE = "isActive";
 
+    public static final String OWNER = "owner";
+
     String mail; // default user email
     String orderDateTime =  LocalDateTime.now().toString().substring(0,19); //todo
     List<String> products;
@@ -57,7 +59,7 @@ public class Order {
     String shippedDate;
     String shippedTime;
     Boolean isActive;
-    String owner = "admin";
+    String owner = "com.cenxui.app.admin";
 
     public static Order of(String mail,
                            List<String> products,

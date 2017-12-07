@@ -1,16 +1,12 @@
 package com.cenxui.tea.app.application;
 
-import com.cenxui.tea.app.repositories.order.Order;
-import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.services.util.Header;
 import com.cenxui.tea.app.util.Http;
 import com.cenxui.tea.app.util.JsonUtil;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class OrderPathTest {
@@ -41,7 +37,7 @@ public class OrderPathTest {
             headers1.put(Header.MAIL, "mia@gmail.com");
 
             Map<String, String> headers2 = new HashMap<>();
-            headers2.put(Header.MAIL, "admin@gmail.com");
+            headers2.put(Header.MAIL, "com.cenxui.app.admin@gmail.com");
 
             Map<String, String> headers3 = new HashMap<>();
             headers2.put(Header.MAIL, "cenxui@gmail.com");

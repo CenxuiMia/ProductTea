@@ -56,5 +56,17 @@ aws cloudformation package --template-file sam-un-auth.yaml --output-template-fi
 aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file output-sam-un-auth.yaml --stack-name tea-un-auth
 
 
-' '
 
+modify table attribute
+
+Order.class OrderKey.class OrderPaidLastKey.class OrderProcessingLastKey.class OrderShippedLastKey.class
+tea-order-table.yaml
+
+Product
+
+Product.class ProductKey.class
+tea-product-table.yaml
+
+User
+User.class UserKey.class
+tea-user-table-yaml

@@ -2,8 +2,6 @@ package com.cenxui.tea.app;
 
 import com.cenxui.tea.app.aws.dynamodb.exceptions.RepositoryException;
 import com.cenxui.tea.app.services.ControllerException;
-import com.cenxui.tea.app.services.admin.order.AdminOrderController;
-import com.cenxui.tea.app.services.admin.product.AdminProductController;
 import com.cenxui.tea.app.services.user.UserController;
 import com.cenxui.tea.app.services.order.OrderController;
 import com.cenxui.tea.app.services.product.ProductController;
@@ -20,22 +18,22 @@ public final class Application {
         defineBasicResources();
         authResources();
         unAuthResources();
-        adminResources();
         options("/*",
                 (request, response) -> {
-
-                    String accessControlRequestHeaders = request
-                            .headers("Access-Control-Request-Headers");
-                    if (accessControlRequestHeaders != null) {
-                        response.header("Access-Control-Allow-Headers",
-                                accessControlRequestHeaders);
-                    }
 
                     String accessControlRequestMethod = request
                             .headers("Access-Control-Request-Method");
                     if (accessControlRequestMethod != null) {
                         response.header("Access-Control-Allow-Methods",
                                 accessControlRequestMethod);
+                    }
+
+
+                    String accessControlRequestHeaders = request
+                            .headers("Access-Control-Request-Headers");
+                    if (accessControlRequestHeaders != null) {
+                        response.header("Access-Control-Allow-Headers",
+                                accessControlRequestHeaders);
                     }
 
                     return "OK";
@@ -67,12 +65,6 @@ public final class Application {
 
         //todo dynaomdb Server and Client exception
 
-//        /**
-//         * todo remove it in product version
-//         */
-//        exception(RuntimeException.class, (exception, request, response) -> {
-//            response.body(ApplicationError.getTrace(exception.getStackTrace()));
-//        });
     }
 
 
@@ -101,132 +93,6 @@ public final class Application {
 
     }
 
-    private static void adminResources() {
-        /**
-         * orders
-         */
-
-        get(Path.Web.Admin.ORDER_ALL, AdminOrderController.getAllOrders);
-
-        get(Path.Web.Admin.ORDER_ALL + "/" +
-                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
-                        Param.ORDER_LIMIT,
-                AdminOrderController.getAllOrdersByLastKey);
-
-        get(Path.Web.Admin.ORDER + "/" +
-                Param.ORDER_MAIL, AdminOrderController.getOrdersByMail);
-
-        get(Path.Web.Admin.ORDER_ALL_ACTIVE, AdminOrderController.getAllActiveOrders);
-
-        get(Path.Web.Admin.ORDER_ACTIVE + "/" +
-                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
-                        Param.ORDER_LIMIT,
-                AdminOrderController.getAllActiveOrdersByLastKey);
-
-        get(Path.Web.Admin.ORDER_PAID, AdminOrderController.getAllPaidOrders);
-
-        get(Path.Web.Admin.ORDER_PAID +  "/" +
-                        Param.ORDER_PAID_DATE  +"/" + Param.ORDER_PAID_TIME + "/" +
-                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
-                        Param.ORDER_LIMIT,
-                AdminOrderController.getAllPaidOrdersByLastKey);
-
-        get(Path.Web.Admin.ORDER_PROCESSING, AdminOrderController.getAllProcessingOrders);
-
-        get(Path.Web.Admin.ORDER_PROCESSING + "/" +
-                        Param.ORDER_PROCESSING_DATE + "/" +
-                        Param.ORDER_LIMIT,
-                AdminOrderController.getAllProcessingOrdersByLastKey);
-
-        get(Path.Web.Admin.ORDER_SHIPPED, AdminOrderController.getAllShippedOrders);
-
-        get(Path.Web.Admin.ORDER_SHIPPED + "/" +
-                        Param.ORDER_SHIPPED_DATE + "/" + Param.ORDER_SHIPPED_TIME + "/" +
-                        Param.ORDER_MAIL + "/" + Param.ORDER_TIME + "/" +
-                        Param.ORDER_LIMIT,
-                AdminOrderController.getAllShippedOrdersByLastKey);
-
-
-        /**
-         * order
-         */
-
-        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
-                AdminOrderController.getOrderByMailAndTime);
-
-        get(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL,
-                AdminOrderController.getOrdersByMail);
-
-        /**
-         * manipulate order lifecycle
-         */
-
-        post(Path.Web.Admin.ORDER_ACTIVE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
-                AdminOrderController.activeOrder);
-
-        post(Path.Web.Admin.ORDER_DEACTIVE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
-                AdminOrderController.deActiveOrder);
-
-        post(Path.Web.Admin.ORDER_PAY + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
-                AdminOrderController.payOrder);
-
-        post(Path.Web.Admin.ORDER_DEPAY + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
-                AdminOrderController.dePayOrder);
-
-
-        post(Path.Web.Admin.ORDER_SHIP + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
-                AdminOrderController.shipOrder);
-
-        post(Path.Web.Admin.ORDER_DESHIP + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
-                AdminOrderController.deShipOrder);
-
-
-        /**
-         * add order
-         */
-        put(Path.Web.Admin.ORDER + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_TIME,
-                AdminOrderController.addOrder);
-
-
-        /**
-         * products
-         */
-
-        get(Path.Web.Admin.PRODUCT,  AdminProductController.getAllProducts);
-
-
-
-        /**
-         * product
-         */
-
-        get(Path.Web.Admin.PRODUCT + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION,
-                AdminProductController.getProduct);
-
-        /**
-         * add product
-         */
-        put(Path.Web.Admin.PRODUCT, AdminProductController.addProduct);
-
-        post(Path.Web.Admin.PRODUCT, AdminProductController.updateProduct);
-
-
-        /**
-         * user
-         */
-
-        get(Path.Web.Admin.USER, (request, response) -> {
-
-            return  "get all user";
-        });
-
-        get(Path.Web.Admin.USER + "/" + Param.ORDER_MAIL,  (request, response) -> {
-
-            return  "get user";
-        });
-
-    }
-
     /**
      * add unauth route here
      */
@@ -242,11 +108,6 @@ public final class Application {
 
     public static void defineAuthResources() {
         authResources();
-        defineBasicResources();
-    }
-
-    public static void defineAdminResources() {
-        adminResources();
         defineBasicResources();
     }
 
