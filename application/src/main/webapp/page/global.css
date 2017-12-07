@@ -263,8 +263,9 @@ body, html {
 
     .footer-copyright {
         letter-spacing: 0;
-        font-size: 11px;
+        font-size: 20px;
         padding: 15px;
+        margin-top: 10px;
     }
 
     .formTitle {
