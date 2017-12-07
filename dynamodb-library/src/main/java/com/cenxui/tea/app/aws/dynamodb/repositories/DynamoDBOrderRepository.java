@@ -7,8 +7,8 @@ import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.order.*;
-import com.cenxui.tea.app.aws.dynamodb.exceptions.map.order.OrderJsonMapException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.client.order.*;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.client.map.order.OrderJsonMapException;
 import com.cenxui.tea.app.repositories.order.report.CashReport;
 import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
@@ -26,7 +26,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     private final String processingIndex;
     private final String shippedIndex;
 
-    private final Integer max = 2; //todo
+    private final Integer max = Integer.MAX_VALUE; //todo
 
     DynamoDBOrderRepository(
             Table orderTable,
@@ -48,7 +48,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Orders getAllOrders(String mail, String orderDateTime, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
-        if (limit != null) {
+        if (limit != null && limit > 0) {
              scanSpec.withMaxResultSize(limit);
         }else {
             scanSpec.withMaxResultSize(max);
@@ -75,7 +75,7 @@ class DynamoDBOrderRepository implements OrderRepository {
                 .withFilterExpression("isActive = :v")
                 .withValueMap(new ValueMap().withBoolean(":v", true));
 
-        if (limit != null) {
+        if (limit != null && limit > 0) {
             scanSpec.withMaxResultSize(limit);
         }else {
             scanSpec.withMaxResultSize(max);
@@ -84,7 +84,6 @@ class DynamoDBOrderRepository implements OrderRepository {
         if (mail != null && orderDateTime != null) {
             scanSpec.withExclusiveStartKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime);
         }
-
 
         ItemCollection<ScanOutcome> collection = orderTable.scan(scanSpec);
         List<Order> orders = mapScanOutcomeToOrders(collection);
@@ -101,7 +100,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Orders getAllPaidOrders(OrderPaidLastKey orderPaidLastKey, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
-        if (limit != null ) {
+        if (limit != null && limit > 0) {
             scanSpec.withMaxResultSize(limit);
         }else {
             scanSpec.withMaxResultSize(max);
@@ -136,7 +135,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     public Orders getAllProcessingOrders(OrderProcessingLastKey orderProcessingLastKey, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
-        if (limit != null ) {
+        if (limit != null && limit > 0) {
             scanSpec.withMaxResultSize(limit);
         }else {
             scanSpec.withMaxResultSize(max);
@@ -173,7 +172,7 @@ class DynamoDBOrderRepository implements OrderRepository {
             OrderShippedLastKey orderShippedLastKey, Integer limit) {
         ScanSpec scanSpec = new ScanSpec();
 
-        if (limit != null ) {
+        if (limit != null && limit > 0) {
             scanSpec.withMaxResultSize(limit);
         }else {
             scanSpec.withMaxResultSize(max);
@@ -422,7 +421,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         do {
             ScanSpec scanSpec = new ScanSpec()
                     .withProjectionExpression(
-                            Order.MAIL + "," +
+                                    Order.MAIL + "," +
                                     Order.ORDER_DATE_TIME + "," +
                                     Order.PAYMENT_METHOD + "," +
                                     Order.PRICE
@@ -441,20 +440,23 @@ class DynamoDBOrderRepository implements OrderRepository {
 
             lastKey = getPaidIndexScanOutcomeLastKey(collection);
 
-            orders.forEach((s)-> {
-                receipts.add(
-                        Receipt.of(
-                                OrderKey.of(
-                                        s.getMail(),
-                                        s.getOrderDateTime()),
-                                s.getPaymentMethod(),
-                                s.getPrice()));
-            });
+            addOrderToReceipts(receipts, orders);
         }while (lastKey != null);
 
         Double revenue = getRevenue(receipts);
 
         return CashReport.of(receipts, revenue, null);
+    }
+
+    private void addOrderToReceipts(List<Receipt> receipts, List<Order> orders) {
+        orders.forEach((s)-> {
+            receipts.add(
+                    Receipt.of(
+                            s.getMail(),
+                            s.getOrderDateTime(),
+                            s.getPaymentMethod(),
+                            s.getPrice()));
+        });
     }
 
     @Override
@@ -476,8 +478,6 @@ class DynamoDBOrderRepository implements OrderRepository {
 
 
         if (to.isBefore(from)) {
-            //todo throw exception
-
             return null;
         }
 
@@ -508,13 +508,7 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         do {
             QuerySpec querySpec = new QuerySpec()
-                    .withHashKey(Order.PAID_DATE, paidDate)
-                    .withProjectionExpression(
-                            Order.MAIL + "," +
-                                    Order.ORDER_DATE_TIME + "," +
-                                    Order.PAYMENT_METHOD + "," +
-                                    Order.PRICE
-                    );
+                    .withHashKey(Order.PAID_DATE, paidDate);
 
             if (lastKey != null) {
                 KeyAttribute[] keys = getPaidLastKeyAttributes(lastKey);
@@ -528,15 +522,7 @@ class DynamoDBOrderRepository implements OrderRepository {
 
             lastKey = getPaidIndexQueryOutcomeLastKey(collection);
 
-            orders.forEach((s)-> {
-                receipts.add(
-                        Receipt.of(
-                                OrderKey.of(
-                                        s.getMail(),
-                                        s.getOrderDateTime()),
-                                s.getPaymentMethod(),
-                                s.getPrice()));
-            });
+            addOrderToReceipts(receipts, orders);
 
         }while (lastKey != null);
 

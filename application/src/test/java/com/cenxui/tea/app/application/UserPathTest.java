@@ -16,7 +16,7 @@ public class UserPathTest {
 
     @Before
     public void setUp() {
-        url = "http://localhost:9000/user";
+        url = "http://localhost:9001/user";
     }
 
     @Test

@@ -226,7 +226,7 @@ public class DynamoDBOrderRepositoryTest {
 
     @Test
     public void getAllCashReport() {
-        System.out.println(orderRepository.getCashAllReport());
+        System.out.println(orderRepository.getAllCashReport());
     }
 
     @Test
@@ -241,7 +241,7 @@ public class DynamoDBOrderRepositoryTest {
 
         System.out.println(d);
         System.out.println(orderRepository.getRangeCashReport("2017-12-03", "2017-12-04").getRevenue());
-        System.out.println(orderRepository.getCashAllReport().getRevenue());
+        System.out.println(orderRepository.getAllCashReport().getRevenue());
     }
 
 }

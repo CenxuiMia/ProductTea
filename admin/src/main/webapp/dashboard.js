@@ -115,7 +115,7 @@ function appendOrders(orders) {
         var order =
             "<tr> " +
             "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + " " + buttonActiveHTML + buttonPayHTML + buttonShipHTML + "</td> " +
-            "   <td>" + orders[i].currency + orders[i].price +"</td> " +
+            "   <td>" + orders[i].price +"</td> " +
             "   <td>" + orders[i].products+"</td> " +
             "   <td>" + orders[i].receiver + "</td> " +
             "   <td>" + orders[i].shippingWay + "</td> " +

@@ -21,7 +21,6 @@ public class Order {
     public static final String ORDER_DATE_TIME = "orderDateTime";
     public static final String PRODUCTS = "products";
     public static final String PURCHASER = "purchaser";
-    public static final String CURRENCY = "currency";
     public static final String PRICE = "price";
     public static final String PAYMENT_METHOD = "paymentMethod";
     public static final String RECEIVER = "receiver";
@@ -40,10 +39,9 @@ public class Order {
     public static final String OWNER = "owner";
 
     String mail; // default user email
-    String orderDateTime =  LocalDateTime.now().toString().substring(0,19); //todo
+    String orderDateTime;
     List<String> products;
     String purchaser;
-    String currency;
     Float price;
     String paymentMethod;
 
@@ -59,12 +57,12 @@ public class Order {
     String shippedDate;
     String shippedTime;
     Boolean isActive;
-    String owner = "com.cenxui.app.admin";
+    String owner;
 
     public static Order of(String mail,
+                           String orderDateTime,
                            List<String> products,
                            String purchaser,
-                           String currency,
                            Float price,
                            String paymentMethod,
                            String receiver,
@@ -77,12 +75,13 @@ public class Order {
                            String processingDate,
                            String shippedDate,
                            String shippedTime,
-                           Boolean isActive) {
+                           Boolean isActive,
+                           String owner) {
 
         return new Order(
-                mail, products, purchaser, currency, price, paymentMethod, receiver, phone, shippingWay,
+                mail, orderDateTime, products, purchaser, price, paymentMethod, receiver, phone, shippingWay,
                 shippingAddress, comment, paidDate, paidTime, processingDate, shippedDate,
-                shippedTime, isActive);
+                shippedTime, isActive, owner);
     }
 
 }

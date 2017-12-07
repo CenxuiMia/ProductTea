@@ -5,6 +5,7 @@ import com.cenxui.tea.admin.app.service.AdminCoreController;
 import com.cenxui.tea.admin.app.util.Param;
 import com.cenxui.tea.app.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.tea.app.repositories.order.OrderRepository;
+import com.cenxui.tea.app.util.JsonUtil;
 import spark.Route;
 
 import java.util.Map;
@@ -23,20 +24,20 @@ public class AdminCashController extends AdminCoreController {
 
 
     public static final Route getAllCashReport = ((request, response) -> {
-        return orderRepository.getAllCashReport();
+        return JsonUtil.mapToJson(orderRepository.getAllCashReport());
     });
 
     public static final Route getRangeCashReport = ((request, response) -> {
         Map<String, String> map = request.params();
         String fromPaidDate = getReportCashFromDate(map);
         String toPaidDate = getReportCashToDate(map);
-        return orderRepository.getRangeCashReport(fromPaidDate, toPaidDate);
+        return JsonUtil.mapToJson(orderRepository.getRangeCashReport(fromPaidDate, toPaidDate));
     });
 
     public static final Route getDailyCashReport = ((request, response) -> {
         Map<String, String> map = request.params();
         String paidDate = getReportCashDate(map);
-        return orderRepository.getDailyCashReport(paidDate);
+        return JsonUtil.mapToJson(orderRepository.getDailyCashReport(paidDate));
     });
 
     private static String getReportCashFromDate(Map<String, String> map) {

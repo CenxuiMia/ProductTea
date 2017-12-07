@@ -1,12 +1,16 @@
 package com.cenxui.tea.app.application;
 
+import com.cenxui.tea.app.repositories.order.Order;
 import com.cenxui.tea.app.services.util.Header;
 import com.cenxui.tea.app.util.Http;
 import com.cenxui.tea.app.util.JsonUtil;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class OrderPathTest {
@@ -15,45 +19,32 @@ public class OrderPathTest {
 
     @Before
     public void setUp() {
-        url = "http://localhost:9000/order";
+        url = "http://localhost:9001/order";
     }
 
     @Test
     public void addOrder() {
-//        List<String> products = new ArrayList<>();
-//
-//        String good = "花茶;大玉茶;10";
-//        products.add(good);
-//
-//        Order order = Order.of(
-//                null, products, "黃盈盈",
-//                null, null, "mia","09283399","airbus",
-//                "abc","good", null,null,null,null
-//        );
-
         for (int i = 0; i<3; i++) {
 
             Map<String, String> headers1 = new HashMap<>();
             headers1.put(Header.MAIL, "mia@gmail.com");
 
             Map<String, String> headers2 = new HashMap<>();
-            headers2.put(Header.MAIL, "com.cenxui.app.admin@gmail.com");
+            headers2.put(Header.MAIL, "admin@gmail.com");
 
             Map<String, String> headers3 = new HashMap<>();
-            headers2.put(Header.MAIL, "cenxui@gmail.com");
+            headers3.put(Header.MAIL, "cenxui@gmail.com");
 
-            String body1 = "{\"purchaser\":\"黃盈盈\",\"mail\":\"帥哥林\",\"phone\":\"0900111222\",\"receiver\":\"帥哥林\",\"shippingWay\":\"超商取貨\",\"shippingAddress\":\"A市B區C路DFG\",\"products\":[\"花茶;大玉茶;2\"],\"comment\":\"none\"}";
+            List<String> products = new ArrayList<>();
 
-            String body2 = "{\"purchaser\":\"黃盈盈\",\"mail\":\"大流士\",\"phone\":\"0900111222\",\"receiver\":\"大流士\",\"shippingWay\":\"超商取貨\",\"shippingAddress\":\"A市B區C路DFG\",\"products\":[\"美茶;大玉茶;2\"],\"comment\":\"none\"}";
-
-            String body3 = "{\"purchaser\":\"呱呱\",\"mail\":\"大流士\",\"phone\":\"0900111222\",\"receiver\":\"珠珠\",\"shippingWay\":\"超商取貨\",\"shippingAddress\":\"A市B區C路DFG\",\"products\":[\"美茶;大玉茶;2\"],\"comment\":\"none\"}";
+            products.add("紅茶;大玉茶;2");
 
 
-            Http.put(url, body1, headers1);
+            Http.put(url, JsonUtil.mapToJson(OrderUtil.getOrder(products)), headers1);
 
-            Http.put(url, body2, headers2);
+            Http.put(url, JsonUtil.mapToJson(OrderUtil.getOrder(products)), headers2);
 
-            Http.put(url, body3, headers3);
+            Http.put(url, JsonUtil.mapToJson(OrderUtil.getOrder(products)), headers3);
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
