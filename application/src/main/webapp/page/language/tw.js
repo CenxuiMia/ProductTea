@@ -1,6 +1,10 @@
 /**
  * Created by huaying on 02/12/2017.
  */
+const URL_ORDER = "//tw.hwangying.com/order.html";
+const URL_PRODUCTS = "//tw.hwangying.com/products.html";
+const URL_USER_ORDERS = "//tw.hwangying.com/userOrders.html";
+
 let processing = "處理中...";
 let processingSuccess = "成功送出";
 let processingFailed = "更新失敗，請再試一次";

@@ -22,7 +22,7 @@ function checkCartValid() {
         document.getElementsByClassName("bannerRight")[0].hidden = false;
         document.getElementById("productsList").innerHTML = "";
         document.getElementById("accountFields").innerHTML = cartEmpty +
-            "<br><a class='actionButton' href='//tw.hwangying.com/products.html'>" + goToProductsList + "</a>";
+            "<br><a class='actionButton' href=" + URL_PRODUCTS + ">" + goToProductsList + "</a>";
     } else {
         setInputWithUserData();
         showCartItems();
@@ -164,12 +164,12 @@ function addOrder() {
 
             if (status === "success") {
                 document.getElementById("accountFields").innerHTML = shoppingSuccess +
-                    "<br><a href='//tw.hwangying.com/products.html'>" + goToProductsList + "</a> 或 " +
-                    "<br><a href='//tw.hwangying.com/userOrders.html'>" + goToOrdersList + "</a>";
+                    "<br><a href=" + URL_PRODUCTS + ">" + goToProductsList + "</a> 或 " +
+                    "<br><a href=" + URL_USER_ORDERS + ">" + goToOrdersList + "</a>";
             } else {
                 document.getElementById("accountFields").innerHTML = shoppingFailed +
-                    "<br><a href='//tw.hwangying.com/products.html'>" + redirectToProductsList + "</a>";
-                autoRedirect("//tw.hwangying.com/products.html");
+                    "<br><a href=" + URL_PRODUCTS + ">" + redirectToProductsList + "</a>";
+                autoRedirect(URL_PRODUCTS);
             }
         }
     });
