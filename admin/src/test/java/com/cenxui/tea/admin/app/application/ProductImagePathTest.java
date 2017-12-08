@@ -1,6 +1,6 @@
 package com.cenxui.tea.admin.app.application;
 
-import com.cenxui.tea.app.image.ProductImage;
+import com.cenxui.tea.app.images.ProductImage;
 import com.cenxui.tea.app.util.Http;
 import com.cenxui.tea.app.util.JsonUtil;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.image;
+package com.cenxui.tea.app.images;
 
 import lombok.Value;
 

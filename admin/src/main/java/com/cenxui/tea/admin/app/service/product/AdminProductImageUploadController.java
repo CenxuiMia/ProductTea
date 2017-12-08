@@ -5,7 +5,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.cenxui.tea.admin.app.config.S3Bucket;
 import com.cenxui.tea.admin.app.service.AdminCoreController;
-import com.cenxui.tea.app.image.ProductImage;
+import com.cenxui.tea.app.images.ProductImage;
 import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;

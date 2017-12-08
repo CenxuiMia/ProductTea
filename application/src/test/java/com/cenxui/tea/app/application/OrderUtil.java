@@ -15,7 +15,7 @@ public class OrderUtil {
                 "匯款",
                 "華盈",
                 "0192838",
-                "遊記",
+                "shop",
                 "AADLLD",
                 "Hello",
                 null,

@@ -107,11 +107,16 @@ public class Http {
 
             writer.close();
 
-            reader = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+
+            if (connection.getResponseCode() > 300) {
+                reader = new BufferedReader(
+                        new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8));
+            }else {
+                reader = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+            }
 
             reader.lines().forEach(System.out::println);
-
             reader.close();
 
         }catch (Exception e) {
@@ -153,10 +158,17 @@ public class Http {
                 }
             }
 
-            reader = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+
+            if (connection.getResponseCode() > 300) {
+                reader = new BufferedReader(
+                        new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8));
+            }else {
+                reader = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+            }
 
             reader.lines().forEach(System.out::println);
+            reader.close();
 
         }catch (Exception e) {
             e.printStackTrace();

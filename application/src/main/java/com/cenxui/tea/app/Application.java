@@ -51,6 +51,7 @@ public final class Application {
             response.status(500);
         });
 
+
     }
 
     /**
@@ -95,6 +96,7 @@ public final class Application {
          */
         get(Path.Web.ORDER, OrderController.getOrdersByMail);
         put(Path.Web.ORDER, OrderController.addOrder);
+        post(Path.Web.ORDER, OrderController.trialOrder);
         delete(Path.Web.ORDER + "/" + Param.ORDER_DATE_TIME, OrderController.deActiveOrder);
     }
 

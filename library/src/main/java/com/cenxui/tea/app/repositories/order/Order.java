@@ -27,9 +27,7 @@ public class Order {
     public static final String PROCESSING_DATE = "processingDate";
     public static final String SHIPPED_DATE = "shippedDate";
     public static final String SHIPPED_TIME= "shippedTime";
-
     public static final String IS_ACTIVE = "isActive";
-
     public static final String OWNER = "owner";
 
     String mail; // default user email
