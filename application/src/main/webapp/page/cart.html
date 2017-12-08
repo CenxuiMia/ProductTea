@@ -44,11 +44,6 @@
 
         <div class="borderLeft"></div>
 
-        <div class="bannerRight" hidden>
-            <h2>皇飲</h2>
-            <p>生活，來點品味。</p>
-        </div>
-
         <div id="cartProductsList">
             <table id="cartTable">
                 <tr>
@@ -56,49 +51,15 @@
                     <th>單價</th>
                     <th>數量</th>
                     <th>小計</th>
-                    <th>刪除</th>
+                    <th>移除</th>
                 </tr>
             </table>
-
-            <button id="clearCartButton" class="actionButton" onclick="clearCart()">清空購物車</button>
         </div>
 
-        <div id="shipAndPrice">
-            <div class="textinput" id="shippingWay">
-                取貨方式<br>
-                <input id="shippingConvi" name="shippingWay" type="radio" value="超商取貨"
-                       style="width: 18px; display: inline-block" required>
-                <label for="shippingConvi" style="display: inline-block">超商取貨</label>
-                <input id="shippingHome" name="shippingWay" type="radio" value="宅配"
-                       style="width: 18px; display: inline-block" required>
-                <label for="shippingHome" style="display: inline-block">宅配</label>
-            </div>
-
-            <table>
-                <tr>
-                    <th>總金額</th>
-                    <td>NT.<span id="originalTotal">1000</span></td>
-                </tr>
-                <tr>
-                    <th>運費</th>
-                    <td>NT.<span id="fee">100</span></td>
-                </tr>
-                <tr>
-                    <th>優惠</th>
-                    <td id="activity">符合滿千免運</td>
-                </tr>
-                <tr>
-                    <th>應付金額</th>
-                    <td>NT.<span id="price">1000</span></td>
-                </tr>
-            </table>
-
-            <button id="goToOrderButton" class="actionButton" onclick="goToOrder()">下一步</button>
-            <p class="alert" id="alert" style="font-size: 13px" hidden>＊請選擇取貨方式</p>
-        </div>
+        <button id="confirmButton" class="actionButton" onclick="goToOrder()">確認</button>
     </div>
 
-    <footer class="footer-copyright">
+    <footer class="footer-copyright" id="id_footer">
         <p>Copyright © 2017 HWANGYING All rights reserved.</p>
     </footer>
 </div>

@@ -32,6 +32,7 @@ function clearCart() {
 }
 
 function showCartItems() {
+    //TODO show original price if exists
     let cartItems = new Map(JSON.parse(localStorage.getItem("cartItems")));
     console.info("cartItems size:" + cartItems.size);
 
@@ -54,34 +55,19 @@ function showCartItems() {
             "</a>" +
             "</td>" +
             "<td>" + item.price + "</td>" +
-            "<td><input id='number' style='width: 40px; text-align: center' value=" + value + "></td>" +
+            "<td><input onchange='updateSubtotal()'type='number' value=" + value + "></td>" +
             "<td>" + parseInt(item.price)*parseInt(value) + "</td>" +
             "<td><button>"+ "X" +"</button></td>" +
             "</tr>";
     });
 }
 
-function goToOrder() {
-    if (checkShippingValid()) {
-        redirect(URL_ORDER);
-    }
+function updateSubtotal() {
+//TODO update subtotal
 }
 
-function checkShippingValid() {
-    let isValid = true;
-    let alertClass = " alert";
-    let shippingWay = document.getElementById("shippingWay");
-    shippingWay.className = shippingWay.className.replace(alertClass, "");
-    if (document.getElementById('shippingConvi').checked === false &&
-        document.getElementById('shippingHome').checked === false) {
-        console.info("shipping way not selected. " + shippingWay.className);
-        shippingWay.className += alertClass;
-        console.info( shippingWay.className);
-        isValid = false;
-    } else {
-        isValid = true;
+function goToOrder() {
+    if (checkCartValid()) {
+        redirect(URL_PRE_ORDER);
     }
-
-    document.getElementById("alert").hidden = isValid;
-    return isValid;
 }

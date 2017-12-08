@@ -1,6 +1,7 @@
 /**
  * Created by huaying on 02/12/2017.
  */
+const URL_PRE_ORDER = "//tw.hwangying.com/preOrder.html";
 const URL_ORDER = "//tw.hwangying.com/order.html";
 const URL_PRODUCTS = "//tw.hwangying.com/products.html";
 const URL_USER_ORDERS = "//tw.hwangying.com/userOrders.html";
