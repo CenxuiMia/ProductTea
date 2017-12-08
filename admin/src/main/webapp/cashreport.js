@@ -32,9 +32,9 @@ function getCash(url) {
         url : url,
         success : function(response) {
             let data = JSON.parse(response);
-            let receipts = data.receipts;
+            let orders = data.orders;
             document.getElementById("revenue").innerHTML = data.revenue;
-            appendReceipts(receipts);
+            appendReceipts(orders);
         },
         error : function(xhr, status, error) {
             console.log("error: " + error + ", status: " + status);
@@ -47,16 +47,16 @@ function clearReceiptForm() {
     document.getElementById("receiptForm").innerHTML = "";
 }
 
-function appendReceipts(receipts) {
+function appendReceipts(orders) {
     let receiptForm = document.getElementById("receiptForm");
 
-    for (let i = 1; i <= receipts.length; i++) {
+    for (let i = 1; i <= orders.length; i++) {
         let receipt =
             "<tr> " +
             "   <td>" + i + "</td> " +
-            "   <td>" + receipts[i].mail + " " + receipts[i].orderDateTime + "</td> " +
-            "   <td>" + receipts[i].paymentMethod+"</td> " +
-            "   <td>" + receipts[i].price +"</td> " +
+            "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + "</td> " +
+            "   <td>" + orders[i].paymentMethod+"</td> " +
+            "   <td>" + orders[i].price +"</td> " +
             "</tr>";
         receiptForm.innerHTML += receipt;
     }

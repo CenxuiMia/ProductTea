@@ -25,7 +25,10 @@ public class AdminProductImageUploadController extends AdminCoreController {
         File file = new File(image.getFilePath());
 
         s3client.putObject(new PutObjectRequest(
-                S3Bucket.BUCKET_NAME, S3Bucket.FOLDER + "/" + file.getName(), file));
+                S3Bucket.BUCKET_NAME,
+                S3Bucket.FOLDER + "/" +
+                        image.getProductName() + "/" + image.getVersion() + "/" +
+                        image.getFileName() + ".png", file));
 
         return "success";
     };
