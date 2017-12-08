@@ -78,6 +78,20 @@ form div {
     outline: 0 none
 }
 
+input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    padding: 7px 5px;
+}
+
+input:focus {
+    border-color: #777777;
+    box-shadow: 0 0 8px #cccccc;
+    outline: 0 none;
+}
+
 .order_form {
     float: left;
     width: 370px

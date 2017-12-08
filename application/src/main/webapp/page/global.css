@@ -4,7 +4,7 @@ body, html {
     font: 400 15px/1.8 "Lato", sans-serif;
 }
 
-.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons .md-light { color: rgba(255, 255, 255, 1); }
 
 #id_wrapper {
     min-height: 100%;
@@ -126,19 +126,6 @@ body, html {
     opacity: 1;
 }
 
-.footer-title {
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    font: 20px "Lato", sans-serif;
-    color: beige;
-}
-
-.footer-text {
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #fff;
-}
-
 .footer-copyright {
     clear: both;
     letter-spacing: 2px;
@@ -213,3 +200,84 @@ body, html {
 }
 /*-- snackbar --*/
 
+/* phone version 手機版 */
+@media only screen and (max-device-width: 1024px) {
+    body, html {
+        font: 400 30px/1.8 "Lato", sans-serif;
+    }
+
+    .material-icons {
+        font-size: 50px;
+    }
+
+    #id_header {
+        height: 100px;
+    }
+
+    #id_content {
+        padding-top: 100px;
+        padding-bottom: 50px;
+    }
+
+    .navbar {
+        height: 100px;
+    }
+
+    #tab a {
+        padding: 30px;
+    }
+
+    #cart, #member {
+        padding: 30px;
+    }
+
+    .banner {
+        padding: 80px;
+        min-height: 200px;
+        letter-spacing: 20px;
+    }
+
+    .banner h2 {
+        font-size: 54px;
+    }
+
+    .banner p {
+        font-size: 35px;
+    }
+
+    .bannerRight {
+        padding: 30px;
+        margin: 50px 50px 0 0;
+        min-height: 500px;
+        letter-spacing: 10px;
+    }
+
+    .bannerRight h2 {
+        padding-top: 25%;
+        font-size: 50px;
+    }
+
+    .bannerRight p {
+        font-size: 30px;
+    }
+
+    .footer-copyright {
+        letter-spacing: 0;
+        font-size: 20px;
+        padding: 15px;
+        margin-top: 10px;
+    }
+
+    .formTitle {
+        margin-left: 50px;
+        margin-bottom: 0;
+        margin-top: 50px;
+    }
+
+    /*-- snackbar --*/
+    #snackbar {
+        min-width: 400px; /* Set a default minimum width */
+        border-radius: 5px; /* Rounded borders */
+    }
+    /*-- snackbar --*/
+}

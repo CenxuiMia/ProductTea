@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>皇飲｜購物車</title>
+
+    <link rel="shortcut icon" href="//hwangying.com/favicon.ico">
+    <link rel="icon" href="//hwangying.com/favicon.ico">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="global.css">
+    <link rel="stylesheet" type="text/css" href="signin.css">
+    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" type="text/css" href="order.css"/>
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="aws-cognito-sdk.js"></script>
+    <script src="amazon-cognito-auth.min.js"></script>
+    <script src="language/tw.js"></script>
+    <script src="signin.js"></script>
+    <script src="cart.js"></script>
+    <script src="library.js"></script> <!--this library should be placed at last-->
+</head>
+<body>
+<div id="id_wrapper">
+
+    <div id="id_header" class="navbar">
+        <div id="tab">
+            <a href="//tw.hwangying.com">首頁</a>
+            <a href="//tw.hwangying.com/products.html">產品</a>
+            <a href="#contact">聯絡我們</a>
+        </div>
+
+        <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
+        <a href="//tw.hwangying.com/user.html"><i id="member" class="material-icons md-light">person</i></a>
+        <a href="javascript:void(0)"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
+    </div>
+
+    <div id="id_content">
+
+        <h2 class="formTitle">購物車</h2>
+
+        <div class="borderLeft"></div>
+
+        <div class="content">
+            <div id="cartProductsList">
+                <table id="cartTable">
+                    <tr>
+                        <th>商品名稱</th>
+                        <th>單價</th>
+                        <th>數量</th>
+                        <th>小計</th>
+                        <th>移除</th>
+                    </tr>
+                </table>
+            </div>
+
+            <button class="actionButton confirmButton1" onclick="goToOrder()">確認</button>
+        </div>
+    </div>
+
+    <footer class="footer-copyright" id="id_footer">
+        <p>Copyright © 2017 HWANGYING All rights reserved.</p>
+    </footer>
+</div>
+
+</body>
+</html>

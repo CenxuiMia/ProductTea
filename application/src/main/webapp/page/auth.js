@@ -41,6 +41,14 @@ let userAuthData = {
     RedirectUriSignOut : 'https://tw.hwangying.com'
 };
 
+let cartAuthData = {
+    ClientId : clientId,
+    AppWebDomain : appDomain,
+    TokenScopesArray : tokenScopesArray,
+    RedirectUriSignIn : 'https://tw.hwangying.com/cart.html',
+    RedirectUriSignOut : 'https://tw.hwangying.com'
+};
+
 let orderAuthData = {
     ClientId : clientId,
     AppWebDomain : appDomain,
