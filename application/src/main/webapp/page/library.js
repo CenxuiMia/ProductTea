@@ -56,3 +56,7 @@ function isNotEmptyNoSpace(string) {
 function autoRedirect(redirectURL) {
     window.setTimeout('window.location(redirectURL)', REDIRECT_TIME);
 }
+
+function redirect(redirectURL) {
+    window.location = redirectURL;
+}

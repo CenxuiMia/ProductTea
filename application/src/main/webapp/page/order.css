@@ -7,6 +7,12 @@ fieldset {
     color: #444;
 }
 
+#cartProductsList {
+    clear: both;
+    width: 70%;
+    margin: 10px auto 10px auto;
+}
+
 #productsList {
     float: right;
     margin-top: 10px;
@@ -16,12 +22,23 @@ fieldset {
 
 #cartTable {
     width: 500px;
-    background-color: #f7f7f7;
+    /*background-color: #f7f7f7;*/
     text-align: center;
 }
 
-.cartProductName {
+#cartTable td {
+    min-width: 80px;
+    border-left: solid 1px #cccccc;
+}
+
+#cartTable .cartProductName {
     text-align: left;
+    min-width: 400px;
+    border-left: none;
+}
+
+#cartTable .cartProductName a {
+    text-decoration: none;
 }
 
 .cartImage {
