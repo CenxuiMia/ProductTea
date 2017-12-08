@@ -7,15 +7,9 @@ import java.util.List;
 
 
 /**
- * **note if you modify fields please checkout the ItemUtil to make sure if there is something that should be add to.
  *
- *  todo
- *  order need to make sure the sum
- *  the order isPaid
- *  the order isActive
- *  the order time
  */
-@Value
+@Value(staticConstructor = "of")
 public class Order {
     public static final String MAIL ="mail";
     public static final String ORDER_DATE_TIME = "orderDateTime";
@@ -33,9 +27,7 @@ public class Order {
     public static final String PROCESSING_DATE = "processingDate";
     public static final String SHIPPED_DATE = "shippedDate";
     public static final String SHIPPED_TIME= "shippedTime";
-
     public static final String IS_ACTIVE = "isActive";
-
     public static final String OWNER = "owner";
 
     String mail; // default user email
@@ -58,30 +50,4 @@ public class Order {
     String shippedTime;
     Boolean isActive;
     String owner;
-
-    public static Order of(String mail,
-                           String orderDateTime,
-                           List<String> products,
-                           String purchaser,
-                           Float price,
-                           String paymentMethod,
-                           String receiver,
-                           String phone,
-                           String shippingWay,
-                           String shippingAddress,
-                           String comment,
-                           String paidDate,
-                           String paidTime,
-                           String processingDate,
-                           String shippedDate,
-                           String shippedTime,
-                           Boolean isActive,
-                           String owner) {
-
-        return new Order(
-                mail, orderDateTime, products, purchaser, price, paymentMethod, receiver, phone, shippingWay,
-                shippingAddress, comment, paidDate, paidTime, processingDate, shippedDate,
-                shippedTime, isActive, owner);
-    }
-
 }

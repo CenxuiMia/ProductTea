@@ -5,7 +5,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.cenxui.tea.admin.app.config.S3Bucket;
 import com.cenxui.tea.admin.app.service.AdminCoreController;
-import com.cenxui.tea.app.image.ProductImage;
+import com.cenxui.tea.app.images.ProductImage;
 import com.cenxui.tea.app.util.JsonUtil;
 import spark.Request;
 import spark.Response;
@@ -25,7 +25,10 @@ public class AdminProductImageUploadController extends AdminCoreController {
         File file = new File(image.getFilePath());
 
         s3client.putObject(new PutObjectRequest(
-                S3Bucket.BUCKET_NAME, S3Bucket.FOLDER + "/" + file.getName(), file));
+                S3Bucket.BUCKET_NAME,
+                S3Bucket.FOLDER + "/" +
+                        image.getProductName() + "/" + image.getVersion() + "/" +
+                        image.getFileName() + ".png", file));
 
         return "success";
     };

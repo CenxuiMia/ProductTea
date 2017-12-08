@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class DynamoDBOrderRepositoryTest {
+public class DynamoDBOrderBaseRepositoryTest {
     private OrderRepository orderRepository = DynamoDBRepositoryService
             .getOrderRepository(
                     Config.REGION,

@@ -16,12 +16,12 @@ public class DynamoDBRepositoryService {
                                                      String productTableName) {
         Table orderTable = DynamoDBManager.getDynamoDB(region).getTable(orderTableName);
         Table productTable = DynamoDBManager.getDynamoDB(region).getTable(productTableName);
-        DynamoDBOrderRepository orderRepository =
-                new DynamoDBOrderRepository(orderTable, paidIndex, processingIndex, shippedIndex);
+        DynamoDBOrderBaseRepository orderRepository =
+                new DynamoDBOrderBaseRepository(orderTable, paidIndex, processingIndex, shippedIndex);
         DynamoDBProductRepository productRepository =
                 new DynamoDBProductRepository(productTable);
 
-        return  new DynamoDBOrderRepositoryWrapper(orderRepository, productRepository);
+        return  new DynamoDBOrderRepository(orderRepository, productRepository);
     }
 
     public static OrderRepository getOrderRepositoryLocal(String region, String url,
@@ -33,12 +33,12 @@ public class DynamoDBRepositoryService {
         Table orderTable = DynamoDBManager.getDynamoDBLocal(region, url).getTable(orderTableName);
         Table productTable = DynamoDBManager.getDynamoDBLocal(region, url).getTable(productTableName);
 
-        DynamoDBOrderRepository orderRepository =
-                new DynamoDBOrderRepository(orderTable, paidIndex, processingIndex, shippedIndex);
+        DynamoDBOrderBaseRepository orderRepository =
+                new DynamoDBOrderBaseRepository(orderTable, paidIndex, processingIndex, shippedIndex);
         DynamoDBProductRepository productRepository =
                 new DynamoDBProductRepository(productTable);
 
-        return new DynamoDBOrderRepositoryWrapper(orderRepository, productRepository);
+        return new DynamoDBOrderRepository(orderRepository, productRepository);
     }
 
     public static ProductRepository getProductRepository(String region, String productTableName) {

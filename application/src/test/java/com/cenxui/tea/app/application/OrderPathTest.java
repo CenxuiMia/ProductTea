@@ -77,4 +77,38 @@ public class OrderPathTest {
 
     }
 
+    @Test
+    public void trialOrder() {
+
+        Map<String, String> headers1 = new HashMap<>();
+        headers1.put(Header.MAIL, "mia@gmail.com");
+
+        List<String> products = new ArrayList<>();
+
+        products.add("紅茶;大玉茶;2");
+
+        Order order = Order.of(null,
+                null,
+                products ,
+                null,
+                null,
+                null,
+                null,
+                null,
+                "home",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+                );
+
+        Http.post(url, JsonUtil.mapToJson(order));
+
+    }
+
 }

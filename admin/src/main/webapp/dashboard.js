@@ -3,6 +3,7 @@ function onAllOrder() {
     cleanOrderForm();
     setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
     comment, purchaser, paidTime, processingDate, shippedTime);
+    number = 1;
     getOrders(orderEndpoint + "/table");
 }
 
@@ -10,7 +11,7 @@ function onActiveOrder() {
     document.getElementById("sectionTitle").innerHTML = activeOrder;
     setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
         comment, purchaser, paidTime, processingDate, shippedTime);
-
+    number = 1;
     cleanOrderForm();
     getOrders(orderEndpoint + "/active");
 }
@@ -20,6 +21,7 @@ function onPaidOrder() {
     setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
         comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
+    number = 1;
     getOrders(orderEndpoint + "/paid");
 }
 
@@ -28,6 +30,7 @@ function onProcessingOrder() {
     setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
         comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
+    number = 1;
     getOrders(orderEndpoint + "/processing");
 }
 
@@ -36,6 +39,7 @@ function onShippedOrder() {
     setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
         comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
+    number = 1;
     getOrders(orderEndpoint + "/shipped");
     //todo
 }
@@ -90,7 +94,7 @@ function appendOrders(orders) {
     let orderForm = document.getElementById("orderForm");
     let sectionTile = document.getElementById("sectionTitle").innerText;
 
-    for (var i = 0; i< orders.length ; i++) {
+    for (var i = 0; i < orders.length ; i++) {
         let buttonActiveHTML = "";
         let buttonPayHTML = "";
         let buttonShipHTML = "";
@@ -114,6 +118,7 @@ function appendOrders(orders) {
 
         var order =
             "<tr> " +
+            "   <td>"+ number++ +"</td> " +
             "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + " " + buttonActiveHTML + buttonPayHTML + buttonShipHTML + "</td> " +
             "   <td>" + orders[i].price +"</td> " +
             "   <td>" + orders[i].products+"</td> " +
