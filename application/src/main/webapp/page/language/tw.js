@@ -20,6 +20,11 @@ let goToOrdersList = "前往訂單記錄";
 let cartItemWrong = "購物車商品有誤，請重新填選";
 let redirectToProductsList = "頁面將在5秒後前往全部商品";
 
+let shop = "shop";
+let home = "home";
+let shippingWayShop = "超商取貨";
+let shippingWayHome = "宅配";
+
 let orderUnpaid = "對帳中";
 let orderProcessing = "已付款，處理中";
 let orderShipped = "已出貨";

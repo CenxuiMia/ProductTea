@@ -8,7 +8,7 @@ $(document).ready(function () {
         },
         function () {
             console.info("index on signOut");
-            // document.getElementById("signInButton").click();
+            document.getElementById("signInButton").click();
         }
     );
 
@@ -72,13 +72,15 @@ function checkShippingValid() {
     let alertClass = " alert";
     let shippingWay = document.getElementById("shippingWay");
     shippingWay.className = shippingWay.className.replace(alertClass, "");
-    if (document.getElementById('shippingConvi').checked === false &&
-        document.getElementById('shippingHome').checked === false) {
+    if (document.getElementById('shop').checked === false &&
+        document.getElementById('home').checked === false) {
         console.info("shipping way not selected. " + shippingWay.className);
         shippingWay.className += alertClass;
         console.info( shippingWay.className);
         isValid = false;
     } else {
+        let value = document.querySelector('input[name="shippingWay"]:checked').value;
+        localStorage.shippingWay = value === shop ? shippingWayShop : shippingWayHome;
         isValid = true;
     }
 

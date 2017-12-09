@@ -31,6 +31,7 @@ function checkCartValid() {
 
 function clearCart() {
     localStorage.removeItem("cartItems");
+    localStorage.removeItem("shippingWay");
 }
 
 function setInputWithUserData() {
@@ -70,6 +71,7 @@ function setInputWithUserData() {
             }
         });
     }
+    document.getElementById("shippingWay").innerHTML = localStorage.shippingWay;
 }
 
 function showCartItems() {
@@ -147,12 +149,12 @@ function addOrder() {
         success : function(response) {
             console.log("success reponse: " + response);
             showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
-            localStorage.removeItem("cartItems");
+            clearCart();
         },
         error : function(xhr, status, error) {
             console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
             showSnackBarAutoClose(document.getElementById("snackbar"), cartItemWrong);
-            localStorage.removeItem("cartItems");
+            clearCart();
         },
         complete : function (jqxhr, status) {
             console.log( "complete jqxhr: " + JSON.stringify(jqxhr) + ", status: " + status);
@@ -175,8 +177,6 @@ function addOrder() {
     });
 
 }
-
-
 
 function checkInputValid() {
     let isValid = true;
