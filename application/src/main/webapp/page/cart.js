@@ -15,7 +15,8 @@ $(document).ready(function () {
 });
 
 function checkCartValid() {
-    if (localStorage.getItem("cartItems") === null) {
+    if (localStorage.getItem("cartItems") === null ||
+        new Map(JSON.parse(localStorage.getItem("cartItems"))).size === 0) {
         document.getElementById("cartProductsList").innerHTML = "";
         document.getElementsByClassName("content")[0].innerHTML = cartEmpty +
             "<br><a class='actionButton confirmButton1' href="+ URL_PRODUCTS + ">" + goToProductsList + "</a>";
