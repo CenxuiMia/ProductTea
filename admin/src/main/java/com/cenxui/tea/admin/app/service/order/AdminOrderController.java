@@ -184,7 +184,7 @@ public class AdminOrderController extends AdminCoreController {
         try {
             return JsonUtil.mapToOrder(body);
         }catch (Throwable e) {
-            throw new AdminOrderControllerException("request body not allow :" + body);
+            throw new AdminOrderControllerClientException("request body not allow :" + body);
         }
     }
 

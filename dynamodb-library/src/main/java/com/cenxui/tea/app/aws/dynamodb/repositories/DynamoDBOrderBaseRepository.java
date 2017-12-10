@@ -313,7 +313,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
     public Order payOrder(String mail, String orderDateTime, String paidDate, String paidTime) {
         //todo throw exception
 
-        String processingDate = LocalDateTime.now().toString();
+        String processingDate = LocalDate.now().toString();
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime)
                 .withUpdateExpression(

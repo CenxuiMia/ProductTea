@@ -1,4 +1,4 @@
-package com.cenxui.tea.app.services.util.error;
+package com.cenxui.tea.app.util;
 
 public class ApplicationError {
     public static String getTrace(StackTraceElement[] elements) {
