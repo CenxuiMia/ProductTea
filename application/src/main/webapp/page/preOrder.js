@@ -24,6 +24,7 @@ function checkCartValid() {
         return false;
     } else {
         showCartItems();
+        calculateTrialTotal();
         return true;
     }
 }
@@ -64,8 +65,9 @@ function showCartItems() {
 let orderProductsList = [];
 function calculateTrialTotal(selectedRadio) {
     let selectedWay;
-    if (selectedWay !== selectedRadio.value) {
-        selectedWay = selectedRadio.value;
+
+    if (document.getElementById('shop').checked === true || document.getElementById('home').checked === true) {
+        selectedWay = document.querySelector('input[name="shippingWay"]:checked').value;
     }
 
     let order = {};
@@ -79,8 +81,12 @@ function calculateTrialTotal(selectedRadio) {
         },
         data: JSON.stringify(order),
         success : function(response) {
-            console.log("success trail order: " + response);
-
+            console.log("success trial order: " + response);
+            let data = JSON.parse(response);
+            // document.getElementById("originalTotal").innerHTML = data.price;
+            // document.getElementById("fee").innerHTML = data.price;
+            // document.getElementById("activity").innerHTML = data.price;
+            document.getElementById("price").innerHTML = data.price;
         },
         error : function(xhr, status, error) {
             console.log( "error trial order: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
@@ -112,7 +118,7 @@ function checkShippingValid() {
         isValid = false;
     } else {
         let value = document.querySelector('input[name="shippingWay"]:checked').value;
-        localStorage.shippingWay = value === shop ? shippingWayShop : shippingWayHome;
+        localStorage.shippingWay = value;
         isValid = true;
     }
 

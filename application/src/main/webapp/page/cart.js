@@ -11,7 +11,9 @@ $(document).ready(function () {
         }
     );
 
-    checkCartValid();
+    if (checkCartValid() === true) {
+        showCartItems();
+    }
 });
 
 function checkCartValid() {
@@ -22,7 +24,6 @@ function checkCartValid() {
             "<br><a class='actionButton confirmButton1' href="+ URL_PRODUCTS + ">" + goToProductsList + "</a>";
         return false;
     } else {
-        showCartItems();
         return true;
     }
 }
