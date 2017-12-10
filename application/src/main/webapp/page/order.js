@@ -20,17 +20,16 @@ $(document).ready(function () {
 function checkCartValid() {
     if (localStorage.getItem("cartItems") === null) {
         document.getElementsByClassName("bannerRight")[0].hidden = false;
-        document.getElementById("productsList").innerHTML = "";
         document.getElementById("accountFields").innerHTML = cartEmpty +
             "<br><a class='actionButton' href=" + URL_PRODUCTS + ">" + goToProductsList + "</a>";
     } else {
         setInputWithUserData();
-        showCartItems();
     }
 }
 
 function clearCart() {
     localStorage.removeItem("cartItems");
+    localStorage.removeItem("shippingWay");
 }
 
 function setInputWithUserData() {
@@ -70,45 +69,29 @@ function setInputWithUserData() {
             }
         });
     }
+
+    document.getElementById("shippingWay").innerHTML = localStorage.shippingWay === shop ? shippingWayShop : shippingWayHome;
 }
 
-function showCartItems() {
-    // {"productName":"綠茶","version":"翠玉","introduction":"Ａ","details":"Ａ",
-    // "smallImage":"Ａ","video":"A","images":[],"price":400.0,"tag":"Ａ"}, 3, {key},1
+function getCartItems() {
+    let orderProductsList = [];
     let cartItems = new Map(JSON.parse(localStorage.getItem("cartItems")));
     console.info("cartItems size:" + cartItems.size);
-
-    let cartTable = document.getElementById("cartTable");
 
     cartItems.forEach(function(value,key,map) {
         console.info("key :" + key);
         console.info("value :" + value);
 
         let item = JSON.parse(key);
-        let queryString = "https://tw.hwangying.com/product.html?name=" + item.productName + "&version=" + item.versio;
-
-        cartTable.innerHTML +=
-            "<tr>" +
-                "<td class='cartProductName' style='background-color: #d4edda'>" +
-                    "<a href=" + queryString + ">" +
-                        // "<img src=" +item.smallImage +">" + item.productName + item.version + //TODO change smallImage
-                        "<img class='cartImage' src=https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg>" +
-                        "<span>" + item.productName + item.version + "</span>" +
-                    "</a>" +
-                "</td>" +
-                "<td style='background-color: #f8d7da'>" + item.price + "</td>" +
-                "<td style='background-color: #fcf8e3'>" + value + "</td>" +
-                "<td style='background-color: #f8d7da'>" + parseInt(item.price)*parseInt(value) + "</td>" +
-            "</tr>";
 
         //Add product to orderProductsList for order usage
         let orderProduct = item.productName + ";" + item.version + ";"+ value;
         orderProductsList.push(orderProduct);
     });
 
+    return orderProductsList;
 }
 
-let orderProductsList = [];
 
 function addOrder() {
     console.info("onclick addOrder");
@@ -126,9 +109,9 @@ function addOrder() {
     order.purchaser = document.getElementById("purchaser").value;
     order.phone = document.getElementById("phone").value;
     order.receiver = document.getElementById("receiver").value;
-    order.shippingWay = document.querySelector('input[name="shippingWay"]:checked').value;
+    order.shippingWay = localStorage.shippingWay;
     order.shippingAddress = document.getElementById("shippingAddress").value;
-    order.products = orderProductsList;
+    order.products = getCartItems();
 
     let commentValue = document.getElementById("comment").value;
     if (commentValue === null || isNotEmptyNoSpace(commentValue)) {
@@ -147,12 +130,12 @@ function addOrder() {
         success : function(response) {
             console.log("success reponse: " + response);
             showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
-            localStorage.removeItem("cartItems");
+            clearCart();
         },
         error : function(xhr, status, error) {
             console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
             showSnackBarAutoClose(document.getElementById("snackbar"), cartItemWrong);
-            localStorage.removeItem("cartItems");
+            clearCart();
         },
         complete : function (jqxhr, status) {
             console.log( "complete jqxhr: " + JSON.stringify(jqxhr) + ", status: " + status);
@@ -160,7 +143,6 @@ function addOrder() {
             document.getElementById("submitButton").disabled = false;
 
             document.getElementsByClassName("bannerRight")[0].hidden = false;
-            document.getElementById("productsList").innerHTML = "";
 
             if (status === "success") {
                 document.getElementById("accountFields").innerHTML = shoppingSuccess +
@@ -175,8 +157,6 @@ function addOrder() {
     });
 
 }
-
-
 
 function checkInputValid() {
     let isValid = true;
@@ -195,16 +175,6 @@ function checkInputValid() {
             label.className += alertClass;
             isValid = false;
         }
-    }
-
-    let shippingWay = document.getElementById("shippingWay");
-    shippingWay.className = shippingWay.className.replace(alertClass, "");
-    if (document.getElementById('shippingConvi').checked === false &&
-        document.getElementById('shippingHome').checked === false) {
-        console.info("shipping way not selected. " + shippingWay.className);
-        shippingWay.className += alertClass;
-        console.info( shippingWay.className);
-        isValid = false;
     }
 
     if (document.getElementById("phone").value !== "" &&

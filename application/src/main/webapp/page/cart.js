@@ -11,24 +11,21 @@ $(document).ready(function () {
         }
     );
 
-    checkCartValid();
+    if (checkCartValid() === true) {
+        showCartItems();
+    }
 });
 
 function checkCartValid() {
-    if (localStorage.getItem("cartItems") === null) {
-        document.getElementsByClassName("bannerRight")[0].hidden = false;
+    if (localStorage.getItem("cartItems") === null ||
+        new Map(JSON.parse(localStorage.getItem("cartItems"))).size === 0) {
         document.getElementById("cartProductsList").innerHTML = "";
-        document.getElementById("shipAndPrice").innerHTML = cartEmpty +
-            "<br><a class='actionButton' href="+ URL_PRODUCTS + ">" + goToProductsList + "</a>";
+        document.getElementsByClassName("content")[0].innerHTML = cartEmpty +
+            "<br><a class='actionButton confirmButton1' href="+ URL_PRODUCTS + ">" + goToProductsList + "</a>";
         return false;
     } else {
-        showCartItems();
         return true;
     }
-}
-
-function clearCart() {
-    localStorage.removeItem("cartItems");
 }
 
 function showCartItems() {
@@ -47,23 +44,48 @@ function showCartItems() {
 
         cartTable.innerHTML +=
             "<tr>" +
-            "<td class='cartProductName'>" +
-            "<a href=" + queryString + ">" +
-            // "<img src=" +item.smallImage +">" + item.productName + item.version + //TODO change smallImage
-            "<img class='cartImage' src=https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg>" +
-            "<span>" + item.productName + item.version + "</span>" +
-            "</a>" +
-            "</td>" +
-            "<td>" + item.price + "</td>" +
-            "<td><input onchange='updateSubtotal()'type='number' value=" + value + "></td>" +
-            "<td>" + parseInt(item.price)*parseInt(value) + "</td>" +
-            "<td><button>"+ "X" +"</button></td>" +
+                "<td class='cartProductName'>" +
+                    "<a href=" + queryString + ">" +
+                        // "<img src=" +item.smallImage +">" + item.productName + item.version + //TODO change smallImage
+                        "<img class='cartImage' src=https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg>" +
+                        "<span>" + item.productName + item.version + "</span>" +
+                    "</a>" +
+                "</td>" +
+                "<td>" + item.price + "</td>" +
+                "<td><input onchange='updateSubtotal(event,"+ key +")'type='number' min='1' value=" + value + "></td>" +
+                "<td>" + parseInt(item.price)*parseInt(value) + "</td>" +
+                "<td><button onclick='removeItem("+ key +")'>"+ "X" +"</button></td>" +
             "</tr>";
     });
 }
 
-function updateSubtotal() {
-//TODO update subtotal
+function updateSubtotal(event, key) {
+    key = JSON.stringify(key);
+    let target = event.target;
+    let number = target.value;
+    if (number < 1) {
+        number = target.value = 1;
+    }
+    let tableRow = target.parentNode.parentNode;
+    let price = tableRow.childNodes[1].innerHTML;
+    tableRow.childNodes[3].innerHTML = number * price;
+
+    let cartItem = new Map(JSON.parse(localStorage.getItem("cartItems")));
+    cartItem.set(key, number);
+    localStorage.setItem("cartItems", JSON.stringify(Array.from(cartItem.entries())));
+    console.info("JSON parse: " + JSON.parse(localStorage.cartItems));
+}
+
+function removeItem(key) {
+    key = JSON.stringify(key);
+    let cartItem = new Map(JSON.parse(localStorage.getItem("cartItems")));
+    cartItem.delete(key);
+    localStorage.setItem("cartItems", JSON.stringify(Array.from(cartItem.entries())));
+    console.info("JSON parse: " + JSON.parse(localStorage.cartItems));
+}
+
+function clearCart() {
+    localStorage.removeItem("cartItems");
 }
 
 function goToOrder() {

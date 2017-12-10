@@ -1,7 +1,7 @@
 /**
  * Created by huaying on 02/12/2017.
  */
-const URL_CART = "//tw.hwangying.com/preOrder.html";
+const URL_CART = "//tw.hwangying.com/cart.html";
 const URL_PRE_ORDER = "//tw.hwangying.com/preOrder.html";
 const URL_ORDER = "//tw.hwangying.com/order.html";
 const URL_PRODUCTS = "//tw.hwangying.com/products.html";
@@ -19,6 +19,11 @@ let goToProductsList = "前往全部商品";
 let goToOrdersList = "前往訂單記錄";
 let cartItemWrong = "購物車商品有誤，請重新填選";
 let redirectToProductsList = "頁面將在5秒後前往全部商品";
+
+let shop = "shop";
+let home = "home";
+let shippingWayShop = "超商取貨";
+let shippingWayHome = "宅配";
 
 let orderUnpaid = "對帳中";
 let orderProcessing = "已付款，處理中";

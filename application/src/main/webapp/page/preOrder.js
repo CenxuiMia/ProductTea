@@ -24,6 +24,7 @@ function checkCartValid() {
         return false;
     } else {
         showCartItems();
+        calculateTrialTotal();
         return true;
     }
 }
@@ -54,6 +55,43 @@ function showCartItems() {
             "<td>" + value + "</td>" +
             "<td>" + parseInt(item.price)*parseInt(value) + "</td>" +
             "</tr>";
+
+        let orderProduct = item.productName + ";" + item.version + ";"+ value;
+        orderProductsList.push(orderProduct);
+    });
+}
+
+//TODO trial total
+let orderProductsList = [];
+function calculateTrialTotal(selectedRadio) {
+    let selectedWay;
+
+    if (document.getElementById('shop').checked === true || document.getElementById('home').checked === true) {
+        selectedWay = document.querySelector('input[name="shippingWay"]:checked').value;
+    }
+
+    let order = {};
+    order.shippingWay = selectedWay;
+    order.products = orderProductsList;
+    $.ajax({
+        type : 'POST',
+        url : orderEndpoint,
+        headers : {
+            Authorization : getToken()
+        },
+        data: JSON.stringify(order),
+        success : function(response) {
+            console.log("success trial order: " + response);
+            let data = JSON.parse(response);
+            // document.getElementById("originalTotal").innerHTML = data.price;
+            // document.getElementById("fee").innerHTML = data.price;
+            // document.getElementById("activity").innerHTML = data.price;
+            document.getElementById("price").innerHTML = data.price;
+        },
+        error : function(xhr, status, error) {
+            console.log( "error trial order: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
+
+        }
     });
 }
 
@@ -72,13 +110,15 @@ function checkShippingValid() {
     let alertClass = " alert";
     let shippingWay = document.getElementById("shippingWay");
     shippingWay.className = shippingWay.className.replace(alertClass, "");
-    if (document.getElementById('shippingConvi').checked === false &&
-        document.getElementById('shippingHome').checked === false) {
+    if (document.getElementById('shop').checked === false &&
+        document.getElementById('home').checked === false) {
         console.info("shipping way not selected. " + shippingWay.className);
         shippingWay.className += alertClass;
         console.info( shippingWay.className);
         isValid = false;
     } else {
+        let value = document.querySelector('input[name="shippingWay"]:checked').value;
+        localStorage.shippingWay = value;
         isValid = true;
     }
 

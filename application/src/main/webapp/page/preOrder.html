@@ -61,12 +61,12 @@
             <div id="ship">
                 <div class="textinput" id="shippingWay">
                     取貨方式<br>
-                    <input id="shippingConvi" name="shippingWay" type="radio" value="shop"
-                           style="width: 18px; display: inline-block" required>
-                    <label for="shippingConvi" style="display: inline-block">超商取貨</label>
-                    <input id="shippingHome" name="shippingWay" type="radio" value="home"
-                           style="width: 18px; display: inline-block" required>
-                    <label for="shippingHome" style="display: inline-block">宅配</label>
+                    <input id="shop" name="shippingWay" type="radio" value="shop"
+                           style="width: 18px; display: inline-block" onclick="calculateTrialTotal()" required>
+                    <label for="shop" style="display: inline-block">超商取貨</label>
+                    <input id="home" name="shippingWay" type="radio" value="home"
+                           style="width: 18px; display: inline-block" onclick="calculateTrialTotal()" required>
+                    <label for="home" style="display: inline-block">宅配</label>
                 </div>
             </div>
 
@@ -74,19 +74,19 @@
                 <table>
                     <tr>
                         <th>總金額</th>
-                        <td>NT.<span id="originalTotal">1000</span></td>
+                        <td>NT.<span id="originalTotal"></span></td>
                     </tr>
                     <tr>
                         <th>運費</th>
-                        <td>NT.<span id="fee">100</span></td>
+                        <td>NT.<span id="fee"></span></td>
                     </tr>
                     <tr>
                         <th>優惠</th>
-                        <td id="activity">符合滿千免運</td>
+                        <td id="activity">無</td>
                     </tr>
                     <tr>
                         <th>應付金額</th>
-                        <td>NT.<span id="price">1000</span></td>
+                        <td>NT.<span id="price"></span></td>
                     </tr>
                 </table>
 
