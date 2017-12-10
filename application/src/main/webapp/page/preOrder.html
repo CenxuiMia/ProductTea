@@ -62,10 +62,10 @@
                 <div class="textinput" id="shippingWay">
                     取貨方式<br>
                     <input id="shop" name="shippingWay" type="radio" value="shop"
-                           style="width: 18px; display: inline-block" required>
+                           style="width: 18px; display: inline-block" onclick="calculateTrialTotal(this)" required>
                     <label for="shop" style="display: inline-block">超商取貨</label>
                     <input id="home" name="shippingWay" type="radio" value="home"
-                           style="width: 18px; display: inline-block" required>
+                           style="width: 18px; display: inline-block" onclick="calculateTrialTotal(this)" required>
                     <label for="home" style="display: inline-block">宅配</label>
                 </div>
             </div>
