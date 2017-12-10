@@ -1,3 +1,12 @@
+function onSearchOrder() {
+    document.getElementById("sectionTitle").innerHTML = searchOrder;
+    cleanOrderForm();
+    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
+        comment, purchaser, paidTime, processingDate, shippedTime);
+    number = 1;
+}
+
+
 function onAllOrder() {
     document.getElementById("sectionTitle").innerHTML = allOrder;
     cleanOrderForm();
@@ -306,7 +315,7 @@ function deship(element, mail, dateTime) {
     });
 }
 
-let ableScroll = true;
+let ableScroll = false;
 
 function onScroll() {
     if (lastKey === null) return;
@@ -317,22 +326,23 @@ function onScroll() {
         ableScroll = false;
     }
 
+    let limit = 1000;
 
     let sectionTitle = document.getElementById("sectionTitle").innerHTML;
     let url;
     if (sectionTitle.includes(allOrder)) {
-       url = orderEndpoint + "/table/" + lastKey.mail + "/" + lastKey.orderDateTime + "/2";
+       url = orderEndpoint + "/table/" + lastKey.mail + "/" + lastKey.orderDateTime + "/" + limit;
     }else if (sectionTitle.includes(activeOrder)) {
-        url = orderEndpoint + "/active/" + lastKey.mail + "/" + lastKey.orderDateTime + "/2";
+        url = orderEndpoint + "/active/" + lastKey.mail + "/" + lastKey.orderDateTime + "/" + limit;
     }else if (sectionTitle.includes(paidOrder)) {
         url = orderEndpoint + "/paid/" + lastKey.paidDate + "/" + lastKey.paidTime + "/" +
-            lastKey.mail + "/" + lastKey.orderDateTime + "/2";
+            lastKey.mail + "/" + lastKey.orderDateTime + "/" + limit;
     }else if (sectionTitle.includes(processingOrder)) {
         url = orderEndpoint + "/processing/" + lastKey.processingDate + "/" + lastKey.owner + "/" +
-        lastKey.mail + "/" + lastKey.orderDateTime + "/2";
+        lastKey.mail + "/" + lastKey.orderDateTime + "/" + limit;
     }else if (sectionTitle.includes(shippedOrder)) {
         url = orderEndpoint + "/shipped/" + lastKey.shippedDate + "/" + lastKey.shippedTime + "/" +
-            lastKey.mail + "/" + lastKey.orderDateTime + "/2";
+            lastKey.mail + "/" + lastKey.orderDateTime + "/" + limit;
     }
     getOrders(url);
 }

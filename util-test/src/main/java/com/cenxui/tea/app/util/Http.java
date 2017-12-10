@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class Http {
+
     public static void put(String url, String body) {
         outPut(url, "PUT",body, null);
     }

@@ -1,3 +1,4 @@
+let searchOrder = "查詢訂單";
 let allOrder = "所有訂單";
 let activeOrder = "有效訂單";
 let paidOrder = "已付款訂單";

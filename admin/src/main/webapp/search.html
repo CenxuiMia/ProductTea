@@ -17,7 +17,7 @@
     <script src="language/tw.js"></script>
 </head>
 
-<body onload="onLoad()" onscroll="onScroll()">
+<body onscroll="onScroll()">
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">Dashboard</a>
@@ -60,8 +60,26 @@
     <div class="row">
         <main role="main">
             <h1>Dashboard</h1>
-
             <h2 id="sectionTitle">Section title</h2>
+
+            <input id="mail" placeholder="mail">
+            <input id="orderDateTime" placeholder="orderDateTime">
+            <button onclick="searchAllOrder()">查詢</button>
+            <div></div>
+            <input id="paidDate" placeholder="paidDate">
+            <input id="paidTime" placeholder="paidTime">
+            <button onclick="searchPaidOrder()">查詢</button>
+            <div></div>
+            <input id="processingDate" placeholder="processingDate">
+            <input id="owner" placeholder="owner">
+            <button onclick="searchProcessingOrder()">查詢</button>
+            <div></div>
+            <input id="shippedDate" placeholder="shippedDate">
+            <input id="shippedTime" placeholder="shippeTime">
+            <button onclick="searchShippedOrder()">查詢</button>
+            <div></div>
+
+
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -101,10 +119,8 @@
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="auth.js"></script>
 <script src="dashboard.js"></script>
+<script src="search.js"></script>
 
-<script>
-
-</script>
 
 
 </body>

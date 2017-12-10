@@ -168,7 +168,7 @@ public class Application {
          */
         put(Path.PRODUCT_TABLE, AdminProductController.addProduct);
 
-        post(Path.PRODUCT_TABLE, AdminProductController.updateProduct);
+//        post(Path.PRODUCT_TABLE, AdminProductController.updateProduct);
 
 
         /**
@@ -178,7 +178,9 @@ public class Application {
         /**
          * add image
          */
-        put(Path.PRODUCT_IMAGE, AdminProductImageUploadController.uploadProductImage);
+//        post(Path.PRODUCT_IMAGE, AdminProductImageUploadController.uploadProductImage);
+
+        post(Path.PRODUCT_IMAGE, AdminProductImageUploadController.putProductImage);
 
         /**
          * user
