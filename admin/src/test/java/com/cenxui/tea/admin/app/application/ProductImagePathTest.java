@@ -1,6 +1,7 @@
 package com.cenxui.tea.admin.app.application;
 
 import com.amazonaws.services.dynamodbv2.xspec.S;
+import com.cenxui.tea.app.util.Http;
 import org.junit.Test;
 
 import java.io.*;
@@ -51,6 +52,11 @@ public class ProductImagePathTest {
                 new InputStreamReader(connection.getInputStream(), java.nio.charset.StandardCharsets.UTF_8));
         reader.lines().forEach(System.out::println);
 
+    }
+
+    @Test
+    public void deletProductImage() {
+        Http.delete(url + "/test/remove");
     }
 
 }
