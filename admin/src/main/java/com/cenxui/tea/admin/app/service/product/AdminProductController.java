@@ -23,16 +23,16 @@ public class AdminProductController extends AdminCoreController {
 
     public static final Route addProduct = (Request request, Response response) -> {
 
-        Product product = null;
         try {
-            product = JsonUtil.mapToProduct(request.body());
+            Product product = JsonUtil.mapToProduct(request.body());
+
+            Product productResult = productRepository.addProduct(product);
+
+            return JsonUtil.mapToJson(productResult);
         }catch (Exception e) {
             throw new AdminProductControllerClientException("request body error");
         }
 
-        Product productResult = productRepository.addProduct(product);
-
-        return JsonUtil.mapToJson(productResult);
     };
 
     public static final Route getAllProducts = (Request request, Response response) -> {

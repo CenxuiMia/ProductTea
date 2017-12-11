@@ -61,14 +61,19 @@ modify table attribute
 
 Order.class OrderKey.class OrderPaidLastKey.class OrderProcessingLastKey.class OrderShippedLastKey.class 
 
-Product
+*Product
 
 Product.class ProductKey.class
 tea-product-table.yaml
 
-User
+*User
 User.class UserKey.class
 tea-user-table-yaml
+
+*Price issue
+
+Product.class Order.class
+Price.class 
 
 ** the attribute mapping for secondary index is related to tea-order-table.yaml
 make sure the projection mapping and Order.class are right.
