@@ -22,4 +22,9 @@ public class Param {
     public static final String REPORT_CASH_FROM_DATE = ":cashfrom";
     public static final String REPORT_CASH_TO_DATE = ":cashto";
     public static final String REPORT_CASH_DATE = ":cashdate";
+
+    public static final String PRODUCT_IMAGE_PRODUCT_NAME = ":imageproductname";
+    public static final String PRODUCT_IMAGE_VERSION = ":imageversion";
+    public static final String PRODUCT_IMAGE_FILENAME = ":imagefilename";
+
 }

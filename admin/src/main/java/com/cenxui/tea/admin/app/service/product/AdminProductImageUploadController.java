@@ -7,57 +7,66 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.cenxui.tea.admin.app.config.S3Bucket;
 import com.cenxui.tea.admin.app.service.AdminCoreController;
-import com.cenxui.tea.app.images.ProductImage;
-import com.cenxui.tea.app.util.ApplicationError;
-import com.cenxui.tea.app.util.JsonUtil;
-import org.omg.CORBA.portable.ApplicationException;
+import com.cenxui.tea.admin.app.util.LimitedSizeInputStream;
+import com.cenxui.tea.admin.app.util.Param;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
-import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 public class AdminProductImageUploadController extends AdminCoreController {
 
-    public static final Route uploadProductImage = (Request request, Response response) -> {
-        String body = request.body();
-
-        ProductImage image = JsonUtil.mapToProductImage(body);
-
-        AmazonS3 s3client =  AmazonS3ClientBuilder.defaultClient();
-
-        File file = new File(image.getFilePath());
-
-        s3client.putObject(new PutObjectRequest(
-                S3Bucket.BUCKET_NAME,
-                S3Bucket.FOLDER + "/" +
-                        image.getProductName() + "/" + image.getVersion() + "/" +
-                        image.getFileName() + ".png", file));
-
-        return "success";
-    };
+    private static final long limitSize = 50_000;
 
     public static final Route putProductImage = (Request request, Response response) -> {
 
+        Map<String, String> map = request.params();
 
+        String productName = getProductName(map);
+        String version = getVersion(map);
+        String fileName = getFileName(map);
 
         try {
-            AmazonS3 s3client =  AmazonS3ClientBuilder.defaultClient();
+
+            Long contentLength = Long.valueOf(request.headers("Content-Length"));
+
+            if (contentLength > limitSize)
+                throw new AdminProductImageUploadControllerClientException("content size over limit " + limitSize);
 
             ObjectMetadata metadata = new ObjectMetadata();
-//            metadata.setContentLength(Long.valueOf(request.headers("Content-Length")));
+            metadata.setContentLength(contentLength);
 
+            LimitedSizeInputStream inputStream = new LimitedSizeInputStream(
+                    request.raw().getInputStream(),
+                    limitSize
+            );
+
+
+            AmazonS3 s3client =  AmazonS3ClientBuilder.defaultClient();
             s3client.putObject(new PutObjectRequest(
                     S3Bucket.BUCKET_NAME,
-                    S3Bucket.FOLDER + "/" + request.headers("productName") + "/" + request.headers("version") + "/" + request.headers("fileName" )+ ".png",
-                    request.raw().getInputStream(), metadata).withCannedAcl(CannedAccessControlList.PublicRead));
+                    S3Bucket.FOLDER + "/" + productName + "/" + version + "/" + fileName,
+                    inputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
 
-            return "success";
-        }catch (Throwable e) {
-
-            return ApplicationError.getTrace(e.getStackTrace());
+            return "success"; //todo
+        }catch (NumberFormatException e) {
+            throw new AdminProductImageUploadControllerClientException("Content-Length header not integer");
+        }catch (IOException e) {
+            throw new AdminProductControllerClientException(e.getMessage());
         }
-
     };
 
+    private static String getProductName(Map<String, String> map) {
+        return map.get(Param.PRODUCT_IMAGE_PRODUCT_NAME);
+    }
+
+    private static String getVersion(Map<String, String> map) {
+        return map.get(Param.PRODUCT_IMAGE_VERSION);
+    }
+
+    private static String getFileName(Map<String, String> map) {
+        return map.get(Param.PRODUCT_IMAGE_FILENAME);
+    }
 }
