@@ -53,8 +53,14 @@ public class AdminProductController extends AdminCoreController {
     };
 
     public static final Route deleteProduct = (Request request, Response response) -> {
-        //todo
-        throw new UnsupportedOperationException("not yet");
+
+        Map<String, String> map = request.params();
+        String productName = getProductName(map);
+        String productVersion = getProductVersion(map);
+
+        productRepository.deleteProduct(productName, productVersion);
+
+        return "sucess";
     };
 
     private static String getProductName(Map<String, String> map) {

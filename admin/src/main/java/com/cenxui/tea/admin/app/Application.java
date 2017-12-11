@@ -4,7 +4,6 @@ import static spark.Spark.*;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
-import com.cenxui.tea.admin.app.service.AdminController;
 import com.cenxui.tea.admin.app.service.AdminControllerClientException;
 import com.cenxui.tea.admin.app.service.AdminControllerServerException;
 import com.cenxui.tea.admin.app.service.order.AdminOrderController;
@@ -176,9 +175,10 @@ public class Application {
         get(Path.PRODUCT_TABLE + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION,
                 AdminProductController.getProduct);
 
-        /**
-         * add product
-         */
+        delete(Path.PRODUCT_TABLE + "/" + Param.PRODUCT_NAME + "/" + Param.PRODUCT_VERSION,
+                AdminProductController.deleteProduct);
+
+
         put(Path.PRODUCT_TABLE, AdminProductController.addProduct);
 
 
@@ -186,15 +186,25 @@ public class Application {
          * product image
          */
 
-        /**
-         * add image
-         */
-
         post(Path.PRODUCT_IMAGE + "/" +
                         Param.PRODUCT_IMAGE_PRODUCT_NAME + "/" +
                         Param.PRODUCT_IMAGE_VERSION + "/" +
                         Param.PRODUCT_IMAGE_FILENAME
-                , AdminProductImageUploadController.putProductImage);
+                , AdminProductImageUploadController.putProductImageFile);
+
+        delete(Path.PRODUCT_IMAGE + "/" +
+                        Param.PRODUCT_IMAGE_PRODUCT_NAME + "/" +
+                        Param.PRODUCT_IMAGE_VERSION + "/" +
+                        Param.PRODUCT_IMAGE_FILENAME
+                , AdminProductImageUploadController.deleteProductImageFile);
+
+
+        delete(Path.PRODUCT_IMAGE + "/" +
+                        Param.PRODUCT_IMAGE_PRODUCT_NAME + "/" +
+                        Param.PRODUCT_IMAGE_VERSION
+                , AdminProductImageUploadController.deleteProductImages);
+
+
 
         /**
          * user

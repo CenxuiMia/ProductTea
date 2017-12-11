@@ -21,8 +21,6 @@
 </head>
 <body>
 
-
-
 <div class="container">
 
     <nav>
@@ -38,10 +36,6 @@
         <div></div>
         <input id="tag" placeholder="tag">
         <div></div>
-        <input id="smailImage" placeholder="smailImage">
-        <div></div>
-        <input id="images" placeholder="images">
-
     </nav>
 
 
@@ -53,9 +47,13 @@
     </div>
 
     <form enctype="multipart/form-data">
+
+        <div class="file-loading">
+            <input id="small" class="file" type="file" data-min-file-count="1">
+        </div>
         <br>
         <div class="file-loading">
-            <input id="file" class="file" type="file" multiple data-min-file-count="1">
+            <input id="images" class="file" type="file" multiple data-min-file-count="1">
         </div>
         <br>
         <button type="button" class="btn btn-primary">Submit</button>
@@ -83,7 +81,7 @@
         detail = new SquireUI({replace: 'textarea#detail', height: 200});
     });
 
-    function updateProduct() {
+    function updateProduct(smallimagename, imagesname) {
         console.info(detail.getHTML())
 
         let product = {
@@ -93,8 +91,8 @@
             originalPrice: document.getElementById("originalPrice").value,
             introduction: document.getElementById("introduction").value,
             tag: document.getElementById("tag").value,
-            smallImage: document.getElementById("smallImage").value,
-            images: document.getElementById("images").value,
+            smallImage: smallimagename,
+            images: imagesname
         }
 
         let productJson = JSON.stringify(product);
@@ -127,37 +125,43 @@
             }
         }
 
-        console.info( this.files.length)
     });
 
     $(':button').on('click', function() {
-        updateProduct();
 
+        let small = document.getElementById("small").files[0];
+
+        uploadImage(small);
+
+        let images = document.getElementById("images").files;
+
+        let imagesname = [];
+
+        for (let i = 0; i<images.length ;i++) {
+            uploadImage(images[i]);
+            imagesname.push(images[i].name);
+        }
+
+        updateProduct(small.name, imagesname);
+
+    });
+
+    function uploadImage(file) {
         let productName = document.getElementById("productName").value;
         let version = document.getElementById("version").value;
 
+        let url = productEndpoint + "/image/" + productName+ "/"+ version + "/" + file.name;
 
-        let files = $('input[type=file]')[0].files;
+        let oReq = new XMLHttpRequest();
+        oReq.open("POST", url, true);
+        oReq.onload = function (oEvent) {
+            console.info(oEvent)
+        };
 
-        let  len = files.length;
+        var blob = new Blob([file]);
 
-        for (let i = 0; i<len ;i++) {
-            let file = files[i];
-
-            let url = productEndpoint + "/image/" + productName+ "/"+ version + "/" + file.name;
-
-            var oReq = new XMLHttpRequest();
-            oReq.open("POST", url, true);
-            oReq.onload = function (oEvent) {
-                console.info(oEvent)
-            };
-
-            var blob = new Blob([file]);
-
-            oReq.send(blob)
-        }
-
-    });
+        oReq.send(blob)
+    }
 
 
 </script>

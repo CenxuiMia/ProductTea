@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.cenxui.tea.admin.app.config.S3Bucket;
 import com.cenxui.tea.admin.app.service.AdminCoreController;
 import com.cenxui.tea.admin.app.util.LimitedSizeInputStream;
@@ -20,7 +21,9 @@ public class AdminProductImageUploadController extends AdminCoreController {
 
     private static final long limitSize = 50_000;
 
-    public static final Route putProductImage = (Request request, Response response) -> {
+    private static final AmazonS3 s3client =  AmazonS3ClientBuilder.defaultClient();
+
+    public static final Route putProductImageFile = (Request request, Response response) -> {
 
         Map<String, String> map = request.params();
 
@@ -44,7 +47,6 @@ public class AdminProductImageUploadController extends AdminCoreController {
             );
 
 
-            AmazonS3 s3client =  AmazonS3ClientBuilder.defaultClient();
             s3client.putObject(new PutObjectRequest(
                     S3Bucket.BUCKET_NAME,
                     S3Bucket.FOLDER + "/" + productName + "/" + version + "/" + fileName,
@@ -57,6 +59,35 @@ public class AdminProductImageUploadController extends AdminCoreController {
             throw new AdminProductControllerClientException(e.getMessage());
         }
     };
+
+
+    public static final Route deleteProductImageFile = ((request, response) -> {
+
+        Map<String, String> map = request.params();
+
+        String productName = getProductName(map);
+        String version = getVersion(map);
+        String fileName = getFileName(map);
+
+        s3client.deleteObject(S3Bucket.BUCKET_NAME, S3Bucket.FOLDER  + productName + "/" + version + "/" + fileName);
+        return "sucess";
+    });
+
+    public static final Route deleteProductImages = ((request, response) -> {
+
+        Map<String, String> map = request.params();
+
+        String productName = getProductName(map);
+        String version = getVersion(map);
+
+
+        for (S3ObjectSummary file : s3client.listObjects(S3Bucket.BUCKET_NAME,
+                S3Bucket.FOLDER + "/" +productName + "/" + version).getObjectSummaries()){
+            s3client.deleteObject(S3Bucket.BUCKET_NAME, file.getKey());
+        }
+
+        return "sucess";
+    });
 
     private static String getProductName(Map<String, String> map) {
         return map.get(Param.PRODUCT_IMAGE_PRODUCT_NAME);

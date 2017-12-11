@@ -1,10 +1,12 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
 import com.amazonaws.services.dynamodbv2.document.*;
+import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.client.map.product.ProductJsonMapException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.client.product.ProductsFormatException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.client.product.ProductNotFoundException;
@@ -148,6 +150,20 @@ final class DynamoDBProductRepository implements ProductRepository {
         productTable.putItem(spec);
         //todo not stable
         return product;
+    }
+
+    @Override
+    public boolean deleteProduct(String productName, String version) {
+        DeleteItemSpec spec = new DeleteItemSpec()
+                .withPrimaryKey(Product.PRODUCT_NAME, productName, Product.VERSION, version);
+
+        try {
+            productTable.deleteItem(spec);
+        }catch (ResourceNotFoundException e) {
+            throw new ProductNotFoundException(productName, version);
+        }
+
+        return true;
     }
 
     private List<Product> mapQueryOutcomeToProducts(ItemCollection<QueryOutcome> collection) {
