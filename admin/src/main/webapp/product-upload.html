@@ -24,21 +24,25 @@
 
 
 <div class="container">
-    <input id="productName" placeholder="productName">
-    <div></div>
-    <input id="version" placeholder="version">
-    <div></div>
-    <input id="price" placeholder="price">
-    <div></div>
-    <input id="originalPrice" placeholder="originalPrice">
-    <div></div>
-    <input id="introduction" placeholder="introduction">
-    <div></div>
-    <input id="tag" placeholder="tag">
-    <div></div>
-    <input id="smailImage" placeholder="smailImage">
-    <div></div>
-    <input id="images" placeholder="images">
+
+    <nav>
+        <input id="productName" placeholder="productName">
+        <div></div>
+        <input id="version" placeholder="version">
+        <div></div>
+        <input id="price" placeholder="price">
+        <div></div>
+        <input id="originalPrice" placeholder="originalPrice">
+        <div></div>
+        <input id="introduction" placeholder="introduction">
+        <div></div>
+        <input id="tag" placeholder="tag">
+        <div></div>
+        <input id="smailImage" placeholder="smailImage">
+        <div></div>
+        <input id="images" placeholder="images">
+
+    </nav>
 
 
     <div class="row">
@@ -49,15 +53,29 @@
     </div>
 
     <form enctype="multipart/form-data">
-        <input name="file" type="file" />
-        <input type="button" value="Upload" />
+        <br>
+        <div class="file-loading">
+            <input id="file" class="file" type="file" multiple data-min-file-count="1">
+        </div>
+        <br>
+        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-default">Reset</button>
     </form>
 
     <div></div>
 
-    <button onclick="updateProduct()">確定</button><button>取消</button>
 </div>
 </body>
+
+<style>
+    nav {
+        float: left;
+        max-width: 160px;
+        margin: 0;
+        padding: 1em;
+    }
+
+</style>
 
 <script>
 
@@ -74,9 +92,9 @@
             price: document.getElementById("price").value,
             originalPrice: document.getElementById("originalPrice").value,
             introduction: document.getElementById("introduction").value,
-//            tag: document.getElementById("tag").value,
-//            smallImage: document.getElementById("smallImage").value,
-//            images: document.getElementById("images").value,
+            tag: document.getElementById("tag").value,
+            smallImage: document.getElementById("smallImage").value,
+            images: document.getElementById("images").value,
         }
 
         let productJson = JSON.stringify(product);
@@ -96,65 +114,54 @@
             }
         });
 
-
     }
 
 
     $(':file').on('change', function() {
-        var file = this.files[0];
-        let len = Object.keys($('input[type=file]')[0].files).length;
-        console.info(len)
+        let len = this.files.length;
 
+        for (let i =0; i< len ; i++) {
+            let file = this.files[i];
+            if (file.size > 50000) {
+                alert("not allow over 50000");
+            }
+        }
+
+        console.info( this.files.length)
     });
 
     $(':button').on('click', function() {
+        updateProduct();
 
-        var oReq = new XMLHttpRequest();
-        oReq.open("POST", productEndpoint + "/image", true);
-        oReq.setRequestHeader("productName", "ice");
-        oReq.setRequestHeader("version", "black");
-        oReq.setRequestHeader("fileName", "mia");
-        oReq.onload = function (oEvent) {
-            console.info(oEvent)
-        };
+        let productName = document.getElementById("productName").value;
+        let version = document.getElementById("version").value;
 
-        var blob = new Blob([$('input[type=file]')[0].files[0]]);
 
-        oReq.send(blob)
+        let files = $('input[type=file]')[0].files;
+
+        let  len = files.length;
+
+        for (let i = 0; i<len ;i++) {
+            let file = files[i];
+
+            let url = productEndpoint + "/image/" + productName+ "/"+ version + "/" + file.name;
+
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", url, true);
+            oReq.onload = function (oEvent) {
+                console.info(oEvent)
+            };
+
+            var blob = new Blob([file]);
+
+            oReq.send(blob)
+        }
 
     });
 
-    function upload() {
-
-        $.ajax({
-            // Your server script to process the upload
-            headers: {
-                productName : "ice",
-                version : "red",
-                fileName : "small",
-            },
-            type: "POST",
-            url: productEndpoint + "/image",
-            enctype: 'multipart/form-data',
-            // Form data
-            data: new FormData($('form')[0]),
-
-            // Tell jQuery not to process data or worry about content-type
-            // You *must* include these options!
-            cache: false,
-            contentType: false,
-            processData: false,
-            success : function(response) {
-                console.info(response);
-            },
-            error : function(xhr, status, error) {
-                console.log("error: " + error + ", status: " + status);
-
-            }
-        });
-    }
 
 </script>
+
 
 </html>
 

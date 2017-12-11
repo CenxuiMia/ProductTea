@@ -4,6 +4,9 @@ import static spark.Spark.*;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
+import com.cenxui.tea.admin.app.service.AdminController;
+import com.cenxui.tea.admin.app.service.AdminControllerClientException;
+import com.cenxui.tea.admin.app.service.AdminControllerServerException;
 import com.cenxui.tea.admin.app.service.order.AdminOrderController;
 import com.cenxui.tea.admin.app.service.product.AdminProductController;
 import com.cenxui.tea.admin.app.service.product.AdminProductImageUploadController;
@@ -19,7 +22,7 @@ public class Application {
 
         before(((request, response) -> {
             /**
-             * todo modify to https://tw.hwangying,com
+             * todo
              */
             response.header("Access-Control-Allow-Origin", "*");
         }));
@@ -46,6 +49,16 @@ public class Application {
                 });
 
         adminResources();
+
+        exception(AdminControllerClientException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+            response.status(400);
+        });
+
+        exception(AdminControllerServerException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+            response.status(500);
+        });
 
         exception(AmazonServiceException.class, (exception, request, response) -> {
             response.body("retry, error :" + exception.getMessage());
@@ -168,8 +181,6 @@ public class Application {
          */
         put(Path.PRODUCT_TABLE, AdminProductController.addProduct);
 
-//        post(Path.PRODUCT_TABLE, AdminProductController.updateProduct);
-
 
         /**
          * product image
@@ -178,9 +189,12 @@ public class Application {
         /**
          * add image
          */
-//        post(Path.PRODUCT_IMAGE, AdminProductImageUploadController.uploadProductImage);
 
-        post(Path.PRODUCT_IMAGE, AdminProductImageUploadController.putProductImage);
+        post(Path.PRODUCT_IMAGE + "/" +
+                        Param.PRODUCT_IMAGE_PRODUCT_NAME + "/" +
+                        Param.PRODUCT_IMAGE_VERSION + "/" +
+                        Param.PRODUCT_IMAGE_FILENAME
+                , AdminProductImageUploadController.putProductImage);
 
         /**
          * user
