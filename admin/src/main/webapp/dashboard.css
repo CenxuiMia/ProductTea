@@ -645,11 +645,6 @@ pre code {
     margin-left: 0
 }
 
-.no-gutters > .col, .no-gutters > [class * =col-] {
-    padding-right: 0;
-    padding-left: 0
-}
-
 .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5,
 .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10,
 .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5,
@@ -949,7 +944,7 @@ pre code {
 
     .order-sm-first {
         -ms-flex-order: -1;
-        order: -1
+        order: 1
     }
 
     .order-sm-1 {
@@ -1151,7 +1146,7 @@ pre code {
 
     .order-md-first {
         -ms-flex-order: -1;
-        order: -1
+        order: 1
     }
 
     .order-md-1 {
@@ -6634,10 +6629,6 @@ a.bg-dark:focus, a.bg-dark:hover {
         justify-content: space-between !important
     }
 
-    .justify-content-lg-around {
-        -ms-flex-pack: distribute !important;
-        justify-content: space-around !important
-    }
 
     .align-items-lg-start {
         -ms-flex-align: start !important;
@@ -6779,11 +6770,6 @@ a.bg-dark:focus, a.bg-dark:hover {
     .justify-content-xl-between {
         -ms-flex-pack: justify !important;
         justify-content: space-between !important
-    }
-
-    .justify-content-xl-around {
-        -ms-flex-pack: distribute !important;
-        justify-content: space-around !important
     }
 
     .align-items-xl-start {
