@@ -102,7 +102,7 @@
     function appendProducts(products) {
         let productForm = document.getElementById("productForm");
 
-        let buttonDelete = "<button onclick='deleteProduct()'>移除商品</button>";
+        let buttonDelete = "<button onclick='confirmDelete()'>移除商品</button>";
 
 
         for (let i = 1; i <= products.length; i++) {
@@ -113,25 +113,47 @@
                 "   <td>" + products[i].version+"</td> " +
                 "   <td>" + products[i].originalPrice+"</td> " +
                 "   <td>" + products[i].price +"</td> " +
-                "   <td>" + buttonDelete +"</td> "
+                "   <td>" + buttonDelete +"</td> "+
             "</tr>";
 
             productForm.innerHTML += product;
         }
 
     }
+
+    function confirmDelete(e) {
+        e = e || window.event;
+        let target = e.target || e.srcElement;
+
+        target.parentNode.innerHTML =
+            "<button onclick='cancelDelete()'>取消刪除</button>" +
+            "<button onclick='deleteProduct()'>確認移除</button>";
+
+    }
+
+    function cancelDelete(e) {
+        e = e || window.event;
+        let target = e.target || e.srcElement;
+
+        target.parentNode.innerHTML =
+            "<button onclick='confirmDelete()'>移除商品</button>";
+    }
     
     function deleteProduct(e) {
-        e = e || window.event;
-        var target = e.target || e.srcElement;
 
-        let productName = target.parentNode.parentNode.childNodes.item(3).innerText;
-        let version = target.parentNode.parentNode.childNodes.item(5).innerText;
+        e = e || window.event;
+        let target = e.target || e.srcElement;
+
+        let element =  target.parentNode.parentNode;
+
+        let productName = element.childNodes.item(3).innerText;
+        let version = element.childNodes.item(5).innerText;
 
         $.ajax({
             type : 'DELETE',
             url : productEndpoint + "/table/" + productName + "/" + version,
             success : function(response) {
+                target.parentNode.parentNode.remove();
                 console.info(response)
             },
             error : function(xhr, status, error) {
