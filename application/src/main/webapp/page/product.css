@@ -44,7 +44,6 @@
 #originalPrice {
     text-decoration: line-through;
     margin-left: 15px;
-    visibility: hidden;
 }
 
 select {

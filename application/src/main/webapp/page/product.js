@@ -18,6 +18,8 @@ let productDataAsKey;
 let name = getParameterByName("name");
 let version = getParameterByName("version");
 
+document.getElementById("nest").innerHTML = name + version;
+
 console.info("name :" + name);
 console.info("version :" + version);
 
@@ -35,6 +37,11 @@ $.ajax({
         document.getElementById("introduction").innerHTML = data.introduction;
         document.getElementById("price").innerHTML = data.price;
         document.getElementById("video").setAttribute("src", data.video);
+
+        if (data.contains("originalPrice")) {
+            document.getElementById("originalPrice").innerHTML = data.originalPrice;
+            document.getElementById("originalPrice").hidden = false;
+        }
 
         let images = document.getElementById("images");
         let imgSize = data.images.length;
