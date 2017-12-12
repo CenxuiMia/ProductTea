@@ -31,28 +31,25 @@ function initLocalStorage() {
                 console.log("message: " + response);
 
                 let data = JSON.parse(response);
-                // lastName = data.lastName;
-                // firstName = data.firstName;
-                // phone = data.phone;
-                // address = data.address;
-                if (lastName !== null) {
+                if (lastName !== null && data.lastName !== undefined) {
                     document.getElementById("lastName").value = lastName = data.lastName;
                 }
-                if (firstName !== null) {
+                if (firstName !== null && data.firstName !== undefined) {
                     document.getElementById("firstName").value = firstName = data.firstName;
                 }
-                if (phone !== null) {
+                if (phone !== null && data.phone !== null) {
                     document.getElementById("phone").value = phone = data.phone;
                 }
-                if (address !== null) {
+                if (address !== null && data.address !== null) {
                     document.getElementById("address").value = address = data.address;
                 }
+
+                setLocalStorage(lastName, firstName, phone, address);
             },
             error : function(xhr, status, error) {
                 console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
             }
         });
-        setLocalStorage(lastName, firstName, phone, address);
     } else {
         console.info("initLocalStorage");
         setInputValue(localStorage.lastName, localStorage.firstName, localStorage.phone, localStorage.address);
@@ -60,14 +57,29 @@ function initLocalStorage() {
 }
 
 function setLocalStorage(lastName, firstName, phone, address) {
-    if (lastName === null) lastName = "";
-    if (firstName === null) firstName = "";
-    if (phone === null) phone = "";
-    if (address === null) address = "";
-    localStorage.lastName = lastName;
-    localStorage.firstName = firstName;
-    localStorage.phone = phone;
-    localStorage.address = address;
+    if (lastName === null || lastName === "") {
+        localStorage.removeItem("lastName");
+    } else {
+        localStorage.lastName = lastName;
+    }
+
+    if (firstName === null || firstName === "") {
+        localStorage.removeItem("firstName");
+    } else {
+        localStorage.firstName = firstName;
+    }
+
+    if (phone === null || phone === "") {
+        localStorage.removeItem("phone");
+    } else {
+        localStorage.phone = phone;
+    }
+
+    if (address === null || address === "") {
+        localStorage.removeItem("address");
+    } else {
+        localStorage.address = address;
+    }
 
     console.info("LocalStorage lastName: " + localStorage.lastName +
         ", firstName: " + localStorage.firstName +
@@ -122,7 +134,6 @@ function save() {
         success : function(response) {
             console.log("user message: " + response);
             showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
-            // setLocalStorageMail(JSON.parse(response).mail);
         },
         error : function(xhr, status, error) {
             console.log("token error");
