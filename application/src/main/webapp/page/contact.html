@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="global.css">
     <link rel="stylesheet" type="text/css" href="signin.css">
-    <link rel="stylesheet" type="text/css" href="products.css">
+    <link rel="stylesheet" type="text/css" href="contact.css">
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
@@ -20,7 +20,7 @@
     <script src="amazon-cognito-auth.min.js"></script>
     <script src="language/tw.js"></script>
     <script src="signin.js"></script>
-    <script src="～.js"></script>～
+    <script src="contact.js"></script>
     <script src="library.js"></script> <!--this library should be placed at last-->
 </head>
 <body>
@@ -47,16 +47,16 @@
         </div>
 
         <div class="contact">
-            <h3 class="title">CONTACT US</h3>
-            <div class="text" style="float: left; list-style: none;">
+            <h2 class="title">聯絡我們</h2>
+            <div class="text" style="list-style: none;">
                 <ul>support@hwangying.com</ul>
                 <ul>0900-000000</ul>
-                <ul>客服時間：9:00-18:00 MON.-FRI.</ul>
+                <ul>客服時間：週一～週五9:00-18:00</ul>
             </div>
-            <div style="display: inline-block;float: right">
-                <img>FB icon</img>
-                <img>MAIL icon</img>
-                <img>PINKOI icon</img>
+            <div style="display: inline-block; float: right">
+                <a href="//www.facebook.com"><img src="./fb.png"></a>
+                <i id="mail" class="material-icons md-light" onclick="sendMail()">mail</i>
+                <a href="//www.pinkoi.com"><img src="./pinkoi.png"></a>
             </div>
             <div style="clear: both;"></div>
         </div>

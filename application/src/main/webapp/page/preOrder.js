@@ -2,7 +2,7 @@
  * Created by huaying on 08/12/2017.
  */
 $(document).ready(function () {
-    setUp(cartAuthData,
+    setUp(preOrderAuthData,
         function () {
             console.info("index on signIn");
         },
