@@ -12,18 +12,24 @@ $(document).ready(function () {
             console.info("index on signOut");
         }
     );
-
+    loading();
     queryProductsData();
 });
+
+function loading() {
+    document.getElementsByClassName("prod-list")[0].innerHTML = loadingData;
+}
 
 function queryProductsData() {
 
     $.get(productEndpoint, function(jsonData, status){
         console.info("Data: " + jsonData + "\nStatus: " + status);
 
+        let productList = document.getElementsByClassName("prod-list")[0];
+        productList.innerHTML = "";
+
         let data = JSON.parse(jsonData);
         let count = data.products.length;
-        let productList = document.getElementsByClassName("prod-list")[0];
         for (let i=0; i<count; i++) {
             let queryString = "https://tw.hwangying.com/product.html?name=" +
                 data.products[i].productName + "&version=" + data.products[i].version;

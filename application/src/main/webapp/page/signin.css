@@ -18,3 +18,13 @@
 .login:hover {
     background-color: #777777;
 }
+
+/* phone version 手機版 */
+@media only screen and (max-device-width: 1024px) {
+    .login {
+        min-width: 150px;
+        margin-right: 15px;
+        margin-top: 20px;
+        margin-left: 5px;
+    }
+}
