@@ -1,0 +1,14 @@
+#ordersTable {
+    margin: 2.5rem 1rem;
+}
+
+#ordersTable td {
+    padding: 1rem 0.5rem;
+}
+
+/* phone version 手機版 */
+@media only screen and (max-device-width: 1024px) {
+    .bannerRight {
+        display: none;
+    }
+}
