@@ -75,6 +75,17 @@ h3 {
     color: darkgray;
 }
 
+.icon {
+    display: inline-block;
+    float: right;
+}
+
+.icon img {
+    width: 35px;
+    opacity: 0.4;
+    margin: 5px;
+}
+
 /* phone version 手機版 */
 @media only screen and (max-device-width: 1024px) {
     h3 {
@@ -122,6 +133,19 @@ h3 {
 
     .contact .text {
         letter-spacing: 3px;
+    }
+
+    .icon {
+        float: none;
+        clear: both;
+        display: block;
+        text-align: center;
+        padding-top: 40px;
+    }
+
+    .icon img {
+        width: 50px;
+        margin: 10px;
     }
 
 }
