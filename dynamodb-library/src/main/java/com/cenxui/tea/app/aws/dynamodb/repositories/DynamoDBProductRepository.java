@@ -122,7 +122,7 @@ final class DynamoDBProductRepository implements ProductRepository {
     public Price getProductsPrice(List<String> products) {
         //todo  business is here
 
-        Float orderPrice = 0F;
+        Integer orderPrice = 0;
 
 
         for (String product: products) {
@@ -137,7 +137,7 @@ final class DynamoDBProductRepository implements ProductRepository {
             Price price = getProductPrice(productName, version);
 
             if (price == null) throw new ProductNotFoundException(productName, version);
-            orderPrice = orderPrice + price.getValue() * Float.valueOf(count);
+            orderPrice = orderPrice + price.getValue() * Integer.valueOf(count);
         }
 
         return Price.of(orderPrice);

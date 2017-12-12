@@ -25,8 +25,8 @@ public class Product {
     String smallImage;
     String video;
     List<String> images;
-    Float price;
-    Float originalPrice;
+    Integer price;
+    Integer originalPrice;
     String tag;
 
 }

@@ -46,12 +46,6 @@ public class AdminProductController extends AdminCoreController {
         return JsonUtil.mapToJson(productRepository.getProductByProductNameVersion(productName, productVersion));
     };
 
-
-    public static final Route updateProduct = (Request request, Response response) -> {
-        //todo
-        throw new UnsupportedOperationException("not yet");
-    };
-
     public static final Route deleteProduct = (Request request, Response response) -> {
 
         Map<String, String> map = request.params();

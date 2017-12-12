@@ -23,7 +23,7 @@
 <body>
 
 <div class="container">
-
+<!--todo mia check out input-->
     <nav>
         <input id="productName" placeholder="productName">
         <div></div>
@@ -47,14 +47,13 @@
         </div>
     </div>
 
-    <form enctype="multipart/form-data">
-        <label for="small">smallImage</label>
-        <input id="small" type="file" data-min-file-count="1">
-        <label for="images">images</label>
-        <input id="images" type="file" multiple data-min-file-count="1">
-        <button type="button" class="btn btn-primary">Submit</button>
-        <button type="reset" class="btn btn-default">Reset</button>
-    </form>
+    <label for="small">smallImage</label>
+    <input id="small" type="file" data-min-file-count="1">
+    <label for="images">images</label>
+    <input id="images" type="file" multiple data-min-file-count="1">
+    <button type="button" class="btn btn-primary">Submit</button>
+    <button type="reset" class="btn btn-default">Reset</button>
+    <a href="./product.html" class="btn btn-secondary">cancel</a>
 
     <div></div>
 
@@ -75,10 +74,11 @@
 
     $(document).ready(function () {
         detail = new SquireUI({replace: 'textarea#detail', height: 200});
+
         let file =  $(":file");
         file.fileinput({
             showUpload: false,
-            mainClass: "file-loading"
+            mainClass: "file-loading",
         });
 
         file.on('change', function() {

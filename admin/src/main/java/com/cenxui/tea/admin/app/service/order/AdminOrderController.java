@@ -49,20 +49,6 @@ public class AdminOrderController extends AdminCoreController {
         return JsonUtil.mapToJson(orderRepository.getAllOrders(mail, time, limit));
     };
 
-    public static final Route getOrdersByMail = (Request request, Response response) -> {
-        Map<String, String> map = request.params();
-        String mail = getMail(map);
-        return JsonUtil.mapToJson(orderRepository.getOrdersByMail(mail));
-    };
-
-    public static final Route getOrderByMailAndTime = (Request request, Response response) -> {
-        Map<String, String> map = request.params();
-        String mail = getMail(map);
-        String time = getOrderDateTime(map);
-
-        return JsonUtil.mapToJson(orderRepository.getOrdersByMailAndTime(mail, time));
-    };
-
     public static final Route getAllActiveOrders =  (Request request, Response response) -> {
         return JsonUtil.mapToJson(orderRepository.getAllActiveOrders());
     };
@@ -124,6 +110,74 @@ public class AdminOrderController extends AdminCoreController {
         return JsonUtil.mapToJson(orderRepository.getAllShippedOrders(
                 OrderShippedLastKey.of(shippedDate, shippedTime, mail, orderDateTime), limit));
     };
+
+    public static final Route getOrdersByMail = (Request request, Response response) -> {
+        Map<String, String> map = request.params();
+        String mail = getMail(map);
+        return JsonUtil.mapToJson(orderRepository.getOrdersByMail(mail));
+    };
+
+    public static final Route getOrdersByMailAndTime = (Request request, Response response) -> {
+        Map<String, String> map = request.params();
+        String mail = getMail(map);
+        String time = getOrderDateTime(map);
+
+        return JsonUtil.mapToJson(orderRepository.getOrdersByMailAndTime(mail, time));
+    };
+
+    public static final Route getOrdersByPaidDate = ((request, response) -> {
+
+        Map<String, String> map = request.params();
+        String paidDate = getPaidDate(map);
+
+        return JsonUtil.mapToJson(orderRepository.getOrdersByPaidDate(paidDate));
+    });
+
+    public static final Route getOrdersByPaidDateAndPaidTime = ((request, response) -> {
+
+        Map<String, String> map = request.params();
+        String paidDate = getPaidDate(map);
+        String paidTime = getPaidTime(map);
+
+        return JsonUtil.mapToJson(orderRepository.getOrdersByPaidDateAndPaidTime(paidDate, paidTime));
+    });
+
+
+    public static final Route getOrderByProcessingDate = ((request, response) -> {
+
+        Map<String, String> map = request.params();
+        String processingDate = getProcessingDate(map);
+
+        return JsonUtil.mapToJson(orderRepository.getOrdersByProcessingDate(processingDate));
+    });
+
+    public static final Route getOrderByProcessingDateAndOwner = ((request, response) -> {
+
+        Map<String, String> map = request.params();
+        String processingDate = getProcessingDate(map);
+        String owner = getOwner(map);
+
+        return JsonUtil.mapToJson(orderRepository.getOrdersByProcessingDateAndOwner(processingDate, owner));
+    });
+
+    public static final Route getOrderByShippedDate = ((request, response) -> {
+
+        Map<String, String> map = request.params();
+        String shippedDate = getShippedDate(map);
+
+        return JsonUtil.mapToJson(orderRepository.getOrdersByShippedDate(shippedDate));
+    });
+
+
+    public static final Route getOrderByShippedDateAndShippedTime = ((request, response) -> {
+
+        Map<String, String> map = request.params();
+        String shippedDate = getShippedDate(map);
+        String shippedTime = getShippedTime(map);
+
+        return JsonUtil.mapToJson(orderRepository.getOrdersByShippedDateAndTime(shippedDate, shippedTime));
+    });
+
 
     public static final Route activeOrder =  (Request request, Response response) -> {
         Map<String, String> map = request.params();
