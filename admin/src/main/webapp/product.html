@@ -27,11 +27,17 @@
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="./dashboard.html">訂單列表</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./product.html">商品列表</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./cashreport.html">現金報告</a>
+                </li>
+
             </ul>
-            <form class="form-inline mt-2 mt-md-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
         </div>
     </nav>
 </header>
@@ -44,7 +50,6 @@
             <h2 id="sectionTitle">所有商品</h2>
 
             <div class="table-responsive">
-                <span id="revenue"></span>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -70,13 +75,9 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 
-<!--<script src="./dist/js/bootstrap.min.js"></script>-->
-
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="dist/js/bootstrap.min.js"></script>
 <script src="auth.js"></script>
 
 <script>
@@ -89,7 +90,6 @@
             success : function(response) {
                 let data = JSON.parse(response);
                 let products = data.products;
-                document.getElementById("revenue").innerHTML = data.revenue;
                 appendProducts(products);
             },
             error : function(xhr, status, error) {

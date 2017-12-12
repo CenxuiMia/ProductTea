@@ -8,8 +8,8 @@ import com.cenxui.tea.app.repositories.order.ShippedWay;
 import com.cenxui.tea.app.services.CoreController;
 import com.cenxui.tea.app.services.util.Header;
 import com.cenxui.tea.app.services.util.Param;
-import com.cenxui.tea.app.services.util.error.ApplicationError;
 import com.cenxui.tea.app.util.JsonUtil;
+import com.cenxui.tea.app.util.TimeUtil;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -53,7 +53,7 @@ public class OrderController extends CoreController {
                 orderRepository.addOrder(
                         Order.of(
                                 mail,
-                                LocalDateTime.now().toString().substring(0,19),
+                                TimeUtil.getNowDateTime(),
                                 order.getProducts(),
                                 order.getPurchaser(),
                                 null,

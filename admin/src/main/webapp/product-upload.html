@@ -16,13 +16,14 @@
     <script src="build/jQuery/jQuery.js" type="text/javascript"></script>
     <script src="build/squire.js" type="text/javascript"></script>
     <script src="build/Squire-UI.js" type="text/javascript"></script>
+    <script src="dist/js/bootstrap.bundle.js" type="text/javascript"></script>
     <script src="dist/js/fileinput.min.js" type="text/javascript"></script>
 
 </head>
 <body>
 
 <div class="container">
-
+<!--todo mia check out input-->
     <nav>
         <input id="productName" placeholder="productName">
         <div></div>
@@ -46,19 +47,13 @@
         </div>
     </div>
 
-    <form enctype="multipart/form-data">
-
-        <div class="file-loading">
-            <input id="small" class="file" type="file" data-min-file-count="1">
-        </div>
-        <br>
-        <div class="file-loading">
-            <input id="images" class="file" type="file" multiple data-min-file-count="1">
-        </div>
-        <br>
-        <button type="button" class="btn btn-primary">Submit</button>
-        <button type="reset" class="btn btn-default">Reset</button>
-    </form>
+    <label for="small">smallImage</label>
+    <input id="small" type="file" data-min-file-count="1">
+    <label for="images">images</label>
+    <input id="images" type="file" multiple data-min-file-count="1">
+    <button type="button" class="btn btn-primary">Submit</button>
+    <button type="reset" class="btn btn-default">Reset</button>
+    <a href="./product.html" class="btn btn-secondary">cancel</a>
 
     <div></div>
 
@@ -79,6 +74,44 @@
 
     $(document).ready(function () {
         detail = new SquireUI({replace: 'textarea#detail', height: 200});
+
+        let file =  $(":file");
+        file.fileinput({
+            showUpload: false,
+            mainClass: "file-loading",
+        });
+
+        file.on('change', function() {
+
+            let len = this.files.length;
+
+            for (let i =0; i< len ; i++) {
+                let file = this.files[i];
+                if (file.size > 50000) {
+                    alert("not allow over 50000");
+                }
+            }
+
+        });
+    });
+
+    $(':button').on('click', function() {
+
+        let small = document.getElementById("small").files[0];
+
+        uploadImage(small);
+
+        let images = document.getElementById("images").files;
+
+        let imagesname = [];
+
+        for (let i = 0; i<images.length ;i++) {
+            uploadImage(images[i]);
+            imagesname.push(images[i].name);
+        }
+
+        updateProduct(small.name, imagesname);
+
     });
 
     function updateProduct(smallimagename, imagesname) {
@@ -113,38 +146,6 @@
         });
 
     }
-
-
-    $(':file').on('change', function() {
-        let len = this.files.length;
-
-        for (let i =0; i< len ; i++) {
-            let file = this.files[i];
-            if (file.size > 50000) {
-                alert("not allow over 50000");
-            }
-        }
-
-    });
-
-    $(':button').on('click', function() {
-
-        let small = document.getElementById("small").files[0];
-
-        uploadImage(small);
-
-        let images = document.getElementById("images").files;
-
-        let imagesname = [];
-
-        for (let i = 0; i<images.length ;i++) {
-            uploadImage(images[i]);
-            imagesname.push(images[i].name);
-        }
-
-        updateProduct(small.name, imagesname);
-
-    });
 
     function uploadImage(file) {
         let productName = document.getElementById("productName").value;

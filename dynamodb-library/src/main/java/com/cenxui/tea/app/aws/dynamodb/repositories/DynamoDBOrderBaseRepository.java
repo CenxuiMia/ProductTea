@@ -14,11 +14,17 @@ import com.cenxui.tea.app.repositories.order.CashReport;
 import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
 import com.cenxui.tea.app.util.JsonUtil;
+import com.cenxui.tea.app.util.TimeUtil;
+import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ *
+ * todo check out public function
+ */
 class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     private final Table orderTable;
@@ -215,7 +221,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
 
     @Override
-    public Order getOrdersByMailAndTime(String mail, String orderDateTime) {
+    public Orders getOrdersByMailAndTime(String mail, String orderDateTime) {
         //todo throw exception
 
         QuerySpec spec = new QuerySpec()
@@ -224,13 +230,96 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
         ItemCollection<QueryOutcome> collection = orderTable.query(spec);
         List<Order> orders = mapQueryOutcomeToOrders(collection);
 
-        if (orders.size() == 1) {
-            return orders.get(0);
-        }
-
-        return null;
+        return Orders.of(orders, null);
     }
 
+    @Override
+    public Orders getOrdersByPaidDate(String paidDate) {
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Order.PAID_DATE, paidDate);
+
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(paidIndex).query(spec);
+
+        List<Order> orders = mapQueryOutcomeToOrders(collection);
+
+        OrderPaidLastKey orderPaidLastKey = getPaidIndexQueryOutcomeLastKey(collection);
+
+        return Orders.of(orders, orderPaidLastKey);
+    }
+
+    @Override
+    public Orders getOrdersByPaidDateAndPaidTime(String paidDate, String paidTime) {
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Order.PAID_DATE, paidDate)
+                .withRangeKeyCondition(new RangeKeyCondition(Order.PAID_TIME).eq(paidTime));
+
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(paidIndex).query(spec);
+
+        List<Order> orders = mapQueryOutcomeToOrders(collection);
+
+        OrderPaidLastKey orderPaidLastKey = getPaidIndexQueryOutcomeLastKey(collection);
+
+        return Orders.of(orders, orderPaidLastKey);
+    }
+
+    @Override
+    public Orders getOrdersByProcessingDate(String processingDate) {
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Order.PROCESSING_DATE, processingDate);
+
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(processingIndex).query(spec);
+
+        List<Order> orders = mapQueryOutcomeToOrders(collection);
+
+        OrderProcessingLastKey orderProcessingLastKey = getProcessingIndexQueryOutcomeLastKey(collection);
+
+        return Orders.of(orders, orderProcessingLastKey);
+    }
+
+    @Override
+    public Orders getOrdersByProcessingDateAndOwner(String processingDate, String owner) {
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Order.PROCESSING_DATE, processingDate)
+                .withRangeKeyCondition(new RangeKeyCondition(Order.OWNER).eq(owner));
+
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(processingIndex).query(spec);
+
+        List<Order> orders = mapQueryOutcomeToOrders(collection);
+
+        OrderProcessingLastKey orderProcessingLastKey = getProcessingIndexQueryOutcomeLastKey(collection);
+
+        return Orders.of(orders, orderProcessingLastKey);
+    }
+
+    @Override
+    public Orders getOrdersByShippedDate(String shippedDate) {
+
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Order.SHIPPED_DATE, shippedDate);
+
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(processingIndex).query(spec);
+
+        List<Order> orders = mapQueryOutcomeToOrders(collection);
+
+        OrderShippedLastKey orderShippedLastKey = getShippedIndexQueryOutcomeLastKey(collection);
+
+        return Orders.of(orders, orderShippedLastKey);
+    }
+
+    @Override
+    public Orders getOrdersByShippedDateAndTime(String shippedDate, String shippedTime) {
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Order.SHIPPED_DATE, shippedDate)
+                .withRangeKeyCondition(new RangeKeyCondition(Order.SHIPPED_TIME).eq(shippedTime));
+
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(processingIndex).query(spec);
+
+        List<Order> orders = mapQueryOutcomeToOrders(collection);
+
+        OrderShippedLastKey orderShippedLastKey = getShippedIndexQueryOutcomeLastKey(collection);
+
+        return Orders.of(orders, orderShippedLastKey);
+    }
 
     @Override
     public Order addOrder(Order order) {
@@ -301,11 +390,9 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Order payOrder(String mail, String orderDateTime) {
-        //todo throw exception
 
-        LocalDateTime now =  LocalDateTime.now();
-        String paidDate = now.toLocalDate().toString();
-        String paidTime = now.toLocalTime().toString();
+        String paidDate = TimeUtil.getNowDate();
+        String paidTime = TimeUtil.getNowTime();
         return payOrder(mail, orderDateTime, paidDate, paidTime);
     }
 
@@ -313,7 +400,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
     public Order payOrder(String mail, String orderDateTime, String paidDate, String paidTime) {
         //todo throw exception
 
-        String processingDate = LocalDate.now().toString();
+        String processingDate = TimeUtil.getNowDate();
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime)
                 .withUpdateExpression(
@@ -352,7 +439,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
                                         " and attribute_exists(" + Order.PAID_DATE +")" +
                                         " and attribute_exists(" + Order.PAID_TIME +")" +
                                         " and attribute_exists(" + Order.PROCESSING_DATE + ")" +
-                                        " and attribute_not_exists(" + Order.SHIPPED_TIME + ")" +
+                                        " and attribute_not_exists(" + Order.SHIPPED_DATE + ")" +
                                         " and attribute_not_exists(" + Order.SHIPPED_TIME + ")")
                 .withUpdateExpression(
                         "remove " + Order.PAID_DATE + "," + Order.PAID_TIME+ "," + Order.PROCESSING_DATE)
@@ -369,10 +456,8 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Order shipOrder(String mail, String orderDateTime) {
-        //todo throw exception
-        LocalDateTime now =  LocalDateTime.now();
-        String shippedDate = now.toLocalDate().toString();
-        String shippedTime = now.toLocalTime().toString();
+        String shippedDate = TimeUtil.getNowDate();
+        String shippedTime = TimeUtil.getNowTime();
         return shipOrder(mail, orderDateTime, shippedDate, shippedTime);
     }
 
@@ -581,53 +666,74 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
     }
 
     private OrderPaidLastKey getOrderPaidLastKey(Map<String, AttributeValue> lastKeyEvaluated) {
-        OrderPaidLastKey orderPaidLastKey = null;
 
         if (lastKeyEvaluated != null) {//null if it is last one
-            orderPaidLastKey = OrderPaidLastKey.of(
+            return OrderPaidLastKey.of(
                     lastKeyEvaluated.get(Order.PAID_DATE).getS(),
                     lastKeyEvaluated.get(Order.PAID_TIME).getS(),
                     lastKeyEvaluated.get(Order.MAIL).getS(),
                     lastKeyEvaluated.get(Order.ORDER_DATE_TIME).getS());
         }
 
-        return orderPaidLastKey;
+        return null;
     }
 
     private OrderProcessingLastKey getProcessingIndexScanOutcomeLastKey(ItemCollection<ScanOutcome> collection) {
         ScanOutcome scanOutcome = collection.getLastLowLevelResult();
         Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
 
-        OrderProcessingLastKey orderProcessingLastKey = null;
+        return getOrderProcessingLastKey(lastKeyEvaluated);
+    }
 
+
+
+    private OrderProcessingLastKey getProcessingIndexQueryOutcomeLastKey(ItemCollection<QueryOutcome> collection) {
+        QueryOutcome scanOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getQueryResult().getLastEvaluatedKey();
+
+        return getOrderProcessingLastKey(lastKeyEvaluated);
+    }
+
+    private OrderProcessingLastKey getOrderProcessingLastKey(Map<String, AttributeValue> lastKeyEvaluated) {
         if (lastKeyEvaluated != null) {//null if it is last one
-            orderProcessingLastKey = OrderProcessingLastKey.of(
+            return OrderProcessingLastKey.of(
                     lastKeyEvaluated.get(Order.PROCESSING_DATE).getS(),
                     lastKeyEvaluated.get(Order.OWNER).getS(),
                     lastKeyEvaluated.get(Order.MAIL).getS(),
                     lastKeyEvaluated.get(Order.ORDER_DATE_TIME).getS());
         }
 
-        return orderProcessingLastKey;
+        return null;
     }
+
 
     private OrderShippedLastKey getShippedIndexScanOutcomeLastKey(ItemCollection<ScanOutcome> collection) {
         ScanOutcome scanOutcome = collection.getLastLowLevelResult();
         Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
 
-        OrderShippedLastKey orderShippedLastKey = null;
+        return getOrderShippedLastKey(lastKeyEvaluated);
+    }
+
+    private OrderShippedLastKey getShippedIndexQueryOutcomeLastKey(ItemCollection<QueryOutcome> collection) {
+        QueryOutcome scanOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getQueryResult().getLastEvaluatedKey();
+
+        return getOrderShippedLastKey(lastKeyEvaluated);
+    }
+
+
+    private OrderShippedLastKey getOrderShippedLastKey(Map<String, AttributeValue> lastKeyEvaluated) {
 
         if (lastKeyEvaluated != null) {//null if it is last one
-            orderShippedLastKey = OrderShippedLastKey.of(
+            return OrderShippedLastKey.of(
                     lastKeyEvaluated.get(Order.SHIPPED_DATE).getS(),
                     lastKeyEvaluated.get(Order.SHIPPED_TIME).getS(),
                     lastKeyEvaluated.get(Order.MAIL).getS(),
                     lastKeyEvaluated.get(Order.ORDER_DATE_TIME).getS());
         }
 
-        return orderShippedLastKey;
+        return null;
     }
-
 
     private List<Order> mapScanOutcomeToOrders(ItemCollection<ScanOutcome> collection) {
         List<Order> orders = new LinkedList<>();

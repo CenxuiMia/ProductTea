@@ -77,14 +77,44 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     @Override
-    public Order getOrdersByMailAndTime(String mail, String time) {
+    public Orders getOrdersByMailAndTime(String mail, String time) {
         return orderRepository.getOrdersByMailAndTime(mail, time);
+    }
+
+    @Override
+    public Orders getOrdersByPaidDate(String paidDate) {
+        return orderRepository.getOrdersByPaidDate(paidDate);
+    }
+
+    @Override
+    public Orders getOrdersByPaidDateAndPaidTime(String paidDate, String paidTime) {
+        return orderRepository.getOrdersByPaidDateAndPaidTime(paidDate, paidTime);
+    }
+
+    @Override
+    public Orders getOrdersByProcessingDate(String processingDate) {
+        return orderRepository.getOrdersByProcessingDate(processingDate);
+    }
+
+    @Override
+    public Orders getOrdersByProcessingDateAndOwner(String processingDate, String owner) {
+        return orderRepository.getOrdersByProcessingDateAndOwner(processingDate, owner);
+    }
+
+    @Override
+    public Orders getOrdersByShippedDate(String shippedDate) {
+        return orderRepository.getOrdersByShippedDate(shippedDate);
+    }
+
+    @Override
+    public Orders getOrdersByShippedDateAndTime(String shippedDate, String shippedTime) {
+        return orderRepository.getOrdersByShippedDateAndTime(shippedDate, shippedTime);
     }
 
     @Override
     public Order addOrder(Order order) {
 
-        Float price = getPrice(order);
+        int price = getPrice(order);
 
         return orderRepository.addOrder(Order.of(
                 order.getMail(),
@@ -107,21 +137,21 @@ class DynamoDBOrderRepository implements OrderRepository {
                 order.getOwner()));
     }
 
-    private float getPrice(Order order) {
+    private int getPrice(Order order) {
         if (order == null) throw new OrderCannotNullException();
 
         if (order.getProducts() == null) throw new OrderProductsCannotNullException(order);
 
         if (order.getShippingWay() == null) throw new OrderShippedWayCannotNullException(order);
 
-        float price = 0F;
+        int price;
 
         //todo possible modify
 
         if (ShippedWay.SHOP.equals(order.getShippingWay())) {
-            price = 60F;
+            price = 60;
         }else if (ShippedWay.HOME.equals(order.getShippingWay())) {
-            price = 100F;
+            price = 100;
         }else {
             throw new OrderShippedWayException(order.getShippingWay());
         }
@@ -136,7 +166,7 @@ class DynamoDBOrderRepository implements OrderRepository {
     @Override
     public Order trialOrder(Order order) {
         //todo possible modify
-        float price = getPrice(order);
+        int price = getPrice(order);
 
         return Order.of(
                 null,

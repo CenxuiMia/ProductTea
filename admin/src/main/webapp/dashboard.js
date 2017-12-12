@@ -1,18 +1,8 @@
-function onSearchOrder() {
-    document.getElementById("sectionTitle").innerHTML = searchOrder;
-    cleanOrderForm();
-    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
-        comment, purchaser, paidTime, processingDate, shippedTime);
-    number = 1;
-}
-
-
 function onAllOrder() {
     document.getElementById("sectionTitle").innerHTML = allOrder;
     cleanOrderForm();
     setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
     comment, purchaser, paidTime, processingDate, shippedTime);
-    number = 1;
     getOrders(orderEndpoint + "/table");
 }
 
@@ -20,7 +10,6 @@ function onActiveOrder() {
     document.getElementById("sectionTitle").innerHTML = activeOrder;
     setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
         comment, purchaser, paidTime, processingDate, shippedTime);
-    number = 1;
     cleanOrderForm();
     getOrders(orderEndpoint + "/active");
 }
@@ -30,7 +19,6 @@ function onPaidOrder() {
     setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
         comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
-    number = 1;
     getOrders(orderEndpoint + "/paid");
 }
 
@@ -54,7 +42,7 @@ function onShippedOrder() {
 }
 
 function onLoad() {
-   onProcessingOrder();
+   // onProcessingOrder();
 }
 
 function setOrderColumn(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) {
@@ -72,14 +60,21 @@ function setOrderColumn(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) {
 }
 
 let lastKey;
+let number = 1;
 
 function getOrders(url) {
+    console.info(url);
     $.ajax({
         type : 'GET',
         url : url,
         success : function(response) {
+            if (response === null) return;
+
             let data = JSON.parse(response);
             let orders = data.orders;
+
+            if (orders === null) return;
+
             lastKey = data.lastKey;
             appendOrders(orders);
             ableScroll = true;
@@ -95,6 +90,7 @@ function getOrders(url) {
 
 function cleanOrderForm() {
     document.getElementById("orderForm").innerHTML = "";
+    number =1;
 }
 
 let next = null;
@@ -108,21 +104,51 @@ function appendOrders(orders) {
         let buttonPayHTML = "";
         let buttonShipHTML = "";
 
-        if (orders[i].shippedTime !== null) {
-            buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨取消</button>"
-        }else if(orders[i].processingDate !== null) {
-            buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨確認</button>"
-        }else if (orders[i].isActive !== null && orders[i].paidTime === null) {
-            buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單取消</button>";
-            buttonPayHTML = "<button onclick='payOrderButton()'>付款確認</button>";
-        }else if (orders[i].isActive === null) {
-            buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單復原</button>";
+        if (orders[i].paidDate === null &&
+            orders[i].processingDate === null &&
+            orders[i].shippedDate === null) {
+
+            buttonActiveHTML = orders[i].isActive === null ?
+                "<button onclick='activeOrderButton()'>訂單復原</button>" :
+                "<button onclick='activeOrderButton()'>訂單取消</button>"
         }
 
-        if (!sectionTile.includes(processingOrder)
-            && orders[i].paidTime !== null && orders[i].shippedTime === null) {
-            buttonPayHTML = "<button onclick='payOrderButton()'>付款取消</button>"
+        if (orders[i].isActive === true && orders[i].paidDate === null) {
+            buttonPayHTML =
+                "<button onclick='payOrderButton()'>付款確認</button>";
         }
+
+        if (orders[i].paidDate !== null && orders[i].processingDate !== null) {
+            buttonPayHTML =
+                "<button onclick='payOrderButton()'>付款取消</button>";
+        }
+
+
+        if (orders[i].processingDate !== null) {
+            buttonShipHTML =
+                "<button onclick='shipOrderButton()'>出貨確認</button>"
+        }else if (orders[i].shippedDate !== null){
+            buttonShipHTML =
+                "<button onclick='shipOrderButton()'>出貨取消</button>";;
+        }
+
+
+        //
+        // if (orders[i].shippedTime !== null) {
+        //     buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨取消</button>"
+        // }else if(orders[i].processingDate !== null) {
+        //     buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨確認</button>"
+        // }else if (orders[i].isActive !== null && orders[i].paidTime === null) {
+        //     buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單取消</button>";
+        //     buttonPayHTML = "<button onclick='payOrderButton()'>付款確認</button>";
+        // }else if (orders[i].isActive === null) {
+        //     buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單復原</button>";
+        // }
+        //
+        // if (!sectionTile.includes(processingOrder)
+        //     && orders[i].paidTime !== null && orders[i].shippedTime === null) {
+        //     buttonPayHTML = "<button onclick='payOrderButton()'>付款取消</button>"
+        // }
 
 
         var order =
@@ -136,7 +162,7 @@ function appendOrders(orders) {
             "   <td>" + orders[i].shippingAddress + "</td> " +
             "   <td>" + orders[i].comment+"</td> " +
             "   <td>" + orders[i].purchaser+"</td> " +
-            "   <td>" + orders[i].paidTime+"</td> " +
+            "   <td>" + orders[i].paidDate+"</td> " +
             "   <td>" + orders[i].processingDate+"</td> " +
             "   <td>" + orders[i].shippedTime+"</td> " +
             "</tr>";               // Create element with HTML
@@ -347,4 +373,64 @@ function onScroll() {
     getOrders(url);
 }
 
+function searchAllOrder() {
+    let mail = document.getElementById("mail").value;
+    let orderDateTime = document.getElementById("orderDateTime").value;
+
+    if (mail === null) return;
+    let url = orderEndpoint + "/table/" + mail.trim();
+    if (orderDateTime !== null)
+        url = url + "/" + orderDateTime.trim();
+    cleanOrderForm();
+
+    getOrders(url);
+}
+
+function searchPaidOrder() {
+    let paidDate = document.getElementById("paidDate").value;
+
+    if (paidDate === null) return;
+
+    let url = orderEndpoint + "/paid/" + paidDate;
+
+    let paidTime = document.getElementById("paidTime").value;
+
+    if (paidTime !== null)
+        url = url + "/" + paidTime;
+
+    cleanOrderForm();
+    getOrders(url);
+}
+
+function searchProcessingOrder() {
+    let processingDate = document.getElementById("processingDate").value;
+
+    if (processingDate === null) return;
+
+    let url = orderEndpoint + "/processing/" + processingDate.trim();
+
+    let owner = document.getElementById("owner").value;
+
+    if (owner !== null)
+        url = url + "/" + owner.trim();
+
+
+    cleanOrderForm();
+    getOrders(url);
+}
+
+function searchShippedOrder() {
+    let shippedDate = document.getElementById("shippedDate").value;
+
+    if (shippedDate === null) return;
+
+    let url = orderEndpoint + "/shipped/" + shippedDate.trim();
+
+    let shippedTime = document.getElementById("shippedTime").value;
+
+    if (shippedTime !== null)
+        url = url + "/" + shippedTime.trim();
+    cleanOrderForm();
+    getOrders(url);
+}
 

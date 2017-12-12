@@ -124,10 +124,29 @@ public class Application {
          */
 
         get(Path.ORDER_TABLE + "/" + Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME,
-                AdminOrderController.getOrderByMailAndTime);
+                AdminOrderController.getOrdersByMailAndTime);
 
         get(Path.ORDER_TABLE + "/" + Param.ORDER_MAIL,
                 AdminOrderController.getOrdersByMail);
+
+        get(Path.ORDER_PAID + "/ " + Param.ORDER_PAID_DATE,
+                AdminOrderController.getOrdersByPaidDate );
+
+        get(Path.ORDER_PAID + "/ " + Param.ORDER_PAID_DATE + "/" + Param.ORDER_PAID_TIME,
+                AdminOrderController.getOrdersByPaidDateAndPaidTime );
+
+        get(Path.ORDER_PROCESSING + "/" + Param.ORDER_PROCESSING_DATE,
+                AdminOrderController.getOrderByProcessingDate);
+
+        get(Path.ORDER_PROCESSING + "/" + Param.ORDER_PROCESSING_DATE + "/" + Param.ORDER_OWNER,
+                AdminOrderController.getOrderByProcessingDateAndOwner);
+
+        get(Path.ORDER_SHIPPED + "/" + Param.ORDER_SHIPPED_DATE,
+                AdminOrderController.getOrderByShippedDate);
+
+        get(Path.ORDER_SHIPPED + "/" + Param.ORDER_SHIPPED_DATE + "/" + Param.ORDER_SHIPPED_TIME,
+                AdminOrderController.getOrderByShippedDateAndShippedTime);
+
 
         /**
          * manipulate order lifecycle

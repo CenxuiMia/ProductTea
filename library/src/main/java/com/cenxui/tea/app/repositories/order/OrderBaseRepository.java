@@ -25,7 +25,19 @@ public interface OrderBaseRepository extends Repository {
 
     Orders getOrdersByMail(String mail);
 
-    Order getOrdersByMailAndTime(String mail, String time);
+    Orders getOrdersByMailAndTime(String mail, String time);
+
+    Orders getOrdersByPaidDate(String paidDate);
+
+    Orders getOrdersByPaidDateAndPaidTime(String paidDate, String paidTime);
+
+    Orders getOrdersByProcessingDate(String processingDate);
+
+    Orders getOrdersByProcessingDateAndOwner(String processingDate, String owner);
+
+    Orders getOrdersByShippedDate(String shippedDate);
+
+    Orders getOrdersByShippedDateAndTime(String shippedDate, String shippedTime);
 
     Order addOrder(Order order);
 

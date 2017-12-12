@@ -34,7 +34,7 @@ public class Order {
     String orderDateTime;
     List<String> products;
     String purchaser;
-    Float price;
+    Integer price;
     String paymentMethod;
 
     String receiver;
