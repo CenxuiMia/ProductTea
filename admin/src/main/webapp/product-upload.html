@@ -73,15 +73,45 @@
 
 <script>
 
-    $(document).on('ready', function() {
-        $(":file").fileinput({
+    $(document).ready(function () {
+        detail = new SquireUI({replace: 'textarea#detail', height: 200});
+        let file =  $(":file");
+        file.fileinput({
             showUpload: false,
             mainClass: "file-loading"
         });
+
+        file.on('change', function() {
+
+            let len = this.files.length;
+
+            for (let i =0; i< len ; i++) {
+                let file = this.files[i];
+                if (file.size > 50000) {
+                    alert("not allow over 50000");
+                }
+            }
+
+        });
     });
 
-    $(document).ready(function () {
-        detail = new SquireUI({replace: 'textarea#detail', height: 200});
+    $(':button').on('click', function() {
+
+        let small = document.getElementById("small").files[0];
+
+        uploadImage(small);
+
+        let images = document.getElementById("images").files;
+
+        let imagesname = [];
+
+        for (let i = 0; i<images.length ;i++) {
+            uploadImage(images[i]);
+            imagesname.push(images[i].name);
+        }
+
+        updateProduct(small.name, imagesname);
+
     });
 
     function updateProduct(smallimagename, imagesname) {
@@ -116,39 +146,6 @@
         });
 
     }
-
-
-    $(':file').on('change', function() {
-
-        let len = this.files.length;
-
-        for (let i =0; i< len ; i++) {
-            let file = this.files[i];
-            if (file.size > 50000) {
-                alert("not allow over 50000");
-            }
-        }
-
-    });
-
-    $(':button').on('click', function() {
-
-        let small = document.getElementById("small").files[0];
-
-        uploadImage(small);
-
-        let images = document.getElementById("images").files;
-
-        let imagesname = [];
-
-        for (let i = 0; i<images.length ;i++) {
-            uploadImage(images[i]);
-            imagesname.push(images[i].name);
-        }
-
-        updateProduct(small.name, imagesname);
-
-    });
 
     function uploadImage(file) {
         let productName = document.getElementById("productName").value;
