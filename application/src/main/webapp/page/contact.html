@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>皇飲｜購物車</title>
+    <title>皇飲｜聯絡我們</title>
 
+    <!-- favicon -->
     <link rel="shortcut icon" href="//hwangying.com/favicon.ico">
     <link rel="icon" href="//hwangying.com/favicon.ico">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="global.css">
     <link rel="stylesheet" type="text/css" href="signin.css">
-    <link rel="stylesheet" href="form.css">
-    <link rel="stylesheet" type="text/css" href="order.css"/>
+    <link rel="stylesheet" type="text/css" href="products.css">
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
@@ -20,51 +20,53 @@
     <script src="amazon-cognito-auth.min.js"></script>
     <script src="language/tw.js"></script>
     <script src="signin.js"></script>
-    <script src="cart.js"></script>
+    <script src="～.js"></script>～
     <script src="library.js"></script> <!--this library should be placed at last-->
 </head>
 <body>
+
 <div id="id_wrapper">
 
     <div id="id_header" class="navbar">
         <div id="tab">
-            <a href=".">首頁</a>
+            <a href="../">首頁</a>
             <a href="./products.html">產品</a>
-            <a href="./contact.html">聯絡我們</a>
+            <a href="javascript:void(0)" class="active">聯絡我們</a>
         </div>
 
         <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
         <a href="./user.html"><i id="member" class="material-icons md-light">person</i></a>
-        <a href="javascript:void(0)"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
+        <a href="./cart.html"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
     </div>
 
     <div id="id_content">
 
-        <h2 class="formTitle">購物車</h2>
+        <div class="banner">
+            <h2>皇飲</h2>
+            <p>生活，來點品味。</p>
+        </div>
 
-        <div class="borderLeft"></div>
-
-        <div class="content">
-            <div id="cartProductsList">
-                <table id="cartTable">
-                    <tr>
-                        <th>商品名稱</th>
-                        <th>單價</th>
-                        <th>數量</th>
-                        <th>小計</th>
-                        <th>移除</th>
-                    </tr>
-                </table>
+        <div class="contact">
+            <h3 class="title">CONTACT US</h3>
+            <div class="text" style="float: left; list-style: none;">
+                <ul>support@hwangying.com</ul>
+                <ul>0900-000000</ul>
+                <ul>客服時間：9:00-18:00 MON.-FRI.</ul>
             </div>
-
-            <button class="actionButton confirmButton1" onclick="goToOrder()">確認</button>
+            <div style="display: inline-block;float: right">
+                <img>FB icon</img>
+                <img>MAIL icon</img>
+                <img>PINKOI icon</img>
+            </div>
+            <div style="clear: both;"></div>
         </div>
     </div>
 
-    <footer class="footer-copyright" id="id_footer">
-        <p>Copyright © 2017 HWANGYING All rights reserved.</p>
-    </footer>
 </div>
+
+<footer class="footer-copyright">
+    <p>Copyright © 2017 HWANGYING All rights reserved.</p>
+</footer>
 
 </body>
 </html>
