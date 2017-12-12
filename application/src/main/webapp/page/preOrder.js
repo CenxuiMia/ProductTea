@@ -8,7 +8,7 @@ $(document).ready(function () {
         },
         function () {
             console.info("index on signOut");
-            // document.getElementById("signInButton").click();
+            document.getElementById("signInButton").click();
         }
     );
 
@@ -63,7 +63,7 @@ function showCartItems() {
 
 //TODO trial total
 let orderProductsList = [];
-function calculateTrialTotal(selectedRadio) {
+function calculateTrialTotal() {
     let selectedWay;
 
     if (document.getElementById('shop').checked === true || document.getElementById('home').checked === true) {
@@ -117,8 +117,7 @@ function checkShippingValid() {
         console.info( shippingWay.className);
         isValid = false;
     } else {
-        let value = document.querySelector('input[name="shippingWay"]:checked').value;
-        localStorage.shippingWay = value;
+        localStorage.shippingWay = document.querySelector('input[name="shippingWay"]:checked').value;
         isValid = true;
     }
 
