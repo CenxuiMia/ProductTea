@@ -27,6 +27,8 @@ function queryProductsData() {
         for (let i=0; i<count; i++) {
             let queryString = "https://tw.hwangying.com/product.html?name=" +
                 data.products[i].productName + "&version=" + data.products[i].version;
+            let originalPrice = JSON.stringify(data.products[i]).includes("originalPrice")?
+                "<div class='originalPrice'>" + "NT." + data.products[i].originalPrice + "</div>" : "";
             productList.innerHTML +=
                 "<div class='prod-wrapper'>" +
                     "<a href=" + queryString + ">" +
@@ -34,6 +36,7 @@ function queryProductsData() {
                         " alt='茶品項' style='width: 100%'>" +
                         "<div class='info'>" +
                             "<p><b>" + data.products[i].productName + "</b><br>" + data.products[i].introduction + "</p>" +
+                            originalPrice +
                             "<div class='price'>" + "NT." + data.products[i].price + "</div>" +
                         "</div>" +
                     "</a>" +

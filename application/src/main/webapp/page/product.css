@@ -36,9 +36,15 @@
 }
 
 #price {
-    font-size: 22px;
+    font-size: 1.5rem;
     font-weight: 400;
     color: olivedrab;
+}
+
+#originalPrice {
+    text-decoration: line-through;
+    margin-left: 15px;
+    visibility: hidden;
 }
 
 select {

@@ -33,6 +33,11 @@
     letter-spacing: 2px;
 }
 
+.originalPrice {
+    text-decoration: line-through;
+    text-decoration-color: white;
+}
+
 @media (max-width: 1200px) {
     .info {
         font-size: 14px;
