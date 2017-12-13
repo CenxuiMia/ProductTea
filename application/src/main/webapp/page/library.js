@@ -54,7 +54,9 @@ function isNotEmptyNoSpace(string) {
 }
 
 function autoRedirect(redirectURL) {
-    window.setTimeout('window.location(redirectURL)', REDIRECT_TIME);
+    window.setTimeout(function () {
+        window.location = redirectURL
+    },REDIRECT_TIME);
 }
 
 function redirect(redirectURL) {
