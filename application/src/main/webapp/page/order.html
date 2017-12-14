@@ -36,8 +36,14 @@
     </div>
 
     <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
-    <a href="./user.html"><i id="member" class="material-icons md-light">person</i></a>
-    <a href="javascript:void(0)"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
+    <div class="dropdown" id="member">
+        <i id="dropbtn" class="material-icons md-light">person</i>
+        <div class="dropdown-content">
+            <a href="./user.html">個人資料</a>
+            <a href="./user-orders.html">訂單記錄</a>
+        </div>
+    </div>
+    <a href="javascript:void(0)" id="cart" class="active"><i class="material-icons md-light">shopping_cart</i></a>
 </div>
 
 <div id="id_content">
@@ -77,7 +83,7 @@
                 </div>
 
                 <div class="buttoninput" id="inputResetButton">
-                    <input id="resetButton" class="actionButton" type="reset" name="reset" value="重新填寫">
+                    <input id="resetButton" class="actionButton" type="reset" name="reset" value="重新填寫" onclick="reset()">
                 </div>
             </fieldset>
 
@@ -85,7 +91,7 @@
                 <button id="submitButton" class="actionButton" value="Submit" onclick="addOrder()">確認送出</button>
             </div>
 
-            <p class="alert" id="alert" style="font-size: 13px" hidden>＊請檢查欄位，並重新送出訂單</p>
+            <p class="alert" id="alert" hidden>＊請檢查欄位，並重新送出訂單</p>
 
         </div>
 

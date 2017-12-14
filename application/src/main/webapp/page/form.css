@@ -11,7 +11,7 @@ input {
 }
 
 fieldset {
-    margin-bottom: 20px;
+    margin-bottom: 1.35rem;
     padding: 0;
     border: 0
 }
@@ -28,12 +28,8 @@ form div {
     padding-left: 100px
 }
 
-#inputComment {
-    padding-bottom: 10px
-}
-
 .center {
-    margin: 10px;
+    margin: 0.67rem;
     text-align: center
 }
 
@@ -42,22 +38,23 @@ form div {
 }
 
 .textinput {
-    padding-top: 10px;
+    padding-top: 0.67rem;
     clear: both
 }
 
 .textinput .alert {
     color: #dc3545;
+    font-size: 0.9rem;
 }
 
 .textinput label {
     display: block;
     clear: left;
-    padding-right: 10px;
+    padding-right: 0.67rem;
     line-height: 21px;
     font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 7px;
+    font-size: 0.92rem;
+    margin-bottom: 0.5rem;
     color: #444;
     font-family: "Helvetica Neue", Roboto, Arial, sans-serif
 }
@@ -66,10 +63,10 @@ form div {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 14px;
-    padding: 7px 10px;
-    margin: 10px 0;
-    width: 380px
+    font-size: 0.93rem;
+    padding: 0.5rem 0.67rem;
+    margin: 0.67rem 0;
+    width: 25rem;
 }
 
 .textinput input:focus {
@@ -82,7 +79,7 @@ input {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 14px;
+    font-size: 0.93rem;
     padding: 7px 5px;
 }
 
@@ -94,7 +91,7 @@ input:focus {
 
 .order_form {
     float: left;
-    width: 370px
+    width: 25rem;
 }
 
 .link {
@@ -102,19 +99,19 @@ input:focus {
 }
 
 .actionButton {
-    line-height: 25px;
-    padding: 7px 0;
-    width: 380px;
+    line-height: 1.7rem;
+    padding: 0.5rem 0;
+    width: 25rem;
     display: inline-block;
-    font-size: 15px;
+    font-size: 0.93rem;
     font-weight: bold;
     text-align: center;
     text-decoration: none;
     background-color: #f7f7f7;
-    border: dotted #cccccc 1px;
+    border: dotted #cccccc 0.067rem;
     border-radius: 5px;
     outline: none;
-    margin-bottom: 20px
+    margin-bottom: 1.35rem;
 }
 
 .actionButton:hover {
@@ -124,4 +121,12 @@ input:focus {
 
 .alert {
     color: #dc3545;
+    font-size: 0.9rem;
+}
+
+/* phone version 手機版 */
+@media only screen and (max-device-width: 1024px) {
+    .order_form {
+        float: none;
+    }
 }

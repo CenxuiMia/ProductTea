@@ -31,13 +31,19 @@
     <div id="id_header" class="navbar">
         <div id="tab">
             <a href="javascript:void(0)" class="active">首頁</a>
-            <a href="/products.html">產品</a>
-            <a href="/contact.html">聯絡我們</a>
+            <a href="products.html">產品</a>
+            <a href="contact.html">聯絡我們</a>
         </div>
 
         <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
-        <a href="/user.html"><i id="member" class="material-icons md-light">person</i></a>
-        <a href="/cart.html"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
+        <div class="dropdown" id="member">
+            <i id="dropbtn" class="material-icons md-light">person</i>
+            <div class="dropdown-content">
+                <a href="./user.html">個人資料</a>
+                <a href="./user-orders.html">訂單記錄</a>
+            </div>
+        </div>
+        <a href="cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a>
     </div>
 
     <div id="id_content">
@@ -75,10 +81,10 @@
                 <ul>0900-000000</ul>
                 <ul>客服時間：9:00-18:00 MON.-FRI.</ul>
             </div>
-            <div style="display: inline-block;float: right">
-                <img>FB icon</img>
-                <img>MAIL icon</img>
-                <img>PINKOI icon</img>
+            <div class="icon">
+                <a href="//www.facebook.com"><img src="./fb.png"></a>
+                <img src="./mail.png" onclick="sendMail()">
+                <a href="//www.pinkoi.com"><img src="./pinkoi.png"></a>
             </div>
             <div style="clear: both;"></div>
         </div>

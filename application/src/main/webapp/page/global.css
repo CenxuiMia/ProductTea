@@ -30,7 +30,7 @@ body, html {
 }
 
 .navbar {
-    overflow: auto;
+    overflow: visible;
     position: fixed;
     background-color: #444444;
     width: 100%;
@@ -48,7 +48,7 @@ body, html {
     display: block;
     color: darkgray;
     text-align: center;
-    padding: 14px;
+    padding: 11px 14px;
     text-decoration: none;
 }
 
@@ -66,18 +66,60 @@ body, html {
     background-color: transparent;
 }
 
-#cart, #member {
+#cart {
     float: right;
     display: block;
-    color: white;
+    color: darkgray;
     text-align: center;
-    padding: 14px;
+    padding: 14px 14px 4px 14px;
     text-decoration: none;
 }
 
-#cart:hover, #member:hover {
+#cart:hover, .dropdown:hover #dropbtn:hover {
     background-color: #777777;
     color: #f2f2f2;
+}
+
+.dropdown {
+    float: right;
+}
+
+.dropdown #dropbtn {
+    color: darkgray;
+    padding: 13px 14px;
+}
+
+#cart.active, #dropbtn.active {
+    color: white;
+}
+
+#cart.active:hover, #dropbtn.active:hover {
+    background-color: transparent;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 1rem 1.3rem;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 .banner {
@@ -224,11 +266,19 @@ body, html {
     }
 
     #tab a {
-        padding: 30px;
+        padding: 22px 30px;
     }
 
-    #cart, #member {
-        padding: 30px;
+    #cart {
+        padding: 24px 30px 9px 30px;
+    }
+
+    .dropdown #dropbtn {
+        padding: 25px 30px 25px 30px;
+    }
+
+    .dropdown-content {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     }
 
     .banner {
@@ -243,6 +293,10 @@ body, html {
 
     .banner p {
         font-size: 35px;
+    }
+
+    .bannerRight {
+        display: none;
     }
 
     .bannerRight {

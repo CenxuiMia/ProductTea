@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="global.css">
     <link rel="stylesheet" type="text/css" href="signin.css">
     <link rel="stylesheet" type="text/css" href="form.css"/>
+    <link rel="stylesheet" type="text/css" href="user-orders.css"/>
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.156.0.min.js"></script>
@@ -20,7 +21,7 @@
     <script src="amazon-cognito-auth.min.js"></script>
     <script src="language/tw.js"></script>
     <script src="signin.js"></script>
-    <script src="userOrders.js"></script>
+    <script src="user-orders.js"></script>
     <script src="library.js"></script> <!--this library should be placed at last-->
 </head>
 <body>
@@ -35,8 +36,14 @@
         </div>
 
         <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
-        <a href="javascript:void(0)"><i id="member" class="material-icons md-light">person</i></a>
-        <a href="./cart.html"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
+        <div class="dropdown" id="member">
+            <i id="dropbtn" class="material-icons md-light active">person</i>
+            <div class="dropdown-content">
+                <a href="./user.html">個人資料</a>
+                <a href="javascript:void(0)">訂單記錄</a>
+            </div>
+        </div>
+        <a href="./cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a>
     </div>
 
     <div id="id_content">
