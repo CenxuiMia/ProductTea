@@ -15,18 +15,20 @@ $(document).ready(function () {
 });
 
 let productDataAsKey;
-let name = getParameterByName("name");
-let version = getParameterByName("version");
 
-document.getElementById("nest").innerHTML = name + version;
-
-console.info("name :" + name);
-console.info("version :" + version);
 
 $.ajax({
     type : 'GET',
-    url : productEndpoint + "/" + name + "/" + version,
+    url : productEndpoint + "/" + getParameterByName("name") + "/" +  getParameterByName("version"),
     success : function(response) {
+
+        let name = getParameterByName("name");
+        let version = getParameterByName("version");
+
+        console.info("name :" + name);
+        console.info("version :" + version);
+        document.getElementById("nest").innerHTML = name + version;
+
         console.log("product: " + response);
         productDataAsKey = response;
 
@@ -36,14 +38,15 @@ $.ajax({
         document.getElementById("version").innerHTML = data.version;
         document.getElementById("introduction").innerHTML = data.introduction;
         document.getElementById("price").innerHTML = data.price;
-        if (data.video !== undefined || data.video !== "") {
+        if (typeof data.video !== 'undefined') {
             document.getElementById("video").setAttribute("src", data.video);
             document.getElementById("video").hidden = false;
         } else {
-            document.getElementById("video").hidden = true;
+            let e = document.getElementById("video");
+            e.parentNode.removeChild(e);
         }
 
-        if (data.contains("originalPrice")) {
+        if (typeof data.originalPrice !== 'undefined') {
             document.getElementById("originalPrice").innerHTML = data.originalPrice;
             document.getElementById("originalPrice").hidden = false;
         }
