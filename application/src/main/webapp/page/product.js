@@ -36,7 +36,12 @@ $.ajax({
         document.getElementById("version").innerHTML = data.version;
         document.getElementById("introduction").innerHTML = data.introduction;
         document.getElementById("price").innerHTML = data.price;
-        document.getElementById("video").setAttribute("src", data.video);
+        if (data.video !== undefined || data.video !== "") {
+            document.getElementById("video").setAttribute("src", data.video);
+            document.getElementById("video").hidden = false;
+        } else {
+            document.getElementById("video").hidden = true;
+        }
 
         if (data.contains("originalPrice")) {
             document.getElementById("originalPrice").innerHTML = data.originalPrice;

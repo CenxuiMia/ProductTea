@@ -125,3 +125,8 @@ input:focus {
 .alert {
     color: #dc3545;
 }
+
+/* phone version 手機版 */
+@media only screen and (max-device-width: 1024px) {
+
+}
