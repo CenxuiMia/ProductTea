@@ -9,20 +9,14 @@ const REDIRECT_TIME = 5000;
 
 // Add the "show" class to DIV
 function showSnackBar(element, message) {
-    if (element.className.indexOf("show") !== -1) {
-        element.className = element.className.replace("show", "");
-    }
-
+    element.className = "";
     element.innerHTML = message;
     element.className += "show";
 }
 
 function showSnackBarAutoClose(element, message) {
+    element.className = "";
     element.innerHTML = message;
-    if (element.className.indexOf("show") !== -1) {
-        element.className = element.className.replace("show", "");
-    }
-
     element.className += "show";
     setTimeout(function () {
         element.className = element.className.replace("show", "close");
