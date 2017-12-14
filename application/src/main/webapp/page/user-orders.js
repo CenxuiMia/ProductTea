@@ -35,7 +35,7 @@ function getOrders() {
                     "<tr>" +
                         "<td>" + (i + 1) + "</td>" +
                         "<td>" + order.products + "</td>" +
-                        "<td>" + order.price + "</td>" +
+                        "<td>" + "NT." + order.price + "</td>" +
                         "<td>" + order.orderDateTime + "</td>" +
                         "<td>" + status + "</td>" +
                     "</tr>";

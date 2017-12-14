@@ -38,10 +38,16 @@ function setInputWithUserData() {
             ", firstName: " + localStorage.firstName +
             "\nphone: " + localStorage.phone +
             ", address: " + localStorage.address);
-
-        document.getElementById("purchaser").setAttribute("value", localStorage.lastName + localStorage.firstName);
-        document.getElementById("phone").setAttribute("value", localStorage.phone);
-        document.getElementById("shippingAddress").setAttribute("value", localStorage.address);
+        let name = "";
+        if (localStorage.lastName !== undefined) {
+            name += localStorage.lastName;
+        }
+        if (localStorage.firstName !== undefined) {
+            name += localStorage.firstName;
+        }
+        document.getElementById("purchaser").value = name;
+        document.getElementById("phone").value = localStorage.phone === undefined? "" : localStorage.phone;
+        document.getElementById("shippingAddress").value = localStorage.address === undefined? "" : localStorage.address;
     } else {
         console.info("Query DB!");
         $.ajax({
@@ -71,6 +77,21 @@ function setInputWithUserData() {
     }
 
     document.getElementById("shippingWay").innerHTML = localStorage.shippingWay === shop ? shippingWayShop : shippingWayHome;
+}
+
+function reset() {
+    let name = "";
+    if (localStorage.lastName !== undefined) {
+        name += localStorage.lastName;
+    }
+    if (localStorage.firstName !== undefined) {
+        name += localStorage.firstName;
+    }
+    document.getElementById("purchaser").value = name;
+    document.getElementById("phone").value = localStorage.phone === undefined? "" : localStorage.phone;
+    document.getElementById("shippingAddress").value = localStorage.address === undefined? "" : localStorage.address;
+    document.getElementById("receiver").value = "";
+    document.getElementById("comment").value = "";
 }
 
 function getCartItems() {

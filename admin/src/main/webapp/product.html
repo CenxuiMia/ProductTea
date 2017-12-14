@@ -75,10 +75,10 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 
-
+<script src="auth.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="dist/js/bootstrap.min.js"></script>
-<script src="auth.js"></script>
+
 
 <script>
 
@@ -104,9 +104,8 @@
 
         let buttonDelete = "<button onclick='confirmDelete()'>移除商品</button>";
 
-
         for (let i = 1; i <= products.length; i++) {
-            let product =
+                let product =
                 "<tr> " +
                 "   <td>" + i + "</td> " +
                 "   <td>" + products[i].productName + "</td> " +
@@ -114,8 +113,12 @@
                 "   <td>" + products[i].originalPrice+"</td> " +
                 "   <td>" + products[i].price +"</td> " +
                 "   <td>" + buttonDelete +"</td> "+
-            "</tr>";
-
+                "   <td>" + "<img height=80 width=100  src="+
+                "https://s3-ap-northeast-1.amazonaws.com/cens-s3website-2fkuo2z3mpnh"
+                + products[i].smallImage +
+                "> "+"</td> "+
+                "</tr>";
+                //todo modify it
             productForm.innerHTML += product;
         }
 

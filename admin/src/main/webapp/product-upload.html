@@ -96,6 +96,8 @@
     });
 
     $(':button').on('click', function() {
+        let productName = document.getElementById("productName").value;
+        let version = document.getElementById("version").value;
 
         let small = document.getElementById("small").files[0];
 
@@ -107,14 +109,15 @@
 
         for (let i = 0; i<images.length ;i++) {
             uploadImage(images[i]);
-            imagesname.push(images[i].name);
+            imagesname.push(
+                "/image/" + productName + "/" + version+ "/" + images[i].name);
         }
 
-        updateProduct(small.name, imagesname);
+        updateProduct("/image/" + productName + "/" + version+ "/"+ small.name, imagesname);
 
     });
 
-    function updateProduct(smallimagename, imagesname) {
+    function updateProduct(smallImageName, imagesName) {
         console.info(detail.getHTML())
 
         let product = {
@@ -124,8 +127,8 @@
             originalPrice: document.getElementById("originalPrice").value,
             introduction: document.getElementById("introduction").value,
             tag: document.getElementById("tag").value,
-            smallImage: smallimagename,
-            images: imagesname
+            smallImage: smallImageName,
+            images: imagesName
         }
 
         let productJson = JSON.stringify(product);
@@ -141,7 +144,7 @@
             },
             error : function(xhr, status, error) {
                 console.log("error: " + error + ", status: " + status);
-
+                console.info(xhr);
             }
         });
 

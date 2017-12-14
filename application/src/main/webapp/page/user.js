@@ -10,7 +10,8 @@ $(document).ready(function () {
             // signed in
         },
         function () {
-            console.info("signed out on user page")
+            console.info("signed out on user page");
+            document.getElementById("signInButton").click();
         });
 
     initLocalStorage();

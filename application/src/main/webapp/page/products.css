@@ -1,5 +1,7 @@
+
+
 .content {
-    padding: 16px;
+    padding: 1rem;
     z-index: -1;
 }
 
@@ -22,15 +24,20 @@
 .info {
     position: absolute;
     width: 100%;
-    padding: 10px;
+    padding: 0.67rem;
     bottom: 0;
     color: white;
     text-align: center;
 }
 
 .info b {
-    font-size: 1.12em;
-    letter-spacing: 2px;
+    font-size: 1.03rem;
+    letter-spacing: 0.14rem;
+}
+
+.originalPrice {
+    text-decoration: line-through;
+    text-decoration-color: white;
 }
 
 @media (max-width: 1200px) {
@@ -53,5 +60,31 @@
 
     .info {
         font-size: 15px;
+    }
+}
+
+/* phone version 手機版 */
+@media only screen and (max-device-width: 1024px) {
+    .prod-list {
+        margin: 5%;
+    }
+
+    .prod-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 80%;
+        margin: 3% 10% 2% 10%;
+    }
+
+    .info p {
+        font-size: 1rem;
+    }
+
+    .price {
+        font-size: 0.93rem;
+    }
+
+    .originalPrice {
+        font-size: 0.93rem;
     }
 }

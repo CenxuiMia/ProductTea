@@ -53,7 +53,7 @@ let preOrderAuthData = {
     ClientId : clientId,
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
-    RedirectUriSignIn : 'https://tw.hwangying.com/preOrder.html',
+    RedirectUriSignIn : 'https://tw.hwangying.com/pre-order.html',
     RedirectUriSignOut : 'https://tw.hwangying.com/cart.html'
 };
 

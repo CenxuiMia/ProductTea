@@ -20,7 +20,7 @@
     <script src="amazon-cognito-auth.min.js"></script>
     <script src="language/tw.js"></script>
     <script src="signin.js"></script>
-    <script src="preOrder.js"></script>
+    <script src="pre-order.js"></script>
     <script src="library.js"></script> <!--this library should be placed at last-->
 </head>
 <body>
@@ -34,8 +34,14 @@
         </div>
 
         <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
-        <a href="./user.html"><i id="member" class="material-icons md-light">person</i></a>
-        <a href="javascript:void(0)"><i id="cart" class="material-icons md-light">shopping_cart</i></a>
+        <div class="dropdown" id="member">
+            <i id="dropbtn" class="material-icons md-light">person</i>
+            <div class="dropdown-content">
+                <a href="./user.html">個人資料</a>
+                <a href="./user-orders.html">訂單記錄</a>
+            </div>
+        </div>
+        <a href="javascript:void(0)" id="cart" class="active"><i class="material-icons md-light">shopping_cart</i></a>
     </div>
 
     <div id="id_content">
@@ -62,10 +68,10 @@
                 <div class="textinput" id="shippingWay">
                     取貨方式<br>
                     <input id="shop" name="shippingWay" type="radio" value="shop"
-                           style="width: 18px; display: inline-block" onclick="calculateTrialTotal()" required>
+                           style="width: 1.2rem; display: inline-block" onclick="calculateTrialTotal()" required>
                     <label for="shop" style="display: inline-block">超商取貨</label>
                     <input id="home" name="shippingWay" type="radio" value="home"
-                           style="width: 18px; display: inline-block" onclick="calculateTrialTotal()" required>
+                           style="width: 1.2rem; display: inline-block" onclick="calculateTrialTotal()" required>
                     <label for="home" style="display: inline-block">宅配</label>
                 </div>
             </div>
@@ -94,12 +100,12 @@
                     <button class="actionButton confirmButton2" onclick="goToCart()">上一步</button>
                     <button class="actionButton confirmButton2" onclick="goToOrder()">下一步</button>
                 </div>
-                <p class="alert" id="alert" style="font-size: 13px" hidden>＊請選擇取貨方式</p>
+                <p class="alert" id="alert" hidden>＊請選擇取貨方式</p>
             </div>
         </div>
     </div>
 
-    <footer class="footer-copyright">
+    <footer class="footer-copyright" id="id_footer">
         <p>Copyright © 2017 HWANGYING All rights reserved.</p>
     </footer>
 </div>
