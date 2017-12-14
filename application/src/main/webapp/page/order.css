@@ -2,18 +2,18 @@ fieldset {
     padding: 0;
     border: 0;
     font-weight: bold;
-    font-size: 14px;
-    margin: 0 0 7px;
+    font-size: 0.92rem;
+    margin: 0 0 0.5rem;
     color: #444;
 }
 
 .content {
-    margin: 10px 50px 10px 50px;
+    margin: 0.67rem 3.35rem 0.67rem 3.35rem;
 }
 
 #cartProductsList {
     clear: both;
-    margin: 10px 50px 10px 50px;
+    margin: 0.67rem 3.35rem 0.67rem 3.35rem;
 }
 
 #cartProductsList table {
@@ -23,8 +23,8 @@ fieldset {
 
 #productsList {
     float: right;
-    margin-top: 10px;
-    margin-right: 25px;
+    margin-top: 0.67rem;
+    margin-right: 1.7rem;
     padding-right: 100px;
 }
 
@@ -33,14 +33,14 @@ fieldset {
 }
 
 #cartTable td {
-    min-width: 70px;
+    min-width: 4.7rem;
     width: 10%;
     border-left: solid 1px #cccccc;
 }
 
 #cartTable .cartProductName {
     text-align: left;
-    min-width: 350px;
+    min-width: 23rem;
     width: 60%;
     border-left: none;
 }
@@ -50,26 +50,26 @@ fieldset {
 }
 
 #cartTable input {
-    width: 50px;
+    width: 3.35rem;
     text-align: center;
 }
 
 #cartTable button {
-    padding: 7px 10px;
+    padding: 0.5rem 0.67rem;
 }
 
 .cartImage {
     width: 130px;
     vertical-align: middle;
-    padding: 10px;
+    padding: 0.67rem;
 }
 
 .confirmButton1 {
-    width: 200px;
+    width: 13rem;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 20px;
+    margin-top: 1.3rem;
 }
 
 .confirmButton2 {
@@ -77,6 +77,9 @@ fieldset {
     display: inline-block;
     margin-left: 30px;
     margin-right: 30px;
-    margin-top: 40px;
+    margin-top: 2.68rem;
 }
 
+#ship {
+    margin: 2rem 0;
+}
