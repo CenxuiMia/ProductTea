@@ -10,6 +10,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class AdminOrderController extends AdminCoreController {
@@ -237,7 +238,7 @@ public class AdminOrderController extends AdminCoreController {
     private static Order mapRequestBodyToOrder(String body) {
         try {
             return JsonUtil.mapToOrder(body);
-        }catch (Throwable e) {
+        }catch (IOException e) {
             throw new AdminOrderControllerClientException("request body not allow :" + body);
         }
     }

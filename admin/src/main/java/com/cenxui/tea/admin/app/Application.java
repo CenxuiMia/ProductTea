@@ -24,6 +24,11 @@ public class Application {
              * todo
              */
             response.header("Access-Control-Allow-Origin", "*");
+
+            String ip = request.ip();
+            if (!"0:0:0:0:0:0:0:1".equals(ip)) {
+                halt(401);
+            }
         }));
 
 
