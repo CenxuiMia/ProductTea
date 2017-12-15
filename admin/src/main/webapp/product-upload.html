@@ -25,16 +25,22 @@
 <div class="container">
 <!--todo mia check out input-->
     <nav>
+        <label for="productName">*</label>
         <input id="productName" placeholder="productName">
         <div></div>
+        <label for="version">*</label>
         <input id="version" placeholder="version">
         <div></div>
-        <input id="price" placeholder="price">
+        <label for="price">*</label>
+        <input type="number" id="price" placeholder="price">
         <div></div>
-        <input id="originalPrice" placeholder="originalPrice">
+        <label for="originalPrice"></label>
+        <input type="number" id="originalPrice" placeholder="originalPrice">
         <div></div>
+        <label for="introduction"></label>
         <input id="introduction" placeholder="introduction">
         <div></div>
+        <label for="tag"></label>
         <input id="tag" placeholder="tag">
         <div></div>
     </nav>
@@ -42,8 +48,8 @@
 
     <div class="row">
         <div class="col-centered">
-            <label for="detail">detail</label>
-            <textarea id="detail"></textarea>
+            <label for="details">details</label>
+            <textarea id="details"></textarea>
         </div>
     </div>
 
@@ -73,7 +79,7 @@
 <script>
 
     $(document).ready(function () {
-        detail = new SquireUI({replace: 'textarea#detail', height: 200});
+        details = new SquireUI({replace: 'textarea#details', height: 200});
 
         let file =  $(":file");
         file.fileinput({
@@ -98,6 +104,15 @@
     $(':button').on('click', function() {
         let productName = document.getElementById("productName").value;
         let version = document.getElementById("version").value;
+        let price = document.getElementById("price").value;
+
+        if (productName === null || productName ==="" ||
+            version === null || version ==="" ||
+            price === null
+        ) {
+            alert("* attribute cannot be empty")
+            return;
+        }
 
         let small = document.getElementById("small").files[0];
 
@@ -118,14 +133,13 @@
     });
 
     function updateProduct(smallImageName, imagesName) {
-        console.info(detail.getHTML())
-
         let product = {
             productName: document.getElementById("productName").value,
-            version: document.getElementById("version").value,
+            version:  document.getElementById("version").value,
             price: document.getElementById("price").value,
             originalPrice: document.getElementById("originalPrice").value,
             introduction: document.getElementById("introduction").value,
+            details: details.getHTML(),
             tag: document.getElementById("tag").value,
             smallImage: smallImageName,
             images: imagesName
@@ -140,11 +154,13 @@
             url : productEndpoint + "/table",
             data : productJson,
             success : function(response) {
-                console.info("success");
+                alert("add product success")
+                window.location.replace("./product.html")
+                setTimeout(function(){
+                }, 1000);
             },
             error : function(xhr, status, error) {
                 console.log("error: " + error + ", status: " + status);
-                console.info(xhr);
             }
         });
 

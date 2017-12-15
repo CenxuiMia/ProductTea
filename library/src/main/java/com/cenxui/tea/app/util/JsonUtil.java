@@ -8,29 +8,31 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+
 public class JsonUtil {
 
-    public static Order mapToOrder(String orderJson) throws Exception {
+    public static Order mapToOrder(String orderJson) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Order order = mapper.readValue(orderJson, Order.class);
 
         return order;
     }
 
-    public static Product mapToProduct(String productJson) throws Exception {
+    public static Product mapToProduct(String productJson) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Product product = mapper.readValue(productJson, Product.class);
 
         return product;
     }
 
-    public static User mapToUser(String userJson) throws Exception {
+    public static User mapToUser(String userJson) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(userJson, User.class);
         return user;
     }
 
-    public static ProductImage mapToProductImage(String productImageJson) throws Exception {
+    public static ProductImage mapToProductImage(String productImageJson) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         ProductImage productImage = mapper.readValue(productImageJson, ProductImage.class);
         return productImage;

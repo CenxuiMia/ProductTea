@@ -53,11 +53,11 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th id="v1"></th>
-                        <th id="v2"></th>
-                        <th id="v3"></th>
-                        <th id="v4"></th>
-                        <th id="v5"></th>
+                        <th id="v1">No.</th>
+                        <th id="v2">商品名稱</th>
+                        <th id="v3">版本</th>
+                        <th id="v4">原價</th>
+                        <th id="v5">售價</th>
                         <th id="v6"></th>
                         <th id="v7"></th>
                     </tr>
@@ -104,10 +104,10 @@
 
         let buttonDelete = "<button onclick='confirmDelete()'>移除商品</button>";
 
-        for (let i = 1; i <= products.length; i++) {
+        for (let i = 0; i < products.length; i++) {
                 let product =
                 "<tr> " +
-                "   <td>" + i + "</td> " +
+                "   <td>" + (i+1) + "</td> " +
                 "   <td>" + products[i].productName + "</td> " +
                 "   <td>" + products[i].version+"</td> " +
                 "   <td>" + products[i].originalPrice+"</td> " +
