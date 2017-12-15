@@ -46,8 +46,7 @@ function showCartItems() {
             "<tr>" +
             "<td class='cartProductName'>" +
             "<a href=" + queryString + ">" +
-            // "<img src=" +item.smallImage +">" + item.productName + item.version + //TODO change smallImage
-            "<img class='cartImage' src=https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg>" +
+            "<img class='cartImage' src=" +item.smallImage +">" +
             "<span>" + item.productName + item.version + "</span>" +
             "</a>" +
             "</td>" +

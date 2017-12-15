@@ -38,8 +38,7 @@ function queryProductsData() {
             productList.innerHTML +=
                 "<div class='prod-wrapper'>" +
                     "<a href=" + queryString + ">" +
-                        "<img src='https://farm5.staticflickr.com/4519/24605617318_1a9f4e861c_z.jpg'" +//TODO 改圖 data.products[i].smallImage;
-                        " alt='茶品項' style='width: 100%'>" +
+                        "<img src=" + data.products[i].smallImage + " alt='茶品項' style='width: 100%'>" +
                         "<div class='info'>" +
                             "<p><b>" + data.products[i].productName + "</b><br>" + data.products[i].introduction + "</p>" +
                             originalPrice +
