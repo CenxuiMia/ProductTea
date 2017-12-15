@@ -1,11 +1,11 @@
 /**
  * Created by huaying on 02/12/2017.
  */
-const URL_CART = "//tw.hwangying.com/cart.html";
-const URL_PRE_ORDER = "//tw.hwangying.com/pre-order.html";
-const URL_ORDER = "//tw.hwangying.com/order.html";
-const URL_PRODUCTS = "//tw.hwangying.com/products.html";
-const URL_USER_ORDERS = "//tw.hwangying.com/user-orders.html";
+const URL_CART = "./cart.html";
+const URL_PRE_ORDER = "./pre-order.html";
+const URL_ORDER = "./order.html";
+const URL_PRODUCTS = "./products.html";
+const URL_USER_ORDERS = "./user-orders.html";
 
 let loadingData = "載入商品中...";
 
