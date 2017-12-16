@@ -38,6 +38,7 @@ $.ajax({
         document.getElementById("version").innerHTML = data.version;
         document.getElementById("introduction").innerHTML = data.introduction;
         document.getElementById("price").innerHTML = data.price;
+        document.getElementById("details").innerHTML = data.details;
         if (typeof data.video !== 'undefined') {
             document.getElementById("video").setAttribute("src", data.video);
             document.getElementById("video").hidden = false;
@@ -52,10 +53,10 @@ $.ajax({
         }
 
         let images = document.getElementById("images");
-        let imgSize = data.images.length;
+        let imgSize = data.smallImages.length;
         for (let i=0; i<imgSize; i++) {
             let image = document.createElement("img");
-            image.src = data.images[i];
+            image.src = data.smallImages[i];
             images.appendChild(image);
         }
     },
