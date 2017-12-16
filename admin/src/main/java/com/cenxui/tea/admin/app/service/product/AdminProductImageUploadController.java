@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.cenxui.tea.admin.app.config.ControllerConfig;
 import com.cenxui.tea.admin.app.config.S3Bucket;
 import com.cenxui.tea.admin.app.service.AdminCoreController;
 import com.cenxui.tea.admin.app.util.LimitedSizeInputStream;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 public class AdminProductImageUploadController extends AdminCoreController {
 
-    private static final long limitSize = 50_000;
+    private static final long limitSize = ControllerConfig.PRODUCT_IMAGE_UPLOAD_LIMIT;
 
     private static final AmazonS3 s3client =  AmazonS3ClientBuilder.standard().withRegion(S3Bucket.REGION).build();
 
