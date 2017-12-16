@@ -14,6 +14,6 @@ dependencies {
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
     compile group: 'com.sparkjava', name: 'spark-core', version: '2.6.0'
 
-    testCompile project(':com.cenxui.tea.app.util-test')
+    testCompile project(':util-test')
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
