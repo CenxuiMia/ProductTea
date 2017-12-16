@@ -1,10 +1,7 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
 import com.amazonaws.services.dynamodbv2.document.*;
-import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
-import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
-import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
-import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.client.map.product.ProductJsonMapException;
@@ -150,6 +147,25 @@ final class DynamoDBProductRepository implements ProductRepository {
         productTable.putItem(spec);
         //todo not stable
         return product;
+    }
+
+    @Override
+    public Product updateProduct(Product product) {
+        UpdateItemSpec spec = new UpdateItemSpec()
+                .withPrimaryKey(
+                        Product.PRODUCT_NAME, product.getProductName(),
+                        Product.VERSION, product.getVersion())
+                .withConditionExpression(
+                        "attribute_exists(" + Product.PRODUCT_NAME + ")" +
+                                "and attribute_exists(" + Product.VERSION + ")");
+        StringBuilder builder = new StringBuilder();
+                builder.append("set ");
+
+
+
+
+
+        return null;
     }
 
     @Override

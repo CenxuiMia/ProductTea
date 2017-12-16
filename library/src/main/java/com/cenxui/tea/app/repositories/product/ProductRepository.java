@@ -20,6 +20,8 @@ public interface ProductRepository extends Repository {
 
     Product addProduct(Product product);
 
+    Product updateProduct(Product product);
+
     boolean deleteProduct(String productName, String version);
 
     Price getProductPrice(String name, String version);
