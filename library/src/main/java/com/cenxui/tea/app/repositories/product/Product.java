@@ -12,7 +12,7 @@ public class Product {
     public static final String DETAILS = "details";
     public static final String SMALL_IMAGE = "smallImage";
     public static final String VIDEO = "video";
-    public static final String IMAGES = "images";
+    public static final String SMALL_IMAGES = "smallImages";
     public static final String PRICE = "price";
     public static final String ORIGINAL_PRICE = "originalPrice";
     public static final String TAG = "tag";
@@ -24,7 +24,7 @@ public class Product {
     String details;
     String smallImage;
     String video;
-    List<String> images;
+    List<String> smallImages;
     Integer price;
     Integer originalPrice;
     String tag;

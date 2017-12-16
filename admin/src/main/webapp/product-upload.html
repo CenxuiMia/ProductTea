@@ -50,10 +50,10 @@
         </div>
     </div>
 
-    <label for="small">smallImage</label>
-    <input id="small" type="file" data-min-file-count="1">
-    <label for="images">images</label>
-    <input id="images" type="file" multiple data-min-file-count="1">
+    <label for="smallImage">smallImage</label>
+    <input id="smallImage" type="file" data-min-file-count="1">
+    <label for="smallImages">smallImages</label>
+    <input id="smallImages" type="file" multiple data-min-file-count="1">
     <button type="button" class="btn btn-primary">Submit</button>
     <button type="reset" class="btn btn-default">Reset</button>
     <a href="./product.html" class="btn btn-secondary">cancel</a>
@@ -90,7 +90,7 @@
 
             for (let i =0; i< len ; i++) {
                 let file = this.files[i];
-                if (file.size > 50000) {
+                if (file.size > 250000) {
                     alert("not allow over 50000");
                 }
             }
@@ -113,25 +113,25 @@
             return;
         }
 
-        let small = document.getElementById("small").files[0];
+        let smallImage = document.getElementById("smallImage").files[0];
 
-        uploadImage(small);
+        uploadImage(smallImage);
 
-        let images = document.getElementById("images").files;
+        let smallImages = document.getElementById("smallImages").files;
 
         let imagesname = [];
 
-        for (let i = 0; i<images.length ;i++) {
-            uploadImage(images[i]);
+        for (let i = 0; i<smallImages.length ;i++) {
+            uploadImage(smallImages[i]);
             imagesname.push(
-                "/image/" + productName + "/" + version+ "/" + images[i].name);
+                "/image/" + productName + "/" + version+ "/" + smallImages[i].name);
         }
 
-        updateProduct("/image/" + productName + "/" + version+ "/"+ small.name, imagesname);
+        updateProduct("/image/" + productName + "/" + version+ "/"+ smallImage.name, imagesname);
 
     });
 
-    function updateProduct(smallImageName, imagesName) {
+    function updateProduct(smallImageName, smallImagesName) {
         let product = {
             productName: document.getElementById("productName").value,
             version:  document.getElementById("version").value,
@@ -141,7 +141,7 @@
             details: details.getHTML(),
             tag: document.getElementById("tag").value,
             smallImage: smallImageName,
-            images: imagesName
+            smallImages: smallImagesName
         }
 
         let productJson = JSON.stringify(product);
