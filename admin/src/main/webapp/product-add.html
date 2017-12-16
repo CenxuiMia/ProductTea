@@ -34,13 +34,10 @@
         <label for="price">*</label>
         <input type="number" id="price" placeholder="price">
         <div></div>
-        <label for="originalPrice"></label>
         <input type="number" id="originalPrice" placeholder="originalPrice">
         <div></div>
-        <label for="introduction"></label>
         <input id="introduction" placeholder="introduction">
         <div></div>
-        <label for="tag"></label>
         <input id="tag" placeholder="tag">
         <div></div>
     </nav>
@@ -79,7 +76,7 @@
 <script>
 
     $(document).ready(function () {
-        details = new SquireUI({replace: 'textarea#details', height: 200});
+        details = new SquireUI({replace: 'textarea#details', height: 250});
 
         let file =  $(":file");
         file.fileinput({
@@ -105,10 +102,12 @@
         let productName = document.getElementById("productName").value;
         let version = document.getElementById("version").value;
         let price = document.getElementById("price").value;
+        let introduction = document.getElementById("introduction").value;
 
         if (productName === null || productName ==="" ||
             version === null || version ==="" ||
-            price === null
+            price === null ||
+            introduction === null || introduction ===""
         ) {
             alert("* attribute cannot be empty")
             return;

@@ -21,7 +21,7 @@ public class AdminProductImageUploadController extends AdminCoreController {
 
     private static final long limitSize = 50_000;
 
-    private static final AmazonS3 s3client =  AmazonS3ClientBuilder.defaultClient();
+    private static final AmazonS3 s3client =  AmazonS3ClientBuilder.standard().withRegion(S3Bucket.REGION).build();
 
     public static final Route putProductImageFile = (Request request, Response response) -> {
 

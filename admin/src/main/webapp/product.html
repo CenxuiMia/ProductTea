@@ -65,7 +65,7 @@
                     <tbody id="productForm">
                     </tbody>
                 </table>
-                <a href="./product-upload.html"> 新增產品</a>
+                <a href="product-add.html"> 新增產品</a>
             </div>
         </main>
     </div>
@@ -102,31 +102,40 @@
     function appendProducts(products) {
         let productForm = document.getElementById("productForm");
 
-        let buttonDelete = "<button onclick='confirmDelete()'>移除商品</button>";
+        let buttonDelete = "<button onclick='confirmDeleteProduct()'>移除商品</button>";
+        let buttonEdit = "<button onclick='editProduct()'>編輯商品</button>";
 
         for (let i = 0; i < products.length; i++) {
-                let product =
-                "<tr> " +
-                "   <td>" + (i+1) + "</td> " +
-                "   <td>" + products[i].productName + "</td> " +
-                "   <td>" + products[i].version+"</td> " +
-                "   <td>" + products[i].originalPrice+"</td> " +
-                "   <td>" + products[i].price +"</td> " +
-                "   <td>" + buttonDelete +"</td> "+
-                "   <td>" + "<img height=80 width=100  src="+
-                "https://s3-ap-northeast-1.amazonaws.com/cens-s3website-2fkuo2z3mpnh"
-                + products[i].smallImage +
-                "> "+"</td> "+
-                "</tr>";
-                //todo modify it
+
+            let originalPrice =  products[i].originalPrice;
+
+            if (originalPrice === null) {
+                originalPrice = "";
+            }
+
+            let product =
+            "<tr> " +
+            "   <td>" + (i+1) + "</td> " +
+            "   <td>" + products[i].productName + "</td> " +
+            "   <td>" + products[i].version+"</td> " +
+            "   <td>" + products[i].price +"</td> " +
+            "   <td>" + originalPrice+"</td> " +
+            "   <td>" + buttonDelete +"</td> "+
+            "   <td>" + buttonEdit +"</td> "+
+            "   <td>" + "<img height=80 width=100  src="+
+            "https://s3-ap-northeast-1.amazonaws.com/cens-s3website-2fkuo2z3mpnh"
+            + products[i].smallImage +
+            "> "+"</td> "+
+            "</tr>";
+            //todo modify it
             productForm.innerHTML += product;
         }
 
     }
 
-    function confirmDelete(e) {
-        e = e || window.event;
-        let target = e.target || e.srcElement;
+    function confirmDeleteProduct(e) {
+        let target = getTargetElement(e);
+
 
         target.parentNode.innerHTML =
             "<button onclick='cancelDelete()'>取消刪除</button>" +
@@ -135,20 +144,15 @@
     }
 
     function cancelDelete(e) {
-        e = e || window.event;
-        let target = e.target || e.srcElement;
+        let target = getTargetElement(e)
 
         target.parentNode.innerHTML =
-            "<button onclick='confirmDelete()'>移除商品</button>";
+            "<button onclick='confirmDeleteProduct()'>移除商品</button>";
     }
     
     function deleteProduct(e) {
-
-        e = e || window.event;
-        let target = e.target || e.srcElement;
-
+        let target = getTargetElement(e);
         let element =  target.parentNode.parentNode;
-
         let productName = element.childNodes.item(3).innerText;
         let version = element.childNodes.item(5).innerText;
 
@@ -178,6 +182,19 @@
         });
     }
 
+    function editProduct(e) {
+        let target = getTargetElement(e);
+        let element =  target.parentNode.parentNode;
+        let productName = element.childNodes.item(3).innerText;
+        let version = element.childNodes.item(5).innerText;
+        window.location.replace("./product.html?")
+
+    }
+
+    function getTargetElement(e) {
+        e = e || window.event;
+        return e.target || e.srcElement;
+    }
 
 </script>
 
