@@ -1,6 +1,7 @@
 package com.cenxui.tea.app.services.product;
 
 import com.cenxui.tea.app.aws.dynamodb.repositories.DynamoDBRepositoryService;
+import com.cenxui.tea.app.config.ControllerConfig;
 import com.cenxui.tea.app.config.DynamoDBConfig;
 import com.cenxui.tea.app.repositories.product.Product;
 import com.cenxui.tea.app.repositories.product.ProductRepository;
@@ -18,6 +19,8 @@ import java.util.TreeMap;
 
 public class ProductController extends CoreController {
 
+    private static final boolean cached = ControllerConfig.PRODUCT_CONTROLLER_CACHED;
+
     private static final ProductRepository productRepository =
             DynamoDBRepositoryService.getProductRepository(
                     DynamoDBConfig.REGION,
@@ -28,6 +31,11 @@ public class ProductController extends CoreController {
     private static String productJson;
 
     public static final Route getAllProducts = (Request request,  Response response) -> {
+        if (!cached) {
+            return JsonUtil.mapToJsonIgnoreNull(
+                    productRepository.getAllProductsProjectIntroSmallImagePriceTag());
+        }
+
         if (productJson == null) {
             productJson = JsonUtil.mapToJsonIgnoreNull(
                     productRepository.getAllProductsProjectIntroSmallImagePriceTag());
