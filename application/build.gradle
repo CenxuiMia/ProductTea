@@ -19,7 +19,7 @@ dependencies {
             'com.amazonaws:aws-lambda-java-events:1.1.0'
     )
 
-    testCompile project(':com.cenxui.tea.app.util-test')
+    testCompile project(':util-test')
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
