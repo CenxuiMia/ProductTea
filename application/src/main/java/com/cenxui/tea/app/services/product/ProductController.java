@@ -18,6 +18,8 @@ import java.util.TreeMap;
 
 public class ProductController extends CoreController {
 
+    private static final boolean cached = false;
+
     private static final ProductRepository productRepository =
             DynamoDBRepositoryService.getProductRepository(
                     DynamoDBConfig.REGION,
@@ -28,6 +30,11 @@ public class ProductController extends CoreController {
     private static String productJson;
 
     public static final Route getAllProducts = (Request request,  Response response) -> {
+        if (!cached) {
+            return JsonUtil.mapToJsonIgnoreNull(
+                    productRepository.getAllProductsProjectIntroSmallImagePriceTag());
+        }
+
         if (productJson == null) {
             productJson = JsonUtil.mapToJsonIgnoreNull(
                     productRepository.getAllProductsProjectIntroSmallImagePriceTag());

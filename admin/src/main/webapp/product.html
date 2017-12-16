@@ -56,8 +56,8 @@
                         <th id="v1">No.</th>
                         <th id="v2">商品名稱</th>
                         <th id="v3">版本</th>
-                        <th id="v4">原價</th>
-                        <th id="v5">售價</th>
+                        <th id="v4">售價</th>
+                        <th id="v5">原價</th>
                         <th id="v6"></th>
                         <th id="v7"></th>
                     </tr>
@@ -65,7 +65,7 @@
                     <tbody id="productForm">
                     </tbody>
                 </table>
-                <a href="product-add.html"> 新增產品</a>
+                <a href="product-upload.html"> 新增產品</a>
             </div>
         </main>
     </div>
@@ -103,7 +103,6 @@
         let productForm = document.getElementById("productForm");
 
         let buttonDelete = "<button onclick='confirmDeleteProduct()'>移除商品</button>";
-        let buttonEdit = "<button onclick='editProduct()'>編輯商品</button>";
 
         for (let i = 0; i < products.length; i++) {
 
@@ -113,6 +112,12 @@
                 originalPrice = "";
             }
 
+            let img = "<img height=80 width=100  src="+
+                "https://s3-ap-northeast-1.amazonaws.com/cens-s3website-2fkuo2z3mpnh"
+                + products[i].smallImage +
+                " href=https://s3-ap-northeast-1.amazonaws.com/cens-s3website-2fkuo2z3mpnh" +
+                + products[i].smallImage +">";
+
             let product =
             "<tr> " +
             "   <td>" + (i+1) + "</td> " +
@@ -121,11 +126,7 @@
             "   <td>" + products[i].price +"</td> " +
             "   <td>" + originalPrice+"</td> " +
             "   <td>" + buttonDelete +"</td> "+
-            "   <td>" + buttonEdit +"</td> "+
-            "   <td>" + "<img height=80 width=100  src="+
-            "https://s3-ap-northeast-1.amazonaws.com/cens-s3website-2fkuo2z3mpnh"
-            + products[i].smallImage +
-            "> "+"</td> "+
+            "   <td>" + img +"</td> "+
             "</tr>";
             //todo modify it
             productForm.innerHTML += product;
@@ -135,8 +136,6 @@
 
     function confirmDeleteProduct(e) {
         let target = getTargetElement(e);
-
-
         target.parentNode.innerHTML =
             "<button onclick='cancelDelete()'>取消刪除</button>" +
             "<button onclick='deleteProduct()'>確認移除</button>";
@@ -180,20 +179,6 @@
 
             }
         });
-    }
-
-    function editProduct(e) {
-        let target = getTargetElement(e);
-        let element =  target.parentNode.parentNode;
-        let productName = element.childNodes.item(3).innerText;
-        let version = element.childNodes.item(5).innerText;
-        window.location.replace("./product.html?")
-
-    }
-
-    function getTargetElement(e) {
-        e = e || window.event;
-        return e.target || e.srcElement;
     }
 
 </script>
