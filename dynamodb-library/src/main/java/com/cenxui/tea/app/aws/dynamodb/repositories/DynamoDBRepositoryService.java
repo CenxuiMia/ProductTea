@@ -69,7 +69,4 @@ public class DynamoDBRepositoryService {
 
         return new DynamoDBUserRepository(userTable);
     }
-
-
-
 }

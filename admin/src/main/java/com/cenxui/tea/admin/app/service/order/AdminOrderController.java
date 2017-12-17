@@ -252,10 +252,11 @@ public class AdminOrderController extends AdminCoreController {
     }
 
     private static Integer getLimit(Map<String, String> map) {
-        //todo throw client error exception
-        Integer count = Integer.valueOf(map.get(Param.ORDER_LIMIT));
-
-        return count;
+        try {
+            return Integer.valueOf(map.get(Param.ORDER_LIMIT));
+        }catch (NumberFormatException e) {
+            throw new AdminOrderControllerClientException("order limit number format error");
+        }
     }
 
     private static String getPaidDate(Map<String, String> map) {

@@ -43,12 +43,12 @@ public final class Application {
 
         exception(AmazonServiceException.class, (exception, request, response) -> {
             response.body("retry, error :" + exception.getMessage());
-            response.status(500);
+            response.status(501);
         });
 
         exception(AmazonClientException.class, (exception, request, response) -> {
             response.body(exception.getMessage());
-            response.status(500);
+            response.status(502);
         });
 
 
