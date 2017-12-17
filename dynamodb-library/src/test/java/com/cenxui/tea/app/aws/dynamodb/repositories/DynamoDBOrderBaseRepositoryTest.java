@@ -178,7 +178,6 @@ public class DynamoDBOrderBaseRepositoryTest {
     @Test
     public void getOrdersByMailAndTime() throws Exception {
 //        mtlisa42@gmail.com 2017-12-01T15:14:51
-        orderRepository.getOrdersByMailAndTime("mtlisa42@gmail.com", "2017-12-01T15:14:51").getProducts().forEach(System.out::println);
     }
 
     @Test

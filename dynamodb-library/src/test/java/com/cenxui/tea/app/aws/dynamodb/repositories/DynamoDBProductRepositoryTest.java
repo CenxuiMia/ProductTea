@@ -25,16 +25,10 @@ public class DynamoDBProductRepositoryTest {
                 );
     }
 
+
     @Test
-    public void addProducts() {
-
-//        Product product = productRepository.addProduct(
-//                Product.of("綠茶", "", "Ａ","Ａ","Ａ","A",
-//                new ArrayList<>(),"" , 40000F,"Ａ"));
-//
-//        System.out.println(product);
-
-    }
+    public void deleteProduct() {
+        productRepository.deleteProduct("美茶", "美人茶" );   }
 
     @Test
     public void getAllProducts() throws Exception {

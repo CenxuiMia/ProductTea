@@ -25,4 +25,10 @@ public class ProductPathTest {
     @Test
     public void putProduct() {
     }
+
+    @Test
+    public void deleteProduct() {
+        Http.delete(url+ "/紅茶/美人茶");
+    }
+
 }
