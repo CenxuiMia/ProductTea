@@ -1,4 +1,4 @@
-package com.cenxui.tea.admin.app.application;
+package com.cenxui.tea.admin.app.application.order;
 
 import com.cenxui.tea.admin.app.util.*;
 import com.cenxui.tea.app.repositories.order.*;

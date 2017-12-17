@@ -1,4 +1,4 @@
-package com.cenxui.tea.admin.app.application;
+package com.cenxui.tea.admin.app.application.order;
 
 import com.cenxui.tea.app.util.Http;
 import org.junit.Test;

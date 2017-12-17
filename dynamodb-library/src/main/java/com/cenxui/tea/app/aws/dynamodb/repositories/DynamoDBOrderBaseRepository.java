@@ -1,15 +1,13 @@
 package com.cenxui.tea.app.aws.dynamodb.repositories;
 
 import com.amazonaws.services.dynamodbv2.document.*;
-import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
-import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
-import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
-import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.*;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.client.order.*;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.client.map.order.OrderJsonMapException;
 import com.cenxui.tea.app.aws.dynamodb.exceptions.server.order.OrderCannotNullException;
+import com.cenxui.tea.app.aws.dynamodb.exceptions.server.order.OrderPrimaryKeyCannotEmptyException;
 import com.cenxui.tea.app.repositories.order.CashReport;
 import com.cenxui.tea.app.repositories.order.*;
 import com.cenxui.tea.app.aws.dynamodb.util.ItemUtil;
@@ -23,7 +21,6 @@ import java.util.*;
 
 /**
  *
- * todo check out public function
  */
 class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
@@ -207,7 +204,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Orders getOrdersByMail(String mail) {
-        //todo throw exception
+        checkPrimaryKey(mail);
 
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.MAIL, mail);
@@ -222,7 +219,8 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Orders getOrdersByMailAndTime(String mail, String orderDateTime) {
-        //todo throw exception
+        checkPrimaryKey(mail);
+        checkPrimaryKey(orderDateTime);
 
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.MAIL, mail)
@@ -235,6 +233,8 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Orders getOrdersByPaidDate(String paidDate) {
+        checkPrimaryKey(paidDate);
+
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.PAID_DATE, paidDate);
 
@@ -249,6 +249,9 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Orders getOrdersByPaidDateAndPaidTime(String paidDate, String paidTime) {
+        checkPrimaryKey(paidDate);
+        checkPrimaryKey(paidTime);
+
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.PAID_DATE, paidDate)
                 .withRangeKeyCondition(new RangeKeyCondition(Order.PAID_TIME).eq(paidTime));
@@ -264,6 +267,8 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Orders getOrdersByProcessingDate(String processingDate) {
+        checkPrimaryKey(processingDate);
+
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.PROCESSING_DATE, processingDate);
 
@@ -278,6 +283,9 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Orders getOrdersByProcessingDateAndOwner(String processingDate, String owner) {
+        checkPrimaryKey(processingDate);
+        checkPrimaryKey(owner);
+
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.PROCESSING_DATE, processingDate)
                 .withRangeKeyCondition(new RangeKeyCondition(Order.OWNER).eq(owner));
@@ -293,6 +301,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Orders getOrdersByShippedDate(String shippedDate) {
+        checkPrimaryKey(shippedDate);
 
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.SHIPPED_DATE, shippedDate);
@@ -308,6 +317,9 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Orders getOrdersByShippedDateAndTime(String shippedDate, String shippedTime) {
+        checkPrimaryKey(shippedDate);
+        checkPrimaryKey(shippedTime);
+
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.SHIPPED_DATE, shippedDate)
                 .withRangeKeyCondition(new RangeKeyCondition(Order.SHIPPED_TIME).eq(shippedTime));
@@ -324,7 +336,8 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
     @Override
     public Order addOrder(Order order) {
         if (order == null) throw new OrderCannotNullException();
-        //todo throw exception
+        checkPrimaryKey(order.getMail());
+        checkPrimaryKey(order.getOrderDateTime());
 
         PutItemSpec putItemSpec = new PutItemSpec()
                 .withItem(ItemUtil.getOrderItem(order))
@@ -339,13 +352,21 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public boolean deleteOrder(String mail, String orderDateTime) {
-        //todo
-        throw new UnsupportedOperationException("not yet");
+        checkPrimaryKey(mail);
+        checkPrimaryKey(orderDateTime);
+
+        DeleteItemSpec spec = new DeleteItemSpec()
+                .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime);
+
+        orderTable.deleteItem(spec);
+
+        return true;
     }
 
     @Override
     public Order activeOrder(String mail, String orderDateTime) {
-        //todo throw exception
+        checkPrimaryKey(mail);
+        checkPrimaryKey(orderDateTime);
 
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime)
@@ -365,7 +386,8 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Order deActiveOrder(String mail, String dateTime) {
-        //todo throw exception
+        checkPrimaryKey(mail);
+        checkPrimaryKey(dateTime);
 
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, dateTime)
@@ -390,6 +412,8 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Order payOrder(String mail, String orderDateTime) {
+        checkPrimaryKey(mail);
+        checkPrimaryKey(orderDateTime);
 
         String paidDate = TimeUtil.getNowDate();
         String paidTime = TimeUtil.getNowTime();
@@ -398,7 +422,10 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Order payOrder(String mail, String orderDateTime, String paidDate, String paidTime) {
-        //todo throw exception
+        checkPrimaryKey(mail);
+        checkPrimaryKey(orderDateTime);
+        checkPrimaryKey(paidDate);
+        checkPrimaryKey(paidTime);
 
         String processingDate = TimeUtil.getNowDate();
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
@@ -431,7 +458,9 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Order dePayOrder(String mail, String orderDateTime) {
-        //todo throw exception
+        checkPrimaryKey(mail);
+        checkPrimaryKey(orderDateTime);
+
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime)
                 .withConditionExpression(
@@ -458,12 +487,17 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
     public Order shipOrder(String mail, String orderDateTime) {
         String shippedDate = TimeUtil.getNowDate();
         String shippedTime = TimeUtil.getNowTime();
+
         return shipOrder(mail, orderDateTime, shippedDate, shippedTime);
     }
 
     @Override
     public Order shipOrder(String mail, String orderDateTime, String shippedDate, String shippedTime) {
-        //todo throw exception
+        checkPrimaryKey(mail);
+        checkPrimaryKey(orderDateTime);
+        checkPrimaryKey(shippedDate);
+        checkPrimaryKey(shippedTime);
+
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withConditionExpression(
                                 "attribute_exists(" + Order.IS_ACTIVE +")" +
@@ -491,7 +525,9 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Order deShipOrder(String mail, String orderDateTime) {
-        //todo throw exception
+        checkPrimaryKey(mail);
+        checkPrimaryKey(orderDateTime);
+
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey(Order.MAIL, mail, Order.ORDER_DATE_TIME, orderDateTime)
                 .withConditionExpression(
@@ -547,7 +583,8 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public CashReport getDailyCashReport(String paidDate) {
-        //todo throw exception
+        checkPrimaryKey(paidDate);
+
         final List<Order> paidOrders = getDailyPaidOrders(paidDate);
 
         Double revenue = getRevenue(paidOrders);
@@ -557,6 +594,9 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public CashReport getRangeCashReport(String fromPaidDate, String toPaidDate) {
+        checkPrimaryKey(fromPaidDate);
+        checkPrimaryKey(toPaidDate);
+
         //todo throw exception
         LocalDate from = LocalDate.parse(fromPaidDate);
         LocalDate to = LocalDate.parse(toPaidDate);
@@ -579,6 +619,12 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
         Double revenue = getRevenue(receipts);
 
         return CashReport.of(receipts, revenue);
+    }
+
+    private void checkPrimaryKey(String key) {
+        if (key == null || key.length() == 0) {
+            throw new OrderPrimaryKeyCannotEmptyException();
+        }
     }
 
     private Double getRevenue(List<Order> receipts) {
