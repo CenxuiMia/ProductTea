@@ -14,7 +14,8 @@ let indexAuthData = {
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
     RedirectUriSignIn : 'https://tw.hwangying.com',
-    RedirectUriSignOut : 'https://tw.hwangying.com'
+    RedirectUriSignOut : 'https://tw.hwangying.com',
+    UserPoolId : poolId,
 };
 
 let productsAuthData = {
@@ -22,7 +23,8 @@ let productsAuthData = {
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
     RedirectUriSignIn : 'https://tw.hwangying.com/products.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com/products.html'
+    RedirectUriSignOut : 'https://tw.hwangying.com/products.html',
+    UserPoolId : poolId
 };
 
 let productAuthData = {
@@ -30,7 +32,8 @@ let productAuthData = {
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
     RedirectUriSignIn : 'https://tw.hwangying.com/product.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com/product.html'
+    RedirectUriSignOut : 'https://tw.hwangying.com/product.html',
+    UserPoolId : poolId
 };
 
 let userAuthData = {
@@ -38,7 +41,8 @@ let userAuthData = {
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
     RedirectUriSignIn : 'https://tw.hwangying.com/user.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com'
+    RedirectUriSignOut : 'https://tw.hwangying.com',
+    UserPoolId : poolId
 };
 
 let cartAuthData = {
@@ -46,7 +50,8 @@ let cartAuthData = {
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
     RedirectUriSignIn : 'https://tw.hwangying.com/cart.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com/cart.html'
+    RedirectUriSignOut : 'https://tw.hwangying.com/cart.html',
+    UserPoolId : poolId
 };
 
 let preOrderAuthData = {
@@ -54,7 +59,8 @@ let preOrderAuthData = {
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
     RedirectUriSignIn : 'https://tw.hwangying.com/pre-order.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com/cart.html'
+    RedirectUriSignOut : 'https://tw.hwangying.com/cart.html',
+    UserPoolId : poolId
 };
 
 let orderAuthData = {
@@ -62,7 +68,8 @@ let orderAuthData = {
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
     RedirectUriSignIn : 'https://tw.hwangying.com/order.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com'
+    RedirectUriSignOut : 'https://tw.hwangying.com',
+    UserPoolId : poolId
 };
 
 let contactAuthData = {
@@ -70,7 +77,8 @@ let contactAuthData = {
     AppWebDomain : appDomain,
     TokenScopesArray : tokenScopesArray,
     RedirectUriSignIn : 'https://tw.hwangying.com/contact.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com/contact.html'
+    RedirectUriSignOut : 'https://tw.hwangying.com/contact.html',
+    UserPoolId : poolId
 };
 
 

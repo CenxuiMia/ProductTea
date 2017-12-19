@@ -20,6 +20,6 @@ public class ProductPathTest {
 
     @Test
     public void getProduct() {
-        Http.get(url + "/黃茶/大玉茶");
+        Http.get(url + "/新紅顏/經典");
     }
 }
