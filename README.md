@@ -1,7 +1,12 @@
-** paidIndex project include price
 ** processingIndex project include shipped way address  products receiver phone
-** shippedIndex project include KEYS_ONLY
-
+** project refactor 
+  application config
+  
+  sam-auth.yaml 
+  sam-un-auth.yaml
+  
+  tea-auth-swagger.yaml
+  tea-un-auth-swagger.yaml
 
 prequest 
 
@@ -9,9 +14,31 @@ prequest
  http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html#DynamoDBLocal.DownloadingAndRunning
 2. add dynamodblocal.jar to project test library
 
+
+deploy project
+
+ProductTea
+User Pool refactor name and policy
+1. cens-user.yaml *
+
+NoSQL Database refactor name
+
+1. tea-order-table.yaml 
+2. tea-product-table.yaml
+3. tea-user-table.yaml
+
+admin
+
+DynamoDBConfig
+S3Bucket
+
+application
+
+DynamoDBConfig
+S3Bucket
+
+
 swagger.yaml
-accout region
-sam.yaml
 
 resource name
 
@@ -25,13 +52,21 @@ true if it is cloud version
 deploy to aws 
 
 ＊＊you need to set the region and credential before deploy 
+
+** 
+user pool for login auth
+aws cloudformation deploy --template-file cens-user.yaml --stack-name cens
+
+**
+web 
+aws cloudformation deploy --template-file shop-web.yaml --stack-name tea-web
  
 ** you can change the tamplate name and its details to the name you want to deploy
 
 table with table name
-aws cloudformation deploy --template-file tea-product-table.yaml --stack-name tea-product-table
-aws cloudformation deploy --template-file tea-order-table.yaml --stack-name tea-order-table
-aws cloudformation deploy --template-file tea-user-table.yaml --stack-name tea-user-table
+aws cloudformation deploy --template-file shop-product-table.yaml --stack-name tea-product-table
+aws cloudformation deploy --template-file shop-order-table.yaml --stack-name tea-order-table
+aws cloudformation deploy --template-file shop-user-table.yaml --stack-name tea-user-table
 
 
 

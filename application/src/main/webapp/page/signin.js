@@ -4,7 +4,7 @@ let signOut = "登出";
 AWS.config.update({
     region: region,
     credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: ''
+        IdentityPoolId: identityPool
     })
 });
 
@@ -101,7 +101,5 @@ function isSignIn() {
 }
 
 function getToken() {
-    // userAuth.getSession(); todo
-    userAuth.getIdToken()
     return userAuth.signInUserSession.idToken.jwtToken;
 }

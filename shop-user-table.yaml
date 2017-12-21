@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  teaProduct:
+    Type: "AWS::DynamoDB::Table"
+
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: "mail"
+          AttributeType: "S"
+
+      KeySchema:
+        -
+          AttributeName: "mail"
+          KeyType: "HASH"
+
+      ProvisionedThroughput:
+        ReadCapacityUnits: "1"
+        WriteCapacityUnits: "1"
+      TableName: "teaUser"  #todo
