@@ -18,6 +18,7 @@ public class Application {
 
     public static void main(String[] args) {
         port(9000);
+        staticFiles.location("/webapp");
 
         before(((request, response) -> {
             /**
