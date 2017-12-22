@@ -22,14 +22,14 @@ public class UserPathTest {
     @Test
     public void getUser() {
         Map<String, String> headers = new TreeMap<>();
-        headers.put(Header.MAIL, "mia@gmail.com");
+        headers.put(Header.MAIL, "cenxui@gmail.com");
         Http.get(url, headers);
     }
 
     @Test
     public void updateUser() {
         Map<String, String> headers = new TreeMap<>();
-        headers.put(Header.MAIL, "cenxuilin@gmail.com");
+        headers.put(Header.MAIL, "cenxui@gmail.com");
 
         User user = User.of(
                 true,

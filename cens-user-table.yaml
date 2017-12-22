@@ -17,4 +17,4 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: "1"
         WriteCapacityUnits: "1"
-      TableName: "teaUser"  #todo
+      TableName: "censUser"

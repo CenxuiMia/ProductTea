@@ -56,6 +56,7 @@ deploy to aws
 ** 
 user pool for login auth
 aws cloudformation deploy --template-file cens-user.yaml --stack-name cens
+aws cloudformation deploy --template-file cens-user-table.yaml --stack-name cens-user-table
 
 **
 web 
@@ -66,9 +67,6 @@ aws cloudformation deploy --template-file shop-web.yaml --stack-name tea-web
 table with table name
 aws cloudformation deploy --template-file shop-product-table.yaml --stack-name tea-product-table
 aws cloudformation deploy --template-file shop-order-table.yaml --stack-name tea-order-table
-aws cloudformation deploy --template-file shop-user-table.yaml --stack-name tea-user-table
-
-
 
 lambda
 
