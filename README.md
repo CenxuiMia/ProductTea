@@ -107,5 +107,5 @@ cens-user-table-yaml
 Product.class Order.class
 Price.class 
 
-** the attribute mapping for secondary index is related to tea-order-table.yaml
+** the attribute mapping for secondary index is related to shop-order-table.yaml
 make sure the projection mapping and Order.class are right.
