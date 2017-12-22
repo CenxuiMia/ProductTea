@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Order Dashboard </title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+
+    <script src="language/tw.js"></script>
+</head>
+
+<body onload="setUp()">
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Dashboard</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="./dashboard.html">訂單列表</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./product.html">商品列表</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./cashreport.html">現金報告</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="container-fluid">
+    <div class="row">
+        <main role="main">
+            <h1>Dashboard</h1>
+
+            <h2 id="sectionTitle">所有商品</h2>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th id="v1">No.</th>
+                        <th id="v2">商品名稱</th>
+                        <th id="v3">版本</th>
+                        <th id="v4">售價</th>
+                        <th id="v5">原價</th>
+                        <th id="v6"></th>
+                        <th id="v7"></th>
+                    </tr>
+                    </thead>
+                    <tbody id="productForm">
+                    </tbody>
+                </table>
+                <a href="product-upload.html"> 新增產品</a>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script src="auth.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="dist/js/bootstrap.min.js"></script>
+
+
+<script>
+
+    function setUp() {
+
+        $.ajax({
+            type : 'GET',
+            url : productEndpoint + "/table",
+            success : function(response) {
+                let data = JSON.parse(response);
+                let products = data.products;
+                appendProducts(products);
+            },
+            error : function(xhr, status, error) {
+                console.log("error: " + error + ", status: " + status);
+
+            }
+        });
+    }
+
+    function appendProducts(products) {
+        let productForm = document.getElementById("productForm");
+
+        let buttonDelete = "<button onclick='confirmDeleteProduct()'>移除商品</button>";
+
+        for (let i = 0; i < products.length; i++) {
+
+            let originalPrice =  products[i].originalPrice;
+
+            if (originalPrice === null) {
+                originalPrice = "";
+            }
+
+            let img = "<img height=80 width=100  src="+
+                bucketEndPoint
+                + products[i].smallImage + ">";
+
+            let product =
+            "<tr> " +
+            "   <td>" + (i+1) + "</td> " +
+            "   <td>" + products[i].productName + "</td> " +
+            "   <td>" + products[i].version+"</td> " +
+            "   <td>" + products[i].price +"</td> " +
+            "   <td>" + originalPrice+"</td> " +
+            "   <td>" + buttonDelete +"</td> "+
+            "   <td>" + img +"</td> "+
+            "</tr>";
+            //todo modify it
+            productForm.innerHTML += product;
+        }
+
+    }
+
+    function confirmDeleteProduct(e) {
+        let target = getTargetElement(e);
+        target.parentNode.innerHTML =
+            "<button onclick='cancelDelete()'>取消刪除</button>" +
+            "<button onclick='deleteProduct()'>確認移除</button>";
+
+    }
+
+    function cancelDelete(e) {
+        let target = getTargetElement(e)
+
+        target.parentNode.innerHTML =
+            "<button onclick='confirmDeleteProduct()'>移除商品</button>";
+    }
+    
+    function deleteProduct(e) {
+        let target = getTargetElement(e);
+        let element =  target.parentNode.parentNode;
+        let productName = element.childNodes.item(3).innerText;
+        let version = element.childNodes.item(5).innerText;
+
+        $.ajax({
+            type : 'DELETE',
+            url : productEndpoint + "/table/" + productName + "/" + version,
+            success : function(response) {
+                target.parentNode.parentNode.remove();
+                console.info(response)
+            },
+            error : function(xhr, status, error) {
+                console.log("error: " + error + ", status: " + status, xhr);
+
+            }
+        });
+
+        $.ajax({
+            type : 'DELETE',
+            url : productEndpoint + "/image/" + productName + "/" + version,
+            success : function(response) {
+                console.info(response)
+            },
+            error : function(xhr, status, error) {
+                console.log("error: " + error + ", status: " + status);
+
+            }
+        });
+    }
+
+    function getTargetElement(e) {
+        e = e || window.event;
+        return e.target || e.srcElement;
+
+    }
+
+</script>
+
+
+</body>
+</html>
+

@@ -31,7 +31,7 @@ function queryProductsData() {
         let data = JSON.parse(jsonData);
         let count = data.products.length;
         for (let i=0; i<count; i++) {
-            let queryString = "https://tw.hwangying.com/product.html?name=" +
+            let queryString = "./product.html?name=" +
                 data.products[i].productName + "&version=" + data.products[i].version;
             let originalPrice = JSON.stringify(data.products[i]).includes("originalPrice")?
                 "<div class='originalPrice'>" + "NT." + data.products[i].originalPrice + "</div>" : "";

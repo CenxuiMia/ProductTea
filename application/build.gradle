@@ -14,12 +14,12 @@ dependencies {
     compile group: 'com.sparkjava', name: 'spark-core', version: '2.6.0'
 
     compile (
-            'com.amazonaws.serverless:aws-serverless-java-container-spark:0.7',
+            'com.amazonaws.serverless:aws-serverless-java-container-spark:0.8',
             'com.amazonaws:aws-lambda-java-core:1.1.0',
             'com.amazonaws:aws-lambda-java-events:1.1.0'
     )
 
-    testCompile project(':util-test')
+    compile project(':util-test')  //todo
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
