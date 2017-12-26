@@ -26,7 +26,7 @@
     width: 100%;
     padding: 0.67rem;
     bottom: 0;
-    color: white;
+    color: #444444;
     text-align: center;
 }
 
@@ -37,7 +37,7 @@
 
 .originalPrice {
     text-decoration: line-through;
-    text-decoration-color: white;
+    text-decoration-color: #444444;
 }
 
 @media (max-width: 1200px) {
