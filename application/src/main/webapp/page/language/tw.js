@@ -5,6 +5,7 @@ const URL_CART = "./cart.html";
 const URL_PRE_ORDER = "./pre-order.html";
 const URL_ORDER = "./order.html";
 const URL_PRODUCTS = "./products.html";
+const URL_PRODUCT = "./product.html";
 const URL_USER_ORDERS = "./user-orders.html";
 
 let loadingData = "載入商品中...";

@@ -152,6 +152,8 @@ function addOrder() {
             console.log("success reponse: " + response);
             showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
             clearCart();
+            let orderConfirmURL = URL_USER_ORDERS + "?price=" + JSON.parse(response).price;
+            redirect(orderConfirmURL);
         },
         error : function(xhr, status, error) {
             console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
@@ -165,11 +167,7 @@ function addOrder() {
 
             document.getElementsByClassName("bannerRight")[0].hidden = false;
 
-            if (status === "success") {
-                document.getElementById("accountFields").innerHTML = shoppingSuccess +
-                    "<br><a href=" + URL_PRODUCTS + ">" + goToProductsList + "</a> 或 " +
-                    "<br><a href=" + URL_USER_ORDERS + ">" + goToOrdersList + "</a>";
-            } else {
+            if (status !== "success") {
                 document.getElementById("accountFields").innerHTML = shoppingFailed +
                     "<br><a href=" + URL_PRODUCTS + ">" + redirectToProductsList + "</a>";
                 autoRedirect(URL_PRODUCTS);
