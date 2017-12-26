@@ -152,7 +152,7 @@ function addOrder() {
             console.log("success reponse: " + response);
             showSnackBarAutoClose(document.getElementById("snackbar"), processingSuccess);
             clearCart();
-            let orderConfirmURL = URL_USER_ORDERS + "?price=" + JSON.parse(response).price;
+            let orderConfirmURL = URL_ORDER_CONFIRM + "?price=" + JSON.parse(response).price;
             redirect(orderConfirmURL);
         },
         error : function(xhr, status, error) {
