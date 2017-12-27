@@ -4,7 +4,7 @@ let signOut = "登出";
 AWS.config.update({
     region: region,
     credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: ''
+        IdentityPoolId: identityPool
     })
 });
 
