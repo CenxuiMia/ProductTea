@@ -17,7 +17,7 @@ $(document).ready(function () {
 });
 
 function showPayment() {
-    document.getElementById("payment").innerHTML = getParameterByName("payment");
+    document.getElementById("payment").innerHTML = getParameterByName("price");
 }
 
 function getParameterByName(name) {
