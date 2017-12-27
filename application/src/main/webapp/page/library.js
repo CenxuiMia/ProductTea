@@ -56,3 +56,7 @@ function autoRedirect(redirectURL) {
 function redirect(redirectURL) {
     window.location = redirectURL;
 }
+
+function sendMail() {
+    window.location.assign('mailto:support@hwangying.com');
+}
