@@ -6,7 +6,7 @@ Resources:
   TeaUnAuthGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
-      DefinitionUri: tea-un-auth-swagger.yaml
+      DefinitionUri: shop-un-auth-swagger.yaml
       StageName: UnAuth
       Variables:
         LambdaFunctionName: !Ref TeaUnAuthFunction

@@ -6,7 +6,7 @@ Resources:
   TeaAuthGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
-      DefinitionUri: tea-auth-swagger.yaml
+      DefinitionUri: shop-auth-swagger.yaml
       StageName: Auth
       Variables:
         LambdaFunctionName: !Ref TeaAuthFunction
@@ -24,6 +24,7 @@ Resources:
       Policies:
         - AWSLambdaBasicExecutionRole
         - AmazonDynamoDBFullAccess # todo modify it
+        - AmazonSNSFullAccess # todo modify it
       Timeout: 20
       Events:
         GetResource:

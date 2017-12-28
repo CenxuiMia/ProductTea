@@ -7,7 +7,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.cenxui.shop.web.app.Application;
 import com.cenxui.shop.web.app.lambda.log.AWSLambdaLogger;
-import com.cenxui.shop.web.app.services.util.Header;
+import com.cenxui.shop.web.app.controller.util.Header;
 
 import java.util.Map;
 

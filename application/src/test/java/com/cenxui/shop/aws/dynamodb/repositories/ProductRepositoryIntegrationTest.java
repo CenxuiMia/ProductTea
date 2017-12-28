@@ -5,7 +5,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.cenxui.shop.web.app.config.DynamoDBConfig;
+import com.cenxui.shop.web.app.config.AWSDynamoDBConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ public class ProductRepositoryIntegrationTest {
                 .standard()
                 .withRegion(Regions.AP_NORTHEAST_1).build(); // in product state do not input any credential
         DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
-        table = dynamoDB.getTable(DynamoDBConfig.PRODUCT_TABLE);
+        table = dynamoDB.getTable(AWSDynamoDBConfig.PRODUCT_TABLE);
     }
 
     @Test

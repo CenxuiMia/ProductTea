@@ -1,15 +1,17 @@
-package com.cenxui.shop.web.app.services.order;
+package com.cenxui.shop.web.app.controller.order;
 
 import com.cenxui.shop.repositories.order.OrderRepository;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
-import com.cenxui.shop.web.app.config.DynamoDBConfig;
+import com.cenxui.shop.web.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.repositories.order.Order;
 import com.cenxui.shop.repositories.order.ShippedWay;
-import com.cenxui.shop.web.app.services.CoreController;
-import com.cenxui.shop.web.app.services.util.Header;
-import com.cenxui.shop.web.app.services.util.Param;
+import com.cenxui.shop.web.app.controller.CoreController;
+import com.cenxui.shop.web.app.controller.util.Header;
+import com.cenxui.shop.web.app.controller.util.Param;
 import com.cenxui.shop.util.JsonUtil;
 import com.cenxui.shop.util.TimeUtil;
+import com.cenxui.shop.web.app.service.SendMessageService;
+import com.cenxui.shop.web.app.sns.SNSSendMessageService;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -19,13 +21,15 @@ import java.util.Map;
 public class OrderController extends CoreController {
     private static final OrderRepository orderRepository =
             DynamoDBRepositoryService.getOrderRepository(
-                    DynamoDBConfig.REGION,
-                    DynamoDBConfig.ORDER_TABLE,
-                    DynamoDBConfig.ORDER_PAID_INDEX,
-                    DynamoDBConfig.ORDER_PROCESSING_INDEX,
-                    DynamoDBConfig.ORDER_SHIPPED_INDEX,
-                    DynamoDBConfig.PRODUCT_TABLE
+                    AWSDynamoDBConfig.REGION,
+                    AWSDynamoDBConfig.ORDER_TABLE,
+                    AWSDynamoDBConfig.ORDER_PAID_INDEX,
+                    AWSDynamoDBConfig.ORDER_PROCESSING_INDEX,
+                    AWSDynamoDBConfig.ORDER_SHIPPED_INDEX,
+                    AWSDynamoDBConfig.PRODUCT_TABLE
             );
+
+    private static final SendMessageService sendMessageService = new SNSSendMessageService();
 
     public static final Route getOrdersByMail = (Request request, Response response) -> {
         String mail = request.headers(Header.MAIL);
@@ -48,27 +52,30 @@ public class OrderController extends CoreController {
 
         ableToAddOrder(order);
 
-        return JsonUtil.mapToJsonIgnoreNull(
-                orderRepository.addOrder(
-                        Order.of(
-                                mail,
-                                TimeUtil.getNowDateTime(),
-                                order.getProducts(),
-                                order.getPurchaser(),
-                                null,
-                                order.getPaymentMethod(),
-                                order.getReceiver(),
-                                order.getPhone(),
-                                order.getShippingWay(),
-                                order.getShippingAddress(),
-                                order.getComment(),
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                true,
-                                "admin")));
+        Order result = orderRepository.addOrder(
+                Order.of(
+                        mail,
+                        TimeUtil.getNowDateTime(),
+                        order.getProducts(),
+                        order.getPurchaser(),
+                        null,
+                        order.getPaymentMethod(),
+                        order.getReceiver(),
+                        order.getPhone(),
+                        order.getShippingWay(),
+                        order.getShippingAddress(),
+                        order.getComment(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        true,
+                        "admin"));
+
+        sendMessageService.sendMessage(result);
+
+        return JsonUtil.mapToJsonIgnoreNull(result);
     };
 
 

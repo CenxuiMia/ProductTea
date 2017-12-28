@@ -1,4 +1,4 @@
-package com.cenxui.shop.web.app.services.util;
+package com.cenxui.shop.web.app.controller.util;
 
 public class Param {
     public static final String PRODUCT_NAME = ":name";

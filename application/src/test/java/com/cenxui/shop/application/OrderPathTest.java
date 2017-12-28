@@ -3,7 +3,7 @@ package com.cenxui.shop.application;
 import com.cenxui.shop.repositories.order.Order;
 import com.cenxui.shop.util.Http;
 import com.cenxui.shop.util.JsonUtil;
-import com.cenxui.shop.web.app.services.util.Header;
+import com.cenxui.shop.web.app.controller.util.Header;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,57 +23,20 @@ public class OrderPathTest {
 
     @Test
     public void addOrder() {
-        for (int i = 0; i<3; i++) {
 
-            Map<String, String> headers1 = new HashMap<>();
-            headers1.put(Header.MAIL, "mia@gmail.com");
+        Map<String, String> headers3 = new HashMap<>();
+        headers3.put(Header.MAIL, "cenxui@gmail.com");
 
-            Map<String, String> headers2 = new HashMap<>();
-            headers2.put(Header.MAIL, "admin@gmail.com");
+        List<String> products = new ArrayList<>();
 
-            Map<String, String> headers3 = new HashMap<>();
-            headers3.put(Header.MAIL, "cenxui@gmail.com");
+        products.add("新紅顏;經典;2");
 
-            List<String> products = new ArrayList<>();
-
-            products.add("紅茶;大玉茶;2");
-
-
-            Http.put(url, JsonUtil.mapToJson(OrderUtil.getOrder(products)), headers1);
-
-            Http.put(url, JsonUtil.mapToJson(OrderUtil.getOrder(products)), headers2);
-
-            Http.put(url, JsonUtil.mapToJson(OrderUtil.getOrder(products)), headers3);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        Http.put(url, JsonUtil.mapToJson(OrderUtil.getOrder(products)), headers3);
 
     }
 
     @Test
     public void getOrders() {
-        for (int i = 0; i<3; i++) {
-
-            Map<String, String> headers1 = new HashMap<>();
-            headers1.put(Header.MAIL, "mia@gmail.com");
-
-            Map<String, String> headers2 = new HashMap<>();
-            headers2.put(Header.MAIL, "admin@gmail.com");
-
-            Map<String, String> headers3 = new HashMap<>();
-            headers3.put(Header.MAIL, "cenxui@gmail.com");
-
-
-            Http.get(url, headers1);
-
-            Http.get(url, headers2);
-
-            Http.get(url, headers3);
-        }
-
     }
 
     @Test
