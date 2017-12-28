@@ -4,7 +4,7 @@ package com.cenxui.shop.web.app.config;
 /**
  * The dynamodb configuration file
  */
-public class DynamoDBConfig {
+public class AWSDynamoDBConfig {
     /**
      * set up dynamodb is local or not
      */

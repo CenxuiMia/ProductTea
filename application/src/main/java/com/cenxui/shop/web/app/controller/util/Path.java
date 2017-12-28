@@ -1,4 +1,4 @@
-package com.cenxui.shop.web.app.services.util;
+package com.cenxui.shop.web.app.controller.util;
 
 public class Path {
 

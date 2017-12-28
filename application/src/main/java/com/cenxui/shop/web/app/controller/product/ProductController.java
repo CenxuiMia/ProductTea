@@ -1,13 +1,13 @@
-package com.cenxui.shop.web.app.services.product;
+package com.cenxui.shop.web.app.controller.product;
 
 import com.cenxui.shop.repositories.product.ProductRepository;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.shop.web.app.config.ControllerConfig;
-import com.cenxui.shop.web.app.config.DynamoDBConfig;
+import com.cenxui.shop.web.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.repositories.product.Product;
 import com.cenxui.shop.repositories.product.Products;
-import com.cenxui.shop.web.app.services.CoreController;
-import com.cenxui.shop.web.app.services.util.Param;
+import com.cenxui.shop.web.app.controller.CoreController;
+import com.cenxui.shop.web.app.controller.util.Param;
 import com.cenxui.shop.util.ApplicationError;
 import com.cenxui.shop.util.JsonUtil;
 import spark.Request;
@@ -24,8 +24,8 @@ public class ProductController extends CoreController {
 
     private static final ProductRepository productRepository =
             DynamoDBRepositoryService.getProductRepository(
-                    DynamoDBConfig.REGION,
-                    DynamoDBConfig.PRODUCT_TABLE
+                    AWSDynamoDBConfig.REGION,
+                    AWSDynamoDBConfig.PRODUCT_TABLE
             );
 
     private static final Map<String,Map<String,Product>> productMap = new TreeMap<>();

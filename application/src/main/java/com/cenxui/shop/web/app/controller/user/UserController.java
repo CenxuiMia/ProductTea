@@ -1,12 +1,12 @@
-package com.cenxui.shop.web.app.services.user;
+package com.cenxui.shop.web.app.controller.user;
 
-import com.cenxui.shop.web.app.config.DynamoDBConfig;
+import com.cenxui.shop.web.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.repositories.user.User;
-import com.cenxui.shop.web.app.services.CoreController;
+import com.cenxui.shop.web.app.controller.CoreController;
 import com.cenxui.shop.util.JsonUtil;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.shop.repositories.user.UserRepository;
-import com.cenxui.shop.web.app.services.util.Header;
+import com.cenxui.shop.web.app.controller.util.Header;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -14,8 +14,8 @@ import spark.Route;
 public class UserController extends CoreController {
     private static final UserRepository userRepository =
             DynamoDBRepositoryService.getUserRepository(
-                    DynamoDBConfig.REGION,
-                    DynamoDBConfig.USER_TABLE
+                    AWSDynamoDBConfig.REGION,
+                    AWSDynamoDBConfig.USER_TABLE
             );
 
 
