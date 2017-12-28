@@ -1,4 +1,4 @@
-package com.cenxui.shop.web.app.services.product;
+package com.cenxui.shop.web.app.controller.product;
 
 /**
  * Created by huaying on 05/10/2017.

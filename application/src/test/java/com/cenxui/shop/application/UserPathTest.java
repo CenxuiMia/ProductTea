@@ -3,7 +3,7 @@ package com.cenxui.shop.application;
 import com.cenxui.shop.repositories.user.User;
 import com.cenxui.shop.util.Http;
 import com.cenxui.shop.util.JsonUtil;
-import com.cenxui.shop.web.app.services.util.Header;
+import com.cenxui.shop.web.app.controller.util.Header;
 import org.junit.Before;
 import org.junit.Test;
 
