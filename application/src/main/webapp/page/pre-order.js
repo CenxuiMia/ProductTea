@@ -60,7 +60,7 @@ function showCartItems() {
     });
 }
 
-//TODO trial total
+//TODO feature: trial total, activity
 let orderProductsList = [];
 function calculateTrialTotal() {
     let selectedWay;
@@ -82,9 +82,9 @@ function calculateTrialTotal() {
         success : function(response) {
             console.log("success trial order: " + response);
             let data = JSON.parse(response);
-            // document.getElementById("originalTotal").innerHTML = data.price;
-            // document.getElementById("fee").innerHTML = data.price;
-            // document.getElementById("activity").innerHTML = data.price;
+            // document.getElementById("originalTotal").innerHTML = data.originalTotal;
+            // document.getElementById("shippingFee").innerHTML = data.shippingFee;
+            // document.getElementById("activity").innerHTML = data.activity;
             document.getElementById("price").innerHTML = data.price;
         },
         error : function(xhr, status, error) {
