@@ -89,6 +89,10 @@ input:focus {
     outline: 0 none;
 }
 
+input::placeholder {
+    color: #cccccc;
+}
+
 .order_form {
     float: left;
     width: 25rem;
