@@ -8,7 +8,6 @@ import com.cenxui.shop.repositories.product.Product;
 import com.cenxui.shop.repositories.product.Products;
 import com.cenxui.shop.web.app.controller.CoreController;
 import com.cenxui.shop.web.app.controller.util.Param;
-import com.cenxui.shop.util.ApplicationError;
 import com.cenxui.shop.util.JsonUtil;
 import spark.Request;
 import spark.Response;
@@ -45,21 +44,21 @@ public class ProductController extends CoreController {
         return productJson;
     };
 
-    /**
-     * todo modify to cache
-     */
     public static final Route getProduct = (Request request,  Response response) -> {
-        try {
-            String productName = request.params(Param.PRODUCT_NAME);
-            String version = request.params(Param.PRODUCT_VERSION);
-            if (productMap.isEmpty()) {
-                initialProductMap();
-            }
 
-            return JsonUtil.mapToJsonIgnoreNull(productMap.get(productName).get(version));
-        }catch (Throwable e) {
-            return ApplicationError.getTrace(e.getStackTrace());
+        String productName = request.params(Param.PRODUCT_NAME);
+        String version = request.params(Param.PRODUCT_VERSION);
+
+        if (!cached) {
+            return JsonUtil.mapToJsonIgnoreNull(
+                    productRepository.getProductByProductNameVersion(productName, version));
         }
+
+        if (productMap.isEmpty()) {
+            initialProductMap();
+        }
+
+        return JsonUtil.mapToJsonIgnoreNull(productMap.get(productName).get(version));
 
     };
 
