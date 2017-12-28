@@ -39,13 +39,6 @@ $.ajax({
         document.getElementById("introduction").innerHTML = data.introduction;
         document.getElementById("price").innerHTML = data.price;
         document.getElementById("details").innerHTML = data.details;
-        if (typeof data.video !== 'undefined') {
-            document.getElementById("video").setAttribute("src", data.video);
-            document.getElementById("video").hidden = false;
-        } else {
-            let e = document.getElementById("video");
-            e.parentNode.removeChild(e);
-        }
 
         if (typeof data.originalPrice !== 'undefined') {
             document.getElementById("originalPrice").innerHTML = data.originalPrice;
