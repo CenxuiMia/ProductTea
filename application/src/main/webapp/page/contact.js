@@ -14,6 +14,3 @@ $(document).ready(function () {
     );
 });
 
-function sendMail() {
-    window.location.assign('mailto:mtlisa42@gmail.com');
-}

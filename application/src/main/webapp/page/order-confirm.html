@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>皇飲｜訂購完成</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="//hwangying.com/favicon.ico">
+    <link rel="icon" href="//hwangying.com/favicon.ico">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="global.css">
+    <link rel="stylesheet" type="text/css" href="signin.css">
+    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" type="text/css" href="order.css"/>
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="aws-cognito-sdk.js"></script>
+    <script src="amazon-cognito-auth.min.js"></script>
+    <script src="language/tw.js"></script>
+    <script src="signin.js"></script>
+    <script src="order-confirm.js"></script>
+    <script src="library.js"></script> <!--this library should be placed at last-->
+</head>
+<body>
+
+<div id="id_wrapper">
+
+    <div id="id_header" class="navbar">
+        <div id="tab">
+            <a href=".">首頁</a>
+            <a href="./products.html">產品</a>
+            <a href="./contact.html">聯絡我們</a>
+        </div>
+
+        <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
+        <div class="dropdown" id="member">
+            <i id="dropbtn" class="material-icons md-light">person</i>
+            <div class="dropdown-content">
+                <a href="./user.html">個人資料</a>
+                <a href="./user-orders.html">訂單記錄</a>
+            </div>
+        </div>
+        <a href="javascript:void(0)" id="cart" class="active"><i class="material-icons md-light">shopping_cart</i></a>
+    </div>
+
+    <div id="id_content">
+
+        <h2 class="formTitle">訂購完成</h2>
+
+        <div class="borderLeft"></div>
+
+        <div class="bannerRight">
+            <h2>皇飲</h2>
+            <p>生活，來點品味。</p>
+        </div>
+
+        <div class="content">
+            <div class="confirmContent">
+                感謝您的訂購，訂單已成功送出。
+                您可至 <a href="user-orders.html" style="color: olivedrab;">訂單記錄</a> 查看訂單，
+                皇飲將依匯款順序儘速為您出貨，並在出貨時以電子郵件通知您。<br><br>
+                匯款資訊：<br>
+                訂單金額：NT.<span id="payment"></span><br>
+                戶名：戰車聯有限公司<br>
+                帳號：臺灣銀行（004）087001-022022
+            </div>
+
+            <div class="confirmContent" style="color: #777777">
+                <br><br>
+                <span style="color: indianred">請注意！</span>皇飲不會主動以電話要求您至ATM解除設定、不會要求提供信用卡背面的客服電話。<br>
+                若接獲有疑慮之來電請聯絡皇飲查證，或撥打內政部反詐騙專線：<span style="color: indianred">165</span>。<br>
+                還請您提高警覺!
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-copyright" id="id_footer">
+        <p>Copyright © 2017 HWANGYING All rights reserved.</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
