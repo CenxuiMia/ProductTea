@@ -1,7 +1,7 @@
-package com.cenxui.shop.admin.app.service.user;
+package com.cenxui.shop.admin.app.controller.user;
 
 import com.cenxui.shop.admin.app.config.DynamoDBConfig;
-import com.cenxui.shop.admin.app.service.AdminCoreController;
+import com.cenxui.shop.admin.app.controller.AdminCoreController;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.shop.repositories.user.UserRepository;
 import com.cenxui.shop.util.JsonUtil;

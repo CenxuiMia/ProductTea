@@ -1,6 +1,6 @@
-package com.cenxui.shop.admin.app.service.product;
+package com.cenxui.shop.admin.app.controller.product;
 
-import com.cenxui.shop.admin.app.service.AdminControllerServerException;
+import com.cenxui.shop.admin.app.controller.AdminControllerServerException;
 
 class AdminProductImageUploadControllerServerException extends AdminControllerServerException {
 
