@@ -55,6 +55,9 @@ $.ajax({
     },
     error : function(xhr, status, error) {
         console.log("error: " + error + ", status: " + status);
+    },
+    complete : function(jqxhr, status) {
+        showContent();
     }
 });
 
@@ -66,6 +69,11 @@ function getParameterByName(name) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function showContent() {
+    document.getElementById("loading").hidden = true;
+    document.getElementById("content").hidden = false;
 }
 
 function addToCart() {
