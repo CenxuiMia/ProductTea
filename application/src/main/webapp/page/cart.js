@@ -81,6 +81,7 @@ function removeItem(key) {
     cartItem.delete(key);
     localStorage.setItem("cartItems", JSON.stringify(Array.from(cartItem.entries())));
     console.info("JSON parse: " + JSON.parse(localStorage.cartItems));
+    location.reload();
 }
 
 function clearCart() {
