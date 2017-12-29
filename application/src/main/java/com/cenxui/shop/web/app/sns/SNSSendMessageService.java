@@ -21,7 +21,7 @@ public class SNSSendMessageService implements SendMessageService {
     public void sendMessage(Order order) {
         //todo throw exception
 
-        String message = "親愛的顧客感謝你在皇飲下單ＮＴ＄" + order.getPrice();
+        String message = String.format(AWSSNSConfig.MESSAGE, order.getPrice());
         String phoneNumber = "+886" + order.getPhone().substring(1);
         Map<String, MessageAttributeValue> smsAttributes =
                 new HashMap<String, MessageAttributeValue>();
