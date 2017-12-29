@@ -123,24 +123,26 @@ body, html {
 }
 
 .banner {
-    padding: 30px;
+    padding: 3px;
     text-align: center;
     color: white;
     opacity: 0.8;
     background: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg") no-repeat center;
     background-size: cover;
-    min-height: 200px;
+    min-height: 80px;
     letter-spacing: 10px;
 }
 
 .banner h2 {
     font-size: 36px;
     opacity: 1;
+    line-height: 40px;
 }
 
 .banner p {
     font-size: 20px;
     opacity: 1;
+    line-height: 20px;
 }
 
 .bannerRight {
