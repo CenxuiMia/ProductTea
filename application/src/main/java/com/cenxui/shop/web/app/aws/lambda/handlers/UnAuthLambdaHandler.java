@@ -1,4 +1,4 @@
-package com.cenxui.shop.web.app.lambda.handlers;
+package com.cenxui.shop.web.app.aws.lambda.handlers;
 
 import com.amazonaws.serverless.exceptions.ContainerInitializationException;
 import com.amazonaws.serverless.proxy.internal.model.AwsProxyRequest;
@@ -7,7 +7,7 @@ import com.amazonaws.serverless.proxy.spark.SparkLambdaContainerHandler;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.cenxui.shop.web.app.Application;
-import com.cenxui.shop.web.app.lambda.log.AWSLambdaLogger;
+import com.cenxui.shop.web.app.aws.lambda.log.AWSLambdaLogger;
 
 public class UnAuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxyResponse> {
     private SparkLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> handler;

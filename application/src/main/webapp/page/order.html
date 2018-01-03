@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="form.css">
     <link rel="stylesheet" type="text/css" href="order.css"/>
 
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
     <script src="auth.js"></script>
@@ -88,7 +89,9 @@
             </fieldset>
 
             <div class="buttoninput" id="inputSubmitButton">
-                <button id="submitButton" class="actionButton" value="Submit" onclick="addOrder()">確認送出</button>
+                <button id="submitButton" class="g-recaptcha"
+                        data-sitekey="6LfR9T4UAAAAAPcTwwqOG_wpFnGNdjsTnLGhpuAB"
+                        data-callback="addOrder">確認送出</button>
             </div>
 
             <p class="alert" id="alert" hidden>＊請檢查欄位，並重新送出訂單</p>

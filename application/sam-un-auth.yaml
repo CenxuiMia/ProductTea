@@ -14,7 +14,7 @@ Resources:
   TeaUnAuthFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: com.cenxui.shop.web.app.lambda.handlers.UnAuthLambdaHandler::handleRequest
+      Handler: com.cenxui.shop.web.app.aws.lambda.handlers.UnAuthLambdaHandler::handleRequest
       Runtime: java8
       CodeUri: build/distributions/application-1.0-SNAPSHOT.zip
       MemorySize: 512

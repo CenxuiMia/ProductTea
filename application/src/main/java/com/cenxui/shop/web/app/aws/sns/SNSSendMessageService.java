@@ -1,4 +1,4 @@
-package com.cenxui.shop.web.app.sns;
+package com.cenxui.shop.web.app.aws.sns;
 
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClient;
