@@ -1,6 +1,7 @@
 package com.cenxui.shop.web.app.controller.util;
 
 public class Header {
+    public static final String RECAPTCHA = "recaptcha";
     public static final String MAIL = "mail";
     public static final String USERNAME = "username";
     public static final String AUDIENCE = "audience";

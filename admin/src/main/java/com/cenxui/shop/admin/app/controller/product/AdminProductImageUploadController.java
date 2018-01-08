@@ -1,4 +1,4 @@
-package com.cenxui.shop.admin.app.service.product;
+package com.cenxui.shop.admin.app.controller.product;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -8,7 +8,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.cenxui.shop.admin.app.config.ControllerConfig;
 import com.cenxui.shop.admin.app.config.S3Bucket;
-import com.cenxui.shop.admin.app.service.AdminCoreController;
+import com.cenxui.shop.admin.app.controller.AdminCoreController;
 import com.cenxui.shop.admin.app.util.LimitedSizeInputStream;
 import com.cenxui.shop.admin.app.util.Param;
 import spark.Request;

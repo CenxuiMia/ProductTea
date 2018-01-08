@@ -1,6 +1,6 @@
 package com.cenxui.shop.admin.app.util;
 
-import com.cenxui.shop.admin.app.service.AdminController;
+import com.cenxui.shop.admin.app.controller.AdminController;
 import com.cenxui.shop.repositories.Repository;
 
 import java.lang.reflect.Field;

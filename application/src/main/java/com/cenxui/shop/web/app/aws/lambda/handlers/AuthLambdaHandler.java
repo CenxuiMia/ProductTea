@@ -1,4 +1,4 @@
-package com.cenxui.shop.web.app.lambda.handlers;
+package com.cenxui.shop.web.app.aws.lambda.handlers;
 
 import com.amazonaws.serverless.exceptions.ContainerInitializationException;
 import com.amazonaws.serverless.proxy.internal.model.*;
@@ -6,7 +6,7 @@ import com.amazonaws.serverless.proxy.spark.SparkLambdaContainerHandler;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.cenxui.shop.web.app.Application;
-import com.cenxui.shop.web.app.lambda.log.AWSLambdaLogger;
+import com.cenxui.shop.web.app.aws.lambda.log.AWSLambdaLogger;
 import com.cenxui.shop.web.app.controller.util.Header;
 
 import java.util.Map;
@@ -41,25 +41,19 @@ public class AuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsPro
 
         String mail = awsProxyRequest.getRequestContext().getAuthorizer().getClaims().getEmail();
 
-        if (mail == null || mail.isEmpty()) return clientErrorResponse;
+        if (mail == null || mail.isEmpty()) return serverErrorResponse;
 
-        AwsProxyResponse response = null;
+        headers.put(Header.MAIL, mail);
 
         try {
-            headers.put(Header.MAIL, mail);
-
-            response = handler.proxy(awsProxyRequest, context);
-
-        }catch (Throwable e) {
+            return handler.proxy(awsProxyRequest, context);
+        }catch (Exception e) {
             AWSLambdaLogger.log(context, e);
             return serverErrorResponse;
         }
-
-        return response;
     }
 
     private void defineRoutes() {
         Application.defineAuthResources();
     };
-
 }

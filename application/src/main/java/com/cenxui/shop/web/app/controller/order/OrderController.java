@@ -2,20 +2,31 @@ package com.cenxui.shop.web.app.controller.order;
 
 import com.cenxui.shop.repositories.order.OrderRepository;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
+import com.cenxui.shop.util.ApplicationError;
+import com.cenxui.shop.web.app.aws.lambda.handlers.AuthLambdaHandler;
 import com.cenxui.shop.web.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.repositories.order.Order;
 import com.cenxui.shop.repositories.order.ShippedWay;
+import com.cenxui.shop.web.app.config.GoogleReCAPTCHAConfig;
 import com.cenxui.shop.web.app.controller.CoreController;
 import com.cenxui.shop.web.app.controller.util.Header;
 import com.cenxui.shop.web.app.controller.util.Param;
 import com.cenxui.shop.util.JsonUtil;
 import com.cenxui.shop.util.TimeUtil;
 import com.cenxui.shop.web.app.service.SendMessageService;
-import com.cenxui.shop.web.app.sns.SNSSendMessageService;
+import com.cenxui.shop.web.app.aws.sns.SNSSendMessageService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class OrderController extends CoreController {
@@ -40,6 +51,35 @@ public class OrderController extends CoreController {
     };
 
     public static final Route addOrder = (Request request, Response response) -> {
+
+        try {
+            String recaptcha = request.queryParams(Header.RECAPTCHA);
+            URL url = new URL(GoogleReCAPTCHAConfig.SITE_VERIFY_URL);
+            StringBuilder postData = new StringBuilder();
+            addParam(postData, GoogleReCAPTCHAConfig.SECRET_PARAM, GoogleReCAPTCHAConfig.SITE_SECRET);
+            addParam(postData, GoogleReCAPTCHAConfig.RESPONSE_PARAM, recaptcha);
+
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setDoOutput(true);
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty(
+                    "Content-Type", "application/x-www-form-urlencoded");
+            urlConnection.setRequestProperty(
+                    "charset", StandardCharsets.UTF_8.displayName());
+            urlConnection.setRequestProperty(
+                    "Content-Length", Integer.toString(postData.length()));
+            urlConnection.setUseCaches(false);
+            urlConnection.getOutputStream()
+                    .write(postData.toString().getBytes(StandardCharsets.UTF_8));
+
+
+            JSONTokener jsonTokener = new JSONTokener(urlConnection.getInputStream());
+
+            if (!new JSONObject(jsonTokener).getBoolean("success")) return "you are not allow here";
+        }catch (Throwable e) {
+            return ApplicationError.getTrace(e.getStackTrace());
+        }
+
         String body = request.body();
 
         if (body == null || body.isEmpty()) throw new OrderControllerClientException("request body cannot empty.");
@@ -149,6 +189,18 @@ public class OrderController extends CoreController {
 
     private static String getOrderDateTime(Map<String, String> map) {
         return map.get(Param.ORDER_DATE_TIME);
+    }
+
+    private static StringBuilder addParam(
+            StringBuilder postData, String param, String value)
+            throws UnsupportedEncodingException {
+        if (postData.length() != 0) {
+            postData.append("&");
+        }
+        return postData.append(
+                String.format("%s=%s",
+                        URLEncoder.encode(param, StandardCharsets.UTF_8.displayName()),
+                        URLEncoder.encode(value, StandardCharsets.UTF_8.displayName())));
     }
 
 }
