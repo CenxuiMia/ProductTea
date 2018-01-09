@@ -1,0 +1,151 @@
+body, html {
+    color: #777;
+}
+
+h3 {
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font: 20px "Lato", sans-serif;
+    color: #111;
+}
+
+.bgimg-1, .bgimg-2, .bgimg-3 {
+    position: relative;
+    /*opacity: 0.65;*/
+    background: no-repeat fixed center;
+    background-size: cover;
+    z-index: -1;
+}
+
+.bgimg-1 {
+    background-image: url("https://farm5.staticflickr.com/4459/37675712692_795b99cd04_z.jpg");
+    min-height: 600px;
+}
+
+.bgimg-2 {
+    background-image: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg");
+    min-height: 500px;
+}
+
+.bgimg-3 {
+    background-image: url("https://farm5.staticflickr.com/4446/37450412750_af07f40e8e_z.jpg");
+    min-height: 500px;
+}
+
+.caption {
+    position: absolute;
+    left: 0;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+    letter-spacing: 10px;
+    background-color:transparent;
+    font-size: 25px;
+    color: #f7f7f7;
+}
+
+.caption .title {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.introduce {
+    padding:50px 80px;
+    text-align: center;
+    color: #777;
+    background-color:white;
+}
+
+.contact {
+    color:#ddd;
+    background-color:#ffffff;
+    padding:80px 80px 10px 80px;
+    text-transform: uppercase;
+}
+
+.contact .title {
+    letter-spacing: 5px;
+    font: 20px "Lato", sans-serif;
+    color: tan;
+}
+
+.contact .text {
+    font-weight: 200;
+    letter-spacing: 1px;
+    color: darkgray;
+}
+
+.icon {
+    display: inline-block;
+    float: right;
+}
+
+.icon img {
+    width: 35px;
+    opacity: 0.4;
+    margin: 5px;
+}
+
+/* phone version 手機版 */
+@media only screen and (max-device-width: 1024px) {
+    h3 {
+        letter-spacing: 10px;
+        font: 30px "Lato", sans-serif;
+    }
+
+    .bgimg-1 {
+        min-height: 1000px;
+    }
+
+    .bgimg-2 {
+        min-height: 900px;
+    }
+
+    .bgimg-3 {
+        min-height: 900px;
+    }
+
+    .caption {
+        left: 0;
+        top: 40%;
+        width: 100%;
+        letter-spacing: 10px;
+        font-size: 40px;
+    }
+
+    .caption .title {
+        font-size: 52px;
+    }
+
+    .introduce {
+        padding:100px 80px;
+        font-size: 32px;
+    }
+
+    .contact {
+        padding:80px 80px;
+    }
+
+    .contact .title {
+        letter-spacing: 10px;
+        font: 40px "Lato", sans-serif;
+    }
+
+    .contact .text {
+        letter-spacing: 3px;
+    }
+
+    .icon {
+        float: none;
+        clear: both;
+        display: block;
+        text-align: center;
+        padding-top: 40px;
+    }
+
+    .icon img {
+        width: 50px;
+        margin: 10px;
+    }
+
+}
