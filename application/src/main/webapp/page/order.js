@@ -143,7 +143,7 @@ function addOrder() {
 
     $.ajax({
         type : 'PUT',
-        url : orderEndpoint,
+        url : orderEndpoint + "?recaptcha=" +  grecaptcha.getResponse(),
         headers : {
             Authorization : getToken()
         },

@@ -1,6 +1,6 @@
-package com.cenxui.shop.admin.app.service.order;
+package com.cenxui.shop.admin.app.controller.order;
 
-import com.cenxui.shop.admin.app.service.AdminControllerClientException;
+import com.cenxui.shop.admin.app.controller.AdminControllerClientException;
 
 class AdminOrderControllerClientException extends AdminControllerClientException {
     AdminOrderControllerClientException(String s) {
