@@ -4,6 +4,18 @@ body, html {
     font: 400 15px/1.8 "Lato", sans-serif;
 }
 
+body {
+    min-width: 700px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
 .material-icons .md-light { color: rgba(255, 255, 255, 1); }
 
 #id_wrapper {
@@ -22,17 +34,161 @@ body, html {
 }
 
 #id_footer {
-    height: 50px;
+    margin-top: 2rem;
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
+    background-color: #dddddd;
+}
+
+.header {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 20px;
+    position: relative;
+    /*position: fixed;*/
+    z-index: 999;
+    min-width: 700px;
+}
+
+#nav ul.left {
+    width: 37%;
+    float: left;
+}
+
+#nav .left li {
+    margin-right: 11%;
+    float: left;
+}
+
+#nav ul.right {
+    width: 37%;
+    float: right;
+}
+
+#nav .right li {
+    margin-left: 11%;
+    text-align: right;
+    float: right;
+}
+
+#nav .right li:last-child {
+    margin-left: 0;
+}
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    -webkit-padding-start: 40px;
+}
+
+li {
+    list-style: none;
+}
+
+#nav .left li:last-child {
+    margin-right: 0;
+}
+
+#nav .mark_img {
+    width: 26%;
+    margin-left: -11%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    text-align: center;
+}
+
+img .img {
+    width: 100%;
+    height: auto;
+}
+
+fieldset, img {
+    border: 0;
+}
+
+.clearfix {
+    min-height: 1px;
+    zoom: 1;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
+
+a:visited {
+    outline: none;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover {
+    color: darkgrey;
+    padding-bottom: 5px;
+    border-bottom: solid 1px;
+    -webkit-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+}
+
+a.active {
+    color: black;
+    padding-bottom: 5px;
+    border-bottom: solid 1px;
+}
+
+#nav #cart {
+    color: black;
+    padding: 0;
+    height: 22px;
+}
+
+#nav #cart:hover, #nav .dropdown:hover #dropbtn:hover {
+    background-color: white;
+    color: darkgrey;
+    padding-bottom: 5px;
+    border-bottom: solid 1px;
+    -webkit-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+}
+
+#nav .dropdown {
+    float: right;
+}
+
+#nav .dropdown #dropbtn {
+    color: black;
+    padding: 13px 14px;
+}
+
+#nav #cart.active, #nav #dropbtn.active {
+    color: black;
+    padding-bottom: 5px;
+    border-bottom: solid 1px;
+}
+
+#nav #cart.active:hover, #nav #dropbtn.active:hover {
+    background-color: transparent;
+    color: darkgrey;
+    padding-bottom: 5px;
+    border-bottom: solid 1px;
 }
 
 .navbar {
     overflow: visible;
     position: fixed;
-    background-color: #444444;
+    background-color: white;
     width: 100%;
     height: 50px;
     z-index: 1;
@@ -46,19 +202,19 @@ body, html {
 #tab a {
     float: left;
     display: block;
-    color: darkgray;
+    color: #cccccc;
     text-align: center;
     padding: 11px 14px;
     text-decoration: none;
 }
 
 #tab a:hover {
-    background-color: #777777;
-    color: #f2f2f2;
+    color: darkgrey;
 }
 
 #tab a.active {
-    color: white;
+    color: #777777;
+    border-bottom: solid darkgrey 1px;
     text-shadow: #f2f2f2;
 }
 
@@ -126,7 +282,6 @@ body, html {
     padding: 3px;
     text-align: center;
     color: white;
-    opacity: 0.8;
     background: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg") no-repeat center;
     background-size: cover;
     min-height: 80px;
@@ -151,7 +306,6 @@ body, html {
     margin: 10px 100px 10px 10px;
     text-align: center;
     color: white;
-    opacity: 0.8;
     background: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg") no-repeat center;
     background-size: cover;
     min-height: 300px;
@@ -174,7 +328,7 @@ body, html {
     clear: both;
     letter-spacing: 2px;
     text-align: center;
-    font-size: 12px;
+    font-size: 0.7rem;
     padding: 15px;
 }
 
@@ -319,7 +473,7 @@ body, html {
 
     .footer-copyright {
         letter-spacing: 0;
-        font-size: 20px;
+        /*font-size: 20px;*/
         padding: 15px;
         margin-top: 10px;
     }

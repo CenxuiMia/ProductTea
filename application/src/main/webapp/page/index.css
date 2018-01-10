@@ -1,126 +1,167 @@
 body, html {
-    color: #777;
+    color: black;
 }
 
-h3 {
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    font: 20px "Lato", sans-serif;
-    color: #111;
-}
-
-.bgimg-1, .bgimg-2, .bgimg-3 {
+#main {
     position: relative;
-    opacity: 0.65;
-    background: no-repeat fixed center;
-    background-size: cover;
-    z-index: -1;
+    width: 100vw;
+    height: 80vh;
 }
 
-.bgimg-1 {
-    background-image: url("https://farm5.staticflickr.com/4459/37675712692_795b99cd04_z.jpg");
-    min-height: 600px;
-}
-
-.bgimg-2 {
-    background-image: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg");
-    min-height: 500px;
-}
-
-.bgimg-3 {
-    background-image: url("https://farm5.staticflickr.com/4446/37450412750_af07f40e8e_z.jpg");
-    min-height: 500px;
-}
-
-.caption {
+.layer1 {
+    z-index: 1;
+    background-color: rgba(154, 205, 50, 0.22);
     position: absolute;
+    top:0;
     left: 0;
-    top: 40%;
+    width: 40%;
+    height: 25%;
+    min-width: 300px;
+}
+
+.layer2 {
+    z-index: 2;
+    background-color: rgba(219, 219, 219, 0.36);
+    position: absolute;
+    top: 10%;
+    left: 26%;
+    width: 70%;
+    height: 40%;
+    min-width: 500px;
+}
+
+.layer3 {
+    z-index: 3;
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 30%;
+    min-width: 450px;
+}
+
+.layer3 img {
     width: 100%;
+}
+
+.slides {
+    display: none;
+}
+
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+.dots {
     text-align: center;
-    letter-spacing: 10px;
-    background-color:transparent;
-    font-size: 25px;
-    color: #f7f7f7;
+    width: 100%;
 }
 
-.caption .title {
-    font-size: 36px;
-    font-weight: bold;
-}
-
-.introduce {
-    padding:50px 80px;
-    text-align: center;
-    color: #777;
-    background-color:white;
-}
-
-.contact {
-    color:#ddd;
-    background-color:#ffffff;
-    padding:80px 80px 10px 80px;
-    text-transform: uppercase;
-}
-
-.contact .title {
-    letter-spacing: 5px;
-    font: 20px "Lato", sans-serif;
-    color: tan;
-}
-
-.contact .text {
-    font-weight: 200;
-    letter-spacing: 1px;
-    color: darkgray;
-}
-
-.icon {
+.dot {
+    cursor:pointer;
+    height: 10px;
+    width: 10px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
     display: inline-block;
-    float: right;
+    transition: background-color 0.6s ease;
 }
 
-.icon img {
+.dotActive, .dot:hover {
+    background-color: #717171;
+}
+
+.slogan {
+    color: darkgrey;
+    text-align: center;
+    letter-spacing: 0.15rem;
+    font-size: 1.7rem;
+    font-style: italic;
+    font-family: "Diwan Kufi", "Al Bayan", cursive;
+}
+
+.recommend {
+    display: block;
+    width: 80%;
+    margin: 5rem auto;
+    min-height: 300px;
+}
+
+.recommend img {
+    width: 100%;
+}
+
+.recommend .right.img {
+    width: 55%;
+    margin-left: 10%;
+    right: 0;
+}
+
+.recommend .left.img {
+    width: 55%;
+    margin-right: 10%;
+}
+
+.recommend .text {
+    width: 35%;
+    text-align: justify;
+    letter-spacing: 0.3rem;
+}
+
+.recommend .text .title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+footer .tab {
+    display: block;
+    text-align: center;
+    padding: 3rem 0;
+}
+
+footer .tab a:first-child {
+    margin-right: 20%;
+}
+
+footer .tab a:last-child {
+    margin-left: 20%;
+}
+
+footer a, footer a:hover {
+    border-bottom: none;
+}
+
+footer .icon {
+    float: none;
+    clear: both;
+    display: block;
+    text-align: center;
+}
+
+footer .icon img {
     width: 35px;
     opacity: 0.4;
-    margin: 5px;
+    cursor: pointer;
+    margin: 2rem;
 }
 
 /* phone version 手機版 */
 @media only screen and (max-device-width: 1024px) {
-    h3 {
-        letter-spacing: 10px;
-        font: 30px "Lato", sans-serif;
-    }
-
-    .bgimg-1 {
-        min-height: 1000px;
-    }
-
-    .bgimg-2 {
-        min-height: 900px;
-    }
-
-    .bgimg-3 {
-        min-height: 900px;
-    }
-
-    .caption {
-        left: 0;
-        top: 40%;
-        width: 100%;
-        letter-spacing: 10px;
-        font-size: 40px;
-    }
-
-    .caption .title {
-        font-size: 52px;
-    }
-
-    .introduce {
-        padding:100px 80px;
-        font-size: 32px;
-    }
 
     .contact {
         padding:80px 80px;

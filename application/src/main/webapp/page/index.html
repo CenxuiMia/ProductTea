@@ -28,78 +28,106 @@
 
 <div id="id_wrapper">
 
-    <div id="id_header" class="navbar">
-        <div id="tab">
-            <a href="javascript:void(0)" class="active">首頁</a>
-            <a href="products.html">產品</a>
-            <a href="contact.html">聯絡我們</a>
-        </div>
-
-        <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
-        <div class="dropdown" id="member">
-            <i id="dropbtn" class="material-icons md-light">person</i>
-            <div class="dropdown-content">
-                <a href="./user.html">個人資料</a>
-                <a href="./user-orders.html">訂單記錄</a>
+    <div id="id_header" class="header">
+        <div id="nav" class="clearfix">
+            <ul class="left clearfix">
+                <li><a href="javascript:void(0)" class="active">首頁</a></li>
+                <li><a href="products.html">所有商品</a></li>
+                <li><a href="about_us.html">關於我們</a></li>
+            </ul>
+            <div class="mark_img">
+                <img class="img" src="皇飲mark.png">
             </div>
+            <ul class="right clearfix">
+                <li><a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a></li>
+                <li>
+                    <div class="dropdown" id="member">
+                        <i id="dropbtn" class="material-icons md-light">person</i>
+                        <div class="dropdown-content">
+                            <a href="./user.html">個人資料</a>
+                            <a href="./user-orders.html">訂單記錄</a>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a></li>
+            </ul>
         </div>
-        <a href="cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a>
     </div>
 
     <div id="id_content">
-        <div class="bgimg-1">
-            <div class="caption">
-                <span class="title">皇飲</span><br>生活，來點品味。
+        <div id="main">
+            <div class="layer1"></div>
+
+            <div class="layer2"></div>
+
+            <div class="layer3">
+                <img class="slides fade" src="slide1.jpg">
+                <img class="slides fade" src="slide2.jpg">
+                <img class="slides fade" src="slide3.jpg">
             </div>
         </div>
 
-        <div style="position:relative;">
-            <div class="introduce">
-                <h3>靜心 飲茶</h3>
-                <p>在急促而繁忙的生活中，有多久沒停下來休息了？用一杯茶的時間，找回深處寧靜的自己</p>
+        <div class="dots">
+            <span class="dot" onclick="showSlides(1)"></span>
+            <span class="dot" onclick="showSlides(2)"></span>
+            <span class="dot" onclick="showSlides(3)"></span>
+        </div>
+
+        <p class="slogan">Your choice, your tea.<br>Enjoy every moment.</p>
+
+        <div class="recommend">
+            <div class="left text ">
+                <p class="title">好禮迎新春</p>
+                巴豆好夭要吃什麼勒～<br>
+                麥當當配皇飲好茶，我覺得很可以<br>
+                給自己一個讚！(b)
+            </div>
+            <div class="right clearfix img">
+                <img src="rec1.jpg">
             </div>
         </div>
 
-        <a href="./products.html">
-            <div class="bgimg-2">
-                <div class="caption">精緻茶品<br>SHOP HERE</div>
+        <div class="recommend">
+            <div class="left clearfix img">
+                <img  src="rec1.jpg">
             </div>
-        </a>
-
-        <div style="position:relative;">
-            <div class="introduce">
-                <p>來自台灣高山，純淨土壤與好水質孕育出回甘濃郁的 好 茶 。自古台灣高山茶芳名遠播，廣受日本天皇、中國朝廷、歐美名流人士喜愛。</p>
+            <div class="right text clearfix">
+                <p class="title">好禮迎新春</p>
+                巴豆好夭要吃什麼勒～<br>
+                麥當當配皇飲好茶，我覺得很可以<br>
+                給自己一個讚！(b)
             </div>
         </div>
 
-        <a href="./products.html">
-            <div class="bgimg-3">
-                <div class="caption">好茶 好安心<br>極致品味，每一口都是好茶</div>
+        <div class="recommend">
+            <div class="left text ">
+                <p class="title">好禮迎新春</p>
+                巴豆好夭要吃什麼勒～<br>
+                麥當當配皇飲好茶，我覺得很可以<br>
+                給自己一個讚！(b)
             </div>
-        </a>
-
-        <div class="contact">
-            <h3 class="title">CONTACT US</h3>
-            <div class="text" style="float: left; list-style: none;">
-                <ul>support@hwangying.com</ul>
-                <ul>0972-858256</ul>
-                <ul>客服時間：9:00-18:00 MON.-FRI.</ul>
+            <div class="right clearfix img">
+                <img src="rec1.jpg">
             </div>
-            <div class="icon">
-                <!--<a href="//www.facebook.com"><img src="./fb.png"></a>-->
-                <img src="./mail.png" onclick="sendMail()">
-                <!--<a href="//www.pinkoi.com"><img src="./pinkoi.png"></a>-->
-            </div>
-            <div style="clear: both;"></div>
         </div>
-
     </div>
 
 </div>
+<footer id="id_footer">
+    <div class="tab">
+        <a href="./about_us.html">關於我們</a>
+        <a href="./guide.html">購物須知</a>
+        <a href="./contact.html">聯絡我們</a>
+    </div>
 
-<!--<footer class="footer-copyright">-->
-    <!--Copyright © 2017 HWANGYING All rights reserved.-->
-<!--</footer>-->
+    <div class="icon">
+        <a href="//www.facebook.com"><img src="./fb.png"></a>
+        <img src="./mail.png" onclick="sendMail()">
+    </div>
+    <div class="footer-copyright">
+        Copyright © 2017 HWANGYING All rights reserved.
+    </div>
+</footer>
 
 </body>
 </html>
