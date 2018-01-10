@@ -324,6 +324,38 @@ a.active {
     opacity: 1;
 }
 
+footer .tab {
+    display: block;
+    text-align: center;
+    padding: 3rem 0;
+}
+
+footer .tab a:first-child {
+    margin-right: 20%;
+}
+
+footer .tab a:last-child {
+    margin-left: 20%;
+}
+
+footer a, footer a:hover {
+    border-bottom: none;
+}
+
+footer .icon {
+    float: none;
+    clear: both;
+    display: block;
+    text-align: center;
+}
+
+footer .icon img {
+    width: 35px;
+    opacity: 0.4;
+    cursor: pointer;
+    margin: 2rem;
+}
+
 .footer-copyright {
     clear: both;
     letter-spacing: 2px;
