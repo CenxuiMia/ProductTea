@@ -84,7 +84,7 @@ ul, menu, dir {
     -webkit-margin-after: 1em;
     -webkit-margin-start: 0;
     -webkit-margin-end: 0;
-    -webkit-padding-start: 40px;
+    -webkit-padding-start: 0;
 }
 
 li {
@@ -97,7 +97,7 @@ li {
 
 #nav .mark_img {
     width: 26%;
-    margin-left: -11%;
+    margin-left: -13%;
     position: absolute;
     top: 0;
     left: 50%;
@@ -313,6 +313,62 @@ a.active {
     min-width: 30%;
     letter-spacing: 10px;
 }
+
+/* -----  rotating banner  ----- */
+.slidesSection {
+    width: 60%;
+    min-height: 150px;
+    max-height: 200px;
+    display: block;
+    margin: 2rem auto;
+}
+
+.slidesSection img {
+    width: 100%;
+    max-height: 200px;
+}
+
+.slides {
+    display: none;
+}
+
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+.dots {
+    text-align: center;
+    width: 100%;
+}
+
+.dot {
+    cursor:pointer;
+    height: 0.5rem;
+    width: 0.5rem;
+    margin: 0 0.15rem;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.dotActive, .dot:hover {
+    background-color: #717171;
+}
+/* --------------------------------- */
 
 .bannerRight h2 {
     font-size: 36px;

@@ -17,12 +17,18 @@ $(document).ready(function () {
 });
 
 let slideIndex = 0;
+let timer;
 
-function showSlides(n) {
+function clickSlide(n) {
+    clearTimeout(timer);
+
     if (typeof n !== 'undefined') {
         slideIndex = n;
     }
+    showSlides();
+}
 
+function showSlides() {
     let i;
     let slides = document.getElementsByClassName("slides");
     let dots = document.getElementsByClassName("dot");
@@ -38,5 +44,5 @@ function showSlides(n) {
     slides[slideIndex].style.display = "block";
     dots[slideIndex].className += " dotActive";
     slideIndex++;
-    setTimeout(showSlides, 3000);
+    timer = setTimeout(showSlides, 3000);
 }
