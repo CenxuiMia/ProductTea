@@ -90,6 +90,13 @@ public class OrderController extends CoreController {
 
         ableToAddOrder(order);
 
+        /**
+         * add order
+         * mail from header
+         * orderDateTime created
+         * other item from client
+         */
+
         Order result = orderRepository.addOrder(
                 Order.of(
                         mail,
@@ -113,6 +120,9 @@ public class OrderController extends CoreController {
                         null,
                         true,
                         "admin"));
+        /**
+         * send order message to end user
+         */
 
         sendMessageService.sendMessage(result);
 
