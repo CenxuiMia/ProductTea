@@ -15,6 +15,8 @@ public class Order {
     public static final String ORDER_DATE_TIME = "orderDateTime";
     public static final String PRODUCTS = "products";
     public static final String PURCHASER = "purchaser";
+    public static final String SHIPPING_COST = "shippingCost";
+    public static final String PRODUCTS_PRICE = "productsPrice";
     public static final String PRICE = "price";
     public static final String PAYMENT_METHOD = "paymentMethod";
     public static final String RECEIVER = "receiver";
@@ -34,6 +36,9 @@ public class Order {
     String orderDateTime;
     List<String> products;
     String purchaser;
+    Integer shippingCost;
+    Integer productsPrice;
+    String activity;
     Integer price;
     String paymentMethod;
 

@@ -113,14 +113,17 @@ class DynamoDBOrderRepository implements OrderRepository {
     @Override
     public Order addOrder(Order order) {
 
-        int price = getPrice(order);
+        Order trialOrder = trialOrder(order);
 
         return orderRepository.addOrder(Order.of(
                 order.getMail(),
                 order.getOrderDateTime(),
                 order.getProducts(),
                 order.getPurchaser(),
-                price,
+                trialOrder.getShippingCost(),
+                trialOrder.getProductsPrice(),
+                trialOrder.getActivity(),
+                trialOrder.getPrice(),
                 order.getPaymentMethod(),
                 order.getReceiver(),
                 order.getPhone(),
@@ -136,7 +139,10 @@ class DynamoDBOrderRepository implements OrderRepository {
                 order.getOwner()));
     }
 
-    private int getPrice(Order order) {
+
+    @Override
+    public Order trialOrder(Order order) {
+
         if (order == null) throw new OrderCannotNullException();
 
         if (order.getProducts() == null) throw new OrderProductsCannotNullException(order);
@@ -145,32 +151,31 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         int price;
 
+        int shippingCost;
+
+        int productsPrice;
+
         //todo possible modify
 
         if (ShippedWay.SHOP.equals(order.getShippingWay())) {
-            price = 60;
+            shippingCost = 60;
         }else if (ShippedWay.HOME.equals(order.getShippingWay())) {
-            price = 100;
+            shippingCost = 100;
         }else {
             throw new OrderShippedWayException(order.getShippingWay());
         }
 
-        price = price + productRepository.getProductsPrice(order.getProducts()).getValue();
+        productsPrice = productRepository.getProductsPrice(order.getProducts()).getValue();
 
-
-        return price;
-    }
-
-
-    @Override
-    public Order trialOrder(Order order) {
-        //todo possible modify
-        int price = getPrice(order);
+        price = shippingCost + productsPrice;
 
         return Order.of(
                 null,
                 null,
                 order.getProducts(),
+                null,
+                shippingCost,
+                productsPrice,
                 null,
                 price,
                 order.getPaymentMethod(),

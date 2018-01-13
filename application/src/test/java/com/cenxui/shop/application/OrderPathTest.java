@@ -25,11 +25,11 @@ public class OrderPathTest {
     public void addOrder() {
 
         Map<String, String> headers3 = new HashMap<>();
-        headers3.put(Header.MAIL, "cenxui@gmail.com");
+        headers3.put(Header.MAIL, "cenxuilin@gmail.com");
 
         List<String> products = new ArrayList<>();
 
-        products.add("新紅顏;經典;2");
+        products.add("紅顏;(紅茶);2");
 
         Http.put(url, JsonUtil.mapToJson(OrderUtil.getOrder(products)), headers3);
 
@@ -47,11 +47,14 @@ public class OrderPathTest {
 
         List<String> products = new ArrayList<>();
 
-        products.add("紅茶;大玉茶;2");
+        products.add("紅顏;(紅茶);2");
 
         Order order = Order.of(null,
                 null,
                 products ,
+                null,
+                null,
+                null,
                 null,
                 null,
                 null,

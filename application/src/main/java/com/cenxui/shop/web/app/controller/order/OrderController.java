@@ -30,6 +30,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class OrderController extends CoreController {
+    private static final boolean isLocal = System.getenv("Cloud") == null;
+
     private static final OrderRepository orderRepository =
             DynamoDBRepositoryService.getOrderRepository(
                     AWSDynamoDBConfig.REGION,
@@ -51,8 +53,7 @@ public class OrderController extends CoreController {
     };
 
     public static final Route addOrder = (Request request, Response response) -> {
-
-        try {
+        if (!isLocal) {
             String recaptcha = request.queryParams(Header.RECAPTCHA);
             URL url = new URL(GoogleReCAPTCHAConfig.SITE_VERIFY_URL);
             StringBuilder postData = new StringBuilder();
@@ -72,12 +73,9 @@ public class OrderController extends CoreController {
             urlConnection.getOutputStream()
                     .write(postData.toString().getBytes(StandardCharsets.UTF_8));
 
-
             JSONTokener jsonTokener = new JSONTokener(urlConnection.getInputStream());
 
             if (!new JSONObject(jsonTokener).getBoolean("success")) return "you are not allow here";
-        }catch (Throwable e) {
-            return ApplicationError.getTrace(e.getStackTrace());
         }
 
         String body = request.body();
@@ -98,6 +96,9 @@ public class OrderController extends CoreController {
                         TimeUtil.getNowDateTime(),
                         order.getProducts(),
                         order.getPurchaser(),
+                        null,
+                        null,
+                        null,
                         null,
                         order.getPaymentMethod(),
                         order.getReceiver(),
