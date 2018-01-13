@@ -36,7 +36,7 @@ function setInputWithUserData() {
     if (localStorage.getItem("lastName") !== null) {
         console.info("LocalStorage! lastName: " + localStorage.lastName +
             ", firstName: " + localStorage.firstName +
-            "\nphone: " + localStorage.phone +
+            "\npurchaserPhone: " + localStorage.phone +
             ", address: " + localStorage.address);
         let name = "";
         if (localStorage.lastName !== undefined) {
@@ -46,7 +46,7 @@ function setInputWithUserData() {
             name += localStorage.firstName;
         }
         document.getElementById("purchaser").value = name;
-        document.getElementById("phone").value = localStorage.phone === undefined? "" : localStorage.phone;
+        document.getElementById("purchaserPhone").value = localStorage.phone === undefined? "" : localStorage.phone;
         document.getElementById("shippingAddress").value = localStorage.address === undefined? "" : localStorage.address;
     } else {
         console.info("Query DB!");
@@ -64,7 +64,7 @@ function setInputWithUserData() {
                     document.getElementById("purchaser").value = data.lastName + data.firstName;
                 }
                 if (data.phone !== null) {
-                    document.getElementById("phone").value = data.phone;
+                    document.getElementById("purchaserPhone").value = data.phone;
                 }
                 if (data.address !== null) {
                     document.getElementById("address").value = data.address;
@@ -88,9 +88,10 @@ function reset() {
         name += localStorage.firstName;
     }
     document.getElementById("purchaser").value = name;
-    document.getElementById("phone").value = localStorage.phone === undefined? "" : localStorage.phone;
+    document.getElementById("purchaserPhone").value = localStorage.phone === undefined? "" : localStorage.phone;
     document.getElementById("shippingAddress").value = localStorage.address === undefined? "" : localStorage.address;
     document.getElementById("receiver").value = "";
+    document.getElementById("receiverPhone").value = "";
     document.getElementById("comment").value = "";
 }
 
@@ -128,11 +129,13 @@ function addOrder() {
 
     let order = {};
     order.purchaser = document.getElementById("purchaser").value;
-    order.phone = document.getElementById("phone").value;
+    order.purchaserPhone = document.getElementById("purchaserPhone").value;
     order.receiver = document.getElementById("receiver").value;
+    order.receiverPhone = document.getElementById("receiverPhone").value;
     order.shippingWay = localStorage.shippingWay;
     order.shippingAddress = document.getElementById("shippingAddress").value;
     order.products = getCartItems();
+    order.paymentMethod = "account"; //TODO virtualAccount /account /creditCard
 
     let commentValue = document.getElementById("comment").value;
     if (commentValue === null || isNotEmptyNoSpace(commentValue)) {
@@ -179,8 +182,8 @@ function addOrder() {
 
 function checkInputValid() {
     let isValid = true;
-    let labelArray = ["inputPurchaser", "inputPhone", "inputReceiver", "inputShippingAddress"];
-    let inputArray = ["purchaser", "phone", "receiver", "shippingAddress"];
+    let labelArray = ["inputPurchaser", "inputPurchaserPhone", "inputReceiver", "inputReceiverPhone", "inputShippingAddress"];
+    let inputArray = ["purchaser", "purchaserPhone", "receiver", "receiverPhone", "shippingAddress"];
     let alertClass = " alert";
     for (let i=0; i<labelArray.length; i++) {
         let label = document.getElementById(labelArray[i]);
@@ -196,9 +199,15 @@ function checkInputValid() {
         }
     }
 
-    if (document.getElementById("phone").value !== "" &&
-        !isNumeric(document.getElementById("phone").value)) {
-        document.getElementById("inputPhone").className += alertClass;
+    if (document.getElementById("purchaserPhone").value !== "" &&
+        !isNumeric(document.getElementById("purchaserPhone").value)) {
+        document.getElementById("inputPurchaserPhone").className += alertClass;
+        isValid = false;
+    }
+
+    if (document.getElementById("receiverPhone").value !== "" &&
+        !isNumeric(document.getElementById("receiverPhone").value)) {
+        document.getElementById("inputReceiverPhone").className += alertClass;
         isValid = false;
     }
 
