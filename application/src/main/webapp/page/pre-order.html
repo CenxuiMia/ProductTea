@@ -67,7 +67,7 @@
             <div id="ship">
                 <div class="textinput" id="shippingWay">
                     取貨方式<br>
-                    <input id="shop" name="shippingWay" type="radio" value="shop"
+                    <input id="shop" name="shippingWay" type="radio" value="shop" checked
                            style="width: 1.2rem; display: inline-block" onclick="calculateTrialTotal()" required>
                     <label for="shop" style="display: inline-block">超商取貨</label>
                     <input id="home" name="shippingWay" type="radio" value="home"
@@ -80,11 +80,11 @@
                 <table>
                     <tr>
                         <th>總金額</th>
-                        <td>NT.<span id="originalTotal"></span></td>
+                        <td>NT.<span id="productsPrice"></span></td>
                     </tr>
                     <tr>
                         <th>運費</th>
-                        <td>NT.<span id="shippingFee"></span></td>
+                        <td>NT.<span id="shippingCost"></span></td>
                     </tr>
                     <!--<tr>-->
                         <!--<th>優惠</th>-->
