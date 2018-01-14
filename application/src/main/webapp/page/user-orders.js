@@ -28,8 +28,8 @@ function getOrders() {
             let orders = JSON.parse(response);
             for (let i=0; i<orders.orders.length; i++) {
                 let order = orders.orders[i];
-                let status = order.shippedDate !== null? orderShipped :
-                    order.processingDate !== null? orderProcessing :
+                let status = typeof order.shippedDate !== "undefined"? orderShipped :
+                    typeof order.payDate !== "undefined"? orderProcessing :
                     order.isActive? orderUnpaid : orderInactive;
                 document.getElementById("ordersTable").innerHTML +=
                     "<tr>" +
