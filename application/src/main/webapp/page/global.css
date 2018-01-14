@@ -24,8 +24,17 @@ body {
 }
 
 #id_header {
-    height: 50px;
+    position: fixed;
+    width: 100%;
     box-sizing: border-box;
+    background-color: white;
+    z-index: 999;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+#id_header.shrink {
+    box-shadow: 0 0 13px 0 rgba(0,0,0,0.2);
 }
 
 #id_content {
@@ -47,9 +56,14 @@ body {
     margin: 0 auto;
     padding-top: 20px;
     position: relative;
-    /*position: fixed;*/
-    z-index: 999;
     min-width: 700px;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.header.shrink {
+    font-size: 90%;
+    padding-top: 0;
 }
 
 #nav ul.left {
@@ -95,7 +109,7 @@ li {
     margin-right: 0;
 }
 
-#nav .mark_img {
+#nav #mark_img {
     width: 26%;
     margin-left: -13%;
     position: absolute;
@@ -104,9 +118,16 @@ li {
     text-align: center;
 }
 
-img .img {
-    width: 100%;
-    height: auto;
+img.img {
+    width: 65px;
+    padding-top: 10px;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+img.img.shrink {
+    padding-top: 2px;
+    width: 40px;
 }
 
 fieldset, img {

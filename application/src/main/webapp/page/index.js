@@ -16,6 +16,18 @@ $(document).ready(function () {
     showSlides();
 });
 
+$(window).scroll(function() {
+    if ($(document).scrollTop() > 10) {
+        $('.header').addClass('shrink');
+        $('.img').addClass('shrink');
+        $('#id_header').addClass('shrink')
+    } else {
+        $('.header').removeClass('shrink');
+        $('.img').removeClass('shrink');
+        $('#id_header').removeClass('shrink')
+    }
+});
+
 let slideIndex = 0;
 let timer;
 
