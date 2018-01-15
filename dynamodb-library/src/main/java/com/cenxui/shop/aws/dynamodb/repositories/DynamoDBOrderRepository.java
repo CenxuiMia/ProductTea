@@ -1,9 +1,6 @@
 package com.cenxui.shop.aws.dynamodb.repositories;
 
-import com.cenxui.shop.aws.dynamodb.exceptions.server.order.OrderShippedWayCannotNullException;
-import com.cenxui.shop.aws.dynamodb.exceptions.server.order.OrderCannotNullException;
-import com.cenxui.shop.aws.dynamodb.exceptions.server.order.OrderProductsCannotNullException;
-import com.cenxui.shop.aws.dynamodb.exceptions.server.order.OrderShippedWayException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.order.*;
 import com.cenxui.shop.repositories.order.*;
 import com.cenxui.shop.repositories.product.ProductRepository;
 
@@ -112,14 +109,44 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order addOrder(Order order) {
+        if (order.getPaymentMethod() == null)
+            throw new OrderPaymentMethodCannotNullException(order);
 
-        int price = getPrice(order);
+        Order trialOrder = trialOrder(order);
 
-        return orderRepository.addOrder(Order.of(
+        return orderRepository.addOrder(trialOrder);
+    }
+
+
+    @Override
+    public Order trialOrder(Order order) {
+
+        checkTrialOrder(order);
+
+        int price, shippingCost, productsPrice;
+
+        //todo possible modify
+
+        if (ShippedWay.SHOP.equals(order.getShippingWay())) {
+            shippingCost = 60;
+        }else if (ShippedWay.HOME.equals(order.getShippingWay())) {
+            shippingCost = 100;
+        }else {
+            throw new OrderShippedWayException(order.getShippingWay());
+        }
+
+        productsPrice = productRepository.getProductsPrice(order.getProducts()).getValue();
+
+        price = shippingCost + productsPrice;
+
+        return Order.of(
                 order.getMail(),
                 order.getOrderDateTime(),
                 order.getProducts(),
                 order.getPurchaser(),
+                shippingCost,
+                productsPrice,
+                null, //todo add activty
                 price,
                 order.getPaymentMethod(),
                 order.getReceiver(),
@@ -133,61 +160,16 @@ class DynamoDBOrderRepository implements OrderRepository {
                 order.getShippedDate(),
                 order.getShippedTime(),
                 order.getIsActive(),
-                order.getOwner()));
+                order.getOwner()
+        );
     }
 
-    private int getPrice(Order order) {
+    private void checkTrialOrder(Order order) {
         if (order == null) throw new OrderCannotNullException();
 
         if (order.getProducts() == null) throw new OrderProductsCannotNullException(order);
 
         if (order.getShippingWay() == null) throw new OrderShippedWayCannotNullException(order);
-
-        int price;
-
-        //todo possible modify
-
-        if (ShippedWay.SHOP.equals(order.getShippingWay())) {
-            price = 60;
-        }else if (ShippedWay.HOME.equals(order.getShippingWay())) {
-            price = 100;
-        }else {
-            throw new OrderShippedWayException(order.getShippingWay());
-        }
-
-        price = price + productRepository.getProductsPrice(order.getProducts()).getValue();
-
-
-        return price;
-    }
-
-
-    @Override
-    public Order trialOrder(Order order) {
-        //todo possible modify
-        int price = getPrice(order);
-
-        return Order.of(
-                null,
-                null,
-                order.getProducts(),
-                null,
-                price,
-                order.getPaymentMethod(),
-                null,
-                null,
-                order.getShippingWay(),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-
-        );
     }
 
     @Override

@@ -20,6 +20,7 @@ Resources:
       MemorySize: 512
       Environment:
         Variables:
+          Cloud: aws
           Region: ap-northeast-1
       Policies:
         - AWSLambdaBasicExecutionRole
