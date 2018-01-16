@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>皇飲｜購物車</title>
+    <title>皇飲</title>
 
+    <!-- favicon -->
     <link rel="shortcut icon" href="//hwangying.com/favicon.ico">
     <link rel="icon" href="//hwangying.com/favicon.ico">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="global.css">
     <link rel="stylesheet" type="text/css" href="signin.css">
-    <link rel="stylesheet" href="form.css">
-    <link rel="stylesheet" type="text/css" href="order.css"/>
+    <link rel="stylesheet" type="text/css" href="about_us.css"/>
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
@@ -20,18 +20,21 @@
     <script src="amazon-cognito-auth.min.js"></script>
     <script src="language/tw.js"></script>
     <script src="signin.js"></script>
-    <script src="cart.js"></script>
+    <script src="about_us.js"></script>
     <script src="library.js"></script> <!--this library should be placed at last-->
 </head>
+
 <body>
+
 <div id="id_wrapper">
+
     <div id="id_header">
         <div class="header">
             <div id="nav" class="clearfix">
                 <ul class="left clearfix">
                     <li><a href=".">首頁</a></li>
                     <li><a href="./products.html">所有商品</a></li>
-                    <li><a href="./about_us.html">關於我們</a></li>
+                    <li><a href="javascript:void(0)" class="active">關於我們</a></li>
                 </ul>
                 <div id="mark_img">
                     <img class="img" src="皇飲mark.png">
@@ -47,34 +50,45 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="javascript:void(0)" id="cart" class="active"><i class="material-icons md-light">shopping_cart</i></a></li>
+                    <li><a href="./cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a></li>
                 </ul>
             </div>
         </div>
     </div>
-    
+
     <div id="id_content">
-
-        <h2 class="formTitle">購物車</h2>
-
-        <div class="borderLeft"></div>
-
-        <div class="content">
-            <div id="cartProductsList">
-                <table id="cartTable">
-                    <tr>
-                        <th>商品名稱</th>
-                        <th>單價</th>
-                        <th>數量</th>
-                        <th>小計</th>
-                        <th>移除</th>
-                    </tr>
-                </table>
+        <div class="bgimg-1">
+            <div class="caption">
+                <span class="title">皇飲</span><br>生活，來點品味。
             </div>
-
-            <button class="actionButton confirmButton1" onclick="goToOrder()">確認</button>
         </div>
+
+        <div style="position:relative;">
+            <div class="introduce">
+                <h3>靜心 飲茶</h3>
+                <p>在急促而繁忙的生活中，有多久沒停下來休息了？用一杯茶的時間，找回深處寧靜的自己</p>
+            </div>
+        </div>
+
+        <a href="./products.html">
+            <div class="bgimg-2">
+                <div class="caption">精緻茶品<br>SHOP HERE</div>
+            </div>
+        </a>
+
+        <div style="position:relative;">
+            <div class="introduce">
+                <p>來自台灣高山，純淨土壤與好水質孕育出回甘濃郁的 好 茶 。自古台灣高山茶芳名遠播，廣受日本天皇、中國朝廷、歐美名流人士喜愛。</p>
+            </div>
+        </div>
+
+        <a href="./products.html">
+            <div class="bgimg-3">
+                <div class="caption">好茶 好安心<br>極致品味，每一口都是好茶</div>
+            </div>
+        </a>
     </div>
+
 </div>
 
 <footer id="id_footer">

@@ -29,86 +29,110 @@
 
 <div id="id_wrapper">
 
-<div id="id_header" class="navbar">
-    <div id="tab">
-        <a href=".">首頁</a>
-        <a href="./products.html">產品</a>
+    <div id="id_header">
+        <div class="header">
+            <div id="nav" class="clearfix">
+                <ul class="left clearfix">
+                    <li><a href=".">首頁</a></li>
+                    <li><a href="./products.html">所有商品</a></li>
+                    <li><a href="./about_us.html">關於我們</a></li>
+                </ul>
+                <div id="mark_img">
+                    <img class="img" src="皇飲mark.png">
+                </div>
+                <ul class="right clearfix">
+                    <li><a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a></li>
+                    <li>
+                        <div class="dropdown" id="member">
+                            <i id="dropbtn" class="material-icons md-light">person</i>
+                            <div class="dropdown-content">
+                                <a href="./user.html">個人資料</a>
+                                <a href="./user-orders.html">訂單記錄</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="javascript:void(0)" id="cart" class="active"><i class="material-icons md-light">shopping_cart</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="id_content">
+        <h2 class="formTitle">訂單系統</h2>
+
+        <div class="borderLeft"></div>
+
+        <div class="bannerRight" hidden>
+            <h2>皇飲</h2>
+            <p>生活，來點品味。</p>
+        </div>
+
+        <!--<form id="order_form" name="order_form" class="order_form">-->
+            <div id="accountFields">
+                <fieldset>
+                    <div class="textinput">
+                        <label id="inputPurchaser" for="purchaser">購買人</label>
+                        <input id="purchaser" name="purchaser" placeholder="林小明" type="text" required>
+                    </div>
+                    <div class="textinput">
+                        <label id="inputPurchaserPhone" for="purchaserPhone">購買人電話（請填手機以利接收簡訊通知）</label>
+                        <input id="purchaserPhone" name="phone" placeholder="0900111222" type="tel" required>
+                    </div>
+                    <div class="textinput">
+                        <label id="inputReceiver" for="receiver">收件人</label>
+                        <input id="receiver" name="receiver" placeholder="王大明" type="text" required>
+                    </div>
+                    <div class="textinput">
+                        <label id="inputReceiverPhone" for="receiverPhone">收件人電話（請填手機以利接收物流簡訊通知）</label>
+                        <input id="receiverPhone" name="phone" placeholder="0900111222" type="tel" required>
+                    </div>
+                    <div class="textinput">
+                        取貨方式：<span id="shippingWay"></span>
+                        <label id="inputShippingAddress" for="shippingAddress">收件地址 / 超商+店號</label>
+                        <input id="shippingAddress" name="shippingAddress" placeholder="台北市中正區ＸＸ路Ｘ號 / 7-11 ＸＸ店" type="text" required>
+                    </div>
+                    <div class="textinput">
+                        <label id="inputComment" for="comment">備註事項</label>
+                        <input id="comment" name="comment" placeholder="配送時段、管理員簽收、送貨前致電" >
+                    </div>
+
+                    <div class="buttoninput" id="inputResetButton">
+                        <input id="resetButton" class="actionButton" type="reset" name="reset" value="重新填寫" onclick="reset()">
+                    </div>
+                </fieldset>
+
+                <div class="buttoninput" id="inputSubmitButton">
+                    <button id="submitButton" class="g-recaptcha actionButton"
+                            data-sitekey="6LfR9T4UAAAAAPcTwwqOG_wpFnGNdjsTnLGhpuAB"
+                            data-callback="addOrder">確認送出</button>
+                </div>
+
+                <p class="alert" id="alert" hidden>＊請檢查欄位，並重新送出訂單</p>
+
+            </div>
+
+        <!--</form>-->
+
+        <!-- The actual snackbar -->
+        <div id="snackbar">處理中...</div>
+    </div>
+</div>
+
+<footer id="id_footer">
+    <div class="tab">
+        <a href="./about_us.html">關於我們</a>
+        <a href="./guide.html">購物須知</a>
         <a href="./contact.html">聯絡我們</a>
     </div>
 
-    <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
-    <div class="dropdown" id="member">
-        <i id="dropbtn" class="material-icons md-light">person</i>
-        <div class="dropdown-content">
-            <a href="./user.html">個人資料</a>
-            <a href="./user-orders.html">訂單記錄</a>
-        </div>
+    <div class="icon">
+        <a href="//www.facebook.com"><img src="./fb.png"></a>
+        <img src="./mail.png" onclick="sendMail()">
     </div>
-    <a href="javascript:void(0)" id="cart" class="active"><i class="material-icons md-light">shopping_cart</i></a>
-</div>
-
-<div id="id_content">
-
-    <h2 class="formTitle">訂單系統</h2>
-
-    <div class="borderLeft"></div>
-
-    <div class="bannerRight" hidden>
-        <h2>皇飲</h2>
-        <p>生活，來點品味。</p>
+    <div class="footer-copyright">
+        Copyright © 2017 HWANGYING All rights reserved.
     </div>
-
-    <!--<form id="order_form" name="order_form" class="order_form">-->
-        <div id="accountFields">
-            <fieldset>
-                <div class="textinput">
-                    <label id="inputPurchaser" for="purchaser">購買人</label>
-                    <input id="purchaser" name="purchaser" placeholder="林小明" type="text" required>
-                </div>
-                <div class="textinput">
-                    <label id="inputPhone" for="phone">聯絡電話（請填手機以利接收簡訊通知）</label>
-                    <input id="phone" name="phone" placeholder="0900111222" type="tel" required>
-                </div>
-                <div class="textinput">
-                    <label id="inputReceiver" for="receiver">收件人</label>
-                    <input id="receiver" name="receiver" placeholder="王大明" type="text" required>
-                </div>
-                <div class="textinput">
-                    取貨方式：<span id="shippingWay"></span>
-                    <label id="inputShippingAddress" for="shippingAddress">收件地址 / 超商+店號</label>
-                    <input id="shippingAddress" name="shippingAddress" placeholder="台北市中正區ＸＸ路Ｘ號 / 7-11 ＸＸ店" type="text" required>
-                </div>
-                <div class="textinput">
-                    <label id="inputComment" for="comment">備註事項</label>
-                    <input id="comment" name="comment" placeholder="配送時段、管理員簽收、送貨前致電" >
-                </div>
-
-                <div class="buttoninput" id="inputResetButton">
-                    <input id="resetButton" class="actionButton" type="reset" name="reset" value="重新填寫" onclick="reset()">
-                </div>
-            </fieldset>
-
-            <div class="buttoninput" id="inputSubmitButton">
-                <button id="submitButton" class="g-recaptcha actionButton"
-                        data-sitekey="6LfR9T4UAAAAAPcTwwqOG_wpFnGNdjsTnLGhpuAB"
-                        data-callback="addOrder">確認送出</button>
-            </div>
-
-            <p class="alert" id="alert" hidden>＊請檢查欄位，並重新送出訂單</p>
-
-        </div>
-
-    <!--</form>-->
-
-    <!-- The actual snackbar -->
-    <div id="snackbar">處理中...</div>
-</div>
-
-    <footer class="footer-copyright">
-        <p>Copyright © 2017 HWANGYING All rights reserved.</p>
-    </footer>
-
-</div>
+</footer>
 
 </body>
 </html>

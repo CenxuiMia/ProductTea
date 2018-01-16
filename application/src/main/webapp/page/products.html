@@ -28,38 +28,66 @@
 
 <div id="id_wrapper">
 
-<div id="id_header" class="navbar">
-    <div id="tab">
-        <a href=".">首頁</a>
-        <a href="javascript:void(0)" class="active">產品</a>
+    <div id="id_header">
+        <div class="header">
+            <div id="nav" class="clearfix">
+                <ul class="left clearfix">
+                    <li><a href=".">首頁</a></li>
+                    <li><a href="javascript:void(0)" class="active">所有商品</a></li>
+                    <li><a href="./about_us.html">關於我們</a></li>
+                </ul>
+                <div id="mark_img">
+                    <img class="img" src="皇飲mark.png">
+                </div>
+                <ul class="right clearfix">
+                    <li><a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a></li>
+                    <li>
+                        <div class="dropdown" id="member">
+                            <i id="dropbtn" class="material-icons md-light">person</i>
+                            <div class="dropdown-content">
+                                <a href="./user.html">個人資料</a>
+                                <a href="./user-orders.html">訂單記錄</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="./cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="id_content">
+        <div class="slidesSection">
+            <img class="slides fade" src="rec1.jpg">
+            <img class="slides fade" src="rec1.jpg">
+            <img class="slides fade" src="rec1.jpg">
+        </div>
+
+        <div class="dots">
+            <span class="dot" onclick="clickSlide(0)"></span>
+            <span class="dot" onclick="clickSlide(1)"></span>
+            <span class="dot" onclick="clickSlide(2)"></span>
+        </div>
+
+        <div class="prod-list"></div>
+    </div>
+
+</div>
+
+<footer id="id_footer">
+    <div class="tab">
+        <a href="./about_us.html">關於我們</a>
+        <a href="./guide.html">購物須知</a>
         <a href="./contact.html">聯絡我們</a>
     </div>
 
-    <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
-    <div class="dropdown" id="member">
-        <i id="dropbtn" class="material-icons md-light">person</i>
-        <div class="dropdown-content">
-            <a href="./user.html">個人資料</a>
-            <a href="./user-orders.html">訂單記錄</a>
-        </div>
+    <div class="icon">
+        <a href="//www.facebook.com"><img src="./fb.png"></a>
+        <img src="./mail.png" onclick="sendMail()">
     </div>
-    <a href="./cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a>
-</div>
-
-<div id="id_content">
-
-    <!--<div class="banner">-->
-        <!--<h2>皇飲</h2>-->
-        <!--<p>生活，來點品味。</p>-->
-    <!--</div>-->
-
-    <div class="prod-list"></div>
-</div>
-
-</div>
-
-<footer class="footer-copyright">
-    <p>Copyright © 2017 HWANGYING All rights reserved.</p>
+    <div class="footer-copyright">
+        Copyright © 2017 HWANGYING All rights reserved.
+    </div>
 </footer>
 
 </body>

@@ -12,5 +12,23 @@ $(document).ready(function () {
             console.info("index on signOut");
         }
     );
+
+    showSlidesWithoutDots();
 });
 
+let slideIndex = 0;
+let timer;
+
+function showSlidesWithoutDots() {
+    let i;
+    let slides = document.getElementsByClassName("slides");
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    if (slideIndex >= slides.length) {
+        slideIndex = 0;
+    }
+    slides[slideIndex].style.display = "block";
+    slideIndex++;
+    timer = setTimeout(showSlidesWithoutDots, 3000);
+}
