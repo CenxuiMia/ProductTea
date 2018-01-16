@@ -26,76 +26,97 @@
 <body>
 
 <div id="id_wrapper">
-
-<div id="id_header" class="navbar">
-    <div id="tab">
-        <a href=".">首頁</a>
-        <a href="./products.html">產品</a>
-        <a href="./contact.html">聯絡我們</a>
-    </div>
-
-    <a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a>
-    <div class="dropdown" id="member">
-        <i id="dropbtn" class="material-icons md-light active">person</i>
-        <div class="dropdown-content">
-            <a href="javascript:void(0)">個人資料</a>
-            <a href="./user-orders.html">訂單記錄</a>
+    <div id="id_header">
+        <div class="header">
+            <div id="nav" class="clearfix">
+                <ul class="left clearfix">
+                    <li><a href=".">首頁</a></li>
+                    <li><a href="./products.html">所有商品</a></li>
+                    <li><a href="./about_us.html">關於我們</a></li>
+                </ul>
+                <div id="mark_img">
+                    <img class="img" src="皇飲mark.png">
+                </div>
+                <ul class="right clearfix">
+                    <li><a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a></li>
+                    <li>
+                        <div class="dropdown active" id="member">
+                            <i id="dropbtn" class="material-icons md-light active">person</i>
+                            <div class="dropdown-content">
+                                <a href="javascript:void(0)">個人資料</a>
+                                <a href="./user-orders.html">訂單記錄</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="./cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a></li>
+                </ul>
+            </div>
         </div>
     </div>
-    <a href="./cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a>
-</div>
 
-<div id="id_content">
+    <div id="id_content">
 
-    <h2 class="formTitle">個人資料</h2>
+        <h2 class="formTitle">個人資料</h2>
 
-    <div class="borderLeft"></div>
+        <div class="borderLeft"></div>
 
-    <div class="bannerRight">
-        <h2>皇飲</h2>
-        <p>生活，來點品味。</p>
-    </div>
-
-    <form id="order_form" name="order_form" class="order_form ">
-
-        <div id="accountFields">
-            <fieldset>
-                <div class="textinput" id="iputLastName">
-                    <input id="lastName" type="text" placeholder="姓">
-                </div>
-                <div class="textinput" id="inputFirstName">
-                    <input id="firstName" type="text" placeholder="名">
-                </div>
-
-                <div class="textinput" id="inputPhone">
-                    <input id="phone" name="phone" type="tel" placeholder="聯絡電話">
-                </div>
-                <div class="textinput" id="inputAddress">
-                    <input id="address" name="address" placeholder="地址">
-                </div>
-
-            </fieldset>
-
-            <div class="buttoninput">
-                <button id="submitButton" class="actionButton" value="確認" onclick="save()">確認</button>
-            </div>
-
-            <div class="buttoninput">
-                <button id="cancelButton" class="actionButton" value="取消" onclick="cancel()" type="button">取消</button>
-            </div>
-
+        <div class="bannerRight">
+            <h2>皇飲</h2>
+            <p>生活，來點品味。</p>
         </div>
 
-    </form>
-</div>
+        <form id="order_form" name="order_form" class="order_form ">
+
+            <div id="accountFields">
+                <fieldset>
+                    <div class="textinput" id="iputLastName">
+                        <input id="lastName" type="text" placeholder="姓">
+                    </div>
+                    <div class="textinput" id="inputFirstName">
+                        <input id="firstName" type="text" placeholder="名">
+                    </div>
+
+                    <div class="textinput" id="inputPhone">
+                        <input id="phone" name="phone" type="tel" placeholder="聯絡電話">
+                    </div>
+                    <div class="textinput" id="inputAddress">
+                        <input id="address" name="address" placeholder="地址">
+                    </div>
+
+                </fieldset>
+
+                <div class="buttoninput">
+                    <button id="submitButton" class="actionButton" value="確認" onclick="save()">確認</button>
+                </div>
+
+                <div class="buttoninput">
+                    <button id="cancelButton" class="actionButton" value="取消" onclick="cancel()" type="button">取消</button>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
 
     <!-- The actual snackbar -->
     <div id="snackbar">處理中...</div>
 
 </div>
 
-<footer class="footer-copyright">
-    <p>Copyright © 2017 HWANGYING All rights reserved.</p>
+<footer id="id_footer">
+    <div class="tab">
+        <a href="./about_us.html">關於我們</a>
+        <a href="./guide.html">購物須知</a>
+        <a href="./contact.html">聯絡我們</a>
+    </div>
+
+    <div class="icon">
+        <a href="//www.facebook.com"><img src="./fb.png"></a>
+        <img src="./mail.png" onclick="sendMail()">
+    </div>
+    <div class="footer-copyright">
+        Copyright © 2017 HWANGYING All rights reserved.
+    </div>
 </footer>
 
 </body>

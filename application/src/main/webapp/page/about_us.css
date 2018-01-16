@@ -20,6 +20,7 @@ h3 {
 .bgimg-1 {
     background-image: url("https://farm5.staticflickr.com/4459/37675712692_795b99cd04_z.jpg");
     min-height: 600px;
+    margin-top: 30px;
 }
 
 .bgimg-2 {
@@ -56,34 +57,12 @@ h3 {
     background-color:white;
 }
 
-.contact {
-    color:#ddd;
-    background-color:#ffffff;
-    padding:80px 80px 10px 80px;
-    text-transform: uppercase;
+#id_footer {
+    margin-top: 0;
 }
 
-.contact .title {
-    letter-spacing: 5px;
-    font: 20px "Lato", sans-serif;
-    color: tan;
-}
-
-.contact .text {
-    font-weight: 200;
-    letter-spacing: 1px;
-    color: darkgray;
-}
-
-.icon {
-    display: inline-block;
-    float: right;
-}
-
-.icon img {
-    width: 35px;
-    opacity: 0.4;
-    margin: 5px;
+#id_content {
+    padding-bottom: 0;
 }
 
 /* phone version 手機版 */
@@ -121,31 +100,4 @@ h3 {
         padding:100px 80px;
         font-size: 32px;
     }
-
-    .contact {
-        padding:80px 80px;
-    }
-
-    .contact .title {
-        letter-spacing: 10px;
-        font: 40px "Lato", sans-serif;
-    }
-
-    .contact .text {
-        letter-spacing: 3px;
-    }
-
-    .icon {
-        float: none;
-        clear: both;
-        display: block;
-        text-align: center;
-        padding-top: 40px;
-    }
-
-    .icon img {
-        width: 50px;
-        margin: 10px;
-    }
-
 }

@@ -17,10 +17,11 @@
     float: right;
 }
 
-img {
+.icon img {
     width: 2rem;
     height: 2rem;
     cursor: pointer;
+    opacity: 0.6;
 }
 
 /* phone version 手機版 */
