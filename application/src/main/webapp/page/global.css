@@ -119,7 +119,7 @@ li {
 }
 
 img.img {
-    width: 65px;
+    width: 60px;
     padding-top: 10px;
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
@@ -190,13 +190,6 @@ a.active {
 
 #nav #cart.active, #nav #dropbtn.active {
     color: black;
-    padding-bottom: 5px;
-    border-bottom: solid 1px;
-}
-
-#nav #cart.active:hover, #nav #dropbtn.active:hover {
-    background-color: transparent;
-    color: darkgrey;
     padding-bottom: 5px;
     border-bottom: solid 1px;
 }
