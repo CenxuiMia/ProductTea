@@ -28,6 +28,8 @@ let shop = "shop";
 let home = "home";
 let shippingWayShop = "超商取貨";
 let shippingWayHome = "宅配";
+let shippingHintHome = "台北市中正區ＸＸ路Ｘ號";
+let shippingHintShop = "7-11 ＸＸ店（超商＋店號）";
 
 let orderUnpaid = "對帳中";
 let orderProcessing = "已付款，處理中";

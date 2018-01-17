@@ -71,28 +71,47 @@
             <div id="accountFields">
                 <fieldset>
                     <div class="textinput">
-                        <label id="inputPurchaser" for="purchaser">購買人</label>
+                        <label id="labelPurchaser" for="purchaser">購買人</label>
                         <input id="purchaser" name="purchaser" placeholder="林小明" type="text" required>
                     </div>
                     <div class="textinput">
-                        <label id="inputPurchaserPhone" for="purchaserPhone">購買人電話（請填手機以利接收簡訊通知）</label>
+                        <label id="labelPurchaserPhone" for="purchaserPhone">購買人電話（請填手機以利接收簡訊通知）</label>
                         <input id="purchaserPhone" name="phone" placeholder="0900111222" type="tel" required>
                     </div>
                     <div class="textinput">
-                        <label id="inputReceiver" for="receiver">收件人</label>
+                        <label id="labelReceiver" for="receiver">收件人</label>
                         <input id="receiver" name="receiver" placeholder="王大明" type="text" required>
                     </div>
                     <div class="textinput">
-                        <label id="inputReceiverPhone" for="receiverPhone">收件人電話（請填手機以利接收物流簡訊通知）</label>
+                        <label id="labelReceiverPhone" for="receiverPhone">收件人電話（請填手機以利接收物流簡訊通知）</label>
                         <input id="receiverPhone" name="phone" placeholder="0900111222" type="tel" required>
                     </div>
                     <div class="textinput">
-                        取貨方式：<span id="shippingWay"></span>
-                        <label id="inputShippingAddress" for="shippingAddress">收件地址 / 超商+店號</label>
+                        取貨方式：<span id="shippingWay" style="text-decoration: underline"></span>
+                        <label id="labelShippingAddress" for="shippingAddress">收件地址</label>
                         <input id="shippingAddress" name="shippingAddress" placeholder="台北市中正區ＸＸ路Ｘ號 / 7-11 ＸＸ店" type="text" required>
                     </div>
+                    <div class="textinput" id="payWay">
+                        付款方式<br>
+                        <input id="account" name="payWay" type="radio" value="account" checked
+                               style="width: 1.2rem; display: inline-block" onclick="showPaymentData()" required>
+                        <label for="account" style="display: inline-block">匯款轉帳</label>
+                        <input id="visualAccount" name="payWay" type="radio" value="visualAccount"
+                               style="width: 1.2rem; display: inline-block" onclick="showPaymentData()" required>
+                        <label for="visualAccount" style="display: inline-block">虛擬帳號轉帳</label>
+                        <input id="creditCard" name="payWay" type="radio" value="creditCard"
+                               style="width: 1.2rem; display: inline-block" onclick="showPaymentData()" required>
+                        <label for="creditCard" style="display: inline-block">信用卡</label>
+                    </div>
+                    <div class="textinput" id="bankInformation" hidden>
+                        請輸入匯款資訊以利核帳：
+                        <label id="labelBankCode" for="bankCode">銀行代碼</label>
+                        <input id="bankCode" placeholder="123" minlength="3" maxlength="3" required>
+                        <label id="labelAccountNum" for="accountNum">匯款帳戶末５碼</label>
+                        <input id="accountNum" placeholder="12345" minlength="5" maxlength="5" required>
+                    </div>
                     <div class="textinput">
-                        <label id="inputComment" for="comment">備註事項</label>
+                        <label id="labelComment" for="comment">備註事項</label>
                         <input id="comment" name="comment" placeholder="配送時段、管理員簽收、送貨前致電" >
                     </div>
 
@@ -110,10 +129,8 @@
                 <p class="alert" id="alert" hidden>＊請檢查欄位，並重新送出訂單</p>
 
             </div>
-
         <!--</form>-->
 
-        <!-- The actual snackbar -->
         <div id="snackbar">處理中...</div>
     </div>
 </div>

@@ -24,6 +24,8 @@ function checkCartValid() {
             "<br><a class='actionButton' href=" + URL_PRODUCTS + ">" + goToProductsList + "</a>";
     } else {
         setInputWithUserData();
+        showShippingData();
+        showPaymentData();
     }
 }
 
@@ -75,8 +77,21 @@ function setInputWithUserData() {
             }
         });
     }
+}
 
-    document.getElementById("shippingWay").innerHTML = localStorage.shippingWay === shop ? shippingWayShop : shippingWayHome;
+function showShippingData() {
+    let isShop = localStorage.shippingWay === shop;
+    document.getElementById("shippingWay").innerHTML = isShop ? shippingWayShop : shippingWayHome;
+    document.getElementById("shippingAddress").setAttribute("placeholder", isShop ? shippingHintShop : shippingHintHome);
+}
+
+function showPaymentData() {
+    if (document.getElementById('account').checked === true) {
+        document.getElementById('bankInformation').hidden = false;
+    } else if (document.getElementById('visualAccount').checked === true ||
+        document.getElementById("creditCard").checked === true) {
+        document.getElementById('bankInformation').hidden = true;
+    }
 }
 
 function reset() {
@@ -92,6 +107,10 @@ function reset() {
     document.getElementById("shippingAddress").value = localStorage.address === undefined? "" : localStorage.address;
     document.getElementById("receiver").value = "";
     document.getElementById("receiverPhone").value = "";
+    document.getElementById("account").checked = true;
+    document.getElementById('bankInformation').hidden = false;
+    document.getElementById("bankCode").value = "";
+    document.getElementById("accountNum").value = "";
     document.getElementById("comment").value = "";
 }
 
@@ -135,7 +154,11 @@ function addOrder() {
     order.shippingWay = localStorage.shippingWay;
     order.shippingAddress = document.getElementById("shippingAddress").value;
     order.products = getCartItems();
-    order.paymentMethod = "account"; //TODO virtualAccount /account /creditCard
+    order.paymentMethod = document.querySelector('input[name="payWay"]:checked').value;
+
+    if (document.getElementById('account').checked === true) {
+        order.bankInformation = document.getElementById("bankCode").value + document.getElementById("accountNum").value;
+    }
 
     let commentValue = document.getElementById("comment").value;
     if (commentValue === null || isNotEmptyNoSpace(commentValue)) {
@@ -182,7 +205,8 @@ function addOrder() {
 
 function checkInputValid() {
     let isValid = true;
-    let labelArray = ["inputPurchaser", "inputPurchaserPhone", "inputReceiver", "inputReceiverPhone", "inputShippingAddress"];
+    let labelArray = ["labelPurchaser", "labelPurchaserPhone", "labelReceiver", "labelReceiverPhone",
+        "labelShippingAddress"];
     let inputArray = ["purchaser", "purchaserPhone", "receiver", "receiverPhone", "shippingAddress"];
     let alertClass = " alert";
     for (let i=0; i<labelArray.length; i++) {
@@ -201,14 +225,42 @@ function checkInputValid() {
 
     if (document.getElementById("purchaserPhone").value !== "" &&
         !isNumeric(document.getElementById("purchaserPhone").value)) {
-        document.getElementById("inputPurchaserPhone").className += alertClass;
+        document.getElementById("labelPurchaserPhone").className += alertClass;
         isValid = false;
     }
 
     if (document.getElementById("receiverPhone").value !== "" &&
         !isNumeric(document.getElementById("receiverPhone").value)) {
-        document.getElementById("inputReceiverPhone").className += alertClass;
+        document.getElementById("labelReceiverPhone").className += alertClass;
         isValid = false;
+    }
+
+    let payWay = document.getElementById("payWay");
+    payWay.className = payWay.className.replace(alertClass, "");
+    if (document.getElementById('account').checked === false &&
+        document.getElementById('visualAccount').checked === false &&
+        document.getElementById('creditCard').checked === false) {
+        console.info("pay way not selected.");
+        payWay.className += alertClass;
+        isValid = false;
+    }
+
+    if (document.getElementById('account').checked === true) {
+        let inputBankCode = document.getElementById("bankCode");
+        let inputAccountNum = document.getElementById("accountNum");
+        let labelBankCode = document.getElementById("labelBankCode");
+        let labelAccountNum = document.getElementById("labelAccountNum");
+        labelBankCode.className = labelBankCode.className.replace(alertClass, "");
+        labelAccountNum.className = labelAccountNum.className.replace(alertClass, "");
+        if (inputBankCode.value === null || inputBankCode.value === "" || !isNumeric(inputBankCode.value)) {
+            labelBankCode.className += alertClass;
+            isValid = false;
+        }
+
+        if (inputAccountNum.value === null || inputAccountNum.value === "" || !isNumeric(inputAccountNum.value)) {
+            labelAccountNum.className += alertClass;
+            isValid = false;
+        }
     }
 
     document.getElementById("alert").hidden = isValid;
