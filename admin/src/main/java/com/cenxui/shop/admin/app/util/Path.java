@@ -17,6 +17,7 @@ public class Path {
 
     public static final String ORDER_ALL = "/admin/order/table";
     public static final String ORDER_ALL_ACTIVE = "/admin/order/active";
+    public static final String ORDER_BANK = "/admin/order/bank";
     public static final String ORDER_PAID = "/admin/order/paid";
     public static final String ORDER_PROCESSING = "/admin/order/processing";
     public static final String ORDER_SHIPPED = "/admin/order/shipped";

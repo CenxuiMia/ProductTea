@@ -22,7 +22,7 @@ public class SNSSendMessageService implements SendMessageService {
         //todo throw exception
 
         String message = String.format(AWSSNSConfig.MESSAGE, order.getPrice());
-        String phoneNumber = "+886" + order.getPhone().substring(1);
+        String phoneNumber = "+886" + order.getPurchaserPhone().substring(1);
         Map<String, MessageAttributeValue> smsAttributes =
                 new HashMap<String, MessageAttributeValue>();
         //<set SMS attributes>

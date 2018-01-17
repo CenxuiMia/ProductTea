@@ -1,5 +1,7 @@
 package com.cenxui.shop.admin.app.controller.order;
 
+import com.amazonaws.services.dynamodbv2.xspec.M;
+import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.cenxui.shop.admin.app.config.DynamoDBConfig;
 import com.cenxui.shop.admin.app.controller.AdminCoreController;
 import com.cenxui.shop.admin.app.util.Param;
@@ -19,29 +21,23 @@ public class AdminOrderController extends AdminCoreController {
             DynamoDBRepositoryService.getOrderRepository(
                     DynamoDBConfig.REGION,
                     DynamoDBConfig.ORDER_TABLE,
-                    DynamoDBConfig.ORDER_PAID_INDEX,
-                    DynamoDBConfig.ORDER_PROCESSING_INDEX,
-                    DynamoDBConfig.ORDER_SHIPPED_INDEX,
                     DynamoDBConfig.PRODUCT_TABLE
             );
 
-    public static final Route addOrder = (Request request, Response response) -> {
-
+    public static final Route addOrder = (request, response) -> {
         String body = request.body();
-
         Order order = mapRequestBodyToOrder(body);
-
         Order resultOrder = orderRepository.addOrder(order);
 
         return JsonUtil.mapToJson(resultOrder);
     };
 
 
-    public static final Route getAllOrders = (Request request, Response response) -> {
+    public static final Route getAllOrders = (request, response) -> {
         return JsonUtil.mapToJson(orderRepository.getAllOrders());
     };
 
-    public static final Route getAllOrdersByLastKey = (Request request, Response response) -> {
+    public static final Route getAllOrdersByLastKey = (request, response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
         String time = getOrderDateTime(map);
@@ -50,11 +46,11 @@ public class AdminOrderController extends AdminCoreController {
         return JsonUtil.mapToJson(orderRepository.getAllOrders(mail, time, limit));
     };
 
-    public static final Route getAllActiveOrders =  (Request request, Response response) -> {
+    public static final Route getAllActiveOrders =  (request, response) -> {
         return JsonUtil.mapToJson(orderRepository.getAllActiveOrders());
     };
 
-    public static final Route getAllActiveOrdersByLastKey = (Request request, Response response) -> {
+    public static final Route getAllActiveOrdersByLastKey = (request, response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
         String time = getOrderDateTime(map);
@@ -63,11 +59,27 @@ public class AdminOrderController extends AdminCoreController {
         return JsonUtil.mapToJson(orderRepository.getAllActiveOrders(mail, time, limit));
     };
 
-    public static final Route getAllPaidOrders = (Request request, Response response) -> {
+    public static final Route getAllBankOrders = ((request, response) -> {
+        return JsonUtil.mapToJson(orderRepository.getAllBankOrders());
+    });
+
+    public static final Route getAllBankOrdersByLastKey = ((request, response) -> {
+        Map<String, String> map = request.params();
+        String bankInformation = getBankInformation(map);
+        String mail = getMail(map);
+        String orderDateTime = getOrderDateTime(map);
+        Integer limit = getLimit(map);
+
+        return JsonUtil.mapToJson(orderRepository.getAllBankOrders(
+                OrderBankLastKey.of(bankInformation, mail, orderDateTime), limit));
+
+    });
+
+    public static final Route getAllPaidOrders = (request, response) -> {
         return JsonUtil.mapToJson(orderRepository.getAllPaidOrders());
     };
 
-    public static final Route getAllPaidOrdersByLastKey = (Request request, Response response) -> {
+    public static final Route getAllPaidOrdersByLastKey = (request, response) -> {
         Map<String, String> map = request.params();
         String paidDate = getPaidDate(map);
         String paidTime = getPaidTime(map);
@@ -79,11 +91,11 @@ public class AdminOrderController extends AdminCoreController {
                 OrderPaidLastKey.of(paidDate, paidTime, mail, orderDateTime), limit));
     };
 
-    public static final Route getAllProcessingOrders = (Request request, Response response) -> {
+    public static final Route getAllProcessingOrders = (request, response) -> {
         return JsonUtil.mapToJson(orderRepository.getAllProcessingOrders());
     };
 
-    public static final Route getAllProcessingOrdersByLastKey = (Request request, Response response) -> {
+    public static final Route getAllProcessingOrdersByLastKey = (request, response) -> {
         Map<String, String> map = request.params();
         String processingDate = getProcessingDate(map);
         String owner = getOwner(map);
@@ -95,11 +107,11 @@ public class AdminOrderController extends AdminCoreController {
                 OrderProcessingLastKey.of(processingDate, owner, mail, orderDateTime), limit));
     };
 
-    public static final Route getAllShippedOrders = (Request request, Response response) -> {
+    public static final Route getAllShippedOrders = (request, response) -> {
         return JsonUtil.mapToJson(orderRepository.getAllShippedOrders());
     };
 
-    public static final Route getAllShippedOrdersByLastKey = (Request request, Response response) -> {
+    public static final Route getAllShippedOrdersByLastKey = (request, response) -> {
         Map<String, String> map = request.params();
         String shippedDate = getShippedDate(map);
         String shippedTime = getShippedTime(map);
@@ -112,19 +124,26 @@ public class AdminOrderController extends AdminCoreController {
                 OrderShippedLastKey.of(shippedDate, shippedTime, mail, orderDateTime), limit));
     };
 
-    public static final Route getOrdersByMail = (Request request, Response response) -> {
+    public static final Route getOrdersByMail = (request, response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
         return JsonUtil.mapToJson(orderRepository.getOrdersByMail(mail));
     };
 
-    public static final Route getOrdersByMailAndTime = (Request request, Response response) -> {
+    public static final Route getOrdersByMailAndTime = (request, response) -> {
         Map<String, String> map = request.params();
         String mail = getMail(map);
         String time = getOrderDateTime(map);
 
         return JsonUtil.mapToJson(orderRepository.getOrdersByMailAndTime(mail, time));
     };
+
+    public static final Route getOrdersByBankInformation = ((request, response) -> {
+        Map<String, String> map = request.params();
+        String bankInformation = getBankInformation(map);
+
+        return JsonUtil.mapToJson(orderRepository.getOrdersByBankInformation(bankInformation));
+    });
 
     public static final Route getOrdersByPaidDate = ((request, response) -> {
 
@@ -257,6 +276,10 @@ public class AdminOrderController extends AdminCoreController {
         }catch (NumberFormatException e) {
             throw new AdminOrderControllerClientException("order limit number format error");
         }
+    }
+
+    private static String getBankInformation(Map<String, String> map) {
+        return map.get(Param.ORDER_BANK_INFORMATION);
     }
 
     private static String getPaidDate(Map<String, String> map) {

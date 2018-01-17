@@ -10,14 +10,11 @@ public class DynamoDBRepositoryService {
     public static OrderRepository getOrderRepository(
                                                      String region,
                                                      String orderTableName,
-                                                     String paidIndex,
-                                                     String processingIndex,
-                                                     String shippedIndex,
                                                      String productTableName) {
         Table orderTable = DynamoDBManager.getDynamoDB(region).getTable(orderTableName);
         Table productTable = DynamoDBManager.getDynamoDB(region).getTable(productTableName);
         DynamoDBOrderBaseRepository orderRepository =
-                new DynamoDBOrderBaseRepository(orderTable, paidIndex, processingIndex, shippedIndex);
+                new DynamoDBOrderBaseRepository(orderTable);
         DynamoDBProductRepository productRepository =
                 new DynamoDBProductRepository(productTable);
 
@@ -26,15 +23,12 @@ public class DynamoDBRepositoryService {
 
     public static OrderRepository getOrderRepositoryLocal(String region, String url,
                                                           String orderTableName,
-                                                          String paidIndex,
-                                                          String processingIndex,
-                                                          String shippedIndex,
                                                           String productTableName) {
         Table orderTable = DynamoDBManager.getDynamoDBLocal(region, url).getTable(orderTableName);
         Table productTable = DynamoDBManager.getDynamoDBLocal(region, url).getTable(productTableName);
 
         DynamoDBOrderBaseRepository orderRepository =
-                new DynamoDBOrderBaseRepository(orderTable, paidIndex, processingIndex, shippedIndex);
+                new DynamoDBOrderBaseRepository(orderTable);
         DynamoDBProductRepository productRepository =
                 new DynamoDBProductRepository(productTable);
 

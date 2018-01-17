@@ -2,11 +2,10 @@ package com.cenxui.shop.web.app.controller.order;
 
 import com.cenxui.shop.repositories.order.OrderRepository;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
-import com.cenxui.shop.util.ApplicationError;
-import com.cenxui.shop.web.app.aws.lambda.handlers.AuthLambdaHandler;
+import com.cenxui.shop.repositories.order.PaymentMethod;
 import com.cenxui.shop.web.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.repositories.order.Order;
-import com.cenxui.shop.repositories.order.ShippedWay;
+import com.cenxui.shop.repositories.order.ShippingWay;
 import com.cenxui.shop.web.app.config.GoogleReCAPTCHAConfig;
 import com.cenxui.shop.web.app.controller.CoreController;
 import com.cenxui.shop.web.app.controller.util.Header;
@@ -15,7 +14,6 @@ import com.cenxui.shop.util.JsonUtil;
 import com.cenxui.shop.util.TimeUtil;
 import com.cenxui.shop.web.app.service.SendMessageService;
 import com.cenxui.shop.web.app.aws.sns.SNSSendMessageService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import spark.Request;
@@ -36,9 +34,6 @@ public class OrderController extends CoreController {
             DynamoDBRepositoryService.getOrderRepository(
                     AWSDynamoDBConfig.REGION,
                     AWSDynamoDBConfig.ORDER_TABLE,
-                    AWSDynamoDBConfig.ORDER_PAID_INDEX,
-                    AWSDynamoDBConfig.ORDER_PROCESSING_INDEX,
-                    AWSDynamoDBConfig.ORDER_SHIPPED_INDEX,
                     AWSDynamoDBConfig.PRODUCT_TABLE
             );
 
@@ -47,7 +42,7 @@ public class OrderController extends CoreController {
     public static final Route getOrdersByMail = (Request request, Response response) -> {
         String mail = request.headers(Header.MAIL);
 
-        if (mail == null) throw new OrderControllerServerException("header mail can not be null");
+        if (mail == null) throw new OrderControllerServerException("header mail cannot be null");
 
         return JsonUtil.mapToJsonIgnoreNull(orderRepository.getOrdersByMail(mail));
     };
@@ -88,7 +83,7 @@ public class OrderController extends CoreController {
 
         Order order = mapRequestBodyToOrder(body);
 
-        ableToAddOrder(order);
+        checkOrder(order);
 
         /**
          * add order
@@ -103,13 +98,15 @@ public class OrderController extends CoreController {
                         TimeUtil.getNowDateTime(),
                         order.getProducts(),
                         order.getPurchaser(),
+                        order.getPurchaserPhone(),
                         null,
                         null,
                         null,
                         null,
                         order.getPaymentMethod(),
+                        order.getBankInformation(),
                         order.getReceiver(),
-                        order.getPhone(),
+                        order.getReceiverPhone(),
                         order.getShippingWay(),
                         order.getShippingAddress(),
                         order.getComment(),
@@ -134,7 +131,7 @@ public class OrderController extends CoreController {
 
         Order order = JsonUtil.mapToOrder(request.body());
 
-        ableToTrialOrder(order);
+        checkTrialOrder(order);
 
         return JsonUtil.mapToJsonIgnoreNull(orderRepository.trialOrder(order));
     });
@@ -164,31 +161,37 @@ public class OrderController extends CoreController {
         }
     }
 
-    private static void ableToAddOrder(Order order) {
+    private static void checkOrder(Order order) {
 
-        ableToTrialOrder(order);
+        checkTrialOrder(order);
 
         if (isEmpty(order.getPurchaser()))
             throw new OrderControllerClientException("request body order purchaser cannot be empty");
 
+        if (isEmpty(order.getPurchaserPhone()))
+            throw new OrderControllerClientException("request body order purchaserPhone cannot be empty");
+
         if (isEmpty(order.getReceiver()))
             throw new OrderControllerClientException("request body order receiver cannot be empty");
 
-        if (isEmpty(order.getPhone()))
-            throw new OrderControllerClientException("request body order phone cannot be empty");
+        if (isEmpty(order.getReceiverPhone()))
+            throw new OrderControllerClientException("request body order receiverPhone cannot be empty");
 
         if (isEmpty(order.getShippingAddress()))
             throw new OrderControllerClientException("request body order shippingAddress cannot be empty");
+
+        if (!PaymentMethod.allowed(order.getPaymentMethod())) {
+            throw new OrderControllerClientException("request body order paymentMethod not allowed");
+        }
     }
 
-    private static void ableToTrialOrder(Order order) {
+    private static void checkTrialOrder(Order order) {
         if (order == null) throw new OrderControllerClientException("request body order cannot be null");
 
         if (order.getProducts() == null || order.getProducts().isEmpty())
             throw new OrderControllerClientException("request body order products cannot be empty");
 
-        if (!ShippedWay.SHOP.equals(order.getShippingWay()) &&
-                !ShippedWay.HOME.equals(order.getShippingWay())) {
+        if (!ShippingWay.allowed(order.getShippingWay())){
             throw new OrderControllerClientException("request body order shippedWay not allowed");
         }
     }

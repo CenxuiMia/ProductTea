@@ -12,6 +12,9 @@ Resources:
           AttributeName: "orderDateTime"
           AttributeType: "S"
         -
+          AttributeName: "bankInformation"
+          AttributeType: "S"
+        -
           AttributeName: "paidDate"
           AttributeType: "S"
         -
@@ -43,6 +46,17 @@ Resources:
       TableName: "teaOrder"
 
       GlobalSecondaryIndexes:
+        -
+          IndexName: "bankIndex"
+          KeySchema:
+          -
+            AttributeName: "bankInformation"
+            KeyType: "HASH"
+          Projection:
+            ProjectionType: "KEYS_ONLY" #modify todo
+          ProvisionedThroughput:
+            ReadCapacityUnits: "1"
+            WriteCapacityUnits: "1"
         -
           IndexName: "paidIndex"
           KeySchema:

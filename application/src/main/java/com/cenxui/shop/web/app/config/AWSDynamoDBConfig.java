@@ -19,9 +19,4 @@ public class AWSDynamoDBConfig {
 
     public static final String ORDER_TABLE = "teaOrder"; //todo modify
     public static final String PRODUCT_TABLE = "teaProduct"; //todo modify
-
-    public static final String ORDER_PROCESSING_INDEX = "processingIndex";
-    public static final String ORDER_SHIPPED_INDEX = "shippedIndex";
-    public static final String ORDER_PAID_INDEX = "paidIndex";
-
 }
