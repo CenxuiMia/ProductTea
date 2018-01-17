@@ -19,7 +19,7 @@ $(document).ready(function () {
 let slideIndex = 0;
 let timer;
 
-function clickSlide(n) {
+function onClickSlide(n) {
     clearTimeout(timer);
 
     if (typeof n !== 'undefined') {
