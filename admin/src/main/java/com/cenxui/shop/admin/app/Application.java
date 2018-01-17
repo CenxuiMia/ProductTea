@@ -79,6 +79,8 @@ public class Application {
 
 
     private static void adminResources() {
+        //todo sort with path
+
         /**
          * orders
          */
@@ -99,6 +101,13 @@ public class Application {
                         Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME + "/" +
                         Param.ORDER_LIMIT,
                 AdminOrderController.getAllActiveOrdersByLastKey);
+
+        get(Path.ORDER_BANK, AdminOrderController.getAllBankOrders);
+
+        get(Path.ORDER_BANK + "/" +
+                Param.ORDER_BANK_INFORMATION + "/" +
+                Param.ORDER_MAIL + "/" + Param.ORDER_DATE_TIME +
+                Param.ORDER_LIMIT, AdminOrderController.getAllBankOrdersByLastKey);
 
         get(Path.ORDER_PAID, AdminOrderController.getAllPaidOrders);
 
@@ -134,6 +143,9 @@ public class Application {
 
         get(Path.ORDER_TABLE + "/" + Param.ORDER_MAIL,
                 AdminOrderController.getOrdersByMail);
+
+        get(Path.ORDER_BANK + "/" + Param.ORDER_BANK_INFORMATION,
+                AdminOrderController.getOrdersByBankInformation);
 
         get(Path.ORDER_PAID + "/ " + Param.ORDER_PAID_DATE,
                 AdminOrderController.getOrdersByPaidDate );

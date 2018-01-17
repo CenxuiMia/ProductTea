@@ -16,9 +16,6 @@ public class AdminCashController extends AdminCoreController {
             DynamoDBRepositoryService.getOrderRepository(
                     DynamoDBConfig.REGION,
                     DynamoDBConfig.ORDER_TABLE,
-                    DynamoDBConfig.ORDER_PAID_INDEX,
-                    DynamoDBConfig.ORDER_PROCESSING_INDEX,
-                    DynamoDBConfig.ORDER_SHIPPED_INDEX,
                     DynamoDBConfig.PRODUCT_TABLE
             );
 

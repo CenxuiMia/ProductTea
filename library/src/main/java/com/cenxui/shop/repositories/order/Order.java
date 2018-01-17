@@ -19,6 +19,7 @@ public class Order {
     public static final String PRODUCTS_PRICE = "productsPrice";
     public static final String PRICE = "price";
     public static final String PAYMENT_METHOD = "paymentMethod";
+    public static final String BANK_INFORMATION = "bankInformation";
     public static final String RECEIVER = "receiver";
     public static final String PHONE = "phone";
     public static final String SHIPPING_WAY = "shippingWay";
@@ -36,14 +37,16 @@ public class Order {
     String orderDateTime;
     List<String> products;
     String purchaser;
+    String purchaserPhone;
     Integer shippingCost;
     Integer productsPrice;
     String activity;
     Integer price;
     String paymentMethod;
+    String bankInformation;
 
     String receiver;
-    String phone;
+    String receiverPhone;
     String shippingWay;
     String shippingAddress;
     String comment;

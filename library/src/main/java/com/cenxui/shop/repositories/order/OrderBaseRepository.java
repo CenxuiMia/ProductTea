@@ -11,6 +11,10 @@ public interface OrderBaseRepository extends Repository {
 
     Orders getAllActiveOrders(String mail, String time, Integer limit);
 
+    Orders getAllBankOrders();
+
+    Orders getAllBankOrders(OrderBankLastKey orderBankLastKey, Integer limit);
+
     Orders getAllPaidOrders();
 
     Orders getAllPaidOrders(OrderPaidLastKey orderPaidLastKey, Integer limit);
@@ -26,6 +30,8 @@ public interface OrderBaseRepository extends Repository {
     Orders getOrdersByMail(String mail);
 
     Orders getOrdersByMailAndTime(String mail, String time);
+
+    Orders getOrdersByBankInformation(String bankInformation);
 
     Orders getOrdersByPaidDate(String paidDate);
 

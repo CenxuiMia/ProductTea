@@ -22,21 +22,16 @@ import java.util.*;
 class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     private final Table orderTable;
-    private final String paidIndex;
-    private final String processingIndex;
-    private final String shippedIndex;
+    private static final String BANK_INDEX = "bankIndex";
+    private static final String PAID_INDEX = "paidIndex";
+    private static final String PROCESSING_INDEX = "processingIndex";
+    private static final String SHIPPED_INDEX = "shippedIndex";
 
     private final Integer max = Integer.MAX_VALUE; //todo
 
     DynamoDBOrderBaseRepository(
-            Table orderTable,
-            String paidIndex,
-            String processingIndex,
-            String shippedIndex) {
+            Table orderTable) {
         this.orderTable =  orderTable;
-        this.paidIndex = paidIndex;
-        this.processingIndex = processingIndex;
-        this.shippedIndex = shippedIndex;
     }
 
     @Override
@@ -92,6 +87,39 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
     }
 
     @Override
+    public Orders getAllBankOrders() {
+        return getAllBankOrders(null, null);
+    }
+
+    @Override
+    public Orders getAllBankOrders(OrderBankLastKey orderBankLastKey, Integer limit) {
+        ScanSpec scanSpec = new ScanSpec();
+
+        if (limit != null && limit > 0) {
+            scanSpec.withMaxResultSize(limit);
+        }else {
+            scanSpec.withMaxResultSize(max);
+        }
+
+        if (orderBankLastKey != null) {
+            KeyAttribute k1 = new KeyAttribute(Order.BANK_INFORMATION, orderBankLastKey.getBankInformation());
+            KeyAttribute k2 = new KeyAttribute(Order.MAIL, orderBankLastKey.getMail());
+            KeyAttribute k3 = new KeyAttribute(Order.ORDER_DATE_TIME, orderBankLastKey.getOrderDateTime());
+            scanSpec.withExclusiveStartKey(k1, k2, k3);
+        }
+
+        Index index = orderTable.getIndex(BANK_INDEX);
+
+        ItemCollection<ScanOutcome> collection = index.scan(scanSpec);
+
+        List<Order> orders = mapScanOutcomeToOrders(collection);
+
+        OrderBankLastKey key = getBankIndexScanOutcomeLastKey(collection);
+
+        return Orders.of(orders, key);
+    }
+
+    @Override
     public Orders getAllPaidOrders() {
         return getAllPaidOrders(null, null);
     }
@@ -115,7 +143,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
             scanSpec.withExclusiveStartKey(k1, k2, k3, k4);
         }
 
-        Index index = orderTable.getIndex(paidIndex);
+        Index index = orderTable.getIndex(PAID_INDEX);
 
         ItemCollection<ScanOutcome> collection = index.scan(scanSpec);
 
@@ -150,7 +178,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
             scanSpec.withExclusiveStartKey( k1, k2, k3, k4);
         }
 
-        Index index = orderTable.getIndex(processingIndex);
+        Index index = orderTable.getIndex(PROCESSING_INDEX);
 
         ItemCollection<ScanOutcome> collection = index.scan(scanSpec);
 
@@ -188,7 +216,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
             scanSpec.withExclusiveStartKey(k1, k2, k3, k4);
         }
 
-        Index index = orderTable.getIndex(shippedIndex);
+        Index index = orderTable.getIndex(SHIPPED_INDEX);
 
         ItemCollection<ScanOutcome> collection = index.scan(scanSpec);
 
@@ -229,13 +257,29 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
     }
 
     @Override
+    public Orders getOrdersByBankInformation(String bankInformation) {
+        checkPrimaryKey(bankInformation);
+
+        QuerySpec spec = new QuerySpec()
+                .withHashKey(Order.BANK_INFORMATION, bankInformation);
+
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(BANK_INDEX).query(spec);
+
+        List<Order> orders = mapQueryOutcomeToOrders(collection);
+
+        OrderBankLastKey orderBankLastKey = getBankIndexQueryOutcomeLastKey(collection);
+
+        return Orders.of(orders, orderBankLastKey);
+    }
+
+    @Override
     public Orders getOrdersByPaidDate(String paidDate) {
         checkPrimaryKey(paidDate);
 
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.PAID_DATE, paidDate);
 
-        ItemCollection<QueryOutcome> collection = orderTable.getIndex(paidIndex).query(spec);
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(PAID_INDEX).query(spec);
 
         List<Order> orders = mapQueryOutcomeToOrders(collection);
 
@@ -253,7 +297,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
                 .withHashKey(Order.PAID_DATE, paidDate)
                 .withRangeKeyCondition(new RangeKeyCondition(Order.PAID_TIME).eq(paidTime));
 
-        ItemCollection<QueryOutcome> collection = orderTable.getIndex(paidIndex).query(spec);
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(PAID_INDEX).query(spec);
 
         List<Order> orders = mapQueryOutcomeToOrders(collection);
 
@@ -269,7 +313,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.PROCESSING_DATE, processingDate);
 
-        ItemCollection<QueryOutcome> collection = orderTable.getIndex(processingIndex).query(spec);
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(PROCESSING_INDEX).query(spec);
 
         List<Order> orders = mapQueryOutcomeToOrders(collection);
 
@@ -287,7 +331,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
                 .withHashKey(Order.PROCESSING_DATE, processingDate)
                 .withRangeKeyCondition(new RangeKeyCondition(Order.OWNER).eq(owner));
 
-        ItemCollection<QueryOutcome> collection = orderTable.getIndex(processingIndex).query(spec);
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(PROCESSING_INDEX).query(spec);
 
         List<Order> orders = mapQueryOutcomeToOrders(collection);
 
@@ -303,7 +347,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
         QuerySpec spec = new QuerySpec()
                 .withHashKey(Order.SHIPPED_DATE, shippedDate);
 
-        ItemCollection<QueryOutcome> collection = orderTable.getIndex(processingIndex).query(spec);
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(PROCESSING_INDEX).query(spec);
 
         List<Order> orders = mapQueryOutcomeToOrders(collection);
 
@@ -321,7 +365,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
                 .withHashKey(Order.SHIPPED_DATE, shippedDate)
                 .withRangeKeyCondition(new RangeKeyCondition(Order.SHIPPED_TIME).eq(shippedTime));
 
-        ItemCollection<QueryOutcome> collection = orderTable.getIndex(processingIndex).query(spec);
+        ItemCollection<QueryOutcome> collection = orderTable.getIndex(PROCESSING_INDEX).query(spec);
 
         List<Order> orders = mapQueryOutcomeToOrders(collection);
 
@@ -564,7 +608,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
             }
 
             ItemCollection<ScanOutcome> collection =
-                    orderTable.getIndex(paidIndex).scan(scanSpec);
+                    orderTable.getIndex(PAID_INDEX).scan(scanSpec);
 
             List<Order> orders = mapScanOutcomeToOrders(collection);
 
@@ -597,7 +641,6 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
         //todo throw exception
         LocalDate from = LocalDate.parse(fromPaidDate);
         LocalDate to = LocalDate.parse(toPaidDate);
-
 
         if (to.isBefore(from)) {
             return null;
@@ -644,7 +687,7 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
             }
 
             ItemCollection<QueryOutcome> collection =
-                    orderTable.getIndex(paidIndex).query(querySpec);
+                    orderTable.getIndex(PAID_INDEX).query(querySpec);
 
             List<Order> orders = mapQueryOutcomeToOrders(collection);
 
@@ -655,6 +698,14 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
         }while (lastKey != null);
 
         return allOrders;
+    }
+
+    private KeyAttribute[] getBankLastKeyAttributes(OrderBankLastKey lastKey) {
+        KeyAttribute[] keys = new KeyAttribute[3];
+        keys[0]= new KeyAttribute(Order.BANK_INFORMATION, lastKey.getBankInformation());
+        keys[1] = new KeyAttribute(Order.MAIL, lastKey.getMail());
+        keys[2] = new KeyAttribute(Order.ORDER_DATE_TIME, lastKey.getOrderDateTime());
+        return keys;
     }
 
     private KeyAttribute[] getPaidLastKeyAttributes(OrderPaidLastKey lastKey) {
@@ -694,6 +745,31 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
         return orderKey;
     }
 
+    private OrderBankLastKey getBankIndexScanOutcomeLastKey(ItemCollection<ScanOutcome> collection) {
+        ScanOutcome scanOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
+
+        return getOrderBankLastKey(lastKeyEvaluated);
+    }
+
+    private OrderBankLastKey getBankIndexQueryOutcomeLastKey(ItemCollection<QueryOutcome> collection) {
+        QueryOutcome queryOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = queryOutcome.getQueryResult().getLastEvaluatedKey();
+
+        return getOrderBankLastKey(lastKeyEvaluated);
+    }
+
+    private OrderBankLastKey getOrderBankLastKey(Map<String, AttributeValue> lastKeyEvaluated) {
+        if (lastKeyEvaluated != null) {//null if it is last one
+            return OrderBankLastKey.of(
+                    lastKeyEvaluated.get(Order.BANK_INFORMATION).getS(),
+                    lastKeyEvaluated.get(Order.MAIL).getS(),
+                    lastKeyEvaluated.get(Order.ORDER_DATE_TIME).getS());
+
+        }
+        return null;
+    }
+
     private OrderPaidLastKey getPaidIndexScanOutcomeLastKey(ItemCollection<ScanOutcome> collection) {
         ScanOutcome scanOutcome = collection.getLastLowLevelResult();
         Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getScanResult().getLastEvaluatedKey();
@@ -701,9 +777,10 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
         return getOrderPaidLastKey(lastKeyEvaluated);
     }
 
+
     private OrderPaidLastKey getPaidIndexQueryOutcomeLastKey(ItemCollection<QueryOutcome> collection) {
-        QueryOutcome scanOutcome = collection.getLastLowLevelResult();
-        Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getQueryResult().getLastEvaluatedKey();
+        QueryOutcome queryOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = queryOutcome.getQueryResult().getLastEvaluatedKey();
 
         return getOrderPaidLastKey(lastKeyEvaluated);
     }

@@ -32,7 +32,6 @@ public class OrderPathTest {
         products.add("紅顏;(紅茶);2");
 
         Http.put(url, JsonUtil.mapToJson(OrderUtil.getOrder(products)), headers3);
-
     }
 
     @Test
@@ -58,6 +57,8 @@ public class OrderPathTest {
                 null,
                 null,
                 null,
+                null,
+                "12345",
                 null,
                 null,
                 "home",

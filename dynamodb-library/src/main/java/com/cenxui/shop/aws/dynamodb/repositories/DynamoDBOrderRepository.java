@@ -38,6 +38,16 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     @Override
+    public Orders getAllBankOrders() {
+        return orderRepository.getAllBankOrders();
+    }
+
+    @Override
+    public Orders getAllBankOrders(OrderBankLastKey orderBankLastKey, Integer limit) {
+        return orderRepository.getAllBankOrders(orderBankLastKey, limit);
+    }
+
+    @Override
     public Orders getAllPaidOrders() {
         return orderRepository.getAllPaidOrders();
     }
@@ -75,6 +85,11 @@ class DynamoDBOrderRepository implements OrderRepository {
     @Override
     public Orders getOrdersByMailAndTime(String mail, String time) {
         return orderRepository.getOrdersByMailAndTime(mail, time);
+    }
+
+    @Override
+    public Orders getOrdersByBankInformation(String bankInformation) {
+        return orderRepository.getOrdersByBankInformation(bankInformation);
     }
 
     @Override
@@ -127,9 +142,9 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         //todo possible modify
 
-        if (ShippedWay.SHOP.equals(order.getShippingWay())) {
+        if (ShippingWay.SHOP.equals(order.getShippingWay())) {
             shippingCost = 60;
-        }else if (ShippedWay.HOME.equals(order.getShippingWay())) {
+        }else if (ShippingWay.HOME.equals(order.getShippingWay())) {
             shippingCost = 100;
         }else {
             throw new OrderShippedWayException(order.getShippingWay());
@@ -144,13 +159,15 @@ class DynamoDBOrderRepository implements OrderRepository {
                 order.getOrderDateTime(),
                 order.getProducts(),
                 order.getPurchaser(),
+                order.getPurchaserPhone(),
                 shippingCost,
                 productsPrice,
                 null, //todo add activty
                 price,
                 order.getPaymentMethod(),
+                order.getBankInformation(),
                 order.getReceiver(),
-                order.getPhone(),
+                order.getReceiverPhone(),
                 order.getShippingWay(),
                 order.getShippingAddress(),
                 order.getComment(),

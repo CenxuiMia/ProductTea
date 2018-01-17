@@ -9,6 +9,7 @@ public class Param {
     public static final String ORDER_MAIL = ":mail";
     public static final String ORDER_DATE_TIME = ":orderdatetime";
     public static final String ORDER_LIMIT = ":orderlimit";
+    public static final String ORDER_BANK_INFORMATION = ":bankinformation";
     public static final String ORDER_PAID_DATE = ":paiddate";
     public static final String ORDER_PAID_TIME = ":paidtime";
     public static final String ORDER_PROCESSING_DATE = ":processingdate";
