@@ -4,6 +4,10 @@ import com.cenxui.shop.aws.dynamodb.exceptions.server.order.*;
 import com.cenxui.shop.repositories.order.*;
 import com.cenxui.shop.repositories.product.ProductRepository;
 
+/**
+ * order table transaction layer
+ *
+ */
 class DynamoDBOrderRepository implements OrderRepository {
 
     private final OrderBaseRepository orderRepository;
