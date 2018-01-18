@@ -1,6 +1,7 @@
 let searchOrder = "查詢訂單";
 let allOrder = "所有訂單";
 let activeOrder = "有效訂單";
+let bankOrder = "匯款訂單";
 let paidOrder = "已付款訂單";
 let processingOrder = "處理中訂單";
 let shippedOrder = "已出貨訂單";

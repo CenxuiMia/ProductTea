@@ -5,6 +5,9 @@ import com.cenxui.shop.repositories.product.*;
 
 import java.util.*;
 
+/**
+ * product table transaction layer
+ */
 final class DynamoDBProductRepository implements ProductRepository {
 
     private final ProductBaseRepository productBaseRepository;

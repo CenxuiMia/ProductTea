@@ -14,6 +14,14 @@ function onActiveOrder() {
     getOrders(orderEndpoint + "/active");
 }
 
+function onBankOrder() {
+    document.getElementById("sectionTitle").innerHTML = bankOrder;
+    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
+        comment, purchaser, paidTime, processingDate, shippedTime);
+    cleanOrderForm();
+    getOrders(orderEndpoint + "/bank");
+}
+
 function onPaidOrder() {
     document.getElementById("sectionTitle").innerHTML = paidOrder;
     setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
@@ -131,25 +139,6 @@ function appendOrders(orders) {
             buttonShipHTML =
                 "<button onclick='shipOrderButton()'>出貨取消</button>";;
         }
-
-
-        //
-        // if (orders[i].shippedTime !== null) {
-        //     buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨取消</button>"
-        // }else if(orders[i].processingDate !== null) {
-        //     buttonShipHTML =  "<button onclick='shipOrderButton()'>出貨確認</button>"
-        // }else if (orders[i].isActive !== null && orders[i].paidTime === null) {
-        //     buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單取消</button>";
-        //     buttonPayHTML = "<button onclick='payOrderButton()'>付款確認</button>";
-        // }else if (orders[i].isActive === null) {
-        //     buttonActiveHTML = "<button onclick='activeOrderButton()'>訂單復原</button>";
-        // }
-        //
-        // if (!sectionTile.includes(processingOrder)
-        //     && orders[i].paidTime !== null && orders[i].shippedTime === null) {
-        //     buttonPayHTML = "<button onclick='payOrderButton()'>付款取消</button>"
-        // }
-
 
         var order =
             "<tr> " +
@@ -385,6 +374,18 @@ function searchAllOrder() {
 
     getOrders(url);
 }
+
+function searchBankOrder() {
+    let bankInformation = document.getElementById("bankInformation").value;
+
+    if (bankInformation === null) return;
+
+    let url = orderEndpoint + "/bank/" + bankInformation;
+
+    cleanOrderForm();
+    getOrders(url);
+}
+
 
 function searchPaidOrder() {
     let paidDate = document.getElementById("paidDate").value;

@@ -183,6 +183,11 @@ public class OrderController extends CoreController {
         if (!PaymentMethod.allowed(order.getPaymentMethod())) {
             throw new OrderControllerClientException("request body order paymentMethod not allowed");
         }
+
+        if (!PaymentMethod.allowedBankInformation(order.getPaymentMethod(), order.getBankInformation())) {
+            throw new OrderControllerClientException(
+                    "request body order bankInformation with paymentMethod not allowed");
+        }
     }
 
     private static void checkTrialOrder(Order order) {

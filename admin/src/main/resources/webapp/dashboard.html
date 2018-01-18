@@ -49,6 +49,7 @@
             <h1>Dashboard</h1>
             <button onclick="onAllOrder()">所有訂單</button>
             <button onclick="onActiveOrder()">有效訂單</button>
+            <button onclick="onBankOrder()">匯款訂單</button>
             <button onclick="onPaidOrder()">已付款定單</button>
             <button onclick="onProcessingOrder()">處理中訂單</button>
             <button onclick="onShippedOrder()">已出貨訂單</button>
@@ -57,6 +58,10 @@
             <input id="mail" placeholder="mail">
             <input id="orderDateTime" placeholder="orderDateTime">
             <button onclick="searchAllOrder()">查詢</button>
+            <div></div>
+            <input id="bankInformation" placeholder="bankInformation">
+            <button onclick="searchBankOrder()">查詢</button>
+
             <div></div>
             <input id="paidDate" placeholder="paidDate">
             <input id="paidTime" placeholder="paidTime">
