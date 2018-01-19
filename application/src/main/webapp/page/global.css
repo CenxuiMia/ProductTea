@@ -423,12 +423,12 @@ footer .tab {
     padding: 3rem 0;
 }
 
-footer .tab a:first-child {
-    margin-right: 20%;
+footer .tab a {
+    margin-right: 15%;
 }
 
 footer .tab a:last-child {
-    margin-left: 20%;
+    margin-right: 0;
 }
 
 footer a, footer a:hover {
@@ -460,7 +460,7 @@ footer .icon img {
 .formTitle {
     margin-left: 50px;
     margin-bottom: 0;
-    margin-top: 30px;
+    margin-top: 60px;
 }
 
 .borderLeft {
