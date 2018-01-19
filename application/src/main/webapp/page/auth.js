@@ -7,7 +7,7 @@ let userEndpoint = "https://2w1vis3iw8.execute-api.ap-northeast-1.amazonaws.com/
 let orderEndpoint = "https://2w1vis3iw8.execute-api.ap-northeast-1.amazonaws.com/Auth/order";
 let productEndpoint = "https://2vhhlhju8c.execute-api.ap-northeast-1.amazonaws.com/UnAuth/product";
 
-let tokenScopesArray = ['openid'];
+let tokenScopesArray = ['phone', 'email', 'profile','openid'];
 
 let indexAuthData = {
     ClientId : clientId,

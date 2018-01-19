@@ -175,7 +175,7 @@ class DynamoDBOrderRepository implements OrderRepository {
                 order.getPurchaserPhone(),
                 shippingCost,
                 productsPrice,
-                activity, //todo add activty
+                activity,
                 price,
                 order.getPaymentMethod(),
                 order.getBankInformation(),
