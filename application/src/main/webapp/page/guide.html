@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>皇飲｜購物須知</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="//hwangying.com/favicon.ico">
+    <link rel="icon" href="//hwangying.com/favicon.ico">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="global.css">
+    <link rel="stylesheet" type="text/css" href="signin.css">
+    <link rel="stylesheet" type="text/css" href="policies.css">
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="aws-cognito-sdk.js"></script>
+    <script src="amazon-cognito-auth.min.js"></script>
+    <script src="language/tw.js"></script>
+    <script src="signin.js"></script>
+    <script src="policies.js"></script>
+    <script src="library.js"></script> <!--this library should be placed at last-->
+</head>
+<body>
+
+<div id="id_wrapper">
+    <div id="id_header">
+        <div class="header">
+            <div id="nav" class="clearfix">
+                <ul class="left clearfix">
+                    <li><a href=".">首頁</a></li>
+                    <li><a href="./products.html">所有商品</a></li>
+                    <li><a href="./about_us.html">關於我們</a></li>
+                </ul>
+                <div id="mark_img">
+                    <img class="img" src="皇飲mark.png">
+                </div>
+                <ul class="right clearfix">
+                    <li><a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a></li>
+                    <li>
+                        <div class="dropdown" id="member">
+                            <i id="dropbtn" class="material-icons md-light">person</i>
+                            <div class="dropdown-content">
+                                <a href="./user.html">個人資料</a>
+                                <a href="./user-orders.html">訂單記錄</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="./cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="id_content">
+        <h2 class="formTitle">購物須知</h2>
+
+        <div class="borderLeft"></div>
+
+        <div class="content">
+            <div>
+                <h3>訂單資訊</h3>
+                您可至《會員中心→訂單記錄》查詢訂單資訊，並可查看最新進度
+            </div>
+
+            <div>
+                <h3>團購優惠</h3>
+                大量購買另有優惠，請洽客服或寄信至support@hwangying.com
+            </div>
+
+            <div>
+                <h3>付款方式</h3>
+                可以使用ATM轉帳，或是臨櫃匯款<br>
+                銀行：臺灣銀行（代碼004）<br>
+                戶名：戰車聯有限公司<br>
+                帳號：087001-022022
+            </div>
+
+            <div>
+                <h3>送貨方式＆運費</h3>
+                宅配，運費$100<br>
+                超商取貨，運費$60<br>
+                ◇ 購物滿$1000免運費 ◇<br>
+                配送地如為國外，請洽客服或寄信至support@hwangying.com
+            </div>
+
+            <div>
+                <h3>到貨時間</h3>
+                收到款項後會立即為您安排出貨<br>
+                宅配：寄出後通常3日內到貨<br>
+                超商取貨：寄出後通常3-5日到貨<br>
+                ◇ 離島、偏鄉、國外不在此限 ◇
+            </div>
+
+            <div>
+                <h3>發票開立</h3>
+                本公司目前僅提供手開發票之服務，如需開立統編，請在結帳時於備註欄中註明「公司抬頭」與「統一編號」。
+            </div>
+
+            <div>
+                <h3>售後服務</h3>
+                消費者享有猶豫期7日的保障，然商品一經拆封即無法退換貨。退換貨須保持商品本身、內外包裝完整、無髒污。<br>
+                退換貨時請將商品以原包裝的外箱/外袋妥善包裝好寄回，若原外包裝已遺失損毀，請使用其他紙箱裝入商品，請勿直接於商品本身
+                黏貼紙張或書寫文字。<br>
+                在退換貨流程，為保障您的權益，請保留貨運單據直到流程完成。<br>
+                <h4>[ 退貨 ]</h4>
+                請於7日內向客服反應，並提供訂單、退款帳戶資訊（匯款帳戶如非臺灣銀行退款需扣除手續費），客服將協助退貨收件事宜。我們
+                收到退還商品後，將於2個工作日內，扣除運費退款至指定帳戶。<br>
+                並請連同發票一併寄回，如有贈品需連同贈品退回，否則本公司有權拒絕接受退貨。<br>
+                <h4>[ 換貨 ]</h4>
+                如收到商品有損壞、瑕疵，請儘速於7日內向客服反應，我們會進行商品鑑定流程，並儘速寄出新品，您無須負擔運費。<br>
+                為確保購物流程順暢，讓商品更迅速到達您手中，本公司不另接受換貨，欲換貨者請先辦理退貨，再行購買。
+            </div>
+
+            <div>
+                <h3>反詐騙</h3>
+                請注意：<br>
+                ◇︎ 我們不會主動以電話要求您至ATM解除設定<br>
+                ◇︎ 不會要求您變更付款方式<br>
+                ◇︎︎ 不會要求提供信用卡背面的客服電話<br>
+                若接獲有疑慮之來電請儘速聯繫客服人員查證，或撥打內政部反詐騙專線：１６５。還請您提高警覺！
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer id="id_footer">
+    <div class="tab">
+        <a href="./contact.html">聯絡我們</a>
+        <a href="javascript:void(0)">購物須知</a>
+        <a href="./service.html">服務條款</a>
+        <a href="./privacy.html">隱私權政策</a>
+    </div>
+
+    <div class="icon">
+        <a href="//www.facebook.com"><img src="./fb.png"></a>
+        <img src="./mail.png" onclick="sendMail()">
+    </div>
+    <div class="footer-copyright">
+        Copyright © 2017 HWANGYING All rights reserved.
+    </div>
+</footer>
+
+</body>
+</html>

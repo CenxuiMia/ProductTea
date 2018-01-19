@@ -1,0 +1,15 @@
+.content {
+    width: 80%;
+    margin: 2rem auto;
+}
+
+.content h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 1.13rem;
+}
+
+.content h4 {
+    margin: 0.3rem 0;
+}
