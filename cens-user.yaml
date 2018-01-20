@@ -6,12 +6,14 @@ Resources:
     Type: "AWS::Cognito::UserPool"
     Properties:
       UserPoolName: CensUsers
+      AliasAttributes:
+        - "email"
       AutoVerifiedAttributes:
         - "email"
-      Schema:
-        - AttributeDataType: "String"
-          Name: email
-          Required: True
+#      Schema:
+#        - AttributeDataType: "String"
+#          Name: email
+#          Required: True
   CognitoUserPoolClient:
     Type: "AWS::Cognito::UserPoolClient"
     Properties:

@@ -55,7 +55,7 @@ deploy to aws
 
 ** 
 user pool for login auth
-aws cloudformation deploy --template-file cens-user.yaml --stack-name cens
+aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file cens-user.yaml --stack-name cens
 aws cloudformation deploy --template-file cens-user-table.yaml --stack-name cens-user-table
 
 **

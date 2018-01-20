@@ -68,7 +68,7 @@ securityDefinitions:
     x-amazon-apigateway-authtype: "cognito_user_pools"
     x-amazon-apigateway-authorizer:
       providerARNs:
-      - "arn:aws:cognito-idp:ap-northeast-1:208853302302:userpool/ap-northeast-1_6cIsdfBKc" # todo modify
+      - "arn:aws:cognito-idp:ap-northeast-1:208853302302:userpool/ap-northeast-1_W5kvDZgpy" # todo modify
       type: "cognito_user_pools"
 definitions:
   Empty:
