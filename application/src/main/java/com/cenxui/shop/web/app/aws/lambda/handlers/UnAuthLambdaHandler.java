@@ -9,6 +9,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.cenxui.shop.web.app.Application;
 import com.cenxui.shop.web.app.aws.lambda.exception.HandlerServerException;
 import com.cenxui.shop.web.app.aws.lambda.log.AWSLambdaLogger;
+import spark.Spark;
 
 public class UnAuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxyResponse> {
     private SparkLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> handler;
@@ -35,6 +36,7 @@ public class UnAuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsP
             try {
                 handler = SparkLambdaContainerHandler.getAwsProxyHandler();
                 defineRoutes();
+                Spark.awaitInitialization();
             } catch (ContainerInitializationException e) {
                 throw new HandlerServerException("Unath Spark container initial error: " + e.getMessage());
             }

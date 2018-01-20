@@ -11,6 +11,7 @@ import com.cenxui.shop.web.app.aws.lambda.exception.HandlerServerException;
 import com.cenxui.shop.web.app.aws.lambda.log.AWSLambdaLogger;
 import com.cenxui.shop.web.app.aws.lambda.reponse.HandlerErrorResponse;
 import com.cenxui.shop.web.app.controller.util.Header;
+import spark.Spark;
 
 import java.util.Map;
 
@@ -56,6 +57,7 @@ public class AuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsPro
                 initialized = true;
                 handler = SparkLambdaContainerHandler.getAwsProxyHandler();
                 defineRoutes();
+                Spark.awaitInitialization();
             }catch (ContainerInitializationException e) {
                 throw new HandlerServerException("Auth Spark container initial error: " + e.getMessage());
             }
