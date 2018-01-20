@@ -41,17 +41,6 @@ public final class Application {
                     return "OK";
                 });
 
-        exception(AmazonServiceException.class, (exception, request, response) -> {
-            response.body("retry, error :" + exception.getMessage());
-            response.status(501);
-        });
-
-        exception(AmazonClientException.class, (exception, request, response) -> {
-            response.body(exception.getMessage());
-            response.status(502);
-        });
-
-
     }
 
     /**
@@ -65,6 +54,16 @@ public final class Application {
              */
             response.header("Access-Control-Allow-Origin", "*");
         }));
+
+        exception(AmazonServiceException.class, (exception, request, response) -> {
+            response.body("retry, error :" + exception.getMessage());
+            response.status(501);
+        });
+
+        exception(AmazonClientException.class, (exception, request, response) -> {
+            response.body(exception.getMessage());
+            response.status(502);
+        });
 
         exception(RepositoryClientException.class, (exception, request, response) -> {
             response.body(exception.getMessage());
