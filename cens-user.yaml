@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Federate access from Cognito user Pools to CensUser
+Description: Federate access from Cognito user Pools to CensUser , not recomand to use
 Resources:
   CognitoUserPool:
     Type: "AWS::Cognito::UserPool"
@@ -53,16 +53,6 @@ Resources:
                 cognito-identity.amazonaws.com:amr:
                 - "authenticated"
       Path: "/"
-      Policies:
-        -
-          PolicyName: "CensCreateUser"
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              -
-                Effect: "Allow"
-                Action: "quicksight:CreateUser"
-                Resource: "*"
   AuthRoleAttach:
     Type: "AWS::Cognito::IdentityPoolRoleAttachment"
     Properties:

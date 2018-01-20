@@ -102,6 +102,7 @@ public class Http {
                 }
             }
 
+
             writer = new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8);
 
             writer.write(body);
@@ -119,6 +120,7 @@ public class Http {
 
             reader.lines().forEach(System.out::println);
             reader.close();
+            System.out.println(connection.getHeaderFields());
 
         }catch (Exception e) {
             e.printStackTrace();

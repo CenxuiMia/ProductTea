@@ -7,26 +7,17 @@ import com.amazonaws.serverless.proxy.spark.SparkLambdaContainerHandler;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.cenxui.shop.web.app.Application;
+import com.cenxui.shop.web.app.aws.lambda.exception.HandlerServerException;
 import com.cenxui.shop.web.app.aws.lambda.log.AWSLambdaLogger;
+import spark.Spark;
 
 public class UnAuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxyResponse> {
     private SparkLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> handler;
 
     private boolean initialized = false;
 
-    {
-        try {
-            handler = SparkLambdaContainerHandler.getAwsProxyHandler();
-        } catch (ContainerInitializationException e) {
-            e.printStackTrace();
-        }
-    }
-
     public final AwsProxyResponse handleRequest(AwsProxyRequest awsProxyRequest, Context context) {
-        if (!initialized) {
-            defineRoutes();
-            initialized = true;
-        }
+        initialContainer();
 
         AwsProxyResponse response = null;
 
@@ -37,6 +28,19 @@ public class UnAuthLambdaHandler implements RequestHandler<AwsProxyRequest, AwsP
         }
 
         return response;
+    }
+
+    private void initialContainer() {
+        if (!initialized) {
+            initialized = true;
+            try {
+                handler = SparkLambdaContainerHandler.getAwsProxyHandler();
+                defineRoutes();
+                Spark.awaitInitialization();
+            } catch (ContainerInitializationException e) {
+                throw new HandlerServerException("Unath Spark container initial error: " + e.getMessage());
+            }
+        }
     }
 
     private void defineRoutes() {
