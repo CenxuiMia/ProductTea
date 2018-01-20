@@ -156,7 +156,16 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         productsPrice = productRepository.getProductsPrice(order.getProducts()).getValue();
 
-        price = shippingCost + productsPrice;
+        //todo modify business
+
+        String activity = null;
+
+        if (productsPrice >= 1000) {
+            price = productsPrice; //no shipping cost if productsPrice more than 1000
+            activity = "滿千免運費";
+        }else {
+            price = shippingCost + productsPrice;
+        }
 
         return Order.of(
                 order.getMail(),
@@ -166,7 +175,7 @@ class DynamoDBOrderRepository implements OrderRepository {
                 order.getPurchaserPhone(),
                 shippingCost,
                 productsPrice,
-                null, //todo add activty
+                activity,
                 price,
                 order.getPaymentMethod(),
                 order.getBankInformation(),

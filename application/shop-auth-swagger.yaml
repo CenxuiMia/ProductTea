@@ -50,7 +50,7 @@ paths:
         responses:
           default:
             statusCode: "200"
-        uri: "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-1:208853302302:function:${stageVariables.LambdaFunctionName}/invocations"
+        uri: "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-1:208853302302:function:${stageVariables.LambdaFunctionName}/invocations"  # todo modify
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
         cacheNamespace: "wegtie"
@@ -68,7 +68,7 @@ securityDefinitions:
     x-amazon-apigateway-authtype: "cognito_user_pools"
     x-amazon-apigateway-authorizer:
       providerARNs:
-      - "arn:aws:cognito-idp:ap-northeast-1:208853302302:userpool/ap-northeast-1_6cIsdfBKc"
+      - "arn:aws:cognito-idp:ap-northeast-1:208853302302:userpool/ap-northeast-1_W5kvDZgpy" # todo modify
       type: "cognito_user_pools"
 definitions:
   Empty:

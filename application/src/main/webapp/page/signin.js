@@ -1,26 +1,10 @@
 let signIn = "登入/註冊";
 let signOut = "登出";
 
-AWS.config.update({
-    region: region,
-    credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: identityPool
-    })
-});
-
-AWSCognito.config.region = region;
-
-AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: identityPool
-});
-
-AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
-
 let onSignIn;
 let onSignOut;
 
 let userAuth;
-let cognitoUser;
 
 function setUp(authData, doSignIn, doSignOut) {
     onSignOut = doSignOut;
@@ -81,7 +65,6 @@ function initCognitoSDK(authData) {
     auth.userhandler = {
         onSuccess: function(result) {
             console.log("Cognito Sign in successful!");
-            cognitoUser = auth.getCurrentUser();
             showSignedIn();
         },
         onFailure: function(err) {
