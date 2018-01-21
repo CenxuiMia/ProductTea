@@ -9,15 +9,19 @@ let shippedOrder = "已出貨訂單";
 let primaryKey = "訂單序號";
 let products = "項目";
 let purchaser = "購買人";
+let purchaserPhone = "購買人電話";
 let currency = "幣別";
-let money = "總額";
+let price = "總額";
+
 let receiver = "收件人";
-let phone = "電話";
+let receiverPhone = "收件人電話";
 let shippingWay = "送貨方式"
 let shippingAddress = "送貨地址";
 let comment = "附註";
+let paidDate = "付款日期"
 let paidTime = "付款時間"
 let processingDate = "受理日期";
+let shippedDate = "出貨日期";
 let shippedTime = "出貨時間";
 let isActive = "有效";
 
