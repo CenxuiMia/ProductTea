@@ -87,3 +87,12 @@ fieldset {
 .confirmContent {
     margin: 3rem;
 }
+
+.accountHint {
+    margin: 0 0 1.5rem 0;
+    color: darkgray;
+}
+
+.accountHint .hint {
+    color: olivedrab;
+}
