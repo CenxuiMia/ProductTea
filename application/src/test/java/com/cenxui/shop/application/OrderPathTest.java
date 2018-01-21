@@ -46,7 +46,7 @@ public class OrderPathTest {
 
         List<String> products = new ArrayList<>();
 
-        products.add("美茶;小綠茶;2");
+        products.add("紅顏;(紅茶);2");
 
         Order order = Order.of(null,
                 null,
