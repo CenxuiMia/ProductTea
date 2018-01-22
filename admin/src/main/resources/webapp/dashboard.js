@@ -1,39 +1,29 @@
 function onAllOrder() {
     document.getElementById("sectionTitle").innerHTML = allOrder;
     cleanOrderForm();
-    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
-    comment, purchaser, paidTime, processingDate, shippedTime);
     getOrders(orderEndpoint + "/table");
 }
 
 function onActiveOrder() {
     document.getElementById("sectionTitle").innerHTML = activeOrder;
-    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
-        comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
     getOrders(orderEndpoint + "/active");
 }
 
 function onBankOrder() {
     document.getElementById("sectionTitle").innerHTML = bankOrder;
-    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
-        comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
     getOrders(orderEndpoint + "/bank");
 }
 
 function onPaidOrder() {
     document.getElementById("sectionTitle").innerHTML = paidOrder;
-    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
-        comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
     getOrders(orderEndpoint + "/paid");
 }
 
 function onProcessingOrder() {
     document.getElementById("sectionTitle").innerHTML = processingOrder;
-    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
-        comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
     number = 1;
     getOrders(orderEndpoint + "/processing");
@@ -41,8 +31,6 @@ function onProcessingOrder() {
 
 function onShippedOrder() {
     document.getElementById("sectionTitle").innerHTML = shippedOrder;
-    setOrderColumn(primaryKey, money, products, receiver, shippingWay, shippingAddress,
-        comment, purchaser, paidTime, processingDate, shippedTime);
     cleanOrderForm();
     number = 1;
     getOrders(orderEndpoint + "/shipped");
@@ -50,21 +38,7 @@ function onShippedOrder() {
 }
 
 function onLoad() {
-   // onProcessingOrder();
-}
-
-function setOrderColumn(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) {
-    document.getElementById("v1").innerHTML = v1;
-    document.getElementById("v2").innerHTML = v2;
-    document.getElementById("v3").innerHTML = v3;
-    document.getElementById("v4").innerHTML = v4;
-    document.getElementById("v5").innerHTML = v5;
-    document.getElementById("v6").innerHTML = v6;
-    document.getElementById("v7").innerHTML = v7;
-    document.getElementById("v8").innerHTML = v8;
-    document.getElementById("v9").innerHTML = v9;
-    document.getElementById("v10").innerHTML = v10;
-    document.getElementById("v11").innerHTML = v11;
+    setOrderColumn();
 }
 
 let lastKey;
@@ -140,24 +114,44 @@ function appendOrders(orders) {
                 "<button onclick='shipOrderButton()'>出貨取消</button>";;
         }
 
+
         var order =
             "<tr> " +
             "   <td>"+ number++ +"</td> " +
             "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + " " + buttonActiveHTML + buttonPayHTML + buttonShipHTML + "</td> " +
+            "   <td>" + orders[i].products + "</td> " +
             "   <td>" + orders[i].price +"</td> " +
-            "   <td>" + orders[i].products+"</td> " +
+            "   <td>" + orders[i].purchaser+"</td> " +
+            "   <td>" + orders[i].purchaserPhone+"</td> " +
             "   <td>" + orders[i].receiver + "</td> " +
+            "   <td>" + orders[i].receiverPhone + "</td> " +
             "   <td>" + orders[i].shippingWay + "</td> " +
             "   <td>" + orders[i].shippingAddress + "</td> " +
             "   <td>" + orders[i].comment+"</td> " +
-            "   <td>" + orders[i].purchaser+"</td> " +
-            "   <td>" + orders[i].paidDate+"</td> " +
-            "   <td>" + orders[i].processingDate+"</td> " +
-            "   <td>" + orders[i].shippedTime+"</td> " +
+            "   <td>" + orders[i].paidDate + orders[i].paidTime + "</td> " +
+            "   <td>" + orders[i].processingDate + "</td> " +
+            "   <td>" + orders[i].shippedDate + orders[i].shippedTime + "</td> " +
             "</tr>";               // Create element with HTML
         orderForm.innerHTML += order;      // Append the new elements
     }
 }
+
+function setOrderColumn() {
+    document.getElementById("v1").innerHTML = primaryKey;
+    document.getElementById("v2").innerHTML = products;
+    document.getElementById("v3").innerHTML = price;
+    document.getElementById("v4").innerHTML = purchaser;
+    document.getElementById("v5").innerHTML = purchaserPhone;
+    document.getElementById("v6").innerHTML = receiver;
+    document.getElementById("v7").innerHTML = receiverPhone;
+    document.getElementById("v8").innerHTML = shippingWay;
+    document.getElementById("v9").innerHTML = shippingAddress;
+    document.getElementById("v10").innerHTML = comment;
+    document.getElementById("v11").innerHTML = paidTime;
+    document.getElementById("v12").innerHTML = processingDate;
+    document.getElementById("v13").innerHTML = shippedTime;
+}
+
 
 function activeOrderButton(e) {
     e = e || window.event;

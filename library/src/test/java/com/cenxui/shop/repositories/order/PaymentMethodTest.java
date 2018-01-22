@@ -1,8 +1,7 @@
 package com.cenxui.shop.repositories.order;
 
+import com.cenxui.shop.repositories.order.attribute.PaymentMethod;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class PaymentMethodTest {
     @Test

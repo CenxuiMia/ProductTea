@@ -319,7 +319,7 @@ a.active {
     padding: 3px;
     text-align: center;
     color: white;
-    background: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg") no-repeat center;
+    background: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg") no-repeat center; //todo
     background-size: cover;
     min-height: 80px;
     letter-spacing: 10px;
@@ -526,11 +526,11 @@ footer .icon img {
 /* phone version 手機版 */
 @media only screen and (max-device-width: 1024px) {
     body, html {
-        font: 400 30px/1.8 "Lato", sans-serif;
+        font: 400 25px "Lato", sans-serif;
     }
 
     .material-icons {
-        font-size: 50px;
+        font-size: 30px;
     }
 
     #id_header {

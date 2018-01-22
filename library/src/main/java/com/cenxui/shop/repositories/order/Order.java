@@ -15,13 +15,14 @@ public class Order {
     public static final String ORDER_DATE_TIME = "orderDateTime";
     public static final String PRODUCTS = "products";
     public static final String PURCHASER = "purchaser";
+    public static final String PURCHASER_PHONE = "purchaserPhone";
     public static final String SHIPPING_COST = "shippingCost";
     public static final String PRODUCTS_PRICE = "productsPrice";
     public static final String PRICE = "price";
     public static final String PAYMENT_METHOD = "paymentMethod";
     public static final String BANK_INFORMATION = "bankInformation";
     public static final String RECEIVER = "receiver";
-    public static final String PHONE = "phone";
+    public static final String RECEIVER_PHONE = "receiverPhone";
     public static final String SHIPPING_WAY = "shippingWay";
     public static final String SHIPPING_ADDRESS = "shippingAddress";
     public static final String COMMENT = "comment";
