@@ -84,7 +84,7 @@ function calculateTrialTotal() {
             let data = JSON.parse(response);
             document.getElementById("productsPrice").innerHTML = data.productsPrice;
             document.getElementById("shippingCost").innerHTML = data.shippingCost;
-            // document.getElementById("activity").innerHTML = data.activity;
+            document.getElementById("activity").innerHTML = data.activity;
             document.getElementById("price").innerHTML = data.price;
         },
         error : function(xhr, status, error) {

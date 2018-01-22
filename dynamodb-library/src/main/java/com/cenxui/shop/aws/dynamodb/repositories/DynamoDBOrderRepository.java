@@ -2,6 +2,7 @@ package com.cenxui.shop.aws.dynamodb.repositories;
 
 import com.cenxui.shop.aws.dynamodb.exceptions.server.order.*;
 import com.cenxui.shop.repositories.order.*;
+import com.cenxui.shop.repositories.order.attribute.ShippingWay;
 import com.cenxui.shop.repositories.product.ProductRepository;
 
 /**

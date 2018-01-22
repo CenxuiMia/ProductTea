@@ -2,10 +2,11 @@ package com.cenxui.shop.web.app.controller.order;
 
 import com.cenxui.shop.repositories.order.OrderRepository;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
-import com.cenxui.shop.repositories.order.PaymentMethod;
+import com.cenxui.shop.repositories.order.attribute.OrderAttribute;
+import com.cenxui.shop.repositories.order.attribute.PaymentMethod;
 import com.cenxui.shop.web.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.repositories.order.Order;
-import com.cenxui.shop.repositories.order.ShippingWay;
+import com.cenxui.shop.repositories.order.attribute.ShippingWay;
 import com.cenxui.shop.web.app.config.GoogleReCAPTCHAConfig;
 import com.cenxui.shop.web.app.controller.CoreController;
 import com.cenxui.shop.web.app.controller.util.Header;
@@ -74,15 +75,12 @@ public class OrderController extends CoreController {
         }
 
         String body = request.body();
-
-        if (body == null || body.isEmpty()) throw new OrderControllerClientException("request body cannot empty.");
+        checkRequestBody(body);
 
         String mail = request.headers(Header.MAIL);
-
-        if (mail == null) throw new OrderControllerServerException("header mail can not be null.");
+        checkHeaderMail(mail);
 
         Order order = mapRequestBodyToOrder(body);
-
         checkOrder(order);
 
         /**
@@ -126,7 +124,6 @@ public class OrderController extends CoreController {
         return JsonUtil.mapToJsonIgnoreNull(result);
     };
 
-
     public static final Route trialOrder = ((request, response) ->  {
 
         Order order = JsonUtil.mapToOrder(request.body());
@@ -165,26 +162,30 @@ public class OrderController extends CoreController {
 
         checkTrialOrder(order);
 
-        if (isEmpty(order.getPurchaser()))
+        if (!OrderAttribute.checkPurchaser(order.getPurchaser()))
             throw new OrderControllerClientException("request body order purchaser cannot be empty");
 
-        if (isEmpty(order.getPurchaserPhone()))
+        if (!OrderAttribute.checkPurchaserPhone(order.getPurchaserPhone()))
             throw new OrderControllerClientException("request body order purchaserPhone cannot be empty");
 
-        if (isEmpty(order.getReceiver()))
+        if (!OrderAttribute.checkReceiver(order.getReceiver()))
             throw new OrderControllerClientException("request body order receiver cannot be empty");
 
-        if (isEmpty(order.getReceiverPhone()))
+        if (!OrderAttribute.checkReceiverPhone(order.getReceiverPhone()))
             throw new OrderControllerClientException("request body order receiverPhone cannot be empty");
 
-        if (isEmpty(order.getShippingAddress()))
+        if (!OrderAttribute.checkShippingAddress(order.getShippingAddress()))
             throw new OrderControllerClientException("request body order shippingAddress cannot be empty");
 
-        if (!PaymentMethod.allowed(order.getPaymentMethod())) {
+        if (!OrderAttribute.checkPaymentMethod(order.getPaymentMethod())) {
             throw new OrderControllerClientException("request body order paymentMethod not allowed");
         }
 
-        if (!PaymentMethod.allowedBankInformation(order.getPaymentMethod(), order.getBankInformation())) {
+        if (!OrderAttribute.checkComment(order.getComment())) {
+            throw new OrderControllerClientException("request body order comment not allowed");
+        }
+
+        if (!OrderAttribute.checkBankInformation(order.getPaymentMethod(), order.getBankInformation())) {
             throw new OrderControllerClientException(
                     "request body order bankInformation with paymentMethod not allowed");
         }
@@ -193,18 +194,24 @@ public class OrderController extends CoreController {
     private static void checkTrialOrder(Order order) {
         if (order == null) throw new OrderControllerClientException("request body order cannot be null");
 
-        if (order.getProducts() == null || order.getProducts().isEmpty())
+        if (!OrderAttribute.checkProducts(order.getProducts()))
             throw new OrderControllerClientException("request body order products cannot be empty");
 
-        if (!ShippingWay.allowed(order.getShippingWay())){
+        if (!OrderAttribute.checkShippingWay(order.getShippingWay())){
             throw new OrderControllerClientException("request body order shippedWay not allowed");
         }
     }
 
-    private static boolean isEmpty(String s) {
-        if (s == null || s.isEmpty()) return true;
-        return false;
+    private static void checkHeaderMail(String mail) {
+        if (mail == null) throw new OrderControllerServerException("header mail cannot be null.");
+        if (mail.length() == 0) throw new OrderControllerServerException("header mail cannot be empty.");
     }
+
+    private static void checkRequestBody(String body) {
+        if (body == null || body.isEmpty()) throw new OrderControllerClientException("request body cannot empty.");
+    }
+
+
 
     private static String getOrderDateTime(Map<String, String> map) {
         return map.get(Param.ORDER_DATE_TIME);

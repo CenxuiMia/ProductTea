@@ -319,7 +319,7 @@ a.active {
     padding: 3px;
     text-align: center;
     color: white;
-    background: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg") no-repeat center;
+    background: url("https://farm5.staticflickr.com/4492/37708014331_f25832e032_z.jpg") no-repeat center; //todo
     background-size: cover;
     min-height: 80px;
     letter-spacing: 10px;

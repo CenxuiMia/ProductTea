@@ -34,7 +34,7 @@ function getOrders() {
                 document.getElementById("ordersTable").innerHTML +=
                     "<tr>" +
                         "<td>" + (i + 1) + "</td>" +
-                        "<td>" + order.products + "</td>" +
+                        "<td>" + order.products.toString().replace(";"," ").replace(";"," ") + "</td>" +
                         "<td>" + "NT." + order.price + "</td>" +
                         "<td>" + order.orderDateTime + "</td>" +
                         "<td>" + status + "</td>" +

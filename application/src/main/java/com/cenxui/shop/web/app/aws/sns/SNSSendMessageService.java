@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SNSSendMessageService implements SendMessageService {
-    private AmazonSNS snsClient = AmazonSNSClientBuilder.standard()
+    private final AmazonSNS snsClient = AmazonSNSClientBuilder.standard()
             .withRegion(AWSSNSConfig.REGION).build();
 
     @Override
@@ -31,10 +31,10 @@ public class SNSSendMessageService implements SendMessageService {
 
     private void sendSMSMessage(AmazonSNS snsClient, String message,
                                 String phoneNumber, Map<String, MessageAttributeValue> smsAttributes) {
-        PublishResult result = snsClient.publish(new PublishRequest()
+        snsClient.publish(new PublishRequest()
                 .withMessage(message)
                 .withPhoneNumber(phoneNumber)
                 .withMessageAttributes(smsAttributes));
-        System.out.println(result); // Prints the message ID.
+
     }
 }
