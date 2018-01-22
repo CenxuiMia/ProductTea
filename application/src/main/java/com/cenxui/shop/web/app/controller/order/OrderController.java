@@ -4,6 +4,7 @@ import com.cenxui.shop.repositories.order.OrderRepository;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.shop.repositories.order.attribute.OrderAttribute;
 import com.cenxui.shop.repositories.order.attribute.PaymentMethod;
+import com.cenxui.shop.web.app.aws.ses.SESMessageService;
 import com.cenxui.shop.web.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.repositories.order.Order;
 import com.cenxui.shop.repositories.order.attribute.ShippingWay;
@@ -38,7 +39,9 @@ public class OrderController extends CoreController {
                     AWSDynamoDBConfig.PRODUCT_TABLE
             );
 
-    private static final SendMessageService sendMessageService = new SNSSendMessageService();
+    private static final SendMessageService messageService = new SNSSendMessageService();
+
+    private static final SendMessageService mailMessageService = new SESMessageService();
 
     public static final Route getOrdersByMail = (Request request, Response response) -> {
         String mail = request.headers(Header.MAIL);
@@ -119,7 +122,9 @@ public class OrderController extends CoreController {
          * send order message to end user
          */
 
-        sendMessageService.sendMessage(result);
+        //todo exception
+        messageService.sendMessage(result);
+        mailMessageService.sendMessage(result);
 
         return JsonUtil.mapToJsonIgnoreNull(result);
     };
