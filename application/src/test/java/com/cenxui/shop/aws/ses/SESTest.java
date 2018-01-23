@@ -3,7 +3,11 @@ package com.cenxui.shop.aws.ses;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.simpleemail.model.*;
+import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.AmazonSNSClientBuilder;
+import com.amazonaws.services.sns.model.PublishRequest;
 import com.cenxui.shop.web.app.config.AWSSESConfig;
+import com.cenxui.shop.web.app.config.AWSSNSConfig;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -33,14 +37,11 @@ public class SESTest {
                             .withRegion(AWSSESConfig.REGION).build();
             String message = String.format(AWSSESConfig.HTMLBODY, 1000);
 
-
             SendEmailRequest request = new SendEmailRequest()
                     .withDestination(
                             new Destination().withToAddresses(TO))
                     .withMessage(new Message()
                             .withBody(new Body()
-//                                    .withHtml(new Content()
-//                                            .withCharset("UTF-8").withData(HTMLBODY))
                                     .withHtml(new Content()
                                             .withCharset("UTF-8").withData(message)))
                             .withSubject(new Content()

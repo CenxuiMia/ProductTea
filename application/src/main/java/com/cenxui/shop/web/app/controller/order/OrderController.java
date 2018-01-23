@@ -28,6 +28,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class OrderController extends CoreController {
     private static final boolean isLocal = System.getenv("Cloud") == null;
@@ -123,8 +126,13 @@ public class OrderController extends CoreController {
          */
 
         //todo exception
-        messageService.sendOrderMessage(result);
-        mailMessageService.sendOrderMessage(result);
+
+        try {
+            messageService.sendOrderMessage(result);
+            mailMessageService.sendOrderMessage(result);
+        }catch (Exception e) {
+            throw new OrderControllerServerException(e.getMessage());
+        }
 
         return JsonUtil.mapToJsonIgnoreNull(result);
     };
