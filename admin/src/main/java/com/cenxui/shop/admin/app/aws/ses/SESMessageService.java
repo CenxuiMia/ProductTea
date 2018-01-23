@@ -13,11 +13,25 @@ public class SESMessageService implements MessageService {
                     .withRegion(AWSSESConfig.REGION).build();
 
     @Override
-    public void sendShippedOrderMessage(Order order) {
+    public void sendPayOrderMessage(Order paidOrder) {
+        checkOrder(paidOrder);
+        //todo
+    }
+
+    @Override
+    public void sendDePaidOrderMessage(Order paidOrder) {
+        checkOrder(paidOrder);
+        //todo
+    }
+
+
+
+    @Override
+    public void sendShipOrderMessage(Order order) {
 
         if (!AWSSESConfig.ENABLE) return;
 
-        if (order == null) throw new SESException("Order cannot be null");
+        checkOrder(order);
 
         try {
 
@@ -43,6 +57,16 @@ public class SESMessageService implements MessageService {
         } catch (Exception e) {
             throw new SESException(e.getMessage());
         }
-
     }
+
+    @Override
+    public void sendDeShippedOrderMessage(Order shippedOrder) {
+        checkOrder(shippedOrder);
+        //todo
+    }
+
+    private void checkOrder(Order order) {
+        if (order == null) throw new SESException("Order cannot be null");
+    }
+
 }
