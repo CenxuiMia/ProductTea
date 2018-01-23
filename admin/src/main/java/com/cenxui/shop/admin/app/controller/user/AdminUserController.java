@@ -1,6 +1,6 @@
 package com.cenxui.shop.admin.app.controller.user;
 
-import com.cenxui.shop.admin.app.config.DynamoDBConfig;
+import com.cenxui.shop.admin.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.admin.app.controller.AdminCoreController;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.shop.repositories.user.UserRepository;
@@ -13,8 +13,8 @@ public class AdminUserController extends AdminCoreController {
 
     private static final UserRepository userRepository =
             DynamoDBRepositoryService.getUserRepository(
-                    DynamoDBConfig.REGION,
-                    DynamoDBConfig.USER_TABLE
+                    AWSDynamoDBConfig.REGION,
+                    AWSDynamoDBConfig.USER_TABLE
             );
 
     public static final Route getAllUser = (Request request, Response response) -> {

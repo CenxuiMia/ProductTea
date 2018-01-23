@@ -1,6 +1,6 @@
 package com.cenxui.shop.admin.app.config;
 
-public class DynamoDBConfig {
+public class AWSDynamoDBConfig {
 
     public static final boolean isLocal = false;
     /**

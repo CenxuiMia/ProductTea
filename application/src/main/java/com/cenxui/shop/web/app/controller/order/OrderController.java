@@ -3,19 +3,17 @@ package com.cenxui.shop.web.app.controller.order;
 import com.cenxui.shop.repositories.order.OrderRepository;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.shop.repositories.order.attribute.OrderAttribute;
-import com.cenxui.shop.repositories.order.attribute.PaymentMethod;
 import com.cenxui.shop.web.app.aws.ses.SESMessageService;
 import com.cenxui.shop.web.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.repositories.order.Order;
-import com.cenxui.shop.repositories.order.attribute.ShippingWay;
 import com.cenxui.shop.web.app.config.GoogleReCAPTCHAConfig;
 import com.cenxui.shop.web.app.controller.CoreController;
 import com.cenxui.shop.web.app.controller.util.Header;
 import com.cenxui.shop.web.app.controller.util.Param;
 import com.cenxui.shop.util.JsonUtil;
 import com.cenxui.shop.util.TimeUtil;
-import com.cenxui.shop.web.app.service.SendMessageService;
-import com.cenxui.shop.web.app.aws.sns.SNSSendMessageService;
+import com.cenxui.shop.web.app.service.MessageService;
+import com.cenxui.shop.web.app.aws.sns.SNSMessageService;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import spark.Request;
@@ -28,9 +26,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class OrderController extends CoreController {
     private static final boolean isLocal = System.getenv("Cloud") == null;
@@ -42,9 +37,9 @@ public class OrderController extends CoreController {
                     AWSDynamoDBConfig.PRODUCT_TABLE
             );
 
-    private static final SendMessageService messageService = new SNSSendMessageService();
+    private static final MessageService messageService = new SNSMessageService();
 
-    private static final SendMessageService mailMessageService = new SESMessageService();
+    private static final MessageService mailMessageService = new SESMessageService();
 
     public static final Route getOrdersByMail = (Request request, Response response) -> {
         String mail = request.headers(Header.MAIL);

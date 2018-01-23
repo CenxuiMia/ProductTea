@@ -1,6 +1,6 @@
 package com.cenxui.shop.admin.app.controller.report;
 
-import com.cenxui.shop.admin.app.config.DynamoDBConfig;
+import com.cenxui.shop.admin.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.admin.app.controller.AdminCoreController;
 import com.cenxui.shop.admin.app.util.Param;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
@@ -14,9 +14,9 @@ public class AdminCashController extends AdminCoreController {
 
     private static final OrderRepository orderRepository =
             DynamoDBRepositoryService.getOrderRepository(
-                    DynamoDBConfig.REGION,
-                    DynamoDBConfig.ORDER_TABLE,
-                    DynamoDBConfig.PRODUCT_TABLE
+                    AWSDynamoDBConfig.REGION,
+                    AWSDynamoDBConfig.ORDER_TABLE,
+                    AWSDynamoDBConfig.PRODUCT_TABLE
             );
 
 

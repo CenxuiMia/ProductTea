@@ -7,7 +7,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.cenxui.shop.admin.app.config.ControllerConfig;
-import com.cenxui.shop.admin.app.config.S3Bucket;
+import com.cenxui.shop.admin.app.config.AWSS3Bucket;
 import com.cenxui.shop.admin.app.controller.AdminCoreController;
 import com.cenxui.shop.admin.app.util.LimitedSizeInputStream;
 import com.cenxui.shop.admin.app.util.Param;
@@ -22,7 +22,7 @@ public class AdminProductImageUploadController extends AdminCoreController {
 
     private static final long limitSize = ControllerConfig.PRODUCT_IMAGE_UPLOAD_LIMIT;
 
-    private static final AmazonS3 s3client =  AmazonS3ClientBuilder.standard().withRegion(S3Bucket.REGION).build();
+    private static final AmazonS3 s3client =  AmazonS3ClientBuilder.standard().withRegion(AWSS3Bucket.REGION).build();
 
     public static final Route putProductImageFile = (Request request, Response response) -> {
 
@@ -49,8 +49,8 @@ public class AdminProductImageUploadController extends AdminCoreController {
 
 
             s3client.putObject(new PutObjectRequest(
-                    S3Bucket.BUCKET_NAME,
-                    S3Bucket.FOLDER + "/" + productName + "/" + version + "/" + fileName,
+                    AWSS3Bucket.BUCKET_NAME,
+                    AWSS3Bucket.FOLDER + "/" + productName + "/" + version + "/" + fileName,
                     inputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
 
             return "success"; //todo
@@ -70,7 +70,7 @@ public class AdminProductImageUploadController extends AdminCoreController {
         String version = getVersion(map);
         String fileName = getFileName(map);
 
-        s3client.deleteObject(S3Bucket.BUCKET_NAME, S3Bucket.FOLDER  + productName + "/" + version + "/" + fileName);
+        s3client.deleteObject(AWSS3Bucket.BUCKET_NAME, AWSS3Bucket.FOLDER  + productName + "/" + version + "/" + fileName);
         return "sucess";
     });
 
@@ -82,9 +82,9 @@ public class AdminProductImageUploadController extends AdminCoreController {
         String version = getVersion(map);
 
 
-        for (S3ObjectSummary file : s3client.listObjects(S3Bucket.BUCKET_NAME,
-                S3Bucket.FOLDER + "/" +productName + "/" + version).getObjectSummaries()){
-            s3client.deleteObject(S3Bucket.BUCKET_NAME, file.getKey());
+        for (S3ObjectSummary file : s3client.listObjects(AWSS3Bucket.BUCKET_NAME,
+                AWSS3Bucket.FOLDER + "/" +productName + "/" + version).getObjectSummaries()){
+            s3client.deleteObject(AWSS3Bucket.BUCKET_NAME, file.getKey());
         }
 
         return "sucess";

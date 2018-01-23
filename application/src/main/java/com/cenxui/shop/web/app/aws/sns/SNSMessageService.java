@@ -1,19 +1,17 @@
 package com.cenxui.shop.web.app.aws.sns;
 
 import com.amazonaws.services.sns.AmazonSNS;
-import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 import com.amazonaws.services.sns.model.MessageAttributeValue;
 import com.amazonaws.services.sns.model.PublishRequest;
-import com.amazonaws.services.sns.model.PublishResult;
 import com.cenxui.shop.repositories.order.Order;
 import com.cenxui.shop.web.app.config.AWSSNSConfig;
-import com.cenxui.shop.web.app.service.SendMessageService;
+import com.cenxui.shop.web.app.service.MessageService;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SNSSendMessageService implements SendMessageService {
+public class SNSMessageService implements MessageService {
     private final AmazonSNS snsClient = AmazonSNSClientBuilder.standard()
             .withRegion(AWSSNSConfig.REGION).build();
 
