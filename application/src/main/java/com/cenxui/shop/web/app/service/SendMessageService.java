@@ -8,6 +8,6 @@ import com.cenxui.shop.repositories.order.Order;
 
 public interface SendMessageService {
 
-    void sendMessage(Order order);
+    void sendOrderMessage(Order order);
 
 }

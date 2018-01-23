@@ -1,6 +1,10 @@
 package com.cenxui.shop.web.app.config;
 
 public class AWSSNSConfig {
+
+    //todo
+    public static final boolean ENABLE = false;
+
     public static final String REGION = "ap-northeast-1";
 
     public static final String MESSAGE =

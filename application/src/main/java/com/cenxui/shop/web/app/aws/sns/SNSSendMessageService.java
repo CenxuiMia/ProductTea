@@ -18,15 +18,22 @@ public class SNSSendMessageService implements SendMessageService {
             .withRegion(AWSSNSConfig.REGION).build();
 
     @Override
-    public void sendMessage(Order order) {
-        //todo throw exception
+    public void sendOrderMessage(Order order) {
+        if (!AWSSNSConfig.ENABLE) return;
 
-        String message = String.format(AWSSNSConfig.MESSAGE, order.getPrice());
-        String phoneNumber = "+886" + order.getPurchaserPhone().substring(1);
-        Map<String, MessageAttributeValue> smsAttributes =
-                new HashMap<String, MessageAttributeValue>();
-        //<set SMS attributes>
-        sendSMSMessage(snsClient, message, phoneNumber, smsAttributes);
+        if (order == null) throw new SNSException("Order cannot be null");
+
+        //todo
+        try {
+            String message = String.format(AWSSNSConfig.MESSAGE, order.getPrice());
+            String phoneNumber = "+886" + order.getPurchaserPhone().substring(1);
+            Map<String, MessageAttributeValue> smsAttributes =
+                    new HashMap<String, MessageAttributeValue>();
+            //<set SMS attributes>
+            sendSMSMessage(snsClient, message, phoneNumber, smsAttributes);
+        }catch (Exception e) {
+            throw new SNSException(e.getMessage());
+        }
     }
 
     private void sendSMSMessage(AmazonSNS snsClient, String message,

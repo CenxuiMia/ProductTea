@@ -123,8 +123,8 @@ public class OrderController extends CoreController {
          */
 
         //todo exception
-        messageService.sendMessage(result);
-        mailMessageService.sendMessage(result);
+        messageService.sendOrderMessage(result);
+        mailMessageService.sendOrderMessage(result);
 
         return JsonUtil.mapToJsonIgnoreNull(result);
     };

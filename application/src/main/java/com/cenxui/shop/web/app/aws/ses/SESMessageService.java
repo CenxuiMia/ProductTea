@@ -13,10 +13,15 @@ public class SESMessageService implements SendMessageService {
                     .withRegion(AWSSESConfig.REGION).build();
 
     @Override
-    public void sendMessage(Order order) {
-        //todo exception
+    public void sendOrderMessage(Order order) {
+        if (!AWSSESConfig.ENABLE) return;
+
+        if (order == null) throw new SESException("Order cannot be null");
+
         try {
-            String message = String.format(AWSSESConfig.MESSAGE, order.getPrice());
+
+            //todo
+            String message = String.format(AWSSESConfig.HTMLBODY, order.getPrice());
 
             SendEmailRequest request = new SendEmailRequest()
                     .withDestination(
@@ -24,17 +29,13 @@ public class SESMessageService implements SendMessageService {
                     .withMessage(new Message()
                             .withBody(new Body()
                                     .withHtml(new Content()
-                                            .withCharset("UTF-8").withData(AWSSESConfig.HTMLBODY))
-                                    .withText(new Content()
                                             .withCharset("UTF-8").withData(message)))
                             .withSubject(new Content()
                                     .withCharset("UTF-8").withData(AWSSESConfig.SUBJECT)))
                     .withSource(AWSSESConfig.FROM);
             client.sendEmail(request);
-            System.out.println("Email sent!");
-        } catch (Exception ex) {
-            System.out.println("The email was not sent. Error message: "
-                    + ex.getMessage());
+        } catch (Exception e) {
+           throw new SESException(e.getMessage());
         }
     }
 }
