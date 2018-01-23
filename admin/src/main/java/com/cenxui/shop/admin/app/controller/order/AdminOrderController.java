@@ -1,9 +1,9 @@
 package com.cenxui.shop.admin.app.controller.order;
 
-import com.amazonaws.services.dynamodbv2.xspec.M;
-import com.amazonaws.services.dynamodbv2.xspec.S;
-import com.cenxui.shop.admin.app.config.DynamoDBConfig;
+import com.cenxui.shop.admin.app.aws.ses.SESMessageService;
+import com.cenxui.shop.admin.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.admin.app.controller.AdminCoreController;
+import com.cenxui.shop.admin.app.service.MessageService;
 import com.cenxui.shop.admin.app.util.Param;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
 import com.cenxui.shop.repositories.order.*;
@@ -19,10 +19,12 @@ public class AdminOrderController extends AdminCoreController {
 
     private static final OrderRepository orderRepository =
             DynamoDBRepositoryService.getOrderRepository(
-                    DynamoDBConfig.REGION,
-                    DynamoDBConfig.ORDER_TABLE,
-                    DynamoDBConfig.PRODUCT_TABLE
+                    AWSDynamoDBConfig.REGION,
+                    AWSDynamoDBConfig.ORDER_TABLE,
+                    AWSDynamoDBConfig.PRODUCT_TABLE
             );
+
+    private static final MessageService sesService = new SESMessageService();
 
     public static final Route addOrder = (request, response) -> {
         String body = request.body();
@@ -240,6 +242,8 @@ public class AdminOrderController extends AdminCoreController {
         String mail = getMail(map);
         String time = getOrderDateTime(map);
         Order order = orderRepository.shipOrder(mail, time);
+
+        sesService.sendShippedOrderMessage(order);
 
         return JsonUtil.mapToJson(order);
     };

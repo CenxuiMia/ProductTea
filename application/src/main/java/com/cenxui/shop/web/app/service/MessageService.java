@@ -6,8 +6,8 @@ import com.cenxui.shop.repositories.order.Order;
  * send order message to end user. eg mail or sms
  */
 
-public interface SendMessageService {
+public interface MessageService {
 
-    void sendMessage(Order order);
+    void sendOrderMessage(Order order);
 
 }
