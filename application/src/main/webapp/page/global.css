@@ -30,6 +30,8 @@ body {
     background-color: white;
     z-index: 999;
     -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
     transition: all 0.4s ease;
 }
 
@@ -58,6 +60,8 @@ body {
     position: relative;
     min-width: 700px;
     -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
     transition: all 0.4s ease;
 }
 
@@ -122,6 +126,8 @@ img.img {
     width: 60px;
     padding-top: 10px;
     -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
     transition: all 0.4s ease;
 }
 
@@ -162,6 +168,9 @@ a:hover {
     padding-bottom: 5px;
     border-bottom: solid 1px;
     -webkit-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    -moz-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    -o-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
 }
 
 a.active {
@@ -182,6 +191,9 @@ a.active {
     padding-bottom: 5px;
     border-bottom: solid 1px;
     -webkit-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    -moz-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    -o-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
 }
 
 #nav .dropdown {
