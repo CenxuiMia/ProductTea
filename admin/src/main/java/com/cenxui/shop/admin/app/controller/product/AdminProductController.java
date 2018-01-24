@@ -1,6 +1,6 @@
 package com.cenxui.shop.admin.app.controller.product;
 
-import com.cenxui.shop.admin.app.config.DynamoDBConfig;
+import com.cenxui.shop.admin.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.admin.app.controller.AdminCoreController;
 import com.cenxui.shop.admin.app.util.Param;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
@@ -18,8 +18,8 @@ public class AdminProductController extends AdminCoreController {
 
     private static final ProductRepository productRepository =
             DynamoDBRepositoryService.getProductRepository(
-                    DynamoDBConfig.REGION,
-                    DynamoDBConfig.PRODUCT_TABLE
+                    AWSDynamoDBConfig.REGION,
+                    AWSDynamoDBConfig.PRODUCT_TABLE
             );
 
     public static final Route addProduct = (Request request, Response response) -> {

@@ -26,6 +26,7 @@ Resources:
         - AWSLambdaBasicExecutionRole
         - AmazonDynamoDBFullAccess # todo modify it
         - AmazonSNSFullAccess # todo modify it
+        - AmazonSESFullAccess # todo modify it
       Timeout: 20
       Events:
         GetResource:
