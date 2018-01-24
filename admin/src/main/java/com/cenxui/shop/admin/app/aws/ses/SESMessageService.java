@@ -14,44 +14,55 @@ public class SESMessageService implements MessageService {
 
     @Override
     public void sendPayOrderMessage(Order paidOrder) {
+        if (!AWSSESConfig.ENABLE) return;
+
         checkOrder(paidOrder);
-        //todo
+        String message = String.format(
+                AWSSESConfig.HTMLPAY,
+                paidOrder.getMail(),
+                paidOrder.getPaidDate(),
+                paidOrder.getPrice());
+
+        sendMail(paidOrder.getMail(), message, AWSSESConfig.PAY_SUBJECT);
     }
 
     @Override
     public void sendDePaidOrderMessage(Order paidOrder) {
+        if (!AWSSESConfig.ENABLE) return;
+
         checkOrder(paidOrder);
+
         //todo
     }
 
 
 
     @Override
-    public void sendShipOrderMessage(Order order) {
-
+    public void sendShipOrderMessage(Order shippedOrder) {
         if (!AWSSESConfig.ENABLE) return;
 
-        checkOrder(order);
+        checkOrder(shippedOrder);
+        String message = String.format(
+                AWSSESConfig.HTMLSHIP,
+                shippedOrder.getPaidDate());
+
+
+        sendMail(shippedOrder.getMail(), message, AWSSESConfig.SHIP_SUBJECT);
+
+    }
+
+    private void sendMail(String mail, String message, String subject) {
 
         try {
-
-            //todo
-            StringBuilder builder = new StringBuilder();
-
-            for (String product : order.getProducts()) {
-                String[] item = product.split(";");
-                builder.append("商品").append(item[0]).append(item[1]).append("數量：").append(item[2]).append("\n");
-            }
-
             SendEmailRequest request = new SendEmailRequest()
                     .withDestination(
-                            new Destination().withToAddresses(order.getMail()))
+                            new Destination().withToAddresses(mail))
                     .withMessage(new Message()
                             .withBody(new Body()
                                     .withHtml(new Content()
-                                            .withCharset("UTF-8").withData(builder.toString())))
+                                            .withCharset("UTF-8").withData(message)))
                             .withSubject(new Content()
-                                    .withCharset("UTF-8").withData(AWSSESConfig.SUBJECT)))
+                                    .withCharset("UTF-8").withData(subject)))
                     .withSource(AWSSESConfig.FROM);
             client.sendEmail(request);
         } catch (Exception e) {
@@ -61,6 +72,7 @@ public class SESMessageService implements MessageService {
 
     @Override
     public void sendDeShippedOrderMessage(Order shippedOrder) {
+        if (!AWSSESConfig.ENABLE) return;
         checkOrder(shippedOrder);
         //todo
     }
