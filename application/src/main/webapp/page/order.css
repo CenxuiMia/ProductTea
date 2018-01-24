@@ -21,13 +21,6 @@ fieldset {
     width: 100%;
 }
 
-#productsList {
-    float: right;
-    margin-top: 0.67rem;
-    margin-right: 1.7rem;
-    padding-right: 100px;
-}
-
 #cartTable {
     text-align: center;
 }
@@ -84,6 +77,11 @@ fieldset {
     margin: 2rem 0;
 }
 
+#ship input {
+    width: 1.2rem;
+    display: inline-block;
+}
+
 .confirmContent {
     margin: 3rem;
 }
@@ -95,4 +93,40 @@ fieldset {
 
 .accountHint .hint {
     color: olivedrab;
+}
+
+/* phone version 手機版 */
+@media only screen and (max-device-width: 1024px) {
+    .content {
+        margin: 0.67rem 2rem 0.67rem 2rem;
+    }
+
+    #cartProductsList {
+        margin: 0;
+    }
+
+    #cartTable td {
+        min-width: 4.7rem;
+    }
+
+    #cartTable .cartProductName {
+        min-width: 4.7rem;
+    }
+
+    #cartTable input {
+        width: 2.8rem;
+    }
+
+    #cartTable button {
+        font-size: 20px;
+    }
+
+    .cartImage {
+        width: 130px;
+        padding: 0.5rem;
+    }
+
+    .confirmButton1 {
+        width: 10rem;
+    }
 }
