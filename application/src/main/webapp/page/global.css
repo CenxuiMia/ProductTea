@@ -30,6 +30,8 @@ body {
     background-color: white;
     z-index: 999;
     -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
     transition: all 0.4s ease;
 }
 
@@ -58,6 +60,8 @@ body {
     position: relative;
     min-width: 700px;
     -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
     transition: all 0.4s ease;
 }
 
@@ -122,6 +126,8 @@ img.img {
     width: 60px;
     padding-top: 10px;
     -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
     transition: all 0.4s ease;
 }
 
@@ -162,6 +168,9 @@ a:hover {
     padding-bottom: 5px;
     border-bottom: solid 1px;
     -webkit-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    -moz-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    -o-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
 }
 
 a.active {
@@ -182,6 +191,9 @@ a.active {
     padding-bottom: 5px;
     border-bottom: solid 1px;
     -webkit-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    -moz-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    -o-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 0.1);
 }
 
 #nav .dropdown {
@@ -219,20 +231,6 @@ a.active {
 
 #nav .dropdown:hover .dropdown-content {
     display: block;
-}
-
-.navbar {
-    overflow: visible;
-    position: fixed;
-    background-color: white;
-    width: 100%;
-    height: 50px;
-    z-index: 1;
-    top: 0;
-}
-
-.navbar::after {
-    clear: both;
 }
 
 #tab a {
@@ -526,11 +524,7 @@ footer .icon img {
 /* phone version 手機版 */
 @media only screen and (max-device-width: 1024px) {
     body, html {
-        font: 400 25px "Lato", sans-serif;
-    }
-
-    .material-icons {
-        font-size: 30px;
+        font: 400 28px "Lato", sans-serif;
     }
 
     #id_header {
@@ -542,8 +536,35 @@ footer .icon img {
         padding-bottom: 50px;
     }
 
-    .navbar {
-        height: 100px;
+    .header {
+        width: 90%;
+        padding-top: 20px;
+    }
+
+    .header.shrink {
+        font-size: 95%;
+        padding-top: 10px;
+    }
+
+    #nav #mark_img {
+        top: 10px;
+    }
+
+    img.img {
+        width: 60px;
+    }
+
+    img.img.shrink {
+        padding-top: 5px;
+        width: 55px;
+    }
+
+    .material-icons {
+        font-size: 38px;
+    }
+
+    .shrink .material-icons {
+        font-size: 35px;
     }
 
     #tab a {
@@ -595,6 +616,10 @@ footer .icon img {
     .bannerRight p {
         font-size: 30px;
     }
+
+    footer .tab a {
+         margin-right: 8%;
+     }
 
     .footer-copyright {
         letter-spacing: 0;

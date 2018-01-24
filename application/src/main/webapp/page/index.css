@@ -89,31 +89,58 @@ body, html {
 
 /* phone version 手機版 */
 @media only screen and (max-device-width: 1024px) {
-
-    .contact {
-        padding:80px 80px;
+    #main {
+        width: 100vw;
+        height: 40vh;
     }
 
-    .contact .title {
-        letter-spacing: 10px;
-        font: 40px "Lato", sans-serif;
+    .layer1 {
+        top:5%;
     }
 
-    .contact .text {
-        letter-spacing: 3px;
+    .layer2 {
+        top: 15%;
     }
 
-    .icon {
-        float: none;
-        clear: both;
-        display: block;
-        text-align: center;
-        padding-top: 40px;
+    .layer3 {
+        top: 25%;
+        left: 15%;
+        width: 70%;
+        min-width: 450px;
     }
 
-    .icon img {
-        width: 50px;
-        margin: 10px;
+    .recommend {
+        display: flex;
+        margin: 3rem auto;
+        width: 100%;
     }
 
+    .recommend .right.img {
+        padding-top: 10%;
+        margin-left: 5%;
+    }
+
+    .recommend .left.img {
+        padding-top: 10%;
+        margin-right: 5%;
+    }
+
+    .recommend .text .title {
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    .recommend .text {
+        width: 40%;
+        text-align: justify;
+        letter-spacing: 0.15rem;
+    }
+
+    .recommend .right.text {
+        margin-right: 10%;
+    }
+
+    .recommend .left.text {
+        margin-left: 10%;
+    }
 }

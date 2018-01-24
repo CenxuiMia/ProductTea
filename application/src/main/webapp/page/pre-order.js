@@ -84,7 +84,12 @@ function calculateTrialTotal() {
             let data = JSON.parse(response);
             document.getElementById("productsPrice").innerHTML = data.productsPrice;
             document.getElementById("shippingCost").innerHTML = data.shippingCost;
-            document.getElementById("activity").innerHTML = data.activity;
+            if (typeof data.activity !== "undefined") {
+                document.getElementById("activityArea").hidden = false;
+                document.getElementById("activity").innerHTML = data.activity;
+            } else {
+                document.getElementById("activityArea").hidden = true;
+            }
             document.getElementById("price").innerHTML = data.price;
         },
         error : function(xhr, status, error) {
