@@ -267,3 +267,11 @@ function checkInputValid() {
 
     return isValid;
 }
+
+function sameWithPurchaser() {
+    let purchaser = document.getElementById("purchaser").value;
+    let receiverPhone = document.getElementById("purchaserPhone").value;
+    document.getElementById("receiver").value = purchaser === undefined ? "" : purchaser;
+    document.getElementById("receiverPhone").value = receiverPhone === undefined ? "" : receiverPhone;
+    document.getElementById("shippingAddress").value = localStorage.address === undefined? "" : localStorage.address;;
+}
