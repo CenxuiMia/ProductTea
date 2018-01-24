@@ -225,6 +225,8 @@ public class AdminOrderController extends AdminCoreController {
         String time = getOrderDateTime(map);
         Order order = orderRepository.payOrder(mail, time);
 
+        sesService.sendPayOrderMessage(order);
+
         return JsonUtil.mapToJson(order);
     };
 
@@ -233,6 +235,8 @@ public class AdminOrderController extends AdminCoreController {
         String mail = getMail(map);
         String time = getOrderDateTime(map);
         Order order = orderRepository.dePayOrder(mail, time);
+
+        sesService.sendDePaidOrderMessage(order);
 
         return JsonUtil.mapToJson(order);
     };
@@ -243,7 +247,7 @@ public class AdminOrderController extends AdminCoreController {
         String time = getOrderDateTime(map);
         Order order = orderRepository.shipOrder(mail, time);
 
-        sesService.sendShippedOrderMessage(order);
+        sesService.sendShipOrderMessage(order);
 
         return JsonUtil.mapToJson(order);
     };
@@ -254,6 +258,8 @@ public class AdminOrderController extends AdminCoreController {
         String mail = getMail(map);
         String time = getOrderDateTime(map);
         Order order = orderRepository.deShipOrder(mail, time);
+
+        sesService.sendDeShippedOrderMessage(order);
 
         return JsonUtil.mapToJson(order);
     };

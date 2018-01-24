@@ -21,7 +21,12 @@ public class SESMessageService implements MessageService {
         try {
 
             //todo
-            String message = String.format(AWSSESConfig.HTMLBODY, order.getPrice());
+            String message =
+                    String.format(
+                            AWSSESConfig.HTMLBODY,
+                            order.getMail(),
+                            order.getOrderDateTime(),
+                            order.getPrice());
 
             SendEmailRequest request = new SendEmailRequest()
                     .withDestination(
