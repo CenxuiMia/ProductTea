@@ -86,6 +86,7 @@ function removeItem(key) {
 
 function clearCart() {
     localStorage.removeItem("cartItems");
+    location.reload();
 }
 
 function goToOrder() {
