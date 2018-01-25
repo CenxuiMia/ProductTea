@@ -47,7 +47,12 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="./cart.html" id="cart" class="active"><i class="material-icons md-light">shopping_cart</i></a></li>
+                    <li>
+                        <a href="cart.html" id="cart">
+                            <i class="material-icons md-light">shopping_cart</i>
+                            <span id="cartNum">0</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -57,6 +62,11 @@
         <h2 class="formTitle">訂單系統</h2>
 
         <div class="borderLeft"></div>
+
+        <div id="progressBar">
+            <p class="loader"></p>
+            載入頁面中...
+        </div>
 
         <div class="content">
             <p>請確認商品以及取貨方式</p>

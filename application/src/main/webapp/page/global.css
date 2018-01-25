@@ -233,6 +233,18 @@ a.active {
     display: block;
 }
 
+#nav #cart #cartNum {
+    /*background: olivedrab;*/
+    border-radius: 50%;
+    /*color: white;*/
+    border: 1px solid olivedrab;
+    color: olivedrab;
+    font-size: 9px;
+    margin: 0;
+    font-weight: 900;
+    padding: 1px 3px;
+}
+
 #tab a {
     float: left;
     display: block;
@@ -521,6 +533,36 @@ footer .icon img {
 }
 /*-- snackbar --*/
 
+/*--- loader ---*/
+#progressBar {
+    margin: 5% auto;
+    text-align: center;
+}
+
+.loader {
+    margin: auto;
+    border: 7px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 7px solid olivedrab;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 1s ease-in-out infinite;
+    -moz-animation: spin 1s ease-in-out infinite;
+    -o-animation: spin 1s ease-in-out infinite;
+    animation: spin 1s ease-in-out infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 /* phone version 手機版 */
 @media only screen and (max-device-width: 1024px) {
     body, html {
@@ -573,6 +615,17 @@ footer .icon img {
 
     #cart {
         padding: 24px 30px 9px 30px;
+    }
+
+    #nav #cart #cartNum {
+        /*background: olivedrab;*/
+        /*border-radius: 50%;*/
+        /*color: white;*/
+        color: olivedrab;
+        font-size: 18px;
+        margin: 0;
+        font-weight: 900;
+        padding: 1px 5px;
     }
 
     .dropdown #dropbtn {

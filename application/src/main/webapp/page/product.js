@@ -74,7 +74,7 @@ function getParameterByName(name) {
 }
 
 function showContent() {
-    document.getElementById("loading").hidden = true;
+    hideProgressBar();
     document.getElementById("content").hidden = false;
 }
 
@@ -100,6 +100,8 @@ function addToCart() {
     cartItems.set(productDataAsKey, count);
     localStorage.setItem("cartItems", JSON.stringify(Array.from(cartItems.entries())));
     showSnackBarAutoClose(document.getElementById("snackbar"), addCartSuccess);
+
+    updateCartNum();
 
     console.info("localstorage getItem: " + localStorage.getItem("cartItems"));
     console.info("JSON parse: " + JSON.parse(localStorage.cartItems));

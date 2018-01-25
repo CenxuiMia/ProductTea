@@ -50,7 +50,12 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="./cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a></li>
+                    <li>
+                        <a href="cart.html" id="cart">
+                            <i class="material-icons md-light">shopping_cart</i>
+                            <span id="cartNum">0</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -65,6 +70,11 @@
         <div class="bannerRight">
             <h2>皇飲</h2>
             <p>生活，來點品味。</p>
+        </div>
+
+        <div id="progressBar" style="float: left; margin-left: 5%">
+            <p class="loader"></p>
+            載入頁面中...
         </div>
 
         <table id="ordersTable">

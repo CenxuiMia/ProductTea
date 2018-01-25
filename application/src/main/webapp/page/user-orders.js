@@ -17,6 +17,8 @@ $(document).ready(function () {
 });
 
 function getOrders() {
+    onLoading();
+
     $.ajax({
         type : 'GET',
         url : orderEndpoint,
@@ -43,7 +45,20 @@ function getOrders() {
         },
         error : function(xhr, status, error) {
             console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
+        },
+        complete : function () {
+            onLoaded();
         }
     });
+}
+
+function onLoading() {
+    showProgressBar();
+    document.getElementById("ordersTable").hidden = true;
+}
+
+function onLoaded() {
+    hideProgressBar();
+    document.getElementById("ordersTable").hidden = false;
 }
 

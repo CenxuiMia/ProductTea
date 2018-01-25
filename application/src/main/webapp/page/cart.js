@@ -73,6 +73,8 @@ function updateSubtotal(event, key) {
     cartItem.set(key, number);
     localStorage.setItem("cartItems", JSON.stringify(Array.from(cartItem.entries())));
     console.info("JSON parse: " + JSON.parse(localStorage.cartItems));
+
+    updateCartNum();
 }
 
 function removeItem(key) {

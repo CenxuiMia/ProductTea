@@ -12,18 +12,15 @@ $(document).ready(function () {
             console.info("index on signOut");
         }
     );
-    loading();
     queryProductsData();
     showSlides();
 });
 
-function loading() {
-    document.getElementsByClassName("prod-list")[0].innerHTML = loadingData;
-}
-
 function queryProductsData() {
+    showProgressBar();
 
     $.get(productEndpoint, function(jsonData, status){
+        hideProgressBar();
         console.info("Data: " + jsonData + "\nStatus: " + status);
 
         let productList = document.getElementsByClassName("prod-list")[0];

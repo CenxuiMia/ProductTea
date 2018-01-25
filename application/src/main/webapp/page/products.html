@@ -50,7 +50,12 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="./cart.html" id="cart"><i class="material-icons md-light">shopping_cart</i></a></li>
+                    <li>
+                        <a href="cart.html" id="cart">
+                            <i class="material-icons md-light">shopping_cart</i>
+                            <span id="cartNum">0</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -67,6 +72,11 @@
             <span class="dot" onclick="onClickSlide(0)"></span>
             <span class="dot" onclick="onClickSlide(1)"></span>
             <span class="dot" onclick="onClickSlide(2)"></span>
+        </div>
+
+        <div id="progressBar">
+            <p class="loader"></p>
+            載入商品中...
         </div>
 
         <div class="prod-list"></div>
