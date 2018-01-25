@@ -60,3 +60,11 @@ function redirect(redirectURL) {
 function sendMail() {
     window.location.assign('mailto:support@hwangying.com');
 }
+
+function showProgressBar() {
+    document.getElementById("progressBar").hidden = false;
+}
+
+function hideProgressBar() {
+    document.getElementById("progressBar").hidden = true;
+}

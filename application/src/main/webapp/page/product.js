@@ -74,7 +74,7 @@ function getParameterByName(name) {
 }
 
 function showContent() {
-    document.getElementById("loading").hidden = true;
+    hideProgressBar();
     document.getElementById("content").hidden = false;
 }
 

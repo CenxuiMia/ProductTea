@@ -12,6 +12,7 @@ $(document).ready(function () {
         }
     );
 
+    onLoading();
     checkCartValid();
 });
 
@@ -95,6 +96,9 @@ function calculateTrialTotal() {
         error : function(xhr, status, error) {
             console.log( "error trial order: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
 
+        },
+        complete : function () {
+            onLoaded();
         }
     });
 }
@@ -127,4 +131,14 @@ function checkShippingValid() {
 
     document.getElementById("alert").hidden = isValid;
     return isValid;
+}
+
+function onLoading() {
+    showProgressBar();
+    document.getElementsByClassName("content")[0].hidden = true;
+}
+
+function onLoaded() {
+    hideProgressBar();
+    document.getElementsByClassName("content")[0].hidden = false;
 }
