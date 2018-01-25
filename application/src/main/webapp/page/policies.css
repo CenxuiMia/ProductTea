@@ -13,3 +13,17 @@
 .content h4 {
     margin: 0.3rem 0;
 }
+
+@media only screen and (max-device-width: 1024px) {
+    #id_content {
+        font-size: 13px;
+    }
+
+    .formTitle {
+        font-size: 1rem;
+    }
+
+    footer .footer-copyright {
+        font-size: 8.5px;
+    }
+}
