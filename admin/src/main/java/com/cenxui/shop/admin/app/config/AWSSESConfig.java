@@ -7,10 +7,13 @@ public class AWSSESConfig {
 
     public static final String REGION = "us-east-1";
 
-    public static final String PAY_SUBJECT = "(no reply) 皇飲 收款通知\n";
+    public static final String PAY_SUBJECT = "(no reply) 皇飲 收款通知";
+
+    public static final String DEPAY_SUBJECT = "(no reply) 皇飲 收款通知";
 
     public static final String SHIP_SUBJECT = "(no reply) 皇飲 發貨通知";
 
+    public static final String DESHIP_SUBJECT = "(no reply) 皇飲 發貨通知";
     
     public static final String HTMLPAY = 
             "<p>親愛的顧客，您好！<br>" +
@@ -27,6 +30,15 @@ public class AWSSESConfig {
             "<br>" +
             "<a href='https://hwangying.com/'>皇飲 Hwang Ying</a><br>" +
             "提供您最優質的台灣高山好茶 <br>https://hwangying.com</p>";
+
+    public static final String HTML_DEPAY =
+            "<p>親愛的顧客，您好！<br>" +
+                    "很抱歉因為我們的疏失取消此訂單付款<br>" +
+                    "<br>" +
+                    "會員信箱：%s<br>" +
+                    "訂購時間：%s<br>" +
+                    "<a href='https://hwangying.com/'>皇飲 Hwang Ying</a><br>" +
+                    "提供您最優質的台灣高山好茶 <br>https://hwangying.com</p>";
     
     public static final String HTMLSHIP = 
                     "親愛的顧客，您好！<br>" +
@@ -36,6 +48,14 @@ public class AWSSESConfig {
                             "查詢訂單詳細資訊，以及最新狀態。<br>" +
                     "如有訂單相關問題，歡迎寄信至support@hwangying.com，或洽0972858256由客服提供您協助。<br>" +
                     "<br>" +
+                    "<br>" +
+                    "<a href='https://hwangying.com/'>皇飲 Hwang Ying</a><br>" +
+                    "提供您最優質的台灣高山好茶<br>" +
+                    "https://tw.hwangying.com<br>";
+
+    public static final String HTML_DESHIP =
+            "親愛的顧客，您好！<br>" +
+                    "很抱歉因為我們的疏失取消此訂單出貨（會員信箱：%s 訂單時間：%s）。再次感謝您對皇飲的支持，謝謝！<br>" +
                     "<br>" +
                     "<a href='https://hwangying.com/'>皇飲 Hwang Ying</a><br>" +
                     "提供您最優質的台灣高山好茶<br>" +

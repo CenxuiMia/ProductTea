@@ -15,6 +15,7 @@ public class Product {
     public static final String SMALL_IMAGES = "smallImages";
     public static final String PRICE = "price";
     public static final String ORIGINAL_PRICE = "originalPrice";
+    public static final String PRIORITY = "priority";
     public static final String TAG = "tag";
 
 
@@ -27,6 +28,7 @@ public class Product {
     List<String> smallImages;
     Integer price;
     Integer originalPrice;
+    Integer priority;
     String tag;
 
 }

@@ -13,6 +13,7 @@ import com.cenxui.shop.repositories.product.*;
 import com.cenxui.shop.util.JsonUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ class DynamoDBProductBaseRepository implements ProductBaseRepository {
     }
 
     @Override
-    public Products getAllProductsProjectIntroSmallImagePriceTag() {
+    public Products getAllSortedProductsPartial() {
 
         //todo add field
         ScanSpec scanSpec = new ScanSpec()
@@ -50,14 +51,32 @@ class DynamoDBProductBaseRepository implements ProductBaseRepository {
                                 Product.INTRODUCTION + "," +
                                 Product.PRICE + "," +
                                 Product.ORIGINAL_PRICE + "," +
+                                Product.PRIORITY + "," +
                                 Product.TAG );
 
         ItemCollection<ScanOutcome> itemCollection = productTable.scan(scanSpec);
         List<Product> products = mapScanOutcomeToProducts(itemCollection);
+
+        Collections.sort(products,(p1, p2)-> {
+            if (p1.getPriority() == p2.getPriority())
+                return 0;
+
+            if (p1.getPriority() == null) {
+                return 1;
+            }else if (p2.getPriority() == null) {
+                return -1;
+            }if (p1.getPriority() < p2.getPriority()){
+                return 1;
+            }else {
+                return -1;
+            }
+        } );
+
         ProductKey productKey = getScanOutcomeLastKey(itemCollection);
 
         return Products.of(products, productKey);
     }
+
 
     @Override
     public Products getProductsByPrice(Integer price) {
@@ -180,7 +199,6 @@ class DynamoDBProductBaseRepository implements ProductBaseRepository {
             throw new ProductPrimaryKeyCannotEmptyException();
         }
     }
-
 
     private List<Product> mapQueryOutcomeToProducts(ItemCollection<QueryOutcome> collection) {
         List<Product> products = new ArrayList<>();

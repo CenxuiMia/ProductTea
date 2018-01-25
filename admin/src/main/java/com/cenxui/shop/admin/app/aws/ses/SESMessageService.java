@@ -20,7 +20,7 @@ public class SESMessageService implements MessageService {
         String message = String.format(
                 AWSSESConfig.HTMLPAY,
                 paidOrder.getMail(),
-                paidOrder.getPaidDate(),
+                paidOrder.getOrderDateTime(),
                 paidOrder.getPrice());
 
         sendMail(paidOrder.getMail(), message, AWSSESConfig.PAY_SUBJECT);
@@ -32,7 +32,12 @@ public class SESMessageService implements MessageService {
 
         checkOrder(paidOrder);
 
-        //todo
+        String message = String.format(
+                AWSSESConfig.HTML_DEPAY,
+                paidOrder.getMail(),
+                paidOrder.getOrderDateTime());
+
+        sendMail(paidOrder.getMail(), message, AWSSESConfig.DEPAY_SUBJECT);
     }
 
 
@@ -44,12 +49,26 @@ public class SESMessageService implements MessageService {
         checkOrder(shippedOrder);
         String message = String.format(
                 AWSSESConfig.HTMLSHIP,
-                shippedOrder.getPaidDate());
+                shippedOrder.getOrderDateTime());
 
 
         sendMail(shippedOrder.getMail(), message, AWSSESConfig.SHIP_SUBJECT);
 
     }
+
+    @Override
+    public void sendDeShippedOrderMessage(Order shippedOrder) {
+        if (!AWSSESConfig.ENABLE) return;
+        checkOrder(shippedOrder);
+
+        String message = String.format(
+                AWSSESConfig.HTML_DESHIP,
+                shippedOrder.getMail(),
+                shippedOrder.getOrderDateTime());
+
+        sendMail(shippedOrder.getMail(), message, AWSSESConfig.DESHIP_SUBJECT);
+    }
+
 
     private void sendMail(String mail, String message, String subject) {
 
@@ -70,15 +89,11 @@ public class SESMessageService implements MessageService {
         }
     }
 
-    @Override
-    public void sendDeShippedOrderMessage(Order shippedOrder) {
-        if (!AWSSESConfig.ENABLE) return;
-        checkOrder(shippedOrder);
-        //todo
-    }
 
     private void checkOrder(Order order) {
         if (order == null) throw new SESException("Order cannot be null");
+
+        //todo
     }
 
 }
