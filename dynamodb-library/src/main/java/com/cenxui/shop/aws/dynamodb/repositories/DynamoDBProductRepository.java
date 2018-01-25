@@ -23,8 +23,8 @@ final class DynamoDBProductRepository implements ProductRepository {
     }
 
     @Override
-    public Products getAllProductsProjectIntroSmallImagePriceTag() {
-        return productBaseRepository.getAllProductsProjectIntroSmallImagePriceTag();
+    public Products getAllSortedProductsPartial() {
+        return productBaseRepository.getAllSortedProductsPartial();
     }
 
     @Override

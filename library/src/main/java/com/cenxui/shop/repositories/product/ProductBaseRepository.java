@@ -8,7 +8,7 @@ public interface ProductBaseRepository extends Repository {
 
     Products getAllProducts();
 
-    Products getAllProductsProjectIntroSmallImagePriceTag();
+    Products getAllSortedProductsPartial();
 
     Products getProductsByTag(String tag);
 
