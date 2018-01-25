@@ -82,6 +82,23 @@ fieldset {
     display: inline-block;
 }
 
+#trialPrice tr {
+    line-height: 1.7rem;
+}
+
+#trialPrice th {
+    text-align: left;
+}
+
+#trialPrice td {
+    padding-left: 1rem;
+}
+
+#trialPrice #sum th, #trialPrice #sum td {
+    border-top: solid #bbbbbb 1px;
+    padding-top: 0.5rem
+}
+
 .confirmContent {
     margin: 3rem;
 }

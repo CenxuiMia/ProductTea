@@ -150,4 +150,14 @@ select:hover {
     #buttons {
         text-align: center;
     }
+
+    #link {
+        font-size: 26px;
+    }
+
+    .photos p {
+        margin: 10% 5%;
+        letter-spacing: 1px;
+        font-size: 28px;
+    }
 }

@@ -617,6 +617,17 @@ footer .icon img {
         font-size: 30px;
     }
 
+    .slidesSection {
+        width: 60%;
+        min-height: 150px;
+        max-height: 250px;
+        margin: 2rem auto 1.5rem;
+    }
+
+    .slidesSection img {
+        max-height: 250px;
+    }
+
     footer .tab a {
          margin-right: 8%;
      }
