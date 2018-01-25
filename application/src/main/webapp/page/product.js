@@ -101,6 +101,8 @@ function addToCart() {
     localStorage.setItem("cartItems", JSON.stringify(Array.from(cartItems.entries())));
     showSnackBarAutoClose(document.getElementById("snackbar"), addCartSuccess);
 
+    updateCartNum();
+
     console.info("localstorage getItem: " + localStorage.getItem("cartItems"));
     console.info("JSON parse: " + JSON.parse(localStorage.cartItems));
 }

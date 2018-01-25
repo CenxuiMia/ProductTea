@@ -68,3 +68,20 @@ function showProgressBar() {
 function hideProgressBar() {
     document.getElementById("progressBar").hidden = true;
 }
+
+function updateCartNum() {
+    let cartNumDoc = document.getElementById("cartNum");
+    let cartStorage = localStorage.getItem("cartItems");
+    let cartItems = new Map(JSON.parse(cartStorage));
+
+    if (cartStorage === null || cartItems.size === 0) {
+        cartNumDoc.hidden = true;
+    } else {
+        let num = 0;
+        cartItems.forEach(function(value,key,map) {
+            num += parseInt(value);
+        });
+        cartNumDoc.innerHTML = num;
+        cartNumDoc.hidden = false;
+    }
+}

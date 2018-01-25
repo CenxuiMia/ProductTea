@@ -233,6 +233,18 @@ a.active {
     display: block;
 }
 
+#nav #cart #cartNum {
+    /*background: olivedrab;*/
+    border-radius: 50%;
+    /*color: white;*/
+    border: 1px solid olivedrab;
+    color: olivedrab;
+    font-size: 9px;
+    margin: 0;
+    font-weight: 900;
+    padding: 1px 3px;
+}
+
 #tab a {
     float: left;
     display: block;
@@ -603,6 +615,17 @@ footer .icon img {
 
     #cart {
         padding: 24px 30px 9px 30px;
+    }
+
+    #nav #cart #cartNum {
+        /*background: olivedrab;*/
+        /*border-radius: 50%;*/
+        /*color: white;*/
+        color: olivedrab;
+        font-size: 18px;
+        margin: 0;
+        font-weight: 900;
+        padding: 1px 5px;
     }
 
     .dropdown #dropbtn {
