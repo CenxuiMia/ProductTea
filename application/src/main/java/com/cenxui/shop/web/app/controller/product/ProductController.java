@@ -13,6 +13,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,12 +35,12 @@ public class ProductController extends CoreController {
     public static final Route getAllProducts = (Request request,  Response response) -> {
         if (!cached) {
             return JsonUtil.mapToJsonIgnoreNull(
-                    productRepository.getAllProductsProjectIntroSmallImagePriceTag());
+                    productRepository.getAllSortedProductsPartial());
         }
 
         if (productJson == null) {
             productJson = JsonUtil.mapToJsonIgnoreNull(
-                    productRepository.getAllProductsProjectIntroSmallImagePriceTag());
+                    productRepository.getAllSortedProductsPartial());
         }
 
         return productJson;
