@@ -14,7 +14,7 @@ public class OrderGetAllPathTest {
 
     @Test
     public void getAllOrder() {
-///todo bug
+
         try {
 
             OrderKey orderKey = null;
@@ -141,7 +141,6 @@ public class OrderGetAllPathTest {
     public void getShippedOrder() {
         try {
 
-            //todo bug fixed
             OrderShippedLastKey orderKey = null;
             do {
                 System.out.println("================start query ==================");

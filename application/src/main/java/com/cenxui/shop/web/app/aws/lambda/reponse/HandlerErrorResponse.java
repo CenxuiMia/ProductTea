@@ -9,7 +9,6 @@ public class HandlerErrorResponse extends AwsProxyResponse{
     public HandlerErrorResponse() {
         Map<String, String> headers = new TreeMap<>();
         headers.put("Access-Control-Allow-Origin", "*");
-        //todo
     }
 
 }

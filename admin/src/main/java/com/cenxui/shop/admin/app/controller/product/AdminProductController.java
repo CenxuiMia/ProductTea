@@ -52,7 +52,6 @@ public class AdminProductController extends AdminCoreController {
     };
 
     private static Product mapRequestBodyToProduct(String body) {
-        //todo
 
         try {
             return JsonUtil.mapToProduct(body);
