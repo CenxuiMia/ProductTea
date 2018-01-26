@@ -115,22 +115,32 @@ function appendOrders(orders) {
         }
 
 
+        let productForm = orders[i].products.toString().replace(/;/g," ").replace(/,/g, "<br>");
+
+        let comment = orders[i].comment === null ? "" : orders[i].comment;
+        let paidDate = orders[i].paidDate === null ? "" : orders[i].paidDate;
+        let paidTime = orders[i].paidTime === null ? "" : "T" + orders[i].paidTime;
+        let processingDate = orders[i].processingDate === null ? "" : orders[i].processingDate;
+        let shippedDate = orders[i].shippedDate === null ? "" : orders[i].shippedDate;
+        let shippedTime = orders[i].shippedTime === null ? "" : "T" + orders[i].shippedTime;
+
+
         var order =
             "<tr> " +
             "   <td>"+ number++ +"</td> " +
             "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + " " + buttonActiveHTML + buttonPayHTML + buttonShipHTML + "</td> " +
-            "   <td>" + orders[i].products + "</td> " +
+            "   <td class='productForm'>" + productForm + "</td> " +
             "   <td>" + orders[i].price +"</td> " +
             "   <td>" + orders[i].purchaser+"</td> " +
             "   <td>" + orders[i].purchaserPhone+"</td> " +
-            "   <td>" + orders[i].receiver + "</td> " +
+            "   <td class='receiver'>" + orders[i].receiver + "</td> " +
             "   <td>" + orders[i].receiverPhone + "</td> " +
             "   <td>" + orders[i].shippingWay + "</td> " +
             "   <td>" + orders[i].shippingAddress + "</td> " +
-            "   <td>" + orders[i].comment+"</td> " +
-            "   <td>" + orders[i].paidDate + orders[i].paidTime + "</td> " +
-            "   <td>" + orders[i].processingDate + "</td> " +
-            "   <td>" + orders[i].shippedDate + orders[i].shippedTime + "</td> " +
+            "   <td>" + comment+"</td> " +
+            "   <td>" + paidDate + paidTime + "</td> " +
+            "   <td>" + processingDate + "</td> " +
+            "   <td>" + shippedDate + shippedTime + "</td> " +
             "</tr>";               // Create element with HTML
         orderForm.innerHTML += order;      // Append the new elements
     }
@@ -428,4 +438,3 @@ function searchShippedOrder() {
     cleanOrderForm();
     getOrders(url);
 }
-
