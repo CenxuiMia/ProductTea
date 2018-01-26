@@ -7,7 +7,7 @@ import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.product.ProductPrimaryKeyCannotEmptyException;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.product.ProductNotFoundException;
 import com.cenxui.shop.aws.dynamodb.util.ItemUtil;
-import com.cenxui.shop.aws.dynamodb.exceptions.client.map.product.ProductJsonMapException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.product.ProductJsonMapException;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.product.ProductsFormatException;
 import com.cenxui.shop.repositories.product.*;
 import com.cenxui.shop.util.JsonUtil;
@@ -223,7 +223,7 @@ class DynamoDBProductBaseRepository implements ProductBaseRepository {
     private Product mapToProduct(String productJson) {
         try {
             return JsonUtil.mapToProduct(productJson);
-        }catch (Throwable e) {
+        }catch (Exception e) {
             throw new ProductJsonMapException(productJson);
         }
     }

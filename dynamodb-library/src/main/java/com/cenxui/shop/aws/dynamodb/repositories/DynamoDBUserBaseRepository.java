@@ -6,7 +6,9 @@ import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.cenxui.shop.aws.dynamodb.exceptions.client.map.user.UserJsonMapException;
+import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
+import com.cenxui.shop.aws.dynamodb.exceptions.client.user.UserBirthdayExistException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.user.UserJsonMapException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.user.UserPrimaryKeyCannotEmptyException;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.user.UserProfileException;
 import com.cenxui.shop.aws.dynamodb.util.ItemUtil;
@@ -16,6 +18,7 @@ import com.cenxui.shop.repositories.user.UserKey;
 import com.cenxui.shop.repositories.user.Users;
 import com.cenxui.shop.util.JsonUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,9 +34,15 @@ class DynamoDBUserBaseRepository implements UserBaseRepository {
     @Override
     public User updateUserProfile(User user) {
         PutItemSpec putItemSpec = new PutItemSpec()
-                .withItem(ItemUtil.getUserItem(user));
+                .withItem(ItemUtil.getUserItem(user))
+                .withConditionExpression(
+                        "attribute_not_exists(" + User.BIRTHDAY + ")");
 
-        userTable.putItem(putItemSpec);
+        try {
+            userTable.putItem(putItemSpec);
+        }catch (ConditionalCheckFailedException e) {
+            throw new UserBirthdayExistException();
+        }
 
         return user;
     }
