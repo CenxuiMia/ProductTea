@@ -33,10 +33,11 @@ function getOrders() {
                 let status = typeof order.shippedDate !== "undefined"? orderShipped :
                     typeof order.payDate !== "undefined"? orderProcessing :
                     order.isActive? orderUnpaid : orderInactive;
+                let productsInfo = order.products.toString();
                 document.getElementById("ordersTable").innerHTML +=
                     "<tr>" +
                         "<td>" + (i + 1) + "</td>" +
-                        "<td>" + order.products.toString().replace(";"," ").replace(";"," ") + "</td>" +
+                        "<td>" + productsInfo.replace(/;/g," ").replace(/,/g, "<br>") + "</td>" +
                         "<td>" + "NT." + order.price + "</td>" +
                         "<td>" + order.orderDateTime + "</td>" +
                         "<td>" + status + "</td>" +
