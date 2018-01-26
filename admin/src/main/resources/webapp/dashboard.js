@@ -91,18 +91,18 @@ function appendOrders(orders) {
             orders[i].shippedDate === null) {
 
             buttonActiveHTML = orders[i].isActive === null ?
-                "<br><button onclick='activeOrderButton()'>訂單復原</button>" :
-                "<br><button onclick='activeOrderButton()'>訂單取消</button>"
+                "<button onclick='activeOrderButton()'>訂單復原</button>" :
+                "<button onclick='activeOrderButton()'>訂單取消</button>"
         }
 
         if (orders[i].isActive === true && orders[i].paidDate === null) {
             buttonPayHTML =
-                "<br><button onclick='payOrderButton()'>付款確認</button>";
+                "<button onclick='payOrderButton()'>付款確認</button>";
         }
 
         if (orders[i].paidDate !== null && orders[i].processingDate !== null) {
             buttonPayHTML =
-                "<br><button onclick='payOrderButton()'>付款取消</button>";
+                "<button onclick='payOrderButton()'>付款取消</button>";
         }
 
 
