@@ -438,3 +438,28 @@ function searchShippedOrder() {
     cleanOrderForm();
     getOrders(url);
 }
+
+function sortTableByPrice() {
+    let table = document.getElementById("orderForm");
+    let tr = table.getElementsByTagName("TR");
+
+    let ar = [];
+
+    for (let i = 0; i< tr.length; i++) {
+        ar.push(tr[i]);
+    }
+
+    ar.sort(function (a,b) {
+        console.info(a.getElementsByTagName("TD")[3]);
+        console.info(b.getElementsByTagName("TD")[3]);
+
+        return a.getElementsByTagName("TD")[3].innerHTML - b.getElementsByTagName("TD")[3].innerHTML;
+    })
+
+    table.innerHTML = "";
+
+    for (let i = 0; i< ar.length; i++) {
+        table.appendChild(ar[i]);
+    }
+
+}
