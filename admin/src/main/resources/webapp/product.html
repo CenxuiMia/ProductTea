@@ -8,77 +8,58 @@
 
     <title>Order Dashboard </title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
 
+    <script src="auth.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="language/tw.js"></script>
 </head>
 
 <body onload="setUp()">
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Dashboard</a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="./dashboard.html">訂單列表</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./product.html">商品列表</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./cashreport.html">現金報告</a>
-                </li>
-
-            </ul>
-        </div>
-    </nav>
-</header>
-
-<div class="container-fluid">
-    <div class="row">
-        <main role="main">
-            <h1>Dashboard</h1>
-
-            <h2 id="sectionTitle">商品</h2>
-
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th id="v1">No.</th>
-                        <th id="v2">商品名稱</th>
-                        <th id="v3">版本</th>
-                        <th id="v4">售價</th>
-                        <th id="v5">原價</th>
-                        <th id="v6"></th>
-                        <th id="v7"></th>
-                    </tr>
-                    </thead>
-                    <tbody id="productForm">
-                    </tbody>
-                </table>
-                <a href="product-upload.html"> 新增產品</a>
+<div id="id_wrapper">
+    <div id="id_header">
+        <div class="header">
+            <div id="nav" class="clearfix">
+                <ul class="left clearfix">
+                    <li><a href="./dashboard.html">訂單列表</a></li>
+                    <li><a href="javascript:void(0)" class="active">商品列表</a></li>
+                    <li><a href="./cashreport.html">現金報告</a></li>
+                </ul>
+                <div id="mark_img">
+                    DASHBOARD
+                </div>
+                <ul class="right clearfix">
+                    <li><a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a></li>
+                </ul>
             </div>
-        </main>
+        </div>
+    </div>
+
+    <div id="id_content" style="padding-top: 70px;">
+        <h2 id="sectionTitle" class="formTitle">商品</h2>
+        <div class="borderLeft"></div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th id="v1">No.</th>
+                    <th id="v2">商品名稱</th>
+                    <th id="v3">版本</th>
+                    <th id="v4">售價</th>
+                    <th id="v5">原價</th>
+                    <th id="v6"></th>
+                    <th id="v7"></th>
+                </tr>
+                </thead>
+                <tbody id="productForm">
+                </tbody>
+            </table>
+        </div>
+
+        <a href="product-upload.html"><div class="floatingButton">＋</div></a>
     </div>
 </div>
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-
-<script src="auth.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="dist/js/bootstrap.min.js"></script>
-
 
 <script>
 
@@ -141,7 +122,7 @@
     }
 
     function cancelDelete(e) {
-        let target = getTargetElement(e)
+        let target = getTargetElement(e);
 
         target.parentNode.innerHTML =
             "<button onclick='confirmDeleteProduct()'>移除商品</button>";
@@ -186,7 +167,6 @@
     }
 
 </script>
-
 
 </body>
 </html>
