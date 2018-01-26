@@ -85,3 +85,15 @@ function updateCartNum() {
         cartNumDoc.hidden = false;
     }
 }
+
+function showImageFadein(el) {
+    let windowHeight = $(window).height();
+    $(el).each(function(){
+        let thisPos = $(this).offset().top;
+
+        let topOfWindow = $(window).scrollTop();
+        if (topOfWindow + windowHeight - 200 > thisPos ) {
+            $(this).addClass("fadeinUp");
+        }
+    });
+}

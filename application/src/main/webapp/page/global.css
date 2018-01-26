@@ -234,11 +234,9 @@ a.active {
 }
 
 #nav #cart #cartNum {
-    /*background: olivedrab;*/
+    background: olivedrab;
     border-radius: 50%;
-    /*color: white;*/
-    border: 1px solid olivedrab;
-    color: olivedrab;
+    color: white;
     font-size: 9px;
     margin: 0;
     font-weight: 900;
@@ -551,6 +549,33 @@ footer .icon img {
     -o-animation: spin 1s ease-in-out infinite;
     animation: spin 1s ease-in-out infinite;
 }
+/*--------------*/
+
+/*-- fadein up animation --*/
+.fadeinUp {
+    visibility: visible !important;
+    -webkit-animation: fadeinUp 2s 0s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+    -o-animation: fadeinUp 2s 0s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+    animation: fadeinUp 2s 0s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+@keyframes fadeinUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(45px) translateZ(0);
+        transform: translateY(45px) translateZ(0);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0) translateZ(0);
+        transform: translateY(0) translateZ(0);
+    }
+}
+/*---------------*/
 
 /* Safari */
 @-webkit-keyframes spin {
@@ -618,14 +643,8 @@ footer .icon img {
     }
 
     #nav #cart #cartNum {
-        /*background: olivedrab;*/
-        /*border-radius: 50%;*/
-        /*color: white;*/
-        color: olivedrab;
         font-size: 18px;
-        margin: 0;
-        font-weight: 900;
-        padding: 1px 5px;
+        padding: 1px 7px;
     }
 
     .dropdown #dropbtn {
