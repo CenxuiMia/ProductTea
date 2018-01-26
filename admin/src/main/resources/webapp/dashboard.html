@@ -8,45 +8,46 @@
 
     <title>Order Dashboard </title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
 
     <script src="language/tw.js"></script>
 </head>
 
 <body onload="onLoad()" onscroll="onScroll()">
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Dashboard</a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="./dashboard.html">訂單列表</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./product.html">商品列表</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./cashreport.html">現金報告</a>
-                </li>
-
-            </ul>
-
+<div id="id_wrapper">
+    <div id="id_header">
+        <div class="header">
+            <div id="nav" class="clearfix">
+                <ul class="left clearfix">
+                    <li><a href="javascript:void(0)" class="active">訂單列表</a></li>
+                    <li><a href="./product.html">商品列表</a></li>
+                    <li><a href="./cashreport.html">現金報告</a></li>
+                </ul>
+                <div id="mark_img">
+                    DASHBOARD
+                </div>
+                <ul class="right clearfix">
+                    <li><a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a></li>
+                </ul>
+            </div>
         </div>
-    </nav>
-</header>
+    </div>
+
+    <div id="id_content">
+        <ul class="categories">
+            <li onclick="onAllOrder()">所有訂單</li>
+            <li onclick="onActiveOrder()">有效訂單</li>
+            <li onclick="onBankOrder()">匯款訂單</li>
+            <li onclick="onPaidOrder()">已付款定單</li>
+            <li onclick="onProcessingOrder()">處理中訂單</li>
+            <li onclick="onShippedOrder()">已出貨訂單</li>
+        </ul>
+    </div>
+</div>
 
 <div class="container-fluid">
     <div class="row">
         <main role="main">
-            <h1>Dashboard</h1>
             <button onclick="onAllOrder()">所有訂單</button>
             <button onclick="onActiveOrder()">有效訂單</button>
             <button onclick="onBankOrder()">匯款訂單</button>

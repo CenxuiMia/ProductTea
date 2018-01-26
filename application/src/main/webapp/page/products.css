@@ -72,7 +72,7 @@
 /* phone version 手機版 */
 @media only screen and (max-device-width: 1024px) {
     .prod-list {
-        margin: 5%;
+        margin-top: 5%;
     }
 
     .prod-wrapper {

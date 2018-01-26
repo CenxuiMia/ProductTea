@@ -16,6 +16,10 @@ $(document).ready(function () {
     showSlidesWithoutDots();
 });
 
+$(window).scroll(function() {
+    showImageFadein('.hidden');
+});
+
 let slideIndex = 0;
 let timer;
 

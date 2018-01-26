@@ -13,12 +13,12 @@
     color: #777777;
 }
 
-.icon {
+.contact .icon {
     display: inline-block;
     float: right;
 }
 
-.icon img {
+.contact .icon img {
     width: 2rem;
     height: 2rem;
     cursor: pointer;
@@ -27,7 +27,7 @@
 
 /* phone version 手機版 */
 @media only screen and (max-device-width: 1024px) {
-    .icon {
+    .contact .icon {
         display: block;
         float: none;
         text-align: center;

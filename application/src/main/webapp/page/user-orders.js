@@ -17,6 +17,8 @@ $(document).ready(function () {
 });
 
 function getOrders() {
+    onLoading();
+
     $.ajax({
         type : 'GET',
         url : orderEndpoint,
@@ -31,10 +33,11 @@ function getOrders() {
                 let status = typeof order.shippedDate !== "undefined"? orderShipped :
                     typeof order.payDate !== "undefined"? orderProcessing :
                     order.isActive? orderUnpaid : orderInactive;
+                let productsInfo = order.products.toString();
                 document.getElementById("ordersTable").innerHTML +=
                     "<tr>" +
                         "<td>" + (i + 1) + "</td>" +
-                        "<td>" + order.products.toString().replace(";"," ").replace(";"," ") + "</td>" +
+                        "<td>" + productsInfo.replace(/;/g," ").replace(/,/g, "<br>") + "</td>" +
                         "<td>" + "NT." + order.price + "</td>" +
                         "<td>" + order.orderDateTime + "</td>" +
                         "<td>" + status + "</td>" +
@@ -43,7 +46,20 @@ function getOrders() {
         },
         error : function(xhr, status, error) {
             console.log( "error: " + error + ", xhr: " + JSON.stringify(xhr) + ", status: " + status);
+        },
+        complete : function () {
+            onLoaded();
         }
     });
+}
+
+function onLoading() {
+    showProgressBar();
+    document.getElementById("ordersTable").hidden = true;
+}
+
+function onLoaded() {
+    hideProgressBar();
+    document.getElementById("ordersTable").hidden = false;
 }
 

@@ -30,6 +30,7 @@ function setUp(authData, doSignIn, doSignOut) {
     userAuth = auth;
 
     initShrinkNavbar();
+    initCartNum();
 }
 
 // Perform user operations.
@@ -101,4 +102,21 @@ function initShrinkNavbar() {
             $('#id_header').removeClass('shrink')
         }
     });
+}
+
+function initCartNum() {
+    let cartNumDoc = document.getElementById("cartNum");
+    let cartStorage = localStorage.getItem("cartItems");
+    let cartItems = new Map(JSON.parse(cartStorage));
+
+    if (cartStorage === null || cartItems.size === 0) {
+        cartNumDoc.hidden = true;
+    } else {
+        let num = 0;
+        cartItems.forEach(function(value,key,map) {
+           num += parseInt(value);
+        });
+        cartNumDoc.innerHTML = num;
+        cartNumDoc.hidden = false;
+    }
 }

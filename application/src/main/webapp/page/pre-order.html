@@ -47,7 +47,12 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="./cart.html" id="cart" class="active"><i class="material-icons md-light">shopping_cart</i></a></li>
+                    <li>
+                        <a href="cart.html" id="cart">
+                            <i class="material-icons md-light">shopping_cart</i>
+                            <span id="cartNum">0</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -57,6 +62,11 @@
         <h2 class="formTitle">訂單系統</h2>
 
         <div class="borderLeft"></div>
+
+        <div id="progressBar">
+            <p class="loader"></p>
+            載入頁面中...
+        </div>
 
         <div class="content">
             <p>請確認商品以及取貨方式</p>
@@ -76,10 +86,10 @@
                 <div class="textinput" id="shippingWay">
                     取貨方式<br>
                     <input id="shop" name="shippingWay" type="radio" value="shop" checked
-                           style="width: 1.2rem; display: inline-block" onclick="calculateTrialTotal()" required>
+                           onclick="calculateTrialTotal()" style="zoom: 1.7" required>
                     <label for="shop" style="display: inline-block">超商取貨</label>
                     <input id="home" name="shippingWay" type="radio" value="home"
-                           style="width: 1.2rem; display: inline-block" onclick="calculateTrialTotal()" required>
+                           onclick="calculateTrialTotal()" style="zoom: 1.7" required>
                     <label for="home" style="display: inline-block">宅配</label>
                 </div>
             </div>
@@ -98,7 +108,7 @@
                         <th>優惠</th>
                         <td id="activity">無</td>
                     </tr>
-                    <tr>
+                    <tr id="sum">
                         <th>應付金額</th>
                         <td>NT.<span id="price"></span></td>
                     </tr>
