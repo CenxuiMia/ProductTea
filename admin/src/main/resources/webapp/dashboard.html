@@ -30,92 +30,74 @@
                     <li><a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a></li>
                 </ul>
             </div>
+            <ul class="categories">
+                <li onclick="onAllOrder()">所有訂單</li>
+                <li onclick="onActiveOrder()">有效訂單</li>
+                <li onclick="onBankOrder()">匯款訂單</li>
+                <li onclick="onPaidOrder()">已付款定單</li>
+                <li onclick="onProcessingOrder()">處理中訂單</li>
+                <li onclick="onShippedOrder()">已出貨訂單</li>
+                <li onclick=""><span id="searchIcon">🔎</span>查詢訂單</li>
+            </ul>
         </div>
     </div>
 
     <div id="id_content">
-        <ul class="categories">
-            <li onclick="onAllOrder()">所有訂單</li>
-            <li onclick="onActiveOrder()">有效訂單</li>
-            <li onclick="onBankOrder()">匯款訂單</li>
-            <li onclick="onPaidOrder()">已付款定單</li>
-            <li onclick="onProcessingOrder()">處理中訂單</li>
-            <li onclick="onShippedOrder()">已出貨訂單</li>
-        </ul>
-    </div>
-</div>
-
-<div class="container-fluid">
-    <div class="row">
-        <main role="main">
-            <button onclick="onAllOrder()">所有訂單</button>
-            <button onclick="onActiveOrder()">有效訂單</button>
-            <button onclick="onBankOrder()">匯款訂單</button>
-            <button onclick="onPaidOrder()">已付款定單</button>
-            <button onclick="onProcessingOrder()">處理中訂單</button>
-            <button onclick="onShippedOrder()">已出貨訂單</button>
-
-            <div></div>
-            <input id="mail" placeholder="mail">
-            <input id="orderDateTime" placeholder="orderDateTime">
-            <button onclick="searchAllOrder()">查詢</button>
-            <div></div>
-            <input id="bankInformation" placeholder="bankInformation">
-            <button onclick="searchBankOrder()">查詢</button>
-
-            <div></div>
-            <input id="paidDate" placeholder="paidDate">
-            <input id="paidTime" placeholder="paidTime">
-            <button onclick="searchPaidOrder()">查詢</button>
-            <div></div>
-            <input id="processingDate" placeholder="processingDate">
-            <input id="owner" placeholder="owner">
-            <button onclick="searchProcessingOrder()">查詢</button>
-            <div></div>
-            <input id="shippedDate" placeholder="shippedDate">
-            <input id="shippedTime" placeholder="shippeTime">
-            <button onclick="searchShippedOrder()">查詢</button>
-            <div></div>
-
-            <h2 id="sectionTitle"></h2>
-            <div class="table-responsive">排序
-                <button>信箱</button>
-                <button>訂單時間</button>
-                <button>價格</button>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th id="v0">No.</th>
-                        <th id="v1"></th>
-                        <th id="v2"></th>
-                        <th id="v3"></th>
-                        <th id="v4"></th>
-                        <th id="v5"></th>
-                        <th id="v6"></th>
-                        <th id="v7"></th>
-                        <th id="v8"></th>
-                        <th id="v9"></th>
-                        <th id="v10"></th>
-                        <th id="v11"></th>
-                        <th id="v12"></th>
-                        <th id="v13"></th>
-                    </tr>
-                    </thead>
-                    <tbody id="orderForm">
-                    </tbody>
-                </table>
+        <div id="search">
+            <div>
+                <input id="mail" placeholder="mail">
+                <input id="orderDateTime" placeholder="orderDateTime">
+                <button onclick="searchAllOrder()">查詢</button>
             </div>
-        </main>
+            <div>
+                <input id="bankInformation" placeholder="bankInformation">
+                <button onclick="searchBankOrder()">查詢</button>
+            </div>
+            <div>
+                <input id="paidDate" placeholder="paidDate">
+                <input id="paidTime" placeholder="paidTime">
+                <button onclick="searchPaidOrder()">查詢</button>
+            </div>
+            <div>
+                <input id="processingDate" placeholder="processingDate">
+                <input id="owner" placeholder="owner">
+                <button onclick="searchProcessingOrder()">查詢</button>
+            </div>
+            <div>
+                <input id="shippedDate" placeholder="shippedDate">
+                <input id="shippedTime" placeholder="shippeTime">
+                <button onclick="searchShippedOrder()">查詢</button>
+            </div>
+        </div>
+
+        <h2 id="sectionTitle" class="formTitle"></h2>
+        <div class="borderLeft"></div>
+        <div class="table-responsive">排序
+            <button>信箱</button>
+            <button>訂單時間</button>
+            <button>價格</button>
+            <table class="table">
+                <thead><tr>
+                    <th id="v0">No.</th>
+                    <th id="v1"></th>
+                    <th id="v2"></th>
+                    <th id="v3"></th>
+                    <th id="v4"></th>
+                    <th id="v5"></th>
+                    <th id="v6"></th>
+                    <th id="v7"></th>
+                    <th id="v8"></th>
+                    <th id="v9"></th>
+                    <th id="v10"></th>
+                    <th id="v11"></th>
+                    <th id="v12"></th>
+                    <th id="v13"></th>
+                </tr></thead>
+                <tbody id="orderForm"></tbody>
+            </table>
+        </div>
     </div>
 </div>
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-
-<!--<script src="./dist/js/bootstrap.min.js"></script>-->
-
-<script src="dist/js/bootstrap.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="auth.js"></script>

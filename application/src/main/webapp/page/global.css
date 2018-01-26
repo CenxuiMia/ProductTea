@@ -549,6 +549,17 @@ footer .icon img {
     -o-animation: spin 1s ease-in-out infinite;
     animation: spin 1s ease-in-out infinite;
 }
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 /*--------------*/
 
 /*-- fadein up animation --*/
@@ -576,17 +587,6 @@ footer .icon img {
     }
 }
 /*---------------*/
-
-/* Safari */
-@-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
 
 /* phone version 手機版 */
 @media only screen and (max-device-width: 1024px) {
