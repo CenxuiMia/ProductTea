@@ -11,6 +11,10 @@
     <link href="dashboard.css" rel="stylesheet">
 
     <script src="language/tw.js"></script>
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="dashboard.js"></script>
 </head>
 
 <body onload="onLoad()" onscroll="onScroll()">
@@ -37,13 +41,13 @@
                 <li onclick="onPaidOrder()">已付款定單</li>
                 <li onclick="onProcessingOrder()">處理中訂單</li>
                 <li onclick="onShippedOrder()">已出貨訂單</li>
-                <li onclick=""><span id="searchIcon">🔎</span>查詢訂單</li>
+                <li onclick="showSearchDialog()"><span id="searchIcon">🔎</span>查詢訂單</li>
             </ul>
         </div>
     </div>
 
     <div id="id_content">
-        <div id="search">
+        <div id="search" class="hidden">
             <div>
                 <input id="mail" placeholder="mail">
                 <input id="orderDateTime" placeholder="orderDateTime">
@@ -99,10 +103,6 @@
         </div>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="auth.js"></script>
-<script src="dashboard.js"></script>
 
 <script>
 

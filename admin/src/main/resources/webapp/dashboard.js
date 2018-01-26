@@ -485,3 +485,12 @@ function sortTableByShippingWay() {
 
     })
 }
+
+function showSearchDialog() {
+    let search = document.getElementById("search");
+    if (search.className.includes("fadeinDown")) {
+        search.className = "hidden";
+    } else {
+        search.className += " fadeinDown";
+    }
+}
