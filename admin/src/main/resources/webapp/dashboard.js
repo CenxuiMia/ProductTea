@@ -38,7 +38,7 @@ function onShippedOrder() {
 }
 
 function onLoad() {
-    setOrderColumn();
+
 }
 
 let lastKey;
@@ -91,18 +91,18 @@ function appendOrders(orders) {
             orders[i].shippedDate === null) {
 
             buttonActiveHTML = orders[i].isActive === null ?
-                "<button onclick='activeOrderButton()'>訂單復原</button>" :
-                "<button onclick='activeOrderButton()'>訂單取消</button>"
+                "<br><button onclick='activeOrderButton()'>訂單復原</button>" :
+                "<br><button onclick='activeOrderButton()'>訂單取消</button>"
         }
 
         if (orders[i].isActive === true && orders[i].paidDate === null) {
             buttonPayHTML =
-                "<button onclick='payOrderButton()'>付款確認</button>";
+                "<br><button onclick='payOrderButton()'>付款確認</button>";
         }
 
         if (orders[i].paidDate !== null && orders[i].processingDate !== null) {
             buttonPayHTML =
-                "<button onclick='payOrderButton()'>付款取消</button>";
+                "<br><button onclick='payOrderButton()'>付款取消</button>";
         }
 
 
@@ -144,22 +144,6 @@ function appendOrders(orders) {
             "</tr>";               // Create element with HTML
         orderForm.innerHTML += order;      // Append the new elements
     }
-}
-
-function setOrderColumn() {
-    document.getElementById("v1").innerHTML = primaryKey;
-    document.getElementById("v2").innerHTML = products;
-    document.getElementById("v3").innerHTML = price;
-    document.getElementById("v4").innerHTML = purchaser;
-    document.getElementById("v5").innerHTML = purchaserPhone;
-    document.getElementById("v6").innerHTML = receiver;
-    document.getElementById("v7").innerHTML = receiverPhone;
-    document.getElementById("v8").innerHTML = shippingWay;
-    document.getElementById("v9").innerHTML = shippingAddress;
-    document.getElementById("v10").innerHTML = comment;
-    document.getElementById("v11").innerHTML = paidTime;
-    document.getElementById("v12").innerHTML = processingDate;
-    document.getElementById("v13").innerHTML = shippedTime;
 }
 
 
@@ -437,4 +421,67 @@ function searchShippedOrder() {
         url = url + "/" + shippedTime.trim();
     cleanOrderForm();
     getOrders(url);
+}
+
+function sortTable(compare) {
+    let table = document.getElementById("orderForm");
+    let tr = table.getElementsByTagName("TR");
+
+    let ar = [];
+
+    for (let i = 0; i< tr.length; i++) {
+        ar.push(tr[i]);
+    }
+
+    ar.sort(compare);
+
+    table.innerHTML = "";
+
+    for (let i = 0; i< ar.length; i++) {
+        table.appendChild(ar[i]);
+    }
+}
+
+function sortTableByPriceAS() {
+    sortTable(function (a,b) {
+        return a.getElementsByTagName("TD")[3].innerHTML - b.getElementsByTagName("TD")[3].innerHTML;
+
+    })
+}
+
+function sortTableByPriceDS() {
+    sortTable(function (a,b) {
+        return b.getElementsByTagName("TD")[3].innerHTML - a.getElementsByTagName("TD")[3].innerHTML;
+
+    })
+}
+
+function sortTableByOrderDateTimeAS() {
+    sortTable(function (a, b) {
+        let d1 = a.getElementsByTagName("TD")[1].innerHTML.toString().split(" ")[1];
+        let d2 = b.getElementsByTagName("TD")[1].innerHTML.toString().split(" ")[1];
+
+        console.info(d1)
+        console.info(d2)
+        return new Date(d1) > new Date(d2);
+    })
+}
+
+function sortTableByOrderDateTimeDS() {
+    sortTable(function (a, b) {
+        let d1 = a.getElementsByTagName("TD")[1].innerHTML.toString().split(" ")[1];
+        let d2 = b.getElementsByTagName("TD")[1].innerHTML.toString().split(" ")[1];
+
+        console.info(d1)
+        console.info(d2)
+
+        return new Date(d1) < new Date(d2);
+    })
+}
+
+function sortTableByShippingWay() {
+    sortTable(function (a,b) {
+        return a.getElementsByTagName("TD")[8].innerHTML - b.getElementsByTagName("TD")[8].innerHTML;
+
+    })
 }

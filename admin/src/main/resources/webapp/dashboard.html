@@ -72,26 +72,27 @@
 
         <h2 id="sectionTitle" class="formTitle"></h2>
         <div class="borderLeft"></div>
-        <div class="table-responsive">排序
-            <button>信箱</button>
-            <button>訂單時間</button>
-            <button>價格</button>
+        <div class="table-responsive">
             <table class="table">
                 <thead><tr>
-                    <th id="v0">No.</th>
-                    <th id="v1"></th>
-                    <th id="v2"></th>
-                    <th id="v3"></th>
-                    <th id="v4"></th>
-                    <th id="v5"></th>
-                    <th id="v6"></th>
-                    <th id="v7"></th>
-                    <th id="v8"></th>
-                    <th id="v9"></th>
-                    <th id="v10"></th>
-                    <th id="v11"></th>
-                    <th id="v12"></th>
-                    <th id="v13"></th>
+                    <th>訂單序號
+                        <!--<button onclick="sortTableByOrderDateTimeDS()">高</button>-->
+                        <!--<button onclick="sortTableByOrderDateTimeAS()">低</button></th>-->
+                    <th>項目</th>
+                    <th>總額
+                        <button onclick="sortTableByPriceDS()">高</button>
+                        <button onclick="sortTableByPriceAS()">低</button></th>
+                    <th>購買人</th>
+                    <th>購買人電話</th>
+                    <th>收件人</th>
+                    <th>收件人電話</th>
+                    <th>送貨方式
+                        <button onclick="sortTableByShippingWay()">高</button></th>
+                    <th>送貨地址</th>
+                    <th>附註</th>
+                    <th>付款時間</th>
+                    <th>受理日期</th>
+                    <th>出貨日期</th>
                 </tr></thead>
                 <tbody id="orderForm"></tbody>
             </table>
