@@ -8,94 +8,73 @@
 
     <title>Order Dashboard </title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
 
     <script src="language/tw.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="cashreport.js"></script>
 </head>
 
 <body>
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Dashboard</a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="./dashboard.html">訂單列表</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./product.html">商品列表</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./cashreport.html">現金報告</a>
-                </li>
 
-            </ul>
+<div id="id_wrapper">
+    <div id="id_header">
+        <div class="header">
+            <div id="nav" class="clearfix">
+                <ul class="left clearfix">
+                    <li><a href="./dashboard.html">訂單列表</a></li>
+                    <li><a href="./product.html">商品列表</a></li>
+                    <li><a href="javascript:void(0)" class="active">現金報告</a></li>
+                </ul>
+                <div id="mark_img">
+                    DASHBOARD
+                </div>
+                <ul class="right clearfix">
+                    <li><a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a></li>
+                </ul>
+            </div>
         </div>
-    </nav>
-</header>
+    </div>
 
-<div class="container-fluid">
-    <div class="row">
-        <main role="main">
-            <h1>Dashboard</h1>
+    <div id="id_content" style="padding-top: 70px;">
+        <h2 id="sectionTitle" class="formTitle">現金報告</h2>
+        <div class="borderLeft"></div>
+        <div class="table-responsive">
+            <table class="table">
+                <button onclick="onAllCash()">所有現金</button>
+                <div>
+                </div>
+                <input id="daily" type="date"/>
+                <button onclick="onDailyCash()">每日現金</button>
+                <div>
+                </div>
+                <input id="from" type="date"/>
+                <input id="to" type="date"/>
+                <button onclick="onRangeCash()">區間現金</button>
 
-            <h2 id="sectionTitle">現金報告</h2>
-
-            <button onclick="onAllCash()">所有現金</button>
-            <div>
-            </div>
-            <input id="daily" type="date"/>
-            <button onclick="onDailyCash()">每日現金</button>
-            <div>
-            </div>
-            <input id="from" type="date"/>
-            <input id="to" type="date"/>
-            <button onclick="onRangeCash()">區間現金</button>
-
-            <div class="table-responsive">
-                <span id="revenue"></span>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th id="v1"></th>
-                        <th id="v2"></th>
-                        <th id="v3"></th>
-                        <th id="v4"></th>
-                        <th id="v5"></th>
-                        <th id="v6"></th>
-                        <th id="v7"></th>
-                    </tr>
-                    </thead>
-                    <tbody id="receiptForm">
-                    </tbody>
-                </table>
-            </div>
-        </main>
+                <div class="table-responsive">
+                    <span id="revenue"></span>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th id="v1"></th>
+                            <th id="v2"></th>
+                            <th id="v3"></th>
+                            <th id="v4"></th>
+                            <th id="v5"></th>
+                            <th id="v6"></th>
+                            <th id="v7"></th>
+                        </tr>
+                        </thead>
+                        <tbody id="receiptForm">
+                        </tbody>
+                    </table>
+                </div>
+            </table>
+        </div>
     </div>
 </div>
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-
-<!--<script src="./dist/js/bootstrap.min.js"></script>-->
-
-<script src="dist/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="auth.js"></script>
-<script src="cashreport.js"></script>
-
-<script>
-
-</script>
-
 
 </body>
 </html>
