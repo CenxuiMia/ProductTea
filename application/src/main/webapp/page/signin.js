@@ -16,7 +16,7 @@ function setUp(authData, doSignIn, doSignOut) {
         userButton(auth);
     });
 
-    if (auth.getCurrentUser()!== null) {
+    if (auth.getCurrentUser()!== null && auth.getCurrentUser()!== "undefine") {
         //todo possibly user exists but not signin
         console.info("user get Session");
         auth.getSession();
