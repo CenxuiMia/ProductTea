@@ -1,7 +1,10 @@
-##Product Tea in AWS
+ ##Product Tea in AWS
 
 ![alt text](./product-tea.png)
 
+web app in S3 bucket
+application deploy in Lambda
+admin run on laptop
 
 ** processingIndex project include shipped way address  products receiver phone
 ** project refactor 
