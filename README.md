@@ -1,5 +1,4 @@
-
-##Product Tea in AWS ##
+#Product Tea in AWS
 
 ![alt text](./product-tea.png)
 
