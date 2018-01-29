@@ -1,3 +1,4 @@
+
 ##Product Tea in AWS ##
 
 ![alt text](./product-tea.png)
@@ -123,10 +124,6 @@ shop-product-table.yaml
 User.class UserKey.class
 cens-user-table-yaml
 
-*Price issue
-
-Product.class Order.class
-Price.class 
 
 ** the attribute mapping for secondary index is related to shop-order-table.yaml
 make sure the projection mapping and Order.class are right.
