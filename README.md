@@ -42,7 +42,10 @@
 deploy to aws 
 
 ＊＊you need to set the region and credential before deploy
-![alt text](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
+https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html
+
+We use aws cloudformation tamplate to delpoy stack for this project, take adventage cloudformation we able to deploy our infrastructure immediately and with zero down time CI/CD.
+We able to deploy new version product in two minutes.
 
  
 ### Deploy
