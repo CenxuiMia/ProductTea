@@ -1,64 +1,42 @@
- ##Product Tea in AWS
+ ##Product Tea in AWS ##
 
 ![alt text](./product-tea.png)
 
-web app in S3 bucket
-application deploy in Lambda
-admin run on laptop
+### Applcation ###
 
-** processingIndex project include shipped way address  products receiver phone
-** project refactor 
-  application config
-  
-  sam-auth.yaml 
-  sam-un-auth.yaml
-  
-  tea-auth-swagger.yaml
-  tea-un-auth-swagger.yaml
+1. web app in S3 bucket
+2. application deploy in Lambda
+3. admin run on laptop
 
-prequest 
+### admin ###
 
-1. download dynamodb local 
- http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html#DynamoDBLocal.DownloadingAndRunning
-2. add dynamodblocal.jar to project test library
+1. DynamoDBConfig
+2. S3Bucket
 
-deploy project
+### application ###
 
-ProductTea
-User Pool refactor name and policy
-1. cens-user.yaml *
+1. DynamoDBConfig
+2. S3Bucket
 
-NoSQL Database refactor name
+### webapp ###
 
-1. tea-order-table.yaml 
-2. tea-product-table.yaml
-3. tea-user-table.yaml
-
-admin
-
-DynamoDBConfig
-S3Bucket
-
-application
-
-DynamoDBConfig
-S3Bucket
+1. auth.js
 
 
-swagger.yaml
+##### NoSQL Database template name #####
 
-resource name
-
-app
-
-** dynamodb configuration
-all you need to check out is about the table name
-true if it is cloud version
+1. shop-order-table.yaml 
+2. shop-product-table.yaml
+3. cens-user-table.yaml
 
 
 deploy to aws 
 
-＊＊you need to set the region and credential before deploy 
+＊＊you need to set the region and credential before deploy
+![alt text](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
+
+ 
+
 
 ** 
 user pool for login auth
@@ -117,3 +95,8 @@ Price.class
 ** the attribute mapping for secondary index is related to shop-order-table.yaml
 make sure the projection mapping and Order.class are right.
 
+local version
+
+1. download dynamodb local 
+ http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html#DynamoDBLocal.DownloadingAndRunning
+2. add dynamodblocal.jar to project test library
