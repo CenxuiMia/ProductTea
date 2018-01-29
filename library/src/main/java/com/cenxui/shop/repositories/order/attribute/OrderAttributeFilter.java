@@ -2,9 +2,9 @@ package com.cenxui.shop.repositories.order.attribute;
 
 import java.util.List;
 
-public class OrderAttribute {
+public class OrderAttributeFilter {
 
-    public static boolean checkProducts(List products) {
+    public static boolean checkProducts(List<String> products) {
         if (products == null || products.size() == 0) return false;
         //todo
         return true;

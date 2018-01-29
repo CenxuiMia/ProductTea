@@ -109,3 +109,5 @@ Price.class
 
 ** the attribute mapping for secondary index is related to shop-order-table.yaml
 make sure the projection mapping and Order.class are right.
+
+![alt text](./product-tea.png)

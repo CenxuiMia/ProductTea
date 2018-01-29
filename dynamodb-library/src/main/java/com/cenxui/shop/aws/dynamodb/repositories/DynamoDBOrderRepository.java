@@ -152,7 +152,7 @@ class DynamoDBOrderRepository implements OrderRepository {
         }else if (ShippingWay.HOME.equals(order.getShippingWay())) {
             shippingCost = 100;
         }else {
-            throw new OrderShippedWayException(order.getShippingWay());
+            throw new OrderShippedWayNotAllowedException(order.getShippingWay());
         }
 
         productsPrice = productRepository.getProductsPrice(order.getProducts()).getValue();

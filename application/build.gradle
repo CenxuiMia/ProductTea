@@ -19,12 +19,12 @@ dependencies {
             'com.amazonaws:aws-lambda-java-events:1.1.0'
     )
 
-    compile group: 'org.json', name: 'json', version: '20171018' //todo
+    compile group: 'org.json', name: 'json', version: '20171018' //todo for recapcha
 
     compile group: 'com.amazonaws', name: 'aws-java-sdk-sns', version: '1.11.255'
     compile group: 'com.amazonaws', name: 'aws-java-sdk-ses', version: '1.11.268'
 
-    testCompile project(':util-test')  //todo
+    testCompile project(':util-test')
     testCompile group: 'javax.mail', name: 'mail', version: '1.4.7'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

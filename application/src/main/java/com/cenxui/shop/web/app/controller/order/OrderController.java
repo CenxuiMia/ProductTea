@@ -2,7 +2,7 @@ package com.cenxui.shop.web.app.controller.order;
 
 import com.cenxui.shop.repositories.order.OrderRepository;
 import com.cenxui.shop.aws.dynamodb.repositories.DynamoDBRepositoryService;
-import com.cenxui.shop.repositories.order.attribute.OrderAttribute;
+import com.cenxui.shop.repositories.order.attribute.OrderAttributeFilter;
 import com.cenxui.shop.web.app.aws.ses.SESMessageService;
 import com.cenxui.shop.web.app.config.AWSDynamoDBConfig;
 import com.cenxui.shop.repositories.order.Order;
@@ -170,30 +170,30 @@ public class OrderController extends CoreController {
 
         checkTrialOrder(order);
 
-        if (!OrderAttribute.checkPurchaser(order.getPurchaser()))
+        if (!OrderAttributeFilter.checkPurchaser(order.getPurchaser()))
             throw new OrderControllerClientException("request body order purchaser cannot be empty");
 
-        if (!OrderAttribute.checkPurchaserPhone(order.getPurchaserPhone()))
+        if (!OrderAttributeFilter.checkPurchaserPhone(order.getPurchaserPhone()))
             throw new OrderControllerClientException("request body order purchaserPhone cannot be empty");
 
-        if (!OrderAttribute.checkReceiver(order.getReceiver()))
+        if (!OrderAttributeFilter.checkReceiver(order.getReceiver()))
             throw new OrderControllerClientException("request body order receiver cannot be empty");
 
-        if (!OrderAttribute.checkReceiverPhone(order.getReceiverPhone()))
+        if (!OrderAttributeFilter.checkReceiverPhone(order.getReceiverPhone()))
             throw new OrderControllerClientException("request body order receiverPhone cannot be empty");
 
-        if (!OrderAttribute.checkShippingAddress(order.getShippingAddress()))
+        if (!OrderAttributeFilter.checkShippingAddress(order.getShippingAddress()))
             throw new OrderControllerClientException("request body order shippingAddress cannot be empty");
 
-        if (!OrderAttribute.checkPaymentMethod(order.getPaymentMethod())) {
+        if (!OrderAttributeFilter.checkPaymentMethod(order.getPaymentMethod())) {
             throw new OrderControllerClientException("request body order paymentMethod not allowed");
         }
 
-        if (!OrderAttribute.checkComment(order.getComment())) {
+        if (!OrderAttributeFilter.checkComment(order.getComment())) {
             throw new OrderControllerClientException("request body order comment not allowed");
         }
 
-        if (!OrderAttribute.checkBankInformation(order.getPaymentMethod(), order.getBankInformation())) {
+        if (!OrderAttributeFilter.checkBankInformation(order.getPaymentMethod(), order.getBankInformation())) {
             throw new OrderControllerClientException(
                     "request body order bankInformation with paymentMethod not allowed");
         }
@@ -202,10 +202,10 @@ public class OrderController extends CoreController {
     private static void checkTrialOrder(Order order) {
         if (order == null) throw new OrderControllerClientException("request body order cannot be null");
 
-        if (!OrderAttribute.checkProducts(order.getProducts()))
+        if (!OrderAttributeFilter.checkProducts(order.getProducts()))
             throw new OrderControllerClientException("request body order products cannot be empty");
 
-        if (!OrderAttribute.checkShippingWay(order.getShippingWay())){
+        if (!OrderAttributeFilter.checkShippingWay(order.getShippingWay())){
             throw new OrderControllerClientException("request body order shippedWay not allowed");
         }
     }

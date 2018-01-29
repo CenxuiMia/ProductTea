@@ -11,6 +11,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.io.IOException;
+
 public class UserController extends CoreController {
     private static final UserRepository userRepository =
             DynamoDBRepositoryService.getUserRepository(
@@ -34,17 +36,18 @@ public class UserController extends CoreController {
 
         try {
             clientUser = JsonUtil.mapToUser(request.body());
-        }catch (Exception e) {
+            return JsonUtil.mapToJsonIgnoreNull(
+                    userRepository.updateUserProfile(
+                            User.of(
+                                    clientUser.getIsActive(),
+                                    clientUser.getFirstName(),
+                                    clientUser.getLastName(),
+                                    mail,
+                                    clientUser.getAddress(),
+                                    clientUser.getPhone(),
+                                    clientUser.getBirthday())));
+        }catch (IOException e) {
             throw new UserControllerClientException("requst body error :" + request.body());
         }
-        return JsonUtil.mapToJsonIgnoreNull(
-                userRepository.updateUserProfile(
-                        User.of(
-                                clientUser.getIsActive(),
-                                clientUser.getFirstName(),
-                                clientUser.getLastName(),
-                                mail,
-                                clientUser.getAddress(),
-                                clientUser.getPhone())));
     };
 }

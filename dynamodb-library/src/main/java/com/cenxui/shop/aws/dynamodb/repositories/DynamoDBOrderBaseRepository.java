@@ -5,7 +5,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.*;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.order.*;
-import com.cenxui.shop.aws.dynamodb.exceptions.client.map.order.OrderJsonMapException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.order.OrderJsonMapException;
 import com.cenxui.shop.repositories.order.*;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.order.OrderCannotNullException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.order.OrderPrimaryKeyCannotEmptyException;

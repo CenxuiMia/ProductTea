@@ -54,7 +54,7 @@ public class Order {
 
     String paidDate;
     String paidTime;
-    String processingDate; //todo add owner
+    String processingDate;
     String shippedDate;
     String shippedTime;
     Boolean isActive;

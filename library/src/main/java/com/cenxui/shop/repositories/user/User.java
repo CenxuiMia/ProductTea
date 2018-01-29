@@ -10,6 +10,7 @@ public class User {
     public static final String MAIL = "mail";
     public static final String ADDRESS = "address";
     public static final String PHONE = "phone";
+    public static final String BIRTHDAY = "birthday";
 
     Boolean isActive;
     String firstName;
@@ -17,5 +18,6 @@ public class User {
     String mail; //primary
     String address;
     String phone;
+    String birthday;
 
 }
