@@ -1,3 +1,8 @@
+##Product Tea in AWS
+
+![alt text](./product-tea.png)
+
+
 ** processingIndex project include shipped way address  products receiver phone
 ** project refactor 
   application config
@@ -13,7 +18,6 @@ prequest
 1. download dynamodb local 
  http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html#DynamoDBLocal.DownloadingAndRunning
 2. add dynamodblocal.jar to project test library
-
 
 deploy project
 
@@ -110,4 +114,3 @@ Price.class
 ** the attribute mapping for secondary index is related to shop-order-table.yaml
 make sure the projection mapping and Order.class are right.
 
-![alt text](./product-tea.png)
