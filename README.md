@@ -1,12 +1,14 @@
-#Product Tea in AWS
+##Product Tea in AWS
 
-![alt text](./product-tea.png)
-
-## Adventage
+### Adventage
 1. micro-service
 2. zero-downtime
 3. auto-scalling
 4. pay as you go
+
+![alt text](./product-tea.png)
+
+
 
 
 ### Applcation ###
