@@ -1,14 +1,14 @@
 ## Product Tea in AWS
 
+### Architecture
+
+![alt text](./product-tea.png)
+
 ### Adventage
 1. micro-service
 2. zero-downtime
 3. auto-scalling
 4. pay as you go
-
-![alt text](./product-tea.png)
-
-
 
 
 ### Applcation ###
@@ -45,25 +45,25 @@ deploy to aws
 ![alt text](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
 
  
-#### Deploy ####
+### Deploy
 
-##### user pool for login auth #####
+#### user pool for login auth
 aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file cens-user.yaml --stack-name cens
 aws cloudformation deploy --template-file cens-user-table.yaml --stack-name cens-user-table
 
 note the user pool id
 
 
-##### web app static website #####
+#### web app static website
 aws cloudformation deploy --template-file shop-web.yaml --stack-name tea-web
 
 note the bucket name
  
-##### deploy dynamodb table #####
+#### deploy dynamodb table 
 aws cloudformation deploy --template-file shop-product-table.yaml --stack-name tea-product-table
 aws cloudformation deploy --template-file shop-order-table.yaml --stack-name tea-order-table
 
-##### deploy lambda lambda function
+#### deploy lambda lambda function
 
 make sure the all the Class in config package.
 
@@ -73,7 +73,7 @@ gradle build -x test
 
 Template with related source name
 
-##### auth app ##### 
+#### auth app
 
 modify the shop-auth-swagger.yaml securityDefinitions user pool to note the user pool id
 
@@ -81,25 +81,25 @@ modify the shop-auth-swagger.yaml securityDefinitions user pool to note the user
 
 - aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file output-sam-auth.yaml --stack-name tea-auth
 
-##### unauth app #####
+#### unauth app 
 
 - aws cloudformation package --template-file sam-un-auth.yaml --output-template-file output-sam-un-auth.yaml --s3-bucket tea-lambda
 
 - aws cloudformation deploy --capabilities CAPABILITY_IAM --template-file output-sam-un-auth.yaml --stack-name tea-un-auth
 
-##### Cognito User Pool #####
+#### Cognito User Pool
 
 add the signin url and sign out url
 add login domain 
 
 
-##### web app deploy #####
+#### web app deploy 
 
 modify auth.js 
 
 deploy the web app to note the bucket name
 
-##### admin dashboard #####
+#### admin dashboard 
 
 1. make sure the all the Class in config package.
 
