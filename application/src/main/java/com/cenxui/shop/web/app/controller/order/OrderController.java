@@ -20,6 +20,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -161,41 +162,42 @@ public class OrderController extends CoreController {
     private static Order mapRequestBodyToOrder(String body) {
         try {
             return JsonUtil.mapToOrder(body);
-        }catch (Throwable e) {
-            throw new OrderControllerServerException("request body not allow :" + body);
+        }catch (Exception e) {
+            throw new OrderControllerClientException("request body not allow :" + body);
         }
     }
 
     private static void checkOrder(Order order) {
+        if (order == null) throw new OrderControllerClientException("request body order cannot be null");
 
         checkTrialOrder(order);
 
         if (!OrderAttributeFilter.checkPurchaser(order.getPurchaser()))
-            throw new OrderControllerClientException("request body order purchaser cannot be empty");
+            throw new OrderControllerClientException("request body order purchaser is not allowed");
 
         if (!OrderAttributeFilter.checkPurchaserPhone(order.getPurchaserPhone()))
-            throw new OrderControllerClientException("request body order purchaserPhone cannot be empty");
+            throw new OrderControllerClientException("request body order purchaserPhone is not allowed");
 
         if (!OrderAttributeFilter.checkReceiver(order.getReceiver()))
-            throw new OrderControllerClientException("request body order receiver cannot be empty");
+            throw new OrderControllerClientException("request body order receiver is not allowed");
 
         if (!OrderAttributeFilter.checkReceiverPhone(order.getReceiverPhone()))
-            throw new OrderControllerClientException("request body order receiverPhone cannot be empty");
+            throw new OrderControllerClientException("request body order receiverPhone is not allowed");
 
         if (!OrderAttributeFilter.checkShippingAddress(order.getShippingAddress()))
-            throw new OrderControllerClientException("request body order shippingAddress cannot be empty");
+            throw new OrderControllerClientException("request body order shippingAddress is not allowed");
 
         if (!OrderAttributeFilter.checkPaymentMethod(order.getPaymentMethod())) {
-            throw new OrderControllerClientException("request body order paymentMethod not allowed");
+            throw new OrderControllerClientException("request body order paymentMethod is not allowed");
         }
 
         if (!OrderAttributeFilter.checkComment(order.getComment())) {
-            throw new OrderControllerClientException("request body order comment not allowed");
+            throw new OrderControllerClientException("request body order comment is not allowed");
         }
 
         if (!OrderAttributeFilter.checkBankInformation(order.getPaymentMethod(), order.getBankInformation())) {
             throw new OrderControllerClientException(
-                    "request body order bankInformation with paymentMethod not allowed");
+                    "request body order bankInformation with paymentMethod is not allowed");
         }
     }
 
@@ -203,10 +205,10 @@ public class OrderController extends CoreController {
         if (order == null) throw new OrderControllerClientException("request body order cannot be null");
 
         if (!OrderAttributeFilter.checkProducts(order.getProducts()))
-            throw new OrderControllerClientException("request body order products cannot be empty");
+            throw new OrderControllerClientException("request body order products is not allowed");
 
         if (!OrderAttributeFilter.checkShippingWay(order.getShippingWay())){
-            throw new OrderControllerClientException("request body order shippedWay not allowed");
+            throw new OrderControllerClientException("request body order shippedWay is not allowed");
         }
     }
 

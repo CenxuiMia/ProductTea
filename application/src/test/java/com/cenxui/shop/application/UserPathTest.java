@@ -37,7 +37,8 @@ public class UserPathTest {
                 "Mia",
                 "cenxuilin@gmail.com",
                 "a",
-                "124555"
+                "124555",
+                "79/6/6"
         );
 
         String body = JsonUtil.mapToJson(user);

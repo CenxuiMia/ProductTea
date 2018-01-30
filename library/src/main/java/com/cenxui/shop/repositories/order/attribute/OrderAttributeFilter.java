@@ -3,20 +3,72 @@ package com.cenxui.shop.repositories.order.attribute;
 import java.util.List;
 
 public class OrderAttributeFilter {
+    private static final int productsLimit = 100;
+    private static final int productNameLimit = 20;
+    private static final int productVersionLimit = 20;
+    private static final int productCountLimit = 11;
+
+    private static final int purchaserLimit = 30;
+    private static final int purchaserPhoneLimit = 20;
+    private static final int receiverLimit = 30;
+    private static final int receiverPhoneLimit = 20;
+    private static final int commentLimit = 200;
 
     public static boolean checkProducts(List<String> products) {
-        if (products == null || products.size() == 0) return false;
+        if (products == null || products.size() == 0 || products.size() > productsLimit) return false;
+
+        //todo add set check
+
+        for (String product: products) {
+            try {
+                String[] s = product.split(";");//todo
+
+                if (s.length != 3) {
+                    return false;
+                }
+
+                String productName = s[0].trim();
+
+                if (productName.length() == 0 || product.length() > productNameLimit) {
+                    return false;
+                }
+
+                String version = s[1].trim();
+
+                if (version.length() == 0 || version.length() > productVersionLimit) {
+                    return false;
+                }
+
+                Integer count = Integer.valueOf(s[2].trim());
+
+                if (count < 1 ||count > productCountLimit) {
+                    return false;
+                }
+
+            }catch (Exception e) {
+                return false;
+            }
+        }
+
         //todo
         return true;
     }
 
     public static boolean checkPurchaser(String purchaser) {
         if (isEmpty(purchaser)) return false;
-        //todo
+
+        if (purchaser.length() > purchaserLimit) return false;
+
         return true;
     }
 
     public static boolean checkPurchaserPhone(String purchaserPhone) {
+        if (isEmpty(purchaserPhone)) return false;
+
+        if (purchaserPhone.length() > purchaserPhoneLimit) {
+            return false;
+        }
+
         return isDigit(purchaserPhone);
     }
 
@@ -50,11 +102,20 @@ public class OrderAttributeFilter {
 
     public static boolean checkReceiver(String receiver) {
         if (isEmpty(receiver)) return false;
+
+        if (receiver.length() > receiverLimit) {
+            return false;
+        }
+
         //todo
         return true;
     }
 
     public static boolean checkReceiverPhone(String receiverPhone) {
+        if (isEmpty(receiverPhone)) return false;
+
+        if (receiverPhone.length() > receiverPhoneLimit) return false;
+
         return isDigit(receiverPhone);
     }
 
@@ -70,6 +131,9 @@ public class OrderAttributeFilter {
 
     public static boolean checkComment(String comment) {
         if (!isEmpty(comment)) {
+            if (comment.length() > commentLimit) {
+                return false;
+            }
             //todo
         }
 
