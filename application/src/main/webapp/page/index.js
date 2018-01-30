@@ -34,5 +34,5 @@ function showSlidesWithoutDots() {
     }
     slides[slideIndex].style.display = "block";
     slideIndex++;
-    timer = setTimeout(showSlidesWithoutDots, 3000);
+    timer = setTimeout(showSlidesWithoutDots, 5000);
 }
