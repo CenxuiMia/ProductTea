@@ -1,9 +1,13 @@
 package com.cenxui.shop.aws.dynamodb.repositories;
 
+import com.cenxui.shop.aws.dynamodb.exceptions.client.product.ProductNotFoundException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.order.*;
 import com.cenxui.shop.repositories.order.*;
+import com.cenxui.shop.repositories.order.attribute.OrderAttributeFilter;
 import com.cenxui.shop.repositories.order.attribute.ShippingWay;
 import com.cenxui.shop.repositories.product.ProductRepository;
+
+import java.util.List;
 
 /**
  * order table transaction layer
@@ -143,7 +147,7 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         checkTrialOrder(order);
 
-        int price, shippingCost, productsPrice;
+        int price, shippingCost;
 
         //todo possible modify
 
@@ -155,15 +159,31 @@ class DynamoDBOrderRepository implements OrderRepository {
             throw new OrderShippedWayNotAllowedException(order.getShippingWay());
         }
 
-        productsPrice = productRepository.getProductsPrice(order.getProducts()).getValue();
+        int productsPrice = 0;
+
+        for (String product: order.getProducts()) {
+            String[] s = product.split(";");//todo
+
+            String productName = s[0].trim();
+            String version = s[1].trim();
+            String count = s[2].trim();
+
+            Integer productPrice = productRepository.getProductPrice(productName, version);
+
+            if (productPrice == null) {
+                throw new OrderProductNotFoundException(productName, version);
+            }
+
+            productsPrice = productsPrice + productPrice * Integer.valueOf(count);
+        }
 
         //todo modify business
 
         String activity = null;
 
-        if (productsPrice >= 1000) {
+        if (productsPrice >= 1500) {
             price = productsPrice; //no shipping cost if productsPrice more than 1000
-            activity = "滿千免運費";
+            activity = "滿一千五免運費";
         }else {
             price = shippingCost + productsPrice;
         }

@@ -58,12 +58,7 @@ final class DynamoDBProductRepository implements ProductRepository {
     }
 
     @Override
-    public Price getProductPrice(String name, String version) {
+    public Integer getProductPrice(String name, String version) {
         return productBaseRepository.getProductPrice(name, version);
-    }
-
-    @Override
-    public Price getProductsPrice(List<String> products) {
-        return productBaseRepository.getProductsPrice(products);
     }
 }

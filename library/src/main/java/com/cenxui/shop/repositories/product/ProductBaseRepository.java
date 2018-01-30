@@ -22,8 +22,5 @@ public interface ProductBaseRepository extends Repository {
 
     boolean deleteProduct(String productName, String version);
 
-    Price getProductPrice(String name, String version);
-
-    Price getProductsPrice(List<String> products);
-
+    Integer getProductPrice(String name, String version);
 }

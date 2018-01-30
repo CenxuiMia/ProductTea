@@ -120,7 +120,7 @@ class DynamoDBProductBaseRepository implements ProductBaseRepository {
     }
 
     @Override
-    public Price getProductPrice(String productName, String version) {
+    public Integer getProductPrice(String productName, String version) {
         checkPrimaryKey(productName);
         checkPrimaryKey(version);
 
@@ -134,38 +134,9 @@ class DynamoDBProductBaseRepository implements ProductBaseRepository {
 
         if (products.size() == 1) {
             Product product = products.get(0);
-            return Price.of(product.getPrice());
+            return product.getPrice();
         }
         return null;
-    }
-
-    /**
-     * Caculate
-     * @param products
-     * @return
-     */
-    @Override
-    public Price getProductsPrice(List<String> products) {
-        //todo  business is here
-
-        Integer orderPrice = 0;
-
-        for (String product: products) {
-            String[] s = product.split(";");//todo
-
-            if (s.length != 3) throw new ProductsFormatException(product);
-
-            String productName = s[0].trim();
-            String version = s[1].trim();
-            String count = s[2].trim();
-
-            Price price = getProductPrice(productName, version);
-
-            if (price == null) throw new ProductNotFoundException(productName, version);
-            orderPrice = orderPrice + price.getValue() * Integer.valueOf(count);
-        }
-
-        return Price.of(orderPrice);
     }
 
     @Override
