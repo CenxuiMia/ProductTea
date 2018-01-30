@@ -361,7 +361,6 @@ a.active {
 
 /* -----  rotating banner  ----- */
 .slidesSection {
-    width: 60%;
     min-height: 150px;
     max-height: 200px;
     display: block;
@@ -369,8 +368,8 @@ a.active {
 }
 
 .slidesSection img {
-    width: 100%;
     max-height: 200px;
+    margin: auto;
 }
 
 .slides {
@@ -690,7 +689,6 @@ footer .icon img {
     }
 
     .slidesSection {
-        width: 60%;
         min-height: 150px;
         max-height: 250px;
         margin: 2rem auto 1.5rem;
