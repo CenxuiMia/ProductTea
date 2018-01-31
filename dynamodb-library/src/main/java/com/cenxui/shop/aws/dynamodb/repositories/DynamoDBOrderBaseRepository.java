@@ -5,11 +5,10 @@ import com.amazonaws.services.dynamodbv2.document.spec.*;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.order.*;
-import com.cenxui.shop.aws.dynamodb.exceptions.server.order.OrderJsonMapException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.order.*;
 import com.cenxui.shop.repositories.order.*;
-import com.cenxui.shop.aws.dynamodb.exceptions.server.order.OrderCannotNullException;
-import com.cenxui.shop.aws.dynamodb.exceptions.server.order.OrderPrimaryKeyCannotEmptyException;
 import com.cenxui.shop.aws.dynamodb.util.ItemUtil;
+import com.cenxui.shop.repositories.order.attribute.OrderAttributeFilter;
 import com.cenxui.shop.util.JsonUtil;
 import com.cenxui.shop.util.TimeUtil;
 
@@ -376,9 +375,8 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Order addOrder(Order order) {
-        if (order == null) throw new OrderCannotNullException();
-        checkPrimaryKey(order.getMail());
-        checkPrimaryKey(order.getOrderDateTime());
+
+        checkOrder(order);
 
         PutItemSpec putItemSpec = new PutItemSpec()
                 .withItem(ItemUtil.getOrderItem(order))
@@ -890,5 +888,41 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
         return  order;
     }
+
+
+    private void checkOrder(Order order) {
+        if (order == null) throw new OrderCannotNullException();
+
+        checkPrimaryKey(order.getMail());
+        checkPrimaryKey(order.getOrderDateTime());
+
+        if (!OrderAttributeFilter.checkPaymentMethod(order.getPaymentMethod()))
+            throw new OrderPaymentMethodNotAllowedException(order.getPaymentMethod());
+
+        if (!OrderAttributeFilter.checkBankInformation(order.getPaymentMethod(), order.getBankInformation()))
+            throw new OrderBankInformationNotAllowedException(order.getPaymentMethod(), order.getBankInformation());
+
+        if (!OrderAttributeFilter.checkPurchaser(order.getPurchaser()))
+            throw new OrderPurchaserNotAllowedExcetpion(order.getPurchaser());
+
+        if (!OrderAttributeFilter.checkPurchaserPhone(order.getPurchaserPhone()))
+            throw new OrderPurchaserPhoneNotAllowedException(order.getPurchaserPhone());
+
+        if (!OrderAttributeFilter.checkReceiver(order.getReceiver()))
+            throw new OrderReceiverNotAllowedException(order.getReceiver());
+
+        if (!OrderAttributeFilter.checkReceiverPhone(order.getReceiverPhone()))
+            throw new OrderReceiverPhoneNotAllowedException(order.getReceiverPhone());
+
+        if (!OrderAttributeFilter.checkShippingWay(order.getShippingWay()))
+            throw new OrderShippedWayNotAllowedException(order.getShippingWay());
+
+        if (!OrderAttributeFilter.checkShippingAddress(order.getShippingAddress()))
+            throw new OrderShippingAddressNotAllowedException(order.getShippingAddress());
+
+        if (!OrderAttributeFilter.checkComment(order.getComment()))
+            throw new OrderCommentNotAllowedException(order.getComment());
+    }
+
 
 }

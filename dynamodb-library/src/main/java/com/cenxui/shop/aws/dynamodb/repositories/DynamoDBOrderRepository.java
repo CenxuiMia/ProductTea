@@ -1,13 +1,10 @@
 package com.cenxui.shop.aws.dynamodb.repositories;
 
-import com.cenxui.shop.aws.dynamodb.exceptions.client.product.ProductNotFoundException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.order.*;
 import com.cenxui.shop.repositories.order.*;
 import com.cenxui.shop.repositories.order.attribute.OrderAttributeFilter;
 import com.cenxui.shop.repositories.order.attribute.ShippingWay;
 import com.cenxui.shop.repositories.product.ProductRepository;
-
-import java.util.List;
 
 /**
  * order table transaction layer
@@ -133,8 +130,6 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order addOrder(Order order) {
-        if (order.getPaymentMethod() == null)
-            throw new OrderPaymentMethodCannotNullException(order);
 
         Order trialOrder = trialOrder(order);
 
@@ -150,14 +145,6 @@ class DynamoDBOrderRepository implements OrderRepository {
         int price, shippingCost;
 
         //todo possible modify
-
-        if (ShippingWay.SHOP.equals(order.getShippingWay())) {
-            shippingCost = 60;
-        }else if (ShippingWay.HOME.equals(order.getShippingWay())) {
-            shippingCost = 100;
-        }else {
-            throw new OrderShippedWayNotAllowedException(order.getShippingWay());
-        }
 
         int productsPrice = 0;
 
@@ -181,11 +168,25 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         String activity = null;
 
-        if (productsPrice >= 1500) {
-            price = productsPrice; //no shipping cost if productsPrice more than 1000
-            activity = "滿一千五免運費";
+        if (ShippingWay.SHOP.equals(order.getShippingWay())) {
+            shippingCost = 60;
+            if (productsPrice >= 1000) {
+                price = productsPrice; //no shipping cost if productsPrice more than 1000
+                activity = "滿一千免運費";
+            }else {
+                price = shippingCost + productsPrice;
+            }
+        }else if (ShippingWay.HOME.equals(order.getShippingWay())) {
+            shippingCost = 100;
+            if (productsPrice >= 1500) {
+                price = productsPrice; //no shipping cost if productsPrice more than 1000
+                activity = "滿一千五免運費";
+            }else {
+                price = shippingCost + productsPrice;
+            }
+
         }else {
-            price = shippingCost + productsPrice;
+            throw new OrderShippedWayNotAllowedException(order.getShippingWay());
         }
 
         return Order.of(
@@ -218,9 +219,11 @@ class DynamoDBOrderRepository implements OrderRepository {
     private void checkTrialOrder(Order order) {
         if (order == null) throw new OrderCannotNullException();
 
-        if (order.getProducts() == null) throw new OrderProductsCannotNullException(order);
+        if (!OrderAttributeFilter.checkProducts(order.getProducts()))
+            throw new OrderProductsNotAllowedException(order.getProducts());
 
-        if (order.getShippingWay() == null) throw new OrderShippedWayCannotNullException(order);
+        if (!OrderAttributeFilter.checkShippingWay(order.getShippingWay()))
+            throw new OrderShippedWayNotAllowedException(order.getShippingWay());
     }
 
     @Override

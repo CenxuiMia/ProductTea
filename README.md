@@ -4,7 +4,7 @@
 
 ![alt text](./product-tea.png)
 
-### Adventage
+### Advantage
 1. micro-service
 2. zero-downtime
 3. auto-scalling
@@ -14,7 +14,7 @@ We use aws cloudformation tamplate to delpoy stack for this project, take advent
 We are able to deploy new version product in two minutes.
 
 
-### Applcation ###
+### Application ###
 
 1. web app in S3 bucket
 2. application deploy in Lambda
