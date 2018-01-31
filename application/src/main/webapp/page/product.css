@@ -7,32 +7,34 @@
     margin: 2%;
     padding-bottom: 2%;
     letter-spacing: 2px;
-    /*background-color: lavenderblush; !*for testing*!*/
 }
 
 .info-content {
-    margin: 2%;
+    letter-spacing: 5px;
     display: inline-block;
     vertical-align: top;
-    /*background-color: #f2f2f2; !*for testing*!*/
+    width: 50%;
 }
 
 .info-content img {
     margin-right: 3%;
     margin-left: 3%;
-    width: 80%;
+    width: 100%;
 }
 
-.info-content th  {
+.info-content.info-table {
+    width: 40%;
+    float: right;
+}
+
+.info-content th {
     width: 90px;
     color: #777777;
     font-weight: normal;
-    /*background-color: #f2f2f2; !*for testing*!*/
 }
 
 .info-content td {
     width: 200px;
-    /*background-color: #f2f2f2; !*for testing*!*/
 }
 
 #price {
@@ -104,30 +106,16 @@ select:hover {
 .photos img {
     display: block;
     margin: 4% auto; /* margin: (top, bottom) (left, right) */
+    width: 70%;
 }
 
 @media (max-width: 1200px) {
-    .info-content {
-        margin: 2% 0 2% 0;
-        letter-spacing: 1px;
-    }
     .info-content img {
         margin-right: 0.5%;
         margin-left: 3%;
-        width: 75%;
     }
 }
 
-@media (max-width: 1000px) {
-    .info-content {
-        margin: 2% 0 2% 0;
-    }
-    .info-content img {
-        margin-right: 0;
-        margin-left: 3%;
-        width: 73%;
-    }
-}
 
 /* phone version 手機版 */
 @media only screen and (max-device-width: 1024px) {
@@ -142,9 +130,14 @@ select:hover {
         margin-left: auto;
     }
 
-    .info-table  {
+    .info-content.info-table  {
+        float: none;
         width: 85%;
         margin-left: 2rem;
+    }
+
+    .info-content #pricePart {
+        text-align: center;
     }
 
     #buttons {
