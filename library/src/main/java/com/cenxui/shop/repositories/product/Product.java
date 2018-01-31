@@ -9,6 +9,7 @@ public class Product {
     public static final String PRODUCT_NAME = "productName";
     public static final String VERSION = "version";
     public static final String INTRODUCTION = "introduction";
+    public static final String SPEC = "spec";
     public static final String DETAILS = "details";
     public static final String SMALL_IMAGE = "smallImage";
     public static final String VIDEO = "video";
@@ -22,6 +23,7 @@ public class Product {
     String productName;
     String version;
     String introduction;
+    String spec;
     String details;
     String smallImage;
     String video;
