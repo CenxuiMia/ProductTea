@@ -32,15 +32,16 @@ function queryProductsData() {
             let queryString = URL_PRODUCT + "?name=" + data.products[i].productName +
                 "&version=" + data.products[i].version;
             let originalPrice = JSON.stringify(data.products[i]).includes("originalPrice")?
-                "<div class='originalPrice'>" + "NT." + data.products[i].originalPrice + "</div>" : "";
+                "<span class='originalPrice'>" + "NT." + data.products[i].originalPrice + "</span>" : "";
             productList.innerHTML +=
                 "<div class='prod-wrapper fadeinUp'>" +
                     "<a href=" + queryString + ">" +
                         "<img src=" + data.products[i].smallImage + " alt='茶品項' style='width: 100%'>" +
                         "<div class='info'>" +
                             "<p><b>" + data.products[i].productName + "</b><br>" + data.products[i].introduction + "</p>" +
-                            originalPrice +
-                            "<div class='price'>" + "NT." + data.products[i].price + "</div>" +
+                            "<div class='price'>" +
+                                "NT." + "<span class='priceHint'>" + data.products[i].price + "</span>" + " " + originalPrice +
+                            "</div>" +
                         "</div>" +
                     "</a>" +
                 "</div>";
