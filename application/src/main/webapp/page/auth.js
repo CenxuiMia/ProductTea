@@ -25,15 +25,6 @@ let productsAuthData = {
     UserPoolId : poolId
 };
 
-let productAuthData = {
-    ClientId : clientId,
-    AppWebDomain : appDomain,
-    TokenScopesArray : tokenScopesArray,
-    RedirectUriSignIn : 'https://tw.hwangying.com/product.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com/product.html',
-    UserPoolId : poolId
-};
-
 let userAuthData = {
     ClientId : clientId,
     AppWebDomain : appDomain,
