@@ -37,6 +37,11 @@
     width: 200px;
 }
 
+#version {
+    font-size: 1.3rem;
+    font-weight: 200;
+}
+
 #price {
     font-size: 1.5rem;
     font-weight: 400;
@@ -121,10 +126,12 @@ select:hover {
 @media only screen and (max-device-width: 1024px) {
     .info-content {
         width: 100%;
+        display: block;
+        margin: 5% 0;
     }
 
     .info-content #smallImage {
-        /*width: 100%;*/
+        width: 75%;
         display: block;
         margin-right: auto;
         margin-left: auto;
@@ -133,7 +140,15 @@ select:hover {
     .info-content.info-table  {
         float: none;
         width: 85%;
-        margin-left: 2rem;
+        margin: 8% 0 3% 10%;
+    }
+
+    .info-content h2 {
+        font-size: 1.2rem;
+    }
+
+    .info-content p {
+        font-size: 15px;
     }
 
     .info-content #pricePart {
@@ -145,12 +160,17 @@ select:hover {
     }
 
     #link {
-        font-size: 26px;
+        font-size: 15px;
     }
 
     .photos p {
-        margin: 10% 5%;
+        margin: 10%;
         letter-spacing: 1px;
-        font-size: 28px;
+        font-size: 15px;
+        text-align: left;
+    }
+
+    .photos img {
+        margin: 0 auto 15%;
     }
 }

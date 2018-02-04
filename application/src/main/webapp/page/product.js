@@ -36,7 +36,7 @@ $.ajax({
         let spec = data.spec.replace(/;/g, "<br>");
         document.getElementById("smallImage").setAttribute("src", data.smallImage);
         document.getElementById("productName").innerHTML = data.productName;
-        document.getElementById("version").innerHTML = data.version;
+        document.getElementById("version").innerHTML = data.version + versionName;
         document.getElementById("introduction").innerHTML = data.introduction;
         document.getElementById("spec").innerHTML = spec;
         document.getElementById("price").innerHTML = data.price;
