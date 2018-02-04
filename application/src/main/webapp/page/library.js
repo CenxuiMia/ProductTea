@@ -29,8 +29,8 @@ function closeSnackBar(element) {
 }
 
 //remove the show class from DIV
-function closeSnackBarWithTime(millisecond) {
-    if (!isNumber(millisecond)) {
+function closeSnackBarWithTime(element, millisecond) {
+    if (!isNumeric(millisecond)) {
         console.error("closeSnackBar, millisecond should be number");
         millisecond = CLOSE_TIME;
     }

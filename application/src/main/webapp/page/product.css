@@ -83,11 +83,31 @@ select:hover {
     color: #f2f2f2;
 }
 
+#addSuccess {
+    visibility: hidden;
+    color: olivedrab;
+}
+
+#addSuccess.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
 .border {
     border-bottom: solid #cccccc 2px ;
     width: 80%;
     margin-left: auto;
-    /*margin-right: auto;*/
 }
 
 .border2 {
@@ -110,7 +130,7 @@ select:hover {
 
 .photos img {
     display: block;
-    margin: 4% auto; /* margin: (top, bottom) (left, right) */
+    margin: 4% auto;
     width: 70%;
 }
 
@@ -139,16 +159,18 @@ select:hover {
 
     .info-content.info-table  {
         float: none;
-        width: 85%;
-        margin: 8% 0 3% 10%;
+        width: 90%;
+        margin: 8% 0 3% 5%;
     }
 
     .info-content h2 {
         font-size: 1.2rem;
+        margin-left: 5%;
     }
 
     .info-content p {
         font-size: 15px;
+        margin-left: 5%;
     }
 
     .info-content #pricePart {
@@ -157,10 +179,17 @@ select:hover {
 
     #buttons {
         text-align: center;
+        margin: 1.5rem auto 0;
     }
 
     #link {
         font-size: 15px;
+    }
+
+    #addSuccess {
+        text-align: center;
+        font-size: 15px;
+        margin: 1rem 0 0;
     }
 
     .photos p {

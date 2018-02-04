@@ -480,27 +480,21 @@ footer .icon img {
 #snackbar {
     position: fixed;
     clear: both;
-    visibility: hidden; /* Hidden by default. Visible on click */
-    max-width: 250px; /* Set a default minimum width */
-    background-color: #444; /* Black background color */
-    color: #fff; /* White text color */
-    text-align: center; /* Centered text */
-    border-radius: 2px; /* Rounded borders */
-    padding: 8px 16px; /* Padding */
-    margin-left: auto; margin-right: auto; /* Center the snackbar */
-    bottom: 30px; /* 10px from the bottom */
+    visibility: hidden;
+    max-width: 250px;
+    background-color: #444;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 8px 16px;
+    margin-left: auto; margin-right: auto;
+    bottom: 30px;
 }
 
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
 #snackbar.show {
-    visibility: visible; /* Show the snackbar */
-
-    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-    However, delay the fade out process for 2.5 seconds */
+    visibility: visible;
     -webkit-animation: fadein 0.5s;
     animation: fadein 0.5s;
-    /*-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;*/
-    /*animation: fadein 0.5s, fadeout 0.5s 2.5s;*/
 }
 
 #snackbar.close {
@@ -704,7 +698,6 @@ footer .icon img {
 
     .footer-copyright {
         letter-spacing: 0;
-        /*font-size: 20px;*/
         padding: 15px;
         margin-top: 10px;
     }
@@ -717,8 +710,8 @@ footer .icon img {
 
     /*-- snackbar --*/
     #snackbar {
-        min-width: 400px; /* Set a default minimum width */
-        border-radius: 5px; /* Rounded borders */
+        min-width: 400px;
+        border-radius: 5px;
     }
     /*-- snackbar --*/
 }
