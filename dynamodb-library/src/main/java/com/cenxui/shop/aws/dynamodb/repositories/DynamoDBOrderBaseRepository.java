@@ -7,7 +7,7 @@ import com.amazonaws.services.dynamodbv2.model.*;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.order.*;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.order.*;
 import com.cenxui.shop.repositories.order.*;
-import com.cenxui.shop.aws.dynamodb.util.ItemUtil;
+import com.cenxui.shop.aws.dynamodb.repositories.util.ItemUtil;
 import com.cenxui.shop.repositories.order.attribute.OrderAttributeFilter;
 import com.cenxui.shop.util.JsonUtil;
 import com.cenxui.shop.util.TimeUtil;
@@ -833,8 +833,8 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
     }
 
     private OrderShippedLastKey getShippedIndexQueryOutcomeLastKey(ItemCollection<QueryOutcome> collection) {
-        QueryOutcome scanOutcome = collection.getLastLowLevelResult();
-        Map<String, AttributeValue> lastKeyEvaluated = scanOutcome.getQueryResult().getLastEvaluatedKey();
+        QueryOutcome queryOutcome = collection.getLastLowLevelResult();
+        Map<String, AttributeValue> lastKeyEvaluated = queryOutcome.getQueryResult().getLastEvaluatedKey();
 
         return getOrderShippedLastKey(lastKeyEvaluated);
     }

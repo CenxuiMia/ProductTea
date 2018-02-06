@@ -1,6 +1,7 @@
 package com.cenxui.shop.util;
 
 import com.cenxui.shop.images.ProductImage;
+import com.cenxui.shop.repositories.coupon.Coupon;
 import com.cenxui.shop.repositories.order.Order;
 import com.cenxui.shop.repositories.user.User;
 import com.cenxui.shop.repositories.product.Product;
@@ -11,6 +12,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
 public class JsonUtil {
+    public static Coupon mapToCoupon(String couponJson) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        Coupon coupon = mapper.readValue(couponJson, Coupon.class);
+
+        return coupon;
+    }
+
+
 
     public static Order mapToOrder(String orderJson) throws IOException {
         ObjectMapper mapper = new ObjectMapper();

@@ -6,9 +6,8 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.product.ProductPrimaryKeyCannotEmptyException;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.product.ProductNotFoundException;
-import com.cenxui.shop.aws.dynamodb.util.ItemUtil;
+import com.cenxui.shop.aws.dynamodb.repositories.util.ItemUtil;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.product.ProductJsonMapException;
-import com.cenxui.shop.aws.dynamodb.exceptions.client.product.ProductsFormatException;
 import com.cenxui.shop.repositories.product.*;
 import com.cenxui.shop.util.JsonUtil;
 

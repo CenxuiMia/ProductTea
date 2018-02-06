@@ -1,6 +1,7 @@
 package com.cenxui.shop.aws.dynamodb.repositories;
 
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.cenxui.shop.repositories.coupon.CouponRepository;
 import com.cenxui.shop.repositories.order.OrderRepository;
 import com.cenxui.shop.repositories.product.ProductRepository;
 import com.cenxui.shop.repositories.user.UserRepository;
@@ -63,4 +64,15 @@ public class DynamoDBRepositoryService {
 
         return new DynamoDBUserRepository(userTable);
     }
+
+    public static CouponRepository getCouponRepository(String region, String couponTableName) {
+        Table couponTable = DynamoDBManager.getDynamoDB(region).getTable(couponTableName);
+        return new DynamoDBCouponRepository(couponTable);
+    }
+
+    public static CouponRepository getCouponRepositoryLocal(String region, String url, String couponTableName) {
+        Table couponTable = DynamoDBManager.getDynamoDBLocal(region, url).getTable(couponTableName);
+        return new DynamoDBCouponRepository(couponTable);
+    }
+
 }
