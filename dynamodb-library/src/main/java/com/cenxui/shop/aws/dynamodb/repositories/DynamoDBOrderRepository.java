@@ -201,6 +201,7 @@ class DynamoDBOrderRepository implements OrderRepository {
                 price,
                 order.getPaymentMethod(),
                 order.getBankInformation(),
+                order.getCouponType(),
                 order.getReceiver(),
                 order.getReceiverPhone(),
                 order.getShippingWay(),

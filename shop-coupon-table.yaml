@@ -9,10 +9,13 @@ Resources:
           AttributeName: "mail"
           AttributeType: "S"
         -
-          AttributeName: "type"
+          AttributeName: "couponType"
           AttributeType: "S"
         -
           AttributeName: "ownerMail"
+          AttributeType: "S"
+        -
+          AttributeName: "couponStatus"
           AttributeType: "S"
 
       KeySchema:
@@ -20,7 +23,7 @@ Resources:
           AttributeName: "mail"
           KeyType: "HASH"
         -
-          AttributeName: "type"
+          AttributeName: "couponType"
           KeyType: "RANGE"
       ProvisionedThroughput:
         ReadCapacityUnits: "1"
@@ -34,11 +37,11 @@ Resources:
           -
             AttributeName: "ownerMail"
             KeyType: "HASH"
+          -
+            AttributeName: "couponStatus"
+            KeyType: "RANGE"
           Projection:
             ProjectionType: "ALL" #modify todo INCLUDE
           ProvisionedThroughput:
             ReadCapacityUnits: "1"
             WriteCapacityUnits: "1"
-      TimeToLiveSpecification:
-         AttributeName: "ownerMail"
-         Enabled: true

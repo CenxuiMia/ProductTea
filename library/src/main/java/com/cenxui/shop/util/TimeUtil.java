@@ -15,6 +15,14 @@ public class TimeUtil {
         return  getLocalDateTimeNow().toString().substring(0,19);
     }
 
+    public static LocalDateTime getCouponExpireDayTime(int days) {
+        return getLocalDateTimeNow().plusDays(days);
+    }
+
+    public static long getCouponExpirationTime(int days) {
+        return System.currentTimeMillis() + days * 86_400_000L;
+    }
+
     private static LocalDateTime getLocalDateTimeNow() {
         return LocalDateTime.now(Clock.system(ZoneId.of("UTC+8")));
     }

@@ -190,7 +190,6 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Orders getAllShippedOrders() {
-
         return getAllShippedOrders(null, null);
     }
 
@@ -696,14 +695,6 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
         }while (lastKey != null);
 
         return allOrders;
-    }
-
-    private KeyAttribute[] getBankLastKeyAttributes(OrderBankLastKey lastKey) {
-        KeyAttribute[] keys = new KeyAttribute[3];
-        keys[0]= new KeyAttribute(Order.BANK_INFORMATION, lastKey.getBankInformation());
-        keys[1] = new KeyAttribute(Order.MAIL, lastKey.getMail());
-        keys[2] = new KeyAttribute(Order.ORDER_DATE_TIME, lastKey.getOrderDateTime());
-        return keys;
     }
 
     private KeyAttribute[] getPaidLastKeyAttributes(OrderPaidLastKey lastKey) {

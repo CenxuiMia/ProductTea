@@ -15,16 +15,16 @@ public class DynamoDBUserRepositoryTest {
 
     @Test
     public void updateUserProfile() throws Exception {
-        User user = User.of(
-                true,
-                "Lin",
-                "Cenxui",
-                "cenxui@gmail.com",
-                "A",
-                "0928554033"
-        );
-
-        System.out.println(JsonUtil.mapToJson(userRepository.updateUserProfile(user)));
+//        User user = User.of(
+//                true,
+//                "Lin",
+//                "Cenxui",
+//                "cenxui@gmail.com",
+//                "A",
+//                "0928554033"
+//        );
+//
+//        System.out.println(JsonUtil.mapToJson(userRepository.updateUserProfile(user)));
     }
 
     @Test

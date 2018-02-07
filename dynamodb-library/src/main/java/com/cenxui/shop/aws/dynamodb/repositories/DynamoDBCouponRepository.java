@@ -20,6 +20,21 @@ class DynamoDBCouponRepository implements CouponRepository {
     }
 
     @Override
+    public Coupon addSignUpCoupon(String mail) {
+        return couponBaseRepository.addSignUpCoupon(mail);
+    }
+
+    @Override
+    public Coupon addInvitationCoupon(String mail, String invitationMail) {
+        return couponBaseRepository.addInvitationCoupon(mail, invitationMail);
+    }
+
+    @Override
+    public Coupon useCoupon(String couponMail, String couponType, String mail) {
+        return couponBaseRepository.useCoupon(couponMail, couponType, mail);
+    }
+
+    @Override
     public Coupons getCouponsByOwnerMail(String ownerMail) {
         return couponBaseRepository.getCouponsByOwnerMail(ownerMail);
     }
