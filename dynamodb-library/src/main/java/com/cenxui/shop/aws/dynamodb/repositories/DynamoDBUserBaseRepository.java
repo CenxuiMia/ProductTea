@@ -11,14 +11,13 @@ import com.cenxui.shop.aws.dynamodb.exceptions.client.user.UserBirthdayExistExce
 import com.cenxui.shop.aws.dynamodb.exceptions.server.user.UserJsonMapException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.user.UserPrimaryKeyCannotEmptyException;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.user.UserProfileException;
-import com.cenxui.shop.aws.dynamodb.util.ItemUtil;
+import com.cenxui.shop.aws.dynamodb.repositories.util.ItemUtil;
 import com.cenxui.shop.repositories.user.User;
 import com.cenxui.shop.repositories.user.UserBaseRepository;
 import com.cenxui.shop.repositories.user.UserKey;
 import com.cenxui.shop.repositories.user.Users;
 import com.cenxui.shop.util.JsonUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

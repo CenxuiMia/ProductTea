@@ -1,7 +1,10 @@
-package com.cenxui.shop.aws.dynamodb.util;
+package com.cenxui.shop.aws.dynamodb.repositories.util;
 
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.kms.model.UnsupportedOperationException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.util.ItemUtilCannotAccessFieldException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.util.ItemUtilNotSupportClassTypeException;
+import com.cenxui.shop.repositories.coupon.Coupon;
 import com.cenxui.shop.repositories.product.Product;
 import com.cenxui.shop.repositories.user.User;
 import com.cenxui.shop.repositories.order.Order;
@@ -76,6 +79,23 @@ public class ItemUtil {
         );
 
         return item;
+    }
+
+    public static Item getCouponItem(@NonNull Coupon coupon) {
+       Item item = new Item()
+               .withPrimaryKey(Coupon.MAIL, coupon.getMail(), Coupon.COUPON_TYPE, coupon.getCouponType());
+
+       Arrays.asList(coupon.getClass().getDeclaredFields()).forEach(
+               (s) -> {
+                   String fieldName = s.getName();
+                   if(!Coupon.MAIL.equals(fieldName) && !Coupon.COUPON_TYPE.equals(fieldName)) {
+                       s.setAccessible(true);
+                       setItem(coupon, item, s, fieldName);
+
+                   }
+               }
+       );
+       return item;
     }
 
     private static void setItem(@NonNull Object object, Item item, Field s, String fieldName) {

@@ -105,6 +105,7 @@ public class OrderController extends CoreController {
                         null,
                         order.getPaymentMethod(),
                         order.getBankInformation(),
+                        order.getCouponType(),
                         order.getReceiver(),
                         order.getReceiverPhone(),
                         order.getShippingWay(),
