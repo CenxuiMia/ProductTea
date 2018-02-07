@@ -7,7 +7,9 @@ import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
+import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.coupon.CouponCannotAddException;
+import com.cenxui.shop.aws.dynamodb.exceptions.client.coupon.CouponCannotUsedException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponJsonMapException;
 import com.cenxui.shop.aws.dynamodb.repositories.util.ItemUtil;
 import com.cenxui.shop.repositories.coupon.*;
@@ -57,20 +59,26 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
         //update the couponStatus to used
 
         UpdateItemSpec spec = new UpdateItemSpec()
-                .withPrimaryKey(Coupon.MAIL, mail, Coupon.OWNER_MAIL, mail)
+                .withPrimaryKey(Coupon.MAIL, couponMail, Coupon.COUPON_TYPE, couponType)
                 .withConditionExpression(
-                        Coupon.OWNER_MAIL + "=:ow AND " +
-                                Coupon.COUPON_STATUS + " =:csa AND " + Coupon.EXPIRATION_TIME + "> :ept" )
-                .withUpdateExpression("set " + Coupon.COUPON_STATUS + ":csu" )
+                                Coupon.OWNER_MAIL + "=:ow AND " +
+                                Coupon.COUPON_STATUS + " =:csa AND " +
+                                Coupon.EXPIRATION_TIME + "> :ept" )
+                .withUpdateExpression("set " + Coupon.COUPON_STATUS + "=:csu" )
                 .withValueMap(
                         new ValueMap()
                                 .withString(":ow", mail)
                                 .withString(":csa", CouponStatus.ACTIVE)
                                 .withString(":csu", CouponStatus.USED)
-                                .withLong(":ept", System.currentTimeMillis()));
-        String couponJson = couponTable.updateItem(spec).getItem().toJSON();
-
-        return getCoupon(couponJson);
+                                .withLong(":ept", System.currentTimeMillis()))
+                .withReturnValues(ReturnValue.ALL_NEW);
+        try {
+            UpdateItemOutcome outcome = couponTable.updateItem(spec);
+            String couponJson = outcome.getItem().toJSON();
+            return getCoupon(couponJson);
+        }catch (ConditionalCheckFailedException e) {
+            throw new CouponCannotUsedException(couponMail, couponType);
+        }
     }
 
     @Override
