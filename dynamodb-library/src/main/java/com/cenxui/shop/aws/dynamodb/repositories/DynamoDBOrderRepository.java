@@ -1,9 +1,11 @@
 package com.cenxui.shop.aws.dynamodb.repositories;
 
 import com.cenxui.shop.aws.dynamodb.exceptions.server.order.*;
+import com.cenxui.shop.language.LanguageOrder;
 import com.cenxui.shop.repositories.coupon.CouponRepository;
 import com.cenxui.shop.repositories.coupon.type.activity.CouponActivities;
 import com.cenxui.shop.repositories.coupon.type.activity.CouponActivity;
+import com.cenxui.shop.repositories.coupon.type.activity.exception.CouponActivitiesException;
 import com.cenxui.shop.repositories.order.*;
 import com.cenxui.shop.repositories.order.attribute.OrderAttributeFilter;
 import com.cenxui.shop.repositories.order.attribute.ShippingWay;
@@ -185,7 +187,7 @@ class DynamoDBOrderRepository implements OrderRepository {
             shippingCost = 60;
             if (productsPrice >= 1000) {
                 price = productsPrice; //no shipping cost if productsPrice more than 1000
-                activity = "滿一千免運費";
+                activity = LanguageOrder.EVENT_1;
             }else {
                 price = shippingCost + productsPrice;
             }
@@ -193,7 +195,7 @@ class DynamoDBOrderRepository implements OrderRepository {
             shippingCost = 100;
             if (productsPrice >= 1500) {
                 price = productsPrice; //no shipping cost if productsPrice more than 1000
-                activity = "滿一千五免運費";
+                activity = LanguageOrder.EVENT_2;
             }else {
                 price = shippingCost + productsPrice;
             }
@@ -314,14 +316,14 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     private Order getCouponOrder(Order trialOrder, String couponMail, String couponType) {
-        CouponActivity couponActivity = CouponActivities.getCouponActivity(couponType);
-        if (couponActivity == null) {
+        try {
+            CouponActivity couponActivity = CouponActivities.getCouponActivity(couponType);
+            couponRepository.useCoupon(couponMail, couponType, trialOrder.getMail());
+            Order couponOrder = couponActivity.getCouponOrder(trialOrder);
+            return couponOrder;
+        }catch (CouponActivitiesException e) {
             throw new OrderCouponActivityNotExistException(couponType);
         }
-
-        couponRepository.useCoupon(couponMail, couponType, trialOrder.getMail());
-        Order couponOrder = couponActivity.getCouponOrder(trialOrder);
-        return couponOrder;
     }
 
 }

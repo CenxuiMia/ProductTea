@@ -1,6 +1,7 @@
 package com.cenxui.shop.repositories.coupon.type.activity;
 
 import com.cenxui.shop.repositories.coupon.type.CouponType;
+import com.cenxui.shop.repositories.coupon.type.activity.exception.CouponActivitiesException;
 
 /**
  * factory method connect the relationship between coupon and activity
@@ -8,7 +9,7 @@ import com.cenxui.shop.repositories.coupon.type.CouponType;
  */
 public class CouponActivities {
 
-    public static CouponActivity getCouponActivity(String couponType) {
+    public static CouponActivity getCouponActivity(String couponType) throws CouponActivitiesException {
         switch (couponType) {
             case CouponType.SIGN_UP:
                 return new Discount50CouponActivity();
@@ -16,6 +17,6 @@ public class CouponActivities {
                 return new Discount50CouponActivity();
                 //todo add new activity
         }
-        return null;
+        throw new CouponActivitiesException();
     }
 }

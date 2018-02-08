@@ -1,5 +1,6 @@
 package com.cenxui.shop.application;
 
+import com.cenxui.shop.repositories.coupon.type.CouponType;
 import com.cenxui.shop.repositories.order.Order;
 import com.cenxui.shop.util.Http;
 import com.cenxui.shop.util.JsonUtil;
@@ -35,7 +36,19 @@ public class OrderPathTest {
     }
 
     @Test
-    public void getOrders() {
+    public void addCouponOrder() {
+
+        Map<String, String> headers3 = new HashMap<>();
+        headers3.put(Header.MAIL, "cenxuilin@gmail.com");
+
+        List<String> products = new ArrayList<>();
+
+        products.add("紅顏;經典;2");
+
+        Http.put(url,
+                JsonUtil.mapToJson(
+                        OrderUtil.getCouponOrder(products, "cenxuilin@gmail.com",
+                                CouponType.SIGN_UP)), headers3);
     }
 
     @Test

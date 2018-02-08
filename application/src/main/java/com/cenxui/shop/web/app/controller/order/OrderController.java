@@ -203,6 +203,11 @@ public class OrderController extends CoreController {
             throw new OrderControllerClientException(
                     "request body order bankInformation with paymentMethod is not allowed");
         }
+
+        if (!OrderAttributeFilter.checkCoupon(order.getCouponMail(), order.getCouponType())) {
+            throw new OrderControllerClientException(
+                    "request body order couponMail with couponType is not allowed");
+        }
     }
 
     private static void checkTrialOrder(Order order) {
