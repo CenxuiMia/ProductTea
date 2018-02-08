@@ -21,7 +21,10 @@ public class Order {
     public static final String PRICE = "price";
     public static final String PAYMENT_METHOD = "paymentMethod";
     public static final String BANK_INFORMATION = "bankInformation";
+
+    public static final String COUPON_MAIL = "couponMail";
     public static final String COUPON_TYPE = "couponType";
+    public static final String COUPON_ACTIVITY = "couponActivity";
 
     public static final String RECEIVER = "receiver";
     public static final String RECEIVER_PHONE = "receiverPhone";
@@ -49,7 +52,10 @@ public class Order {
     Integer price;
     String paymentMethod;
     String bankInformation;
+
+    String couponMail;
     String couponType;
+    String couponActivity;
 
     String receiver;
     String receiverPhone;

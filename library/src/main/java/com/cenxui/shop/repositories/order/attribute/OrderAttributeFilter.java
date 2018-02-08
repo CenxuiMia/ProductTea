@@ -1,5 +1,7 @@
 package com.cenxui.shop.repositories.order.attribute;
 
+import com.cenxui.shop.repositories.coupon.type.CouponType;
+
 import java.util.List;
 
 public class OrderAttributeFilter {
@@ -98,6 +100,16 @@ public class OrderAttributeFilter {
                 return false;
         }
         return false;
+    }
+
+    public static boolean checkCoupon(String couponMail, String couponType) {
+        if (couponMail == null || couponType == null) {
+            return true;
+        }else if (couponMail != null && couponType != null) {
+            return CouponType.contain(couponType);
+        }else {
+            return false;
+        }
     }
 
     public static boolean checkReceiver(String receiver) {

@@ -10,7 +10,9 @@ import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.coupon.CouponCannotAddException;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.coupon.CouponCannotUsedException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponCannotNullException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponJsonMapException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponPrimaryKeyCannotNullException;
 import com.cenxui.shop.aws.dynamodb.repositories.util.ItemUtil;
 import com.cenxui.shop.repositories.coupon.*;
 import com.cenxui.shop.repositories.coupon.type.CouponType;
@@ -29,6 +31,8 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
 
     @Override
     public Coupon addCoupon(Coupon coupon) {
+        checkCoupon(coupon);
+
         PutItemSpec putItemSpec = new PutItemSpec()
                 .withItem(ItemUtil.getCouponItem(coupon))
                 .withConditionExpression("attribute_not_exists("+ Coupon.COUPON_TYPE + ")");
@@ -43,16 +47,23 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
 
     @Override
     public Coupon addSignUpCoupon(String mail) {
+        checkPrimaryKey(mail);
         return addCoupon(CouponType.getSignUpCoupon(mail));
     }
 
     @Override
     public Coupon addInvitationCoupon(String mail, String invitationMail) {
+        checkPrimaryKey(mail);
+        checkPrimaryKey(invitationMail);
         return addCoupon(CouponType.getInvitationCoupon(mail, invitationMail));
     }
 
     @Override
     public Coupon useCoupon(String couponMail, String couponType, String mail) {
+        checkPrimaryKey(couponMail);
+        checkPrimaryKey(couponType);
+        checkPrimaryKey(mail);
+
         //check the mail equal the owner mail
         //check the couponStatus is active
         //check the expirationTime
@@ -94,6 +105,8 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
      */
     @Override
     public Coupons getCouponsByOwnerMail(String ownerMail, CouponOwnerLastKey couponOwnerLastKey) {
+        checkPrimaryKey(ownerMail);
+
         String currentTime = String.valueOf(System.currentTimeMillis());
 
         Map<String, AttributeValue> expressionAttributeValues =
@@ -131,7 +144,6 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
         return getCouponOwnerLastKey(lastKeyEvaluated);
     }
 
-
     private CouponOwnerLastKey getCouponOwnerLastKey(Map<String, AttributeValue> lastKeyEvaluated) {
 
         if (lastKeyEvaluated != null) {//null if it is last one
@@ -145,6 +157,15 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
         return null;
     }
 
+    private void checkCoupon(Coupon coupon) {
+        if (coupon == null) {
+            throw new CouponCannotNullException();
+        }
+
+        if (coupon.getMail() == null || coupon.getCouponType() == null) {
+            throw new CouponPrimaryKeyCannotNullException();
+        }
+    }
 
     private List<Coupon> mapQueryOutcomeToCoupons(ItemCollection<QueryOutcome> collection) {
         List<Coupon> coupons = new LinkedList<>();
@@ -156,6 +177,12 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
         );
 
         return Collections.unmodifiableList(coupons);
+    }
+
+    private void checkPrimaryKey(String key) {
+        if (key == null || key.length() == 0) {
+            throw new CouponPrimaryKeyCannotNullException();
+        }
     }
 
     private Coupon getCoupon(String couponJson) {

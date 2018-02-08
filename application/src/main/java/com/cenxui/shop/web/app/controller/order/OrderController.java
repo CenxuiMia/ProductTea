@@ -35,7 +35,8 @@ public class OrderController extends CoreController {
             DynamoDBRepositoryService.getOrderRepository(
                     AWSDynamoDBConfig.REGION,
                     AWSDynamoDBConfig.ORDER_TABLE,
-                    AWSDynamoDBConfig.PRODUCT_TABLE
+                    AWSDynamoDBConfig.PRODUCT_TABLE,
+                    AWSDynamoDBConfig.COUPON_TABLE
             );
 
     private static final MessageService messageService = new SNSMessageService();
@@ -105,7 +106,9 @@ public class OrderController extends CoreController {
                         null,
                         order.getPaymentMethod(),
                         order.getBankInformation(),
+                        order.getCouponMail(),
                         order.getCouponType(),
+                        null,
                         order.getReceiver(),
                         order.getReceiverPhone(),
                         order.getShippingWay(),
