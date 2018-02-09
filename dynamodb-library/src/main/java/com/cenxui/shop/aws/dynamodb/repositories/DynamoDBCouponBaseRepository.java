@@ -13,10 +13,12 @@ import com.cenxui.shop.aws.dynamodb.exceptions.client.coupon.CouponCannotUsedExc
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponCannotNullException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponJsonMapException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponPrimaryKeyCannotNullException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponTypeNotAllowedException;
 import com.cenxui.shop.aws.dynamodb.repositories.util.ItemUtil;
 import com.cenxui.shop.repositories.coupon.*;
 import com.cenxui.shop.repositories.coupon.type.CouponAvailable;
 import com.cenxui.shop.repositories.coupon.type.CouponType;
+import com.cenxui.shop.repositories.coupon.type.exception.CouponActivitiesException;
 import com.cenxui.shop.util.JsonUtil;
 
 import java.util.*;
@@ -133,16 +135,11 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
     public Coupons getActiveCouponsByOwnerMail(String ownerMail, CouponOwnerLastKey couponOwnerLastKey) {
         checkPrimaryKey(ownerMail);
 
-        String currentTime = String.valueOf(System.currentTimeMillis());
-
-        Map<String, AttributeValue> expressionAttributeValues =
-                new TreeMap<>();
-        expressionAttributeValues.put(":val", new AttributeValue().withN(currentTime));
-
         QuerySpec querySpec = new QuerySpec()
                 .withHashKey(Coupon.OWNER_MAIL, ownerMail)
                 .withRangeKeyCondition(new RangeKeyCondition(Coupon.COUPON_STATUS).eq(CouponStatus.ACTIVE))
-                .withFilterExpression(Coupon.EXPIRATION_TIME + "> :val" );
+                .withFilterExpression(Coupon.EXPIRATION_TIME + "> :val" )
+                .withValueMap(new ValueMap().withLong(":val", System.currentTimeMillis()));
 
         if (couponOwnerLastKey != null) {
 
@@ -235,7 +232,7 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
 
         collection.forEach(
                 (s) -> {
-                    coupons.add(getCoupon(s.toJSON()));
+                    coupons.add(getCouponActivityToCoupon(s.toJSON()));
                 }
         );
 
@@ -256,4 +253,28 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
         }
     }
 
+    private Coupon getCouponActivityToCoupon(String couponJson) {
+        Coupon coupon = getCoupon(couponJson);
+
+        try {
+            String couponActivity =
+                    CouponType.getCouponActivity(coupon.getCouponType())
+                            .getCouponActivityMessage();
+
+            return Coupon.of(
+                    coupon.getMail(),
+                    coupon.getCouponType(),
+                    coupon.getOwnerMail(),
+                    coupon.getCouponStatus(),
+                    couponActivity,
+                    coupon.getExpirationTime(),
+                    coupon.getOrderDateTime()
+            );
+
+        } catch (CouponActivitiesException e) {
+            throw new CouponTypeNotAllowedException(coupon.getCouponType());
+        }
+
+
+    }
 }

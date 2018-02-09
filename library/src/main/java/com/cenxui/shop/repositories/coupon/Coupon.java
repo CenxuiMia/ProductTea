@@ -8,6 +8,7 @@ public class Coupon {
     public static final String COUPON_TYPE = "couponType";
     public static final String OWNER_MAIL = "ownerMail";
     public static final String COUPON_STATUS = "couponStatus";
+    public static final String COUPON_ACTIVITY = "couponActivity";
     public static final String EXPIRATION_TIME = "expirationTime";
     public static final String ORDER_DATETIME = "orderDateTime";
 
@@ -15,6 +16,7 @@ public class Coupon {
     String couponType;
     String ownerMail;
     String couponStatus;
+    String couponActivity;
     Long expirationTime;
     String orderDateTime;
 }

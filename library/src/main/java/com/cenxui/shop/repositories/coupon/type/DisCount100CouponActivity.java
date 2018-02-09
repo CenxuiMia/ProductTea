@@ -21,7 +21,7 @@ public class DisCount100CouponActivity implements CouponActivity {
                 order.getBankInformation(),
                 order.getCouponMail(),
                 order.getCouponType(),
-                LanguageCoupon.DISCOUNT100_ACTIVITY,
+                getCouponActivityMessage(),
                 order.getReceiver(),
                 order.getReceiverPhone(),
                 order.getShippingWay(),
@@ -35,5 +35,10 @@ public class DisCount100CouponActivity implements CouponActivity {
                 order.getIsActive(),
                 order.getOwner()
         );
+    }
+
+    @Override
+    public String getCouponActivityMessage() {
+        return LanguageCoupon.DISCOUNT100_ACTIVITY;
     }
 }

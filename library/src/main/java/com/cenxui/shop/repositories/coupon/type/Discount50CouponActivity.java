@@ -21,7 +21,7 @@ class Discount50CouponActivity implements CouponActivity {
                 order.getBankInformation(),
                 order.getCouponMail(),
                 order.getCouponType(),
-                LanguageCoupon.DISCOUNT50_ACTIVITY,
+                getCouponActivityMessage(),
                 order.getReceiver(),
                 order.getReceiverPhone(),
                 order.getShippingWay(),
@@ -35,5 +35,10 @@ class Discount50CouponActivity implements CouponActivity {
                 order.getIsActive(),
                 order.getOwner()
         );
+    }
+
+    @Override
+    public String getCouponActivityMessage() {
+        return LanguageCoupon.DISCOUNT50_ACTIVITY;
     }
 }

@@ -47,6 +47,7 @@ public class CouponType {
                 CouponType.SIGN_UP,
                 mail,
                 CouponStatus.ACTIVE,
+                null,
                 expirationTime,
                 null
         );
@@ -60,6 +61,7 @@ public class CouponType {
                 CouponType.INVITATION,
                 invitationMail,
                 CouponStatus.ACTIVE,
+                null,
                 expirationTime,
                 null
         );
