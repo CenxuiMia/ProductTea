@@ -8,7 +8,8 @@ public class DynamoDBOrderBaseRepositoryTest {
             .getOrderRepository(
                     Config.REGION,
                     Config.ORDER_TABLE,
-                    Config.PRODUCT_TABLE);
+                    Config.PRODUCT_TABLE,
+                    Config.COUPON_TABLE);
 
 
     @Test

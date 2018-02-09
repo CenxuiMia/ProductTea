@@ -13,13 +13,16 @@ import com.cenxui.shop.aws.dynamodb.exceptions.client.coupon.CouponCannotUsedExc
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponCannotNullException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponJsonMapException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponPrimaryKeyCannotNullException;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponTypeNotAllowedException;
 import com.cenxui.shop.aws.dynamodb.repositories.util.ItemUtil;
 import com.cenxui.shop.repositories.coupon.*;
+import com.cenxui.shop.repositories.coupon.type.CouponAvailable;
 import com.cenxui.shop.repositories.coupon.type.CouponType;
+import com.cenxui.shop.repositories.coupon.type.exception.CouponActivitiesException;
 import com.cenxui.shop.util.JsonUtil;
 
-import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 class DynamoDBCouponBaseRepository implements CouponBaseRepository {
     private final Table couponTable;
@@ -59,10 +62,11 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
     }
 
     @Override
-    public Coupon useCoupon(String couponMail, String couponType, String mail) {
+    public Coupon useCoupon(String couponMail, String couponType, String mail, String orderDateTime) {
         checkPrimaryKey(couponMail);
         checkPrimaryKey(couponType);
         checkPrimaryKey(mail);
+        checkPrimaryKey(orderDateTime);
 
         //check the mail equal the owner mail
         //check the couponStatus is active
@@ -72,16 +76,19 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
         UpdateItemSpec spec = new UpdateItemSpec()
                 .withPrimaryKey(Coupon.MAIL, couponMail, Coupon.COUPON_TYPE, couponType)
                 .withConditionExpression(
-                                Coupon.OWNER_MAIL + "=:ow AND " +
+                                Coupon.OWNER_MAIL + " =:ow AND " +
                                 Coupon.COUPON_STATUS + " =:csa AND " +
-                                Coupon.EXPIRATION_TIME + "> :ept" )
-                .withUpdateExpression("set " + Coupon.COUPON_STATUS + "=:csu" )
+                                Coupon.EXPIRATION_TIME + " >:ept")
+                .withUpdateExpression("set " +
+                        Coupon.COUPON_STATUS + "=:csu , " +
+                        Coupon.ORDER_DATETIME + "=:odt")
                 .withValueMap(
                         new ValueMap()
                                 .withString(":ow", mail)
                                 .withString(":csa", CouponStatus.ACTIVE)
                                 .withString(":csu", CouponStatus.USED)
-                                .withLong(":ept", System.currentTimeMillis()))
+                                .withLong(":ept", System.currentTimeMillis())
+                                .withString(":odt", orderDateTime))
                 .withReturnValues(ReturnValue.ALL_NEW);
         try {
             UpdateItemOutcome outcome = couponTable.updateItem(spec);
@@ -94,7 +101,28 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
 
     @Override
     public Coupons getCouponsByOwnerMail(String ownerMail) {
-        return getCouponsByOwnerMail(ownerMail, null);
+        return getCouponByOwnerMail(ownerMail, null);
+    }
+
+    @Override
+    public Coupons getCouponByOwnerMail(String ownerMail, CouponOwnerLastKey couponOwnerLastKey) {
+        checkPrimaryKey(ownerMail);
+        QuerySpec querySpec = new QuerySpec()
+                .withHashKey(Coupon.OWNER_MAIL, ownerMail);
+
+        if (couponOwnerLastKey != null) {
+
+            KeyAttribute[] keys = getCouponOwnerLastKeyKeyAttributes(couponOwnerLastKey);
+
+            querySpec.withExclusiveStartKey(keys);
+        }
+
+        return getCoupons(querySpec);
+    }
+
+    @Override
+    public Coupons getActiveCouponsByOwnerMail(String ownerMail) {
+        return getActiveCouponsByOwnerMail(ownerMail, null);
     }
 
     /**
@@ -104,29 +132,51 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
      * @return
      */
     @Override
-    public Coupons getCouponsByOwnerMail(String ownerMail, CouponOwnerLastKey couponOwnerLastKey) {
+    public Coupons getActiveCouponsByOwnerMail(String ownerMail, CouponOwnerLastKey couponOwnerLastKey) {
         checkPrimaryKey(ownerMail);
-
-        String currentTime = String.valueOf(System.currentTimeMillis());
-
-        Map<String, AttributeValue> expressionAttributeValues =
-                new TreeMap<>();
-        expressionAttributeValues.put(":val", new AttributeValue().withN(currentTime));
 
         QuerySpec querySpec = new QuerySpec()
                 .withHashKey(Coupon.OWNER_MAIL, ownerMail)
                 .withRangeKeyCondition(new RangeKeyCondition(Coupon.COUPON_STATUS).eq(CouponStatus.ACTIVE))
-                .withFilterExpression(Coupon.EXPIRATION_TIME + "> :val" );
+                .withFilterExpression(Coupon.EXPIRATION_TIME + "> :val" )
+                .withValueMap(new ValueMap().withLong(":val", System.currentTimeMillis()));
 
         if (couponOwnerLastKey != null) {
-            KeyAttribute k1 = new KeyAttribute(Coupon.MAIL, couponOwnerLastKey.getMail());
-            KeyAttribute k2 = new KeyAttribute(Coupon.COUPON_TYPE, couponOwnerLastKey.getCouponType());
-            KeyAttribute k3 = new KeyAttribute(Coupon.OWNER_MAIL, couponOwnerLastKey.getOwnerMail());
-            KeyAttribute k4 = new KeyAttribute(Coupon.COUPON_STATUS, couponOwnerLastKey.getCouponStatus());
 
-            querySpec.withExclusiveStartKey(k1, k2, k3, k4);
+            KeyAttribute[] keys = getCouponOwnerLastKeyKeyAttributes(couponOwnerLastKey);
+
+            querySpec.withExclusiveStartKey(keys);
         }
 
+        return getCoupons(querySpec);
+    }
+
+    @Override
+    public CouponAvailable getAvailableCouponsByOwnerMail(String ownerMail) {
+        return getAvailableCouponsByOwnerMail(ownerMail, null);
+    }
+
+    @Override
+    public CouponAvailable getAvailableCouponsByOwnerMail(String ownerMail, CouponOwnerLastKey couponOwnerLastKey) {
+
+        Coupons coupons = getCouponByOwnerMail(ownerMail, couponOwnerLastKey);
+
+        Set<String> couponSet = coupons.getCoupons()
+                .stream()
+                .map(Coupon::getCouponType)
+                .collect(Collectors.toSet());
+
+        List<String> couponAvailable = CouponType.getCouponTypeSet()
+                .stream()
+                .filter(s-> !couponSet.contains(s))
+                .collect(Collectors.toList());
+
+        return CouponAvailable.of(couponAvailable);
+    }
+
+
+
+    private Coupons getCoupons(QuerySpec querySpec) {
         ItemCollection<QueryOutcome> collection =
                 couponTable.getIndex(OWNER_INDEX).query(querySpec);
 
@@ -135,6 +185,16 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
         CouponOwnerLastKey lastKey = getOwnerIndexQueryOutcomeLastKey(collection);
 
         return Coupons.of(coupons, lastKey);
+    }
+
+    private KeyAttribute[] getCouponOwnerLastKeyKeyAttributes(CouponOwnerLastKey couponOwnerLastKey) {
+        KeyAttribute[] keys = new KeyAttribute[4];
+
+        keys[0] = new KeyAttribute(Coupon.MAIL, couponOwnerLastKey.getMail());
+        keys[1] = new KeyAttribute(Coupon.COUPON_TYPE, couponOwnerLastKey.getCouponType());
+        keys[2] = new KeyAttribute(Coupon.OWNER_MAIL, couponOwnerLastKey.getOwnerMail());
+        keys[3] = new KeyAttribute(Coupon.COUPON_STATUS, couponOwnerLastKey.getCouponStatus());
+        return keys;
     }
 
     private CouponOwnerLastKey getOwnerIndexQueryOutcomeLastKey(ItemCollection<QueryOutcome> collection) {
@@ -172,7 +232,7 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
 
         collection.forEach(
                 (s) -> {
-                    coupons.add(getCoupon(s.toJSON()));
+                    coupons.add(getCouponActivityToCoupon(s.toJSON()));
                 }
         );
 
@@ -193,4 +253,28 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
         }
     }
 
+    private Coupon getCouponActivityToCoupon(String couponJson) {
+        Coupon coupon = getCoupon(couponJson);
+
+        try {
+            String couponActivity =
+                    CouponType.getCouponActivity(coupon.getCouponType())
+                            .getCouponActivityMessage();
+
+            return Coupon.of(
+                    coupon.getMail(),
+                    coupon.getCouponType(),
+                    coupon.getOwnerMail(),
+                    coupon.getCouponStatus(),
+                    couponActivity,
+                    coupon.getExpirationTime(),
+                    coupon.getOrderDateTime()
+            );
+
+        } catch (CouponActivitiesException e) {
+            throw new CouponTypeNotAllowedException(coupon.getCouponType());
+        }
+
+
+    }
 }

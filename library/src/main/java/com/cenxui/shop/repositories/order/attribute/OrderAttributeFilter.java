@@ -103,12 +103,10 @@ public class OrderAttributeFilter {
     }
 
     public static boolean checkCoupon(String couponMail, String couponType) {
-        if (couponMail == null || couponType == null) {
+        if (couponMail == null && couponType == null) {
             return true;
-        }else if (couponMail != null && couponType != null) {
-            return CouponType.contain(couponType);
         }else {
-            return false;
+            return couponMail != null && couponType != null && CouponType.contain(couponType);
         }
     }
 
