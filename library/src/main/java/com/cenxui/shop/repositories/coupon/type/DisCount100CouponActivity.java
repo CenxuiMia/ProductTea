@@ -1,10 +1,10 @@
-package com.cenxui.shop.repositories.coupon.type.activity;
+package com.cenxui.shop.repositories.coupon.type;
 
 import com.cenxui.shop.language.LanguageCoupon;
-import com.cenxui.shop.language.LanguageOrder;
 import com.cenxui.shop.repositories.order.Order;
 
-class Discount50CouponActivity implements CouponActivity {
+public class DisCount100CouponActivity implements CouponActivity {
+
     @Override
     public Order getCouponOrder(Order order) {
         return  Order.of(
@@ -16,12 +16,12 @@ class Discount50CouponActivity implements CouponActivity {
                 order.getShippingCost(),
                 order.getProductsPrice(),
                 order.getActivity(),
-                order.getPrice() - 50,
+                order.getPrice() - 100,
                 order.getPaymentMethod(),
                 order.getBankInformation(),
                 order.getCouponMail(),
                 order.getCouponType(),
-                LanguageCoupon.DISCOUNT50_ACTIVITY,
+                LanguageCoupon.DISCOUNT100_ACTIVITY,
                 order.getReceiver(),
                 order.getReceiverPhone(),
                 order.getShippingWay(),

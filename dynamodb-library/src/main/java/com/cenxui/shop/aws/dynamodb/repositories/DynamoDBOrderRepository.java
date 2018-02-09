@@ -3,9 +3,9 @@ package com.cenxui.shop.aws.dynamodb.repositories;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.order.*;
 import com.cenxui.shop.language.LanguageOrder;
 import com.cenxui.shop.repositories.coupon.CouponRepository;
-import com.cenxui.shop.repositories.coupon.type.activity.CouponActivities;
-import com.cenxui.shop.repositories.coupon.type.activity.CouponActivity;
-import com.cenxui.shop.repositories.coupon.type.activity.exception.CouponActivitiesException;
+import com.cenxui.shop.repositories.coupon.type.CouponActivity;
+import com.cenxui.shop.repositories.coupon.type.CouponType;
+import com.cenxui.shop.repositories.coupon.type.exception.CouponActivitiesException;
 import com.cenxui.shop.repositories.order.*;
 import com.cenxui.shop.repositories.order.attribute.OrderAttributeFilter;
 import com.cenxui.shop.repositories.order.attribute.ShippingWay;
@@ -145,7 +145,7 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         checkCouponOrder(order);
         if (couponMail != null && couponType != null) {
-            Order couponOrder = getCouponOrder(trialOrder, couponMail, couponType);
+            Order couponOrder = useCoupon(trialOrder, couponMail, couponType);
             return orderRepository.addOrder(couponOrder);
         }else {
             return orderRepository.addOrder(trialOrder);
@@ -315,12 +315,11 @@ class DynamoDBOrderRepository implements OrderRepository {
         }
     }
 
-    private Order getCouponOrder(Order trialOrder, String couponMail, String couponType) {
+    private Order useCoupon(Order trialOrder, String couponMail, String couponType) {
         try {
-            CouponActivity couponActivity = CouponActivities.getCouponActivity(couponType);
-            couponRepository.useCoupon(couponMail, couponType, trialOrder.getMail());
-            Order couponOrder = couponActivity.getCouponOrder(trialOrder);
-            return couponOrder;
+            CouponActivity couponActivity = CouponType.getCouponActivity(couponType);
+            couponRepository.useCoupon(couponMail, couponType, trialOrder.getMail(), trialOrder.getOrderDateTime());
+            return couponActivity.getCouponOrder(trialOrder);
         }catch (CouponActivitiesException e) {
             throw new OrderCouponActivityNotExistException(couponType);
         }

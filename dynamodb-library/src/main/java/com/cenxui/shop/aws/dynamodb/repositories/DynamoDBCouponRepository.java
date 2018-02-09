@@ -5,6 +5,7 @@ import com.cenxui.shop.repositories.coupon.Coupon;
 import com.cenxui.shop.repositories.coupon.CouponOwnerLastKey;
 import com.cenxui.shop.repositories.coupon.CouponRepository;
 import com.cenxui.shop.repositories.coupon.Coupons;
+import com.cenxui.shop.repositories.coupon.type.CouponAvailable;
 
 class DynamoDBCouponRepository implements CouponRepository {
 
@@ -30,8 +31,8 @@ class DynamoDBCouponRepository implements CouponRepository {
     }
 
     @Override
-    public Coupon useCoupon(String couponMail, String couponType, String mail) {
-        return couponBaseRepository.useCoupon(couponMail, couponType, mail);
+    public Coupon useCoupon(String couponMail, String couponType, String mail, String orderDateTime) {
+        return couponBaseRepository.useCoupon(couponMail, couponType, mail, orderDateTime);
     }
 
     @Override
@@ -40,7 +41,27 @@ class DynamoDBCouponRepository implements CouponRepository {
     }
 
     @Override
-    public Coupons getCouponsByOwnerMail(String ownerMail, CouponOwnerLastKey lastKey) {
-        return couponBaseRepository.getCouponsByOwnerMail(ownerMail, lastKey);
+    public Coupons getCouponByOwnerMail(String ownerMail, CouponOwnerLastKey couponOwnerLastKey) {
+        return couponBaseRepository.getCouponByOwnerMail(ownerMail, couponOwnerLastKey);
+    }
+
+    @Override
+    public CouponAvailable getAvailableCouponsByOwnerMail(String ownerMail) {
+        return couponBaseRepository.getAvailableCouponsByOwnerMail(ownerMail);
+    }
+
+    @Override
+    public CouponAvailable getAvailableCouponsByOwnerMail(String ownerMail, CouponOwnerLastKey couponOwnerLastKey) {
+        return couponBaseRepository.getAvailableCouponsByOwnerMail(ownerMail, couponOwnerLastKey);
+    }
+
+    @Override
+    public Coupons getActiveCouponsByOwnerMail(String ownerMail) {
+        return couponBaseRepository.getActiveCouponsByOwnerMail(ownerMail);
+    }
+
+    @Override
+    public Coupons getActiveCouponsByOwnerMail(String ownerMail, CouponOwnerLastKey lastKey) {
+        return couponBaseRepository.getActiveCouponsByOwnerMail(ownerMail, lastKey);
     }
 }

@@ -6,6 +6,7 @@ import com.cenxui.shop.repositories.coupon.CouponStatus;
 import com.cenxui.shop.repositories.coupon.type.CouponType;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -46,7 +47,7 @@ public class DynamoDBCouponBaseRepositoryTest {
 
     @Test
     public void useCoupon() throws Exception {
-        couponRepository.useCoupon("cenxuilin@gmail.com", CouponType.SIGN_UP, "cenxuilin@gmail.com");
+        couponRepository.useCoupon("cenxuilin@gmail.com", CouponType.SIGN_UP, "cenxuilin@gmail.com", LocalDateTime.now().toString());
 //        couponRepository.useCoupon("cenxuilin@gmail.com", CouponType.INVITATION, "mia@gmail.com");
     }
 
@@ -54,4 +55,8 @@ public class DynamoDBCouponBaseRepositoryTest {
     public void getCouponsByOwnerMail() throws Exception {
     }
 
+    @Test
+    public void getAvailableCoupons() {
+        System.out.println(couponRepository.getAvailableCouponsByOwnerMail("cenxuilin@gmail.com"));
+    }
 }

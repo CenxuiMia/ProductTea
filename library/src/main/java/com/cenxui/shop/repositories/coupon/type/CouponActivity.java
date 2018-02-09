@@ -1,4 +1,4 @@
-package com.cenxui.shop.repositories.coupon.type.activity;
+package com.cenxui.shop.repositories.coupon.type;
 
 import com.cenxui.shop.repositories.order.Order;
 
