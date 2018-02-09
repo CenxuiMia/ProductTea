@@ -16,7 +16,8 @@ public class AdminCashController extends AdminCoreController {
             DynamoDBRepositoryService.getOrderRepository(
                     AWSDynamoDBConfig.REGION,
                     AWSDynamoDBConfig.ORDER_TABLE,
-                    AWSDynamoDBConfig.PRODUCT_TABLE
+                    AWSDynamoDBConfig.PRODUCT_TABLE,
+                    AWSDynamoDBConfig.COUPON_TABLE
             );
 
 

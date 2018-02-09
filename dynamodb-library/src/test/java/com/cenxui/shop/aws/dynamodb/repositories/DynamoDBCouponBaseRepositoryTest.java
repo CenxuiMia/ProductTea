@@ -17,14 +17,14 @@ public class DynamoDBCouponBaseRepositoryTest {
 
     @Test
     public void addCoupon() {
-        couponRepository.addCoupon(Coupon.of(
-                "cenxuilin@gmail.com",
-                CouponType.SIGN_UP,
-                "cenxuilin@gmail.com",
-                CouponStatus.ACTIVE,
-                System.currentTimeMillis() + 100_000L,
-                null
-        ));
+//        couponRepository.addCoupon(Coupon.of(
+//                "cenxuilin@gmail.com",
+//                CouponType.SIGN_UP,
+//                "cenxuilin@gmail.com",
+//                CouponStatus.ACTIVE,
+//                System.currentTimeMillis() + 100_000L,
+//                null
+//        ));
 
     }
 
@@ -42,7 +42,9 @@ public class DynamoDBCouponBaseRepositoryTest {
     @Test
     public void addInvitationCoupon() throws Exception {
         System.out.println(
-                couponRepository.addInvitationCoupon("cenxuilin@gmail.com", "mia@gmail.com"));
+                couponRepository.addInvitationCoupon("mia@gmail.com", "cenxuilin@gmail.com"));
+        System.out.println(
+                couponRepository.addInvitationCoupon("lisa@gmail.com", "cenxuilin@gmail.com"));
     }
 
     @Test

@@ -21,7 +21,8 @@ public class AdminOrderController extends AdminCoreController {
             DynamoDBRepositoryService.getOrderRepository(
                     AWSDynamoDBConfig.REGION,
                     AWSDynamoDBConfig.ORDER_TABLE,
-                    AWSDynamoDBConfig.PRODUCT_TABLE
+                    AWSDynamoDBConfig.PRODUCT_TABLE,
+                    AWSDynamoDBConfig.COUPON_TABLE
             );
 
     private static final MessageService sesService = new SESMessageService();
