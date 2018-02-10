@@ -3,7 +3,7 @@
  */
 // Operations when the web page is loaded.
 $(document).ready(function () {
-    setUp(orderAuthData,
+    setUp(indexAuthData,
         function () {
             console.info("index on signIn");
         },
