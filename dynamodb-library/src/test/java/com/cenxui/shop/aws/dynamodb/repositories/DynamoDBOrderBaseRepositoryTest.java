@@ -1,7 +1,6 @@
 package com.cenxui.shop.aws.dynamodb.repositories;
 
 import com.cenxui.shop.repositories.order.*;
-import com.cenxui.tea.app.repositories.order.*;
 import org.junit.Test;
 
 public class DynamoDBOrderBaseRepositoryTest {
@@ -9,10 +8,8 @@ public class DynamoDBOrderBaseRepositoryTest {
             .getOrderRepository(
                     Config.REGION,
                     Config.ORDER_TABLE,
-                    Config.ORDER_PAID_INDEX,
-                    Config.ORDER_PROCESSING_INDEX,
-                    Config.ORDER_SHIPPED_INDEX,
-                    Config.PRODUCT_TABLE);
+                    Config.PRODUCT_TABLE,
+                    Config.COUPON_TABLE);
 
 
     @Test

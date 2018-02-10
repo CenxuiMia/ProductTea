@@ -42,8 +42,7 @@ public class DynamoDBProductRepositoryTest {
 
     @Test
     public void getAllProductsForShort() throws Exception {
-        productRepository.getAllProductsProjectIntroSmallImagePriceTag()
-                .getProducts().forEach(System.out::println);
+
     }
 
     @Test

@@ -18,6 +18,9 @@ public class OrderUtil {
                 null,
                 "account",
                 "00812345",
+                null,
+                null,
+                null,
                 "華盈",
                 "0972858256",
                 "shop",
@@ -33,5 +36,35 @@ public class OrderUtil {
         );
     }
 
+    public static Order getCouponOrder(List<String> products, String couponMail, String couponType) {
+        return Order.of(
+                null,
+                null,
+                products,
+                "Cenxui",
+                "0928554033",
+                null,
+                null,
+                null,
+                null,
+                "account",
+                "00812345",
+                couponMail,
+                couponType,
+                null,
+                "華盈",
+                "0972858256",
+                "shop",
+                "alert(1)",
+                "Hello",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+    }
 
 }

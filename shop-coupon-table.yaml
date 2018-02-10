@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  teaCoupon:
+    Type: "AWS::DynamoDB::Table"
+
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: "mail"
+          AttributeType: "S"
+        -
+          AttributeName: "couponType"
+          AttributeType: "S"
+        -
+          AttributeName: "ownerMail"
+          AttributeType: "S"
+        -
+          AttributeName: "couponStatus"
+          AttributeType: "S"
+
+      KeySchema:
+        -
+          AttributeName: "mail"
+          KeyType: "HASH"
+        -
+          AttributeName: "couponType"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "1"
+        WriteCapacityUnits: "1"
+      TableName: "teaCoupon"
+
+      GlobalSecondaryIndexes:
+        -
+          IndexName: "ownerIndex"
+          KeySchema:
+          -
+            AttributeName: "ownerMail"
+            KeyType: "HASH"
+          -
+            AttributeName: "couponStatus"
+            KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL" #modify todo INCLUDE
+          ProvisionedThroughput:
+            ReadCapacityUnits: "1"
+            WriteCapacityUnits: "1"

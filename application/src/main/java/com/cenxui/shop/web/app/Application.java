@@ -3,6 +3,7 @@ package com.cenxui.shop.web.app;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.cenxui.shop.web.app.controller.ControllerClientException;
+import com.cenxui.shop.web.app.controller.coupon.CouponController;
 import com.cenxui.shop.web.app.controller.order.OrderController;
 import com.cenxui.shop.web.app.controller.product.ProductController;
 import com.cenxui.shop.web.app.controller.user.UserController;
@@ -97,6 +98,10 @@ public final class Application {
         put(Path.Web.ORDER, OrderController.addOrder);
         post(Path.Web.ORDER, OrderController.trialOrder);
         delete(Path.Web.ORDER + "/" + Param.ORDER_DATE_TIME, OrderController.deActiveOrder);
+
+        get(Path.Web.COUPON_ACTIVE, CouponController.getActiveCoupons);
+        get(Path.Web.COUPON_MORE, CouponController.getAvailableCoupons);
+        put(Path.Web.COUPON_MORE + "/" + Param.COUPON_TYPE, CouponController.addCoupon);
     }
 
     /**

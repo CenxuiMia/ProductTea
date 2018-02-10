@@ -1,6 +1,11 @@
 package com.cenxui.shop.aws.dynamodb.repositories;
 
 import com.cenxui.shop.aws.dynamodb.exceptions.server.order.*;
+import com.cenxui.shop.language.LanguageOrder;
+import com.cenxui.shop.repositories.coupon.CouponRepository;
+import com.cenxui.shop.repositories.coupon.type.CouponActivity;
+import com.cenxui.shop.repositories.coupon.type.CouponType;
+import com.cenxui.shop.repositories.coupon.type.exception.CouponActivitiesException;
 import com.cenxui.shop.repositories.order.*;
 import com.cenxui.shop.repositories.order.attribute.OrderAttributeFilter;
 import com.cenxui.shop.repositories.order.attribute.ShippingWay;
@@ -14,12 +19,15 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     private final OrderBaseRepository orderRepository;
     private final ProductRepository productRepository;
+    private final CouponRepository couponRepository;
 
     DynamoDBOrderRepository(
             DynamoDBOrderBaseRepository orderRepository,
-            DynamoDBProductRepository productRepository) {
+            DynamoDBProductRepository productRepository,
+            DynamoDBCouponRepository couponRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.couponRepository = couponRepository;
     }
 
 
@@ -130,12 +138,19 @@ class DynamoDBOrderRepository implements OrderRepository {
 
     @Override
     public Order addOrder(Order order) {
-
         Order trialOrder = trialOrder(order);
 
-        return orderRepository.addOrder(trialOrder);
-    }
+        String couponMail = order.getCouponMail();
+        String couponType = order.getCouponType();
 
+        checkCouponOrder(order);
+        if (couponMail != null && couponType != null) {
+            Order couponOrder = useCoupon(trialOrder, couponMail, couponType);
+            return orderRepository.addOrder(couponOrder);
+        }else {
+            return orderRepository.addOrder(trialOrder);
+        }
+    }
 
     @Override
     public Order trialOrder(Order order) {
@@ -172,7 +187,7 @@ class DynamoDBOrderRepository implements OrderRepository {
             shippingCost = 60;
             if (productsPrice >= 1000) {
                 price = productsPrice; //no shipping cost if productsPrice more than 1000
-                activity = "滿一千免運費";
+                activity = LanguageOrder.EVENT_1;
             }else {
                 price = shippingCost + productsPrice;
             }
@@ -180,7 +195,7 @@ class DynamoDBOrderRepository implements OrderRepository {
             shippingCost = 100;
             if (productsPrice >= 1500) {
                 price = productsPrice; //no shipping cost if productsPrice more than 1000
-                activity = "滿一千五免運費";
+                activity = LanguageOrder.EVENT_2;
             }else {
                 price = shippingCost + productsPrice;
             }
@@ -201,6 +216,9 @@ class DynamoDBOrderRepository implements OrderRepository {
                 price,
                 order.getPaymentMethod(),
                 order.getBankInformation(),
+                order.getCouponMail(),
+                order.getCouponType(),
+                order.getCouponActivity(),
                 order.getReceiver(),
                 order.getReceiverPhone(),
                 order.getShippingWay(),
@@ -216,15 +234,6 @@ class DynamoDBOrderRepository implements OrderRepository {
         );
     }
 
-    private void checkTrialOrder(Order order) {
-        if (order == null) throw new OrderCannotNullException();
-
-        if (!OrderAttributeFilter.checkProducts(order.getProducts()))
-            throw new OrderProductsNotAllowedException(order.getProducts());
-
-        if (!OrderAttributeFilter.checkShippingWay(order.getShippingWay()))
-            throw new OrderShippedWayNotAllowedException(order.getShippingWay());
-    }
 
     @Override
     public boolean deleteOrder(String mail, String time) {
@@ -287,4 +296,33 @@ class DynamoDBOrderRepository implements OrderRepository {
     public CashReport getRangeCashReport(String fromPaidDate, String toPaidDate) {
         return orderRepository.getRangeCashReport(fromPaidDate, toPaidDate);
     }
+
+    private void checkTrialOrder(Order order) {
+        if (order == null) throw new OrderCannotNullException();
+
+        if (!OrderAttributeFilter.checkProducts(order.getProducts()))
+            throw new OrderProductsNotAllowedException(order.getProducts());
+
+        if (!OrderAttributeFilter.checkShippingWay(order.getShippingWay()))
+            throw new OrderShippedWayNotAllowedException(order.getShippingWay());
+    }
+
+    private void checkCouponOrder(Order order) {
+        if (order == null) throw new OrderCannotNullException();
+
+        if (!OrderAttributeFilter.checkCoupon(order.getCouponMail(), order.getCouponType())) {
+            throw new OrderCouponNotAllowException(order.getCouponMail(), order.getCouponType());
+        }
+    }
+
+    private Order useCoupon(Order trialOrder, String couponMail, String couponType) {
+        try {
+            CouponActivity couponActivity = CouponType.getCouponActivity(couponType);
+            couponRepository.useCoupon(couponMail, couponType, trialOrder.getMail(), trialOrder.getOrderDateTime());
+            return couponActivity.getCouponOrder(trialOrder);
+        }catch (CouponActivitiesException e) {
+            throw new OrderCouponActivityNotExistException(couponType);
+        }
+    }
+
 }

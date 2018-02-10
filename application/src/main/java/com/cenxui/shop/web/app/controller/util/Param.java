@@ -7,4 +7,6 @@ public class Param {
 
     public static final String ORDER_DATE_TIME = ":orderdatetime";
 
+    public static final String COUPON_TYPE = ":coupontype";
+
 }
