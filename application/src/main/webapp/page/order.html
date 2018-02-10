@@ -104,11 +104,11 @@
                                style="width: 1.2rem; display: inline-block" onclick="showPaymentData()" required>
                         <label for="account" style="display: inline-block">匯款轉帳</label>
                         <input id="visualAccount" name="payWay" type="radio" value="visualAccount"
-                               style="width: 1.2rem; display: inline-block" onclick="showPaymentData()" required>
-                        <label for="visualAccount" style="display: inline-block">虛擬帳號轉帳</label>
+                               style="width: 1.2rem; display: none" onclick="showPaymentData()" required>
+                        <label for="visualAccount" style="display: none" hidden>虛擬帳號轉帳</label>
                         <input id="creditCard" name="payWay" type="radio" value="creditCard"
-                               style="width: 1.2rem; display: inline-block" onclick="showPaymentData()" required>
-                        <label for="creditCard" style="display: inline-block">信用卡</label>
+                               style="width: 1.2rem; display: none" onclick="showPaymentData()" required>
+                        <label for="creditCard" style="display: none" hidden>信用卡</label>
                     </div>
                     <div class="textinput" id="bankInformation" hidden>
                         請輸入匯款資訊以利核帳：

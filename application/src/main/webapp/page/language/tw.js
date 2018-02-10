@@ -10,6 +10,7 @@ const URL_USER_ORDERS = "./user-orders.html";
 const URL_ORDER_CONFIRM = "./order-confirm.html";
 
 let loadingData = "載入商品中...";
+let versionName = "系列";
 
 let processing = "處理中...";
 let processingSuccess = "成功送出";
