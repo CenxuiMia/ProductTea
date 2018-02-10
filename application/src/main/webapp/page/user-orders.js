@@ -5,7 +5,7 @@
 // Operations when the web page is loaded.
 $(document).ready(function () {
     setUp(
-        userAuthData,
+        indexAuthData,
         function () {
             // signed in
         },

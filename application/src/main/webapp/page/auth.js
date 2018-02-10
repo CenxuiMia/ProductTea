@@ -25,42 +25,6 @@ let productsAuthData = {
     UserPoolId : poolId
 };
 
-let userAuthData = {
-    ClientId : clientId,
-    AppWebDomain : appDomain,
-    TokenScopesArray : tokenScopesArray,
-    RedirectUriSignIn : 'https://tw.hwangying.com/user.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com',
-    UserPoolId : poolId
-};
-
-let cartAuthData = {
-    ClientId : clientId,
-    AppWebDomain : appDomain,
-    TokenScopesArray : tokenScopesArray,
-    RedirectUriSignIn : 'https://tw.hwangying.com/cart.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com/cart.html',
-    UserPoolId : poolId
-};
-
-let preOrderAuthData = {
-    ClientId : clientId,
-    AppWebDomain : appDomain,
-    TokenScopesArray : tokenScopesArray,
-    RedirectUriSignIn : 'https://tw.hwangying.com/pre-order.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com',
-    UserPoolId : poolId
-};
-
-let orderAuthData = {
-    ClientId : clientId,
-    AppWebDomain : appDomain,
-    TokenScopesArray : tokenScopesArray,
-    RedirectUriSignIn : 'https://tw.hwangying.com/order.html',
-    RedirectUriSignOut : 'https://tw.hwangying.com',
-    UserPoolId : poolId
-};
-
 let contactAuthData = {
     ClientId : clientId,
     AppWebDomain : appDomain,
