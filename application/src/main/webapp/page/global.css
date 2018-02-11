@@ -235,12 +235,12 @@ a.active {
 
 #nav #cart #cartNum {
     background: olivedrab;
-    border-radius: 50%;
+    border-radius: 30%;
     color: white;
     font-size: 9px;
     margin: 0;
     font-weight: 900;
-    padding: 1px 3px;
+    padding: 1px 4px;
 }
 
 #tab a {
