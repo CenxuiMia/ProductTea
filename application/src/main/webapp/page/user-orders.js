@@ -40,6 +40,7 @@ function getOrders() {
                         "<td>" + productsInfo.replace(/;/g," ").replace(/,/g, "<br>") + "</td>" +
                         "<td>" + "NT." + order.price + "</td>" +
                         "<td>" + order.orderDateTime + "</td>" +
+                        "<td>" + new Date(Number(order.orderDateTime)).toLocaleDateString() + "</td>" +
                         "<td>" + status + "</td>" +
                     "</tr>";
             }
