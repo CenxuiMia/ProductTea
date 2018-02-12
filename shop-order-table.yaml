@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
+Description: tea application dynamodb order table
 Resources:
   teaOrder:
     Type: "AWS::DynamoDB::Table"
@@ -10,7 +11,7 @@ Resources:
           AttributeType: "S"
         -
           AttributeName: "orderDateTime"
-          AttributeType: "S"
+          AttributeType: "N"
         -
           AttributeName: "bankInformation"
           AttributeType: "S"

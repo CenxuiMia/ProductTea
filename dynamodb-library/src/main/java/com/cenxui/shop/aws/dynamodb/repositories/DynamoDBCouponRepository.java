@@ -31,7 +31,7 @@ class DynamoDBCouponRepository implements CouponRepository {
     }
 
     @Override
-    public Coupon useCoupon(String couponMail, String couponType, String mail, String orderDateTime) {
+    public Coupon useCoupon(String couponMail, String couponType, String mail, Long orderDateTime) {
         return couponBaseRepository.useCoupon(couponMail, couponType, mail, orderDateTime);
     }
 

@@ -30,7 +30,7 @@ public class OrderPathTest {
 
         List<String> products = new ArrayList<>();
 
-        products.add("紅顏;經典;2");
+        products.add("紅顏;經典;4");
 
         Http.put(url, JsonUtil.mapToJson(OrderUtil.getOrder(products)), headers3);
     }

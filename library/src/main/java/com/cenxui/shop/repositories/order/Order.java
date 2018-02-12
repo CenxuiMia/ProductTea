@@ -42,7 +42,7 @@ public class Order {
 
 
     String mail; // default user email
-    String orderDateTime;
+    Long orderDateTime;
     List<String> products;
     String purchaser;
     String purchaserPhone;
