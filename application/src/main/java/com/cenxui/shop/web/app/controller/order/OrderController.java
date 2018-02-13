@@ -96,7 +96,7 @@ public class OrderController extends CoreController {
         Order result = orderRepository.addOrder(
                 Order.of(
                         mail,
-                        TimeUtil.getNowDateTime(),
+                        TimeUtil.getOrderDateTime(),
                         order.getProducts(),
                         order.getPurchaser(),
                         order.getPurchaserPhone(),

@@ -18,5 +18,5 @@ public class Coupon {
     String couponStatus;
     String couponActivity;
     Long expirationTime;
-    String orderDateTime;
+    Long orderDateTime;
 }

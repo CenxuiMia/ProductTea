@@ -15,6 +15,10 @@ public class TimeUtil {
         return  getLocalDateTimeNow().toString().substring(0,19);
     }
 
+    public static Long getOrderDateTime() {
+        return System.currentTimeMillis();
+    }
+
     public static LocalDateTime getCouponExpireDayTime(int days) {
         return getLocalDateTimeNow().plusDays(days);
     }

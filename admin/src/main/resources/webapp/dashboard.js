@@ -129,6 +129,7 @@ function appendOrders(orders) {
             "<tr> " +
             "   <td>"+ number++ +"</td> " +
             "   <td>" + orders[i].mail + " " + orders[i].orderDateTime + " " + buttonActiveHTML + buttonPayHTML + buttonShipHTML + "</td> " +
+            "   <td>" + new Date(Number(orders[i].orderDateTime)) +"</td> " +
             "   <td class='productForm'>" + productForm + "</td> " +
             "   <td>" + orders[i].price +"</td> " +
             "   <td>" + orders[i].purchaser+"</td> " +
@@ -403,7 +404,6 @@ function searchProcessingOrder() {
     if (owner !== null)
         url = url + "/" + owner.trim();
 
-
     cleanOrderForm();
     getOrders(url);
 }
@@ -439,43 +439,44 @@ function sortTable(compare) {
 
     for (let i = 0; i< ar.length; i++) {
         table.appendChild(ar[i]);
+
+        console.info(ar[i])
     }
 }
 
 function sortTableByPriceAS() {
     sortTable(function (a,b) {
-        return a.getElementsByTagName("TD")[3].innerHTML - b.getElementsByTagName("TD")[3].innerHTML;
+        return a.getElementsByTagName("TD")[4].innerHTML - b.getElementsByTagName("TD")[4].innerHTML;
 
     })
 }
 
 function sortTableByPriceDS() {
     sortTable(function (a,b) {
-        return b.getElementsByTagName("TD")[3].innerHTML - a.getElementsByTagName("TD")[3].innerHTML;
+        return b.getElementsByTagName("TD")[4].innerHTML - a.getElementsByTagName("TD")[4].innerHTML;
 
     })
 }
 
 function sortTableByOrderDateTimeAS() {
     sortTable(function (a, b) {
-        let d1 = a.getElementsByTagName("TD")[1].innerHTML.toString().split(" ")[1];
-        let d2 = b.getElementsByTagName("TD")[1].innerHTML.toString().split(" ")[1];
-
+        let d1 = a.getElementsByTagName("TD")[2];
+        let d2 = b.getElementsByTagName("TD")[2];
         console.info(d1)
-        console.info(d2)
-        return new Date(d1) > new Date(d2);
+
+        return d1.innerHTML > d2.innerHTML;
+
     })
 }
 
 function sortTableByOrderDateTimeDS() {
     sortTable(function (a, b) {
-        let d1 = a.getElementsByTagName("TD")[1].innerHTML.toString().split(" ")[1];
-        let d2 = b.getElementsByTagName("TD")[1].innerHTML.toString().split(" ")[1];
+        let d1 = a.getElementsByTagName("TD")[2];
+        let d2 = b.getElementsByTagName("TD")[2];
 
         console.info(d1)
-        console.info(d2)
 
-        return new Date(d1) < new Date(d2);
+        return d1.innerHTML < d2.innerHTML;
     })
 }
 

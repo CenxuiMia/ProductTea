@@ -11,7 +11,7 @@ public interface CouponBaseRepository extends Repository {
 
     Coupon addInvitationCoupon(String mail, String invitationMail);
 
-    Coupon useCoupon(String couponMail, String couponType, String mail, String orderDateTime);
+    Coupon useCoupon(String couponMail, String couponType, String mail, Long orderDateTime);
 
     Coupons getCouponsByOwnerMail(String ownerMail);
 

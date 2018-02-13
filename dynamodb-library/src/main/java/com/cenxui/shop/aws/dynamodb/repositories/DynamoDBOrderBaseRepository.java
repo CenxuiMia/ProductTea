@@ -658,10 +658,15 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
         return CashReport.of(receipts, revenue);
     }
 
-    private void checkPrimaryKey(String key) {
-        if (key == null || key.length() == 0) {
+    private void checkPrimaryKey(Object key) {
+        if (key == null) {
             throw new OrderPrimaryKeyCannotEmptyException();
         }
+
+        if (key instanceof String && ((String)key).length() == 0) {
+            throw new OrderPrimaryKeyCannotEmptyException();
+        }
+
     }
 
     private Double getRevenue(List<Order> receipts) {

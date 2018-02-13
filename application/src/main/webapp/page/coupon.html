@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>訂單記錄</title>
+    <title>皇飲｜優惠專區</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="//hwangying.com/favicon.ico">
@@ -11,23 +11,21 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="global.css">
     <link rel="stylesheet" type="text/css" href="signin.css">
-    <link rel="stylesheet" type="text/css" href="form.css"/>
-    <link rel="stylesheet" type="text/css" href="user-orders.css"/>
+    <link rel="stylesheet" type="text/css" href="contact.css">
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.156.0.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
     <script src="auth.js"></script>
     <script src="aws-cognito-sdk.js"></script>
     <script src="amazon-cognito-auth.min.js"></script>
     <script src="language/tw.js"></script>
     <script src="signin.js"></script>
-    <script src="user-orders.js"></script>
+    <script src="contact.js"></script>
     <script src="library.js"></script> <!--this library should be placed at last-->
 </head>
 <body>
 
 <div id="id_wrapper">
-
     <div id="id_header">
         <div class="header">
             <div id="nav" class="clearfix">
@@ -43,10 +41,11 @@
                     <li><a class="login" id="signInButton" href="javascript:void(0)" title="Sign in">登入/註冊</a></li>
                     <li>
                         <div class="dropdown" id="member">
-                            <i id="dropbtn" class="material-icons md-light active">person</i>
+                            <i id="dropbtn" class="material-icons md-light">person</i>
                             <div class="dropdown-content">
                                 <a href="./user.html">個人資料</a>
-                                <a href="javascript:void(0)">訂單記錄</a>
+                                <a href="./user-orders.html">訂單記錄</a>
+                                <a href="./coupon.html">優惠專區</a>
                             </div>
                         </div>
                     </li>
@@ -62,38 +61,22 @@
     </div>
 
     <div id="id_content">
-
-        <h2 class="formTitle">訂單記錄</h2>
+        <h2 class="formTitle">優惠卷</h2>
 
         <div class="borderLeft"></div>
 
-        <div class="bannerRight">
-            <h2>皇飲</h2>
-            <p>生活，來點品味。</p>
+        <div class="contact">
+            <div id="coupons" class="text" style="list-style: none;">
+            </div>
+            <div style="clear: both;"></div>
         </div>
-
-        <div id="progressBar" style="float: left; margin-left: 5%">
-            <p class="loader"></p>
-            載入頁面中...
-        </div>
-
-        <table id="ordersTable">
-            <tr>
-                <th>No.</th>
-                <th>購買品項</th>
-                <th>總金額</th>
-                <th>訂單編號</th>
-                <th>日期</th>
-                <th>狀態</th>
-            </tr>
-        </table>
     </div>
 
 </div>
 
 <footer id="id_footer">
     <div class="tab">
-        <a href="./contact.html">聯絡我們</a>
+        <a href="javascript:void(0)">聯絡我們</a>
         <a href="./guide.html">購物須知</a>
         <a href="./service.html">服務條款</a>
         <a href="./privacy.html">隱私權政策</a>
@@ -107,6 +90,53 @@
         Copyright © 2017 HWANGYING All rights reserved.
     </div>
 </footer>
+
+<script>
+
+    $(document).ready(function () {
+        setUp(indexAuthData,
+            function () {
+                console.info("index on signIn");
+                getCoupons();
+            },
+            function () {
+                console.info("index on signOut");
+            }
+        );
+    });
+
+    function getCoupons() {
+
+        $.ajax({
+            type : 'GET',
+            url : couponEndpoint + "/active",
+            headers : {
+                Authorization : getToken()
+            },
+            success : function(response) {
+                console.info(response)
+                let data = JSON.parse(response);
+                let length = data.coupons.length;
+
+                for (let i = 0; i< length; i++) {
+                    document.getElementById("coupons").innerHTML +=
+                        "<ul>" +
+                        data.coupons[i].mail + "<br>" +
+                        data.coupons[i].couponType + "<br>" +
+                        data.coupons[i].couponActivity + "<br>" +
+                        new Date(data.coupons[i].expirationTime) + "<ul>"
+
+                }
+            },
+            error : function(xhr, status, error) {
+                console.log("error: " + error + ", status: " + status);
+            },
+            complete : function(jqxhr, status) {
+            }
+        });
+    }
+
+</script>
 
 </body>
 </html>

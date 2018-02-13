@@ -62,7 +62,7 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
     }
 
     @Override
-    public Coupon useCoupon(String couponMail, String couponType, String mail, String orderDateTime) {
+    public Coupon useCoupon(String couponMail, String couponType, String mail, Long orderDateTime) {
         checkPrimaryKey(couponMail);
         checkPrimaryKey(couponType);
         checkPrimaryKey(mail);
@@ -88,7 +88,7 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
                                 .withString(":csa", CouponStatus.ACTIVE)
                                 .withString(":csu", CouponStatus.USED)
                                 .withLong(":ept", System.currentTimeMillis())
-                                .withString(":odt", orderDateTime))
+                                .withLong(":odt", orderDateTime))
                 .withReturnValues(ReturnValue.ALL_NEW);
         try {
             UpdateItemOutcome outcome = couponTable.updateItem(spec);
@@ -239,8 +239,12 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
         return Collections.unmodifiableList(coupons);
     }
 
-    private void checkPrimaryKey(String key) {
-        if (key == null || key.length() == 0) {
+    private void checkPrimaryKey(Object key) {
+        if (key == null) {
+            throw new CouponPrimaryKeyCannotNullException();
+        }
+
+        if (key instanceof String && ((String)key).length() == 0) {
             throw new CouponPrimaryKeyCannotNullException();
         }
     }

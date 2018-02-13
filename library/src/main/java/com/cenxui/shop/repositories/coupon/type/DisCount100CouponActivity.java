@@ -3,7 +3,7 @@ package com.cenxui.shop.repositories.coupon.type;
 import com.cenxui.shop.language.LanguageCoupon;
 import com.cenxui.shop.repositories.order.Order;
 
-public class DisCount100CouponActivity implements CouponActivity {
+class DisCount100CouponActivity implements CouponActivity {
 
     @Override
     public Order getCouponOrder(Order order) {

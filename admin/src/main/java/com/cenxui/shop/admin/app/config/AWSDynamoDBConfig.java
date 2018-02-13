@@ -13,4 +13,5 @@ public class AWSDynamoDBConfig {
 
     public static final String ORDER_TABLE = "teaOrder";  //todo modify
     public static final String PRODUCT_TABLE = "teaProduct"; //todo modify
+    public static final String COUPON_TABLE = "teaCoupon"; //todo modify
 }
