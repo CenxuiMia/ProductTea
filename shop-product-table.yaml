@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
+Description: tea application dynamodb product table
 Resources:
   teaProduct:
     Type: "AWS::DynamoDB::Table"

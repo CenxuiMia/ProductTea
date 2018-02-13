@@ -68,6 +68,7 @@ note the bucket name
 aws cloudformation deploy --template-file shop-product-table.yaml --stack-name tea-product-table
 aws cloudformation deploy --template-file shop-order-table.yaml --stack-name tea-order-table
 aws cloudformation deploy --template-file shop-coupon-table.yaml --stack-name tea-coupon-table
+aws cloudformation deploy --template-file shop-point-table.yaml --stack-name tea-point-table
 
 
 #### deploy lambda lambda function

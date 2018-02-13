@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
+Description: tea application dynamodb coupon table
 Resources:
   teaCoupon:
     Type: "AWS::DynamoDB::Table"
