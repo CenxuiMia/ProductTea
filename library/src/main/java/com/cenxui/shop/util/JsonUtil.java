@@ -3,6 +3,7 @@ package com.cenxui.shop.util;
 import com.cenxui.shop.images.ProductImage;
 import com.cenxui.shop.repositories.coupon.Coupon;
 import com.cenxui.shop.repositories.order.Order;
+import com.cenxui.shop.repositories.point.Point;
 import com.cenxui.shop.repositories.user.User;
 import com.cenxui.shop.repositories.product.Product;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -12,14 +13,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
 public class JsonUtil {
+    public static Point mapToPoint(String pointJson) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        Point point = mapper.readValue(pointJson, Point.class);
+
+        return point;
+    }
+
+
     public static Coupon mapToCoupon(String couponJson) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Coupon coupon = mapper.readValue(couponJson, Coupon.class);
 
         return coupon;
     }
-
-
 
     public static Order mapToOrder(String orderJson) throws IOException {
         ObjectMapper mapper = new ObjectMapper();

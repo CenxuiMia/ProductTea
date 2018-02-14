@@ -49,7 +49,7 @@ public class DynamoDBCouponBaseRepositoryTest {
 
     @Test
     public void useCoupon() throws Exception {
-        couponRepository.useCoupon("cenxuilin@gmail.com", CouponType.SIGN_UP, "cenxuilin@gmail.com", LocalDateTime.now().toString());
+        couponRepository.useCoupon("cenxuilin@gmail.com", CouponType.SIGN_UP, "cenxuilin@gmail.com", System.currentTimeMillis());
 //        couponRepository.useCoupon("cenxuilin@gmail.com", CouponType.INVITATION, "mia@gmail.com");
     }
 

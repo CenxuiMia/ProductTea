@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class CouponController extends CoreController {
 
-    public static final CouponRepository couponRepository =
+    private static final CouponRepository couponRepository =
             DynamoDBRepositoryService.getCouponRepository(
                     AWSDynamoDBConfig.REGION,
                     AWSDynamoDBConfig.COUPON_TABLE);

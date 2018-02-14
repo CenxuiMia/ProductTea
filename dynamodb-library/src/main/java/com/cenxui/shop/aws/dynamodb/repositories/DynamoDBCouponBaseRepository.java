@@ -10,6 +10,7 @@ import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.coupon.CouponCannotAddException;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.coupon.CouponCannotUsedException;
+import com.cenxui.shop.aws.dynamodb.exceptions.client.coupon.CouponInvitationCannotAddException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponCannotNullException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponJsonMapException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.coupon.CouponPrimaryKeyCannotNullException;
@@ -58,7 +59,13 @@ class DynamoDBCouponBaseRepository implements CouponBaseRepository {
     public Coupon addInvitationCoupon(String mail, String invitationMail) {
         checkPrimaryKey(mail);
         checkPrimaryKey(invitationMail);
+        checkInvitationCoupon(mail, invitationMail);
+
         return addCoupon(CouponType.getInvitationCoupon(mail, invitationMail));
+    }
+
+    private void checkInvitationCoupon(String mail, String invitationMail) {
+        if (invitationMail.equals(mail)) throw new CouponInvitationCannotAddException(invitationMail);
     }
 
     @Override

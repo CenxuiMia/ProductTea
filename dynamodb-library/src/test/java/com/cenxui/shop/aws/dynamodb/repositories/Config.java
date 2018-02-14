@@ -7,4 +7,5 @@ public class Config {
     public static final String ORDER_TABLE = "teaOrder";
     public static final String PRODUCT_TABLE = "teaProduct";
     public static final String COUPON_TABLE = "teaCoupon";
+    public static final String POINT_TABLE = "teaPoint";
 }
