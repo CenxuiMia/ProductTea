@@ -10,6 +10,8 @@ public class Path {
 
         public static final String COUPON_ACTIVE = "/coupon/active";
         public static final String COUPON_MORE = "/coupon/more";
+
+        public static final String POINT = "/point";
     }
 
 }
