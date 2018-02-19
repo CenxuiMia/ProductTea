@@ -42,6 +42,11 @@ fieldset {
     text-decoration: none;
 }
 
+#cartTable .cartProductName a:hover {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
 #cartTable input {
     width: 3.35rem;
     text-align: center;
