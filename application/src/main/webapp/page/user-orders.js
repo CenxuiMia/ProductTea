@@ -2,7 +2,6 @@
  * Created by huaying on 06/12/2017.
  */
 
-// Operations when the web page is loaded.
 $(document).ready(function () {
     setUp(
         indexAuthData,
@@ -17,6 +16,7 @@ $(document).ready(function () {
 });
 
 function getOrders() {
+    //TODO show all details about orders
     onLoading();
 
     $.ajax({
