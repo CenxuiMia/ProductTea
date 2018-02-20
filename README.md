@@ -13,6 +13,8 @@
 We use aws cloudformation tamplate to delpoy stack for this project, take adventage cloudformation we able to deploy our infrastructure immediately and with zero down time CI/CD.
 We are able to deploy new version product in two minutes.
 
+sample website 
+https://hwangying.com/
 
 ### Application ###
 
