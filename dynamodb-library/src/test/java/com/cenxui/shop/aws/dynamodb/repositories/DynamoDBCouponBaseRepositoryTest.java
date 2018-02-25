@@ -35,7 +35,8 @@ public class DynamoDBCouponBaseRepositoryTest {
 
     @Test
     public void addSignUpCoupon() throws Exception {
-        System.out.println(couponRepository.addSignUpCoupon("cenxuilin@gmail.com"));
+//        System.out.println(couponRepository.addSignUpCoupon("mtlisa42@gmail.com"));
+        System.out.println(couponRepository.addInvitationCoupon("cenxuia@gmail.com","mtlisa42@gmail.com"));
 
     }
 

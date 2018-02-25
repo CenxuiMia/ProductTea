@@ -2,8 +2,12 @@ package com.cenxui.shop.aws.dynamodb.repositories;
 
 import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.*;
+import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
+import com.amazonaws.services.dynamodbv2.model.ReturnValue;
+import com.cenxui.shop.aws.dynamodb.exceptions.server.product.ProductAmountSubtractException;
 import com.cenxui.shop.aws.dynamodb.exceptions.server.product.ProductPrimaryKeyCannotEmptyException;
 import com.cenxui.shop.aws.dynamodb.exceptions.client.product.ProductNotFoundException;
 import com.cenxui.shop.aws.dynamodb.repositories.util.ItemUtil;
@@ -21,12 +25,6 @@ class DynamoDBProductBaseRepository implements ProductBaseRepository {
 
     DynamoDBProductBaseRepository(Table table) {
         this.productTable = table;
-    }
-
-    @Override
-    public Products getProductsByTag(String tag) {
-        //todo
-        throw new UnsupportedOperationException("not yet");
     }
 
     @Override
@@ -55,8 +53,7 @@ class DynamoDBProductBaseRepository implements ProductBaseRepository {
 
         ItemCollection<ScanOutcome> itemCollection = productTable.scan(scanSpec);
         List<Product> products = mapScanOutcomeToProducts(itemCollection);
-
-        Collections.sort(products,(p1, p2)-> {
+        products.sort((p1, p2)-> {
             if (p1.getPriority() == p2.getPriority())
                 return 0;
 
@@ -74,13 +71,6 @@ class DynamoDBProductBaseRepository implements ProductBaseRepository {
         ProductKey productKey = getScanOutcomeLastKey(itemCollection);
 
         return Products.of(products, productKey);
-    }
-
-
-    @Override
-    public Products getProductsByPrice(Integer price) {
-        //todo
-        throw new UnsupportedOperationException("not yet");
     }
 
     @Override
@@ -118,24 +108,39 @@ class DynamoDBProductBaseRepository implements ProductBaseRepository {
         return null;
     }
 
+    /**
+     *
+     * @param productName
+     * @param version
+     * @param amount
+     * @return null not subtract
+     */
     @Override
-    public Integer getProductPrice(String productName, String version) {
+    public Product subtractProductAmount(String productName, String version, Integer amount) {
         checkPrimaryKey(productName);
         checkPrimaryKey(version);
+        checkSubtractAmount(amount);
 
-        QuerySpec querySpec = new QuerySpec()
-                .withHashKey(Product.PRODUCT_NAME, productName)
-                .withRangeKeyCondition(new RangeKeyCondition(Product.VERSION).eq(version));
+        try {
+            UpdateItemSpec spec = new UpdateItemSpec()
+                    .withPrimaryKey(Product.PRODUCT_NAME, productName, Product.VERSION, version)
+                    .withConditionExpression(Product.AMOUNT + " >= :am ")
+                    .withUpdateExpression("add " + Product.AMOUNT + " :mam")
+                    .withValueMap(new ValueMap().withInt(":am", amount).withInt(":mam", -amount))
+                    .withReturnValues(ReturnValue.ALL_NEW);
 
-        ItemCollection<QueryOutcome> collection = productTable.query(querySpec);
-
-        List<Product> products = mapQueryOutcomeToProducts(collection);
-
-        if (products.size() == 1) {
-            Product product = products.get(0);
-            return product.getPrice();
+            return mapToProduct(productTable.updateItem(spec).getItem().toJSON());
+        }catch (ConditionalCheckFailedException e) {
+            return null;
         }
-        return null;
+    }
+
+    private void checkSubtractAmount(Integer amount) {
+
+        //todo amount not large the order
+        if (amount == null|| amount < 1) {
+            throw new ProductAmountSubtractException();
+        }
     }
 
     @Override

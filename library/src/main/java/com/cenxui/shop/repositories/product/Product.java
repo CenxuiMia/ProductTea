@@ -16,6 +16,9 @@ public class Product {
     public static final String SMALL_IMAGES = "smallImages";
     public static final String PRICE = "price";
     public static final String ORIGINAL_PRICE = "originalPrice";
+    public static final String AMOUNT = "amount";
+    public static final String ENABLE_EVENT = "enableEvent";
+    public static final String ENABLE_COUPON = "enableCoupon";
     public static final String PRIORITY = "priority";
     public static final String TAG = "tag";
 
@@ -30,6 +33,9 @@ public class Product {
     List<String> smallImages;
     Integer price;
     Integer originalPrice;
+    Integer amount;
+    Boolean enableEvent;
+    Boolean enableCoupon;
     Integer priority;
     String tag;
 
