@@ -10,17 +10,13 @@ public interface ProductBaseRepository extends Repository {
 
     Products getAllSortedProductsPartial();
 
-    Products getProductsByTag(String tag);
-
-    Products getProductsByPrice(Integer price);
-
     Products getProductsByProductName(String productName);
 
     Product getProductByProductNameVersion(String productName, String version);
 
+    Product subtractProductAmount(String productName, String version , Integer amount);
+
     Product addProduct(Product product);
 
     boolean deleteProduct(String productName, String version);
-
-    Integer getProductPrice(String name, String version);
 }

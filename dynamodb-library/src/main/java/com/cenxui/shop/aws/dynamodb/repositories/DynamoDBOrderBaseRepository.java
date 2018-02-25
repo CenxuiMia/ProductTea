@@ -374,7 +374,6 @@ class DynamoDBOrderBaseRepository implements OrderBaseRepository {
 
     @Override
     public Order addOrder(Order order) {
-
         checkOrder(order);
 
         PutItemSpec putItemSpec = new PutItemSpec()

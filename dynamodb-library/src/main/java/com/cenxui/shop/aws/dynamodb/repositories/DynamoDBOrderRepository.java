@@ -9,6 +9,7 @@ import com.cenxui.shop.repositories.coupon.type.exception.CouponActivitiesExcept
 import com.cenxui.shop.repositories.order.*;
 import com.cenxui.shop.repositories.order.attribute.OrderAttributeFilter;
 import com.cenxui.shop.repositories.order.attribute.ShippingWay;
+import com.cenxui.shop.repositories.product.Product;
 import com.cenxui.shop.repositories.product.ProductRepository;
 
 /**
@@ -157,81 +158,24 @@ class DynamoDBOrderRepository implements OrderRepository {
 
         checkTrialOrder(order);
 
-        int price, shippingCost;
-
         //todo possible modify
 
-        int productsPrice = 0;
-
-        for (String product: order.getProducts()) {
-            String[] s = product.split(";");//todo
-
+        int productsPrice = order.getProducts().stream().mapToInt((p)-> {
+            String[] s = p.split(";");//todo
             String productName = s[0].trim();
             String version = s[1].trim();
             String count = s[2].trim();
 
-            Integer productPrice = productRepository.getProductPrice(productName, version);
+            Product product =
+                    productRepository.getProductByProductNameVersion(productName, version);
 
-            if (productPrice == null) {
+            if (product == null) {
                 throw new OrderProductNotFoundException(productName, version);
             }
+            return Integer.valueOf(count) * product.getPrice();
+        }).sum();
 
-            productsPrice = productsPrice + productPrice * Integer.valueOf(count);
-        }
-
-        //todo modify business
-
-        String activity = null;
-
-        if (ShippingWay.SHOP.equals(order.getShippingWay())) {
-            shippingCost = 60;
-            if (productsPrice >= 1000) {
-                price = productsPrice; //no shipping cost if productsPrice more than 1000
-                activity = LanguageOrder.EVENT_1;
-            }else {
-                price = shippingCost + productsPrice;
-            }
-        }else if (ShippingWay.HOME.equals(order.getShippingWay())) {
-            shippingCost = 100;
-            if (productsPrice >= 1500) {
-                price = productsPrice; //no shipping cost if productsPrice more than 1000
-                activity = LanguageOrder.EVENT_2;
-            }else {
-                price = shippingCost + productsPrice;
-            }
-
-        }else {
-            throw new OrderShippedWayNotAllowedException(order.getShippingWay());
-        }
-
-        return Order.of(
-                order.getMail(),
-                order.getOrderDateTime(),
-                order.getProducts(),
-                order.getPurchaser(),
-                order.getPurchaserPhone(),
-                shippingCost,
-                productsPrice,
-                activity,
-                price,
-                order.getPaymentMethod(),
-                order.getBankInformation(),
-                order.getCouponMail(),
-                order.getCouponType(),
-                order.getCouponActivity(),
-                order.getReceiver(),
-                order.getReceiverPhone(),
-                order.getShippingWay(),
-                order.getShippingAddress(),
-                order.getComment(),
-                order.getPaidDate(),
-                order.getPaidTime(),
-                order.getProcessingDate(),
-                order.getShippedDate(),
-                order.getShippedTime(),
-                order.getIsActive(),
-                order.getOwner()
-        );
+        return activity(order, productsPrice);
     }
 
 
@@ -325,4 +269,58 @@ class DynamoDBOrderRepository implements OrderRepository {
         }
     }
 
+    private Order activity(Order order, int productsPrice) {
+        String activity = null;
+        int shippingCost, price;
+
+        if (ShippingWay.SHOP.equals(order.getShippingWay())) {
+            shippingCost = 60;
+            if (productsPrice >= 1000) {
+                price = productsPrice; //no shipping cost if productsPrice more than 1000
+                activity = LanguageOrder.EVENT_1;
+            }else {
+                price = shippingCost + productsPrice;
+            }
+        }else if (ShippingWay.HOME.equals(order.getShippingWay())) {
+            shippingCost = 100;
+            if (productsPrice >= 1500) {
+                price = productsPrice; //no shipping cost if productsPrice more than 1000
+                activity = LanguageOrder.EVENT_2;
+            }else {
+                price = shippingCost + productsPrice;
+            }
+
+        }else {
+            throw new OrderShippedWayNotAllowedException(order.getShippingWay());
+        }
+
+        return Order.of(
+                order.getMail(),
+                order.getOrderDateTime(),
+                order.getProducts(),
+                order.getPurchaser(),
+                order.getPurchaserPhone(),
+                shippingCost,
+                productsPrice,
+                activity,
+                price,
+                order.getPaymentMethod(),
+                order.getBankInformation(),
+                order.getCouponMail(),
+                order.getCouponType(),
+                order.getCouponActivity(),
+                order.getReceiver(),
+                order.getReceiverPhone(),
+                order.getShippingWay(),
+                order.getShippingAddress(),
+                order.getComment(),
+                order.getPaidDate(),
+                order.getPaidTime(),
+                order.getProcessingDate(),
+                order.getShippedDate(),
+                order.getShippedTime(),
+                order.getIsActive(),
+                order.getOwner()
+        );
+    }
 }

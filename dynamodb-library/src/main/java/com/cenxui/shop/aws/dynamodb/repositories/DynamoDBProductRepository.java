@@ -28,16 +28,6 @@ final class DynamoDBProductRepository implements ProductRepository {
     }
 
     @Override
-    public Products getProductsByTag(String tag) {
-        return productBaseRepository.getProductsByTag(tag);
-    }
-
-    @Override
-    public Products getProductsByPrice(Integer price) {
-        return productBaseRepository.getProductsByPrice(price);
-    }
-
-    @Override
     public Products getProductsByProductName(String productName) {
         return productBaseRepository.getProductsByProductName(productName);
     }
@@ -48,6 +38,11 @@ final class DynamoDBProductRepository implements ProductRepository {
     }
 
     @Override
+    public Product subtractProductAmount(String productName, String version, Integer amount) {
+        return productBaseRepository.subtractProductAmount(productName, version, amount);
+    }
+
+    @Override
     public Product addProduct(Product product) {
         return productBaseRepository.addProduct(product);
     }
@@ -55,10 +50,5 @@ final class DynamoDBProductRepository implements ProductRepository {
     @Override
     public boolean deleteProduct(String productName, String version) {
         return productBaseRepository.deleteProduct(productName, version);
-    }
-
-    @Override
-    public Integer getProductPrice(String name, String version) {
-        return productBaseRepository.getProductPrice(name, version);
     }
 }
