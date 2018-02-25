@@ -151,14 +151,12 @@ class DynamoDBOrderRepository implements OrderRepository {
         }else {
             return orderRepository.addOrder(trialOrder);
         }
+        //todo
     }
 
     @Override
     public Order trialOrder(Order order) {
-
         checkTrialOrder(order);
-
-        //todo possible modify
 
         int productsPrice = order.getProducts().stream().mapToInt((p)-> {
             String[] s = p.split(";");//todo
@@ -270,6 +268,8 @@ class DynamoDBOrderRepository implements OrderRepository {
     }
 
     private Order activity(Order order, int productsPrice) {
+        //todo activity
+
         String activity = null;
         int shippingCost, price;
 
