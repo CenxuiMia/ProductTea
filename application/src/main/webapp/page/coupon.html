@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="global.css">
     <link rel="stylesheet" type="text/css" href="signin.css">
-    <link rel="stylesheet" type="text/css" href="contact.css">
+    <link rel="stylesheet" type="text/css" href="coupon.css">
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.96.0.min.js"></script>
@@ -20,7 +20,7 @@
     <script src="amazon-cognito-auth.min.js"></script>
     <script src="language/tw.js"></script>
     <script src="signin.js"></script>
-    <script src="contact.js"></script>
+    <script src="coupon.js"></script>
     <script src="library.js"></script> <!--this library should be placed at last-->
 </head>
 <body>
@@ -45,7 +45,7 @@
                             <div class="dropdown-content">
                                 <a href="./user.html">個人資料</a>
                                 <a href="./user-orders.html">訂單記錄</a>
-                                <a href="./coupon.html">優惠專區</a>
+                                <a href="javascript:void(0)">優惠專區</a>
                             </div>
                         </div>
                     </li>
@@ -61,14 +61,26 @@
     </div>
 
     <div id="id_content">
-        <h2 class="formTitle">優惠卷</h2>
+        <h2 class="formTitle">優惠專區</h2>
 
         <div class="borderLeft"></div>
 
-        <div class="contact">
-            <div id="coupons" class="text" style="list-style: none;">
+        <div id="progressBar" style="float: left; margin-left: 5%">
+            <p class="loader"></p>
+            載入頁面中...
+        </div>
+
+        <div id="content" hidden>
+            <h3>會員點數</h3>
+            <p>您的會員點數：<span id="points">0</span></p>
+
+            <h3>優惠券</h3>
+            <div id="coupons"></div>
+
+            <div class="rules">
+                <p id="pointRules"></p>
+                <p id="couponRules"></p>
             </div>
-            <div style="clear: both;"></div>
         </div>
     </div>
 
@@ -90,53 +102,6 @@
         Copyright © 2017 HWANGYING All rights reserved.
     </div>
 </footer>
-
-<script>
-
-    $(document).ready(function () {
-        setUp(indexAuthData,
-            function () {
-                console.info("index on signIn");
-                getCoupons();
-            },
-            function () {
-                console.info("index on signOut");
-            }
-        );
-    });
-
-    function getCoupons() {
-
-        $.ajax({
-            type : 'GET',
-            url : couponEndpoint + "/active",
-            headers : {
-                Authorization : getToken()
-            },
-            success : function(response) {
-                console.info(response)
-                let data = JSON.parse(response);
-                let length = data.coupons.length;
-
-                for (let i = 0; i< length; i++) {
-                    document.getElementById("coupons").innerHTML +=
-                        "<ul>" +
-                        data.coupons[i].mail + "<br>" +
-                        data.coupons[i].couponType + "<br>" +
-                        data.coupons[i].couponActivity + "<br>" +
-                        new Date(data.coupons[i].expirationTime) + "<ul>"
-
-                }
-            },
-            error : function(xhr, status, error) {
-                console.log("error: " + error + ", status: " + status);
-            },
-            complete : function(jqxhr, status) {
-            }
-        });
-    }
-
-</script>
 
 </body>
 </html>
