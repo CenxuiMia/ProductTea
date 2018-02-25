@@ -37,7 +37,14 @@ function getCoupons() {
             let length = data.coupons.length;
 
             if(length === 0) {
-                document.getElementById("coupons").innerHTML = "<p>" + noCoupon + "</p>";
+                document.getElementById("coupons").innerHTML =
+                    "<div class='couponWrapper'>" +
+                    "<table>" +
+                    "<tr>" +
+                    "<td class='expireDate'>"+ noCoupon + "</td>" +
+                    "</tr>" +
+                    "</table>" +
+                    "</div>";
             } else {
                 for (let i = 0; i< length; i++) {
                     let date = new Date(data.coupons[i].expirationTime).toLocaleDateString();

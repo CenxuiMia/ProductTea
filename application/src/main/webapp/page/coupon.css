@@ -19,13 +19,16 @@
     text-align: center;
 }
 
+#noCoupon {
+    text-align: left;
+}
+
 #coupons table {
     width: 100%;
 }
 
 .couponWrapper {
-    border-top: #cccccc solid 5px;
-    border-bottom: #cccccc solid 5px;
+    border: #cccccc solid 5px;
     margin: 5% auto;
     display: block;
     width: 500px;
