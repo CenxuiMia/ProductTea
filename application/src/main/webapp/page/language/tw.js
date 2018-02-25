@@ -22,7 +22,7 @@ let addCartSuccess = "已加入購物車";
 let cartEmpty = "您的購物車是空的！";
 let goToProductsList = "前往全部商品";
 let goToOrdersList = "前往訂單記錄";
-let cartItemWrong = "購物車商品有誤，請重新填選";
+let cartItemWrong = "購物車商品已失效，請重新選購";
 let redirectToProductsList = "頁面將在5秒後前往全部商品";
 
 let shop = "shop";
@@ -36,3 +36,11 @@ let orderUnpaid = "對帳中";
 let orderProcessing = "已付款，處理中";
 let orderShipped = "已出貨";
 let orderInactive = "訂單失效";
+
+let noCoupon = "目前尚無優惠券";
+let couponTitle = "優惠券";
+let couponExpireDate = "使用期限：";
+let couponDetail = "，單筆交易限使用一張";
+let coupon50 = "$50";
+let pointRules = "點數使用規則：１點等同現金１元，沒有效期限制，單筆交易沒有使用上限。";
+let couponRules = "優惠券使用規則：單次交易限定使用１張優惠券，交易時可選擇是否使用優惠券，未使用之優惠券將在有效期限過後自動失效。";

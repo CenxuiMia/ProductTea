@@ -167,6 +167,7 @@ function addOrder() {
 
     console.info("Add order: " + JSON.stringify(order));
 
+    //TODO handle server response message
     $.ajax({
         type : 'PUT',
         url : orderEndpoint + "?recaptcha=" +  grecaptcha.getResponse(),

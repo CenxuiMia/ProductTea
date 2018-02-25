@@ -1,0 +1,64 @@
+#content {
+    width: 80%;
+    margin: auto;
+}
+
+#content h3 {
+    margin-top: 3rem;
+}
+
+#points {
+    color: olivedrab;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+#coupons {
+    margin: auto;
+    text-align: center;
+}
+
+#noCoupon {
+    text-align: left;
+}
+
+#coupons table {
+    width: 100%;
+}
+
+.couponWrapper {
+    border: #cccccc solid 5px;
+    margin: 5% auto;
+    display: block;
+    width: 500px;
+    padding: 10px 20px;
+}
+
+.couponWrapper .title {
+    color: #111111;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.couponWrapper .expireDate {
+    color: darkgray;
+}
+
+.couponWrapper .amount {
+    color: #dc3545;
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.couponWrapper .detail {
+    color: #dc3545;
+    font-size: 0.9rem;
+}
+
+.rules {
+    font-size: 0.9rem;
+    color: #717171;
+    margin: 3rem 0 0 0;
+}
